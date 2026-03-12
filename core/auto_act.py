@@ -178,6 +178,12 @@ def run():
         log("auto_act already running, skipping")
         return
     log("auto_act started")
+    # Check regret flags — skip flagged action types
+    active_flags = get_flags()
+    flagged_categories = {f[1] for f in active_flags if f[0] == "category"}
+    flagged_actions = {f[1] for f in active_flags if f[0] == "action"}
+    if active_flags:
+        log(f"regret flags active: {len(active_flags)} — {[f[1] for f in active_flags]}")
     pending = load_pending_suggestions()
     
     if not pending:
@@ -193,6 +199,15 @@ def run():
         text = suggestion.get("suggestion", "")[:80]
         log(f"evaluating: [{sid}] {text}")
 
+        # Skip if category or action is flagged by regret index
+        if suggestion.get("category") in flagged_categories:
+            log(f"SKIPPED (regret flag — category): {sid}")
+            data = mark_suggestion(data, sid, "skipped", "regret index: category flagged")
+            continue
+        if sid in flagged_actions:
+            log(f"SKIPPED (regret flag — action): {sid}")
+            data = mark_suggestion(data, sid, "skipped", "regret index: action flagged")
+            continue
         success, action, notes = execute_suggestion(suggestion)
 
         if success:

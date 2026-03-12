@@ -10,7 +10,7 @@
 - [ ] Golem income: if no tasks in 7-14 days, benchmark top earners pricing via stats scraping
 - [ ] Internet integration: Golem stats scraper (safe, high value, low lift)
 - [x] auto_act double-firing bug — lockfile added
-- [ ] Offsite backup — encrypted git push of echo_contract.json + soul document
+- [x] Offsite backup — encrypted git push to crow2673/Echo-core, daily 3am timer
 
 ## MEDIUM PRIORITY
 - [ ] Internet roadmap: RSS feed, GitHub watcher, Arxiv, Reddit lurker, dev.to community monitor

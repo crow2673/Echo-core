@@ -28,6 +28,12 @@ def _extract_json(text: str):
 
     return None
 
+def _load_todo():
+    try:
+        return (Path(__file__).resolve().parents[1] / "TODO.md").read_text().strip()
+    except:
+        return "unavailable"
+
 def gpt_reasoner(x_flag, context_memory):
     system_message = (
         "You are Echo. You MUST DO the task now. Do NOT say 'I would' or describe what you would do. Return ONLY a valid JSON object with keys: how, why, confidence. For summarize tasks, put the ONE-PARAGRAPH summary in `how`. "
@@ -35,7 +41,7 @@ def gpt_reasoner(x_flag, context_memory):
     )
 
     user_message = (
-        f"Task: {x_flag}\n\n"
+        f"Task: {x_flag}\n\nCurrent TODO list (use this to ground your suggestions):\n{_load_todo()}\n\n"
         f"Context:\n{json.dumps(context_memory, indent=2, default=str)}\n\n"
         "Return ONLY JSON:\n"
         "{\n"

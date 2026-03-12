@@ -243,6 +243,7 @@ state = {
         "heartbeat": is_active("echo-heartbeat.timer"),
         "auto_act": is_active("echo-auto-act.timer"),
         "ntfy_bridge": is_active("echo-ntfy-bridge.service"),
+        "git_backup": is_active("echo-git-backup.timer"),
 
     },
 
@@ -253,7 +254,8 @@ state = {
       "heartbeat": worker_snapshot("echo-heartbeat.service", expected_interval_s=60, timer_unit="echo-heartbeat.timer"),
       "self_act_worker": worker_snapshot("echo-self-act-worker.service", expected_interval_s=300, timer_unit="echo-self-act-worker.timer"),
       "auto_act": worker_snapshot("echo-auto-act.service", expected_interval_s=1800, timer_unit="echo-auto-act.timer"),
-      "ntfy_bridge": worker_snapshot("echo-ntfy-bridge.service", expected_interval_s=None)
+      "ntfy_bridge": worker_snapshot("echo-ntfy-bridge.service", expected_interval_s=None),
+      "git_backup": worker_snapshot("echo-git-backup.service", expected_interval_s=86400, timer_unit="echo-git-backup.timer")
 
     },
     "last": {

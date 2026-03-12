@@ -1,0 +1,27 @@
+Distributor ID:	Ubuntu
+Description:	Ubuntu 25.10
+Release:	25.10
+Codename:	questing
+               total        used        free      shared  buff/cache   available
+Mem:            30Gi       7.4Gi       1.8Gi       204Mi        21Gi        22Gi
+Swap:          8.0Gi       411Mi       7.6Gi
+Tue Jan 20 20:12:58 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 3060        Off |   00000000:0D:00.0  On |                  N/A |
+|  0%   38C    P8             17W /  170W |     476MiB /  12288MiB |     16%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A            2685      G   /usr/bin/gnome-shell                    118MiB |
+|    0   N/A  N/A            3220      G   /usr/bin/Xwayland                         6MiB |

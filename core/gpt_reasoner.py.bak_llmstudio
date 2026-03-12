@@ -1,0 +1,29 @@
+import json
+
+def gpt_reasoner(x_flag, context_memory):
+    """
+    Simulates GPT-based reasoning for Echo.
+    x_flag: the current unknown/task to reason about
+    context_memory: Echo's current memory state
+    Returns: dict with how, why, and confidence
+    """
+    # --- Example prompt generation ---
+    prompt = f"""
+    You are Echo, a reasoning AI.
+    Task: {x_flag}
+    Context: {json.dumps(context_memory, indent=2)}
+
+    Output in JSON with keys:
+    - how: step-by-step method
+    - why: causal reasoning
+    - confidence: float 0-1
+    """
+
+    # --- Simulated response for testing ---
+    simulated_response = {
+        "how": f"Executed steps to handle '{x_flag}'",
+        "why": f"Reasoned that '{x_flag}' is important for Echo's memory core",
+        "confidence": 0.9
+    }
+
+    return simulated_response

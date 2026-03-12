@@ -1,0 +1,112 @@
+#!/bin/bash
+set -u
+
+ECHO_DIR="$HOME/Echo"
+LOG_DIR="$ECHO_DIR/memory"
+mkdir -p "$LOG_DIR"
+touch "$LOG_DIR/activity.log" "$LOG_DIR/events.log" "$LOG_DIR/log_notes.txt" "$LOG_DIR/glm_balance.csv"
+
+log(){ echo "$(date): $*" >> "$LOG_DIR/activity.log"; }
+pause(){ read -r -p "Press Enter to continue..."; }
+
+run_if_exists() {
+  local s="$1"
+  if [[ -x "$s" ]]; then
+    log "RUN $s"
+    "$s" || { log "ERROR $s exit=$?"; echo "Script failed: $s"; }
+  else
+    log "MISSING $s"
+    echo "Missing or not executable: $s"
+  fi
+}
+
+while true; do
+  clear
+  echo "===== Echo Control Center ====="
+  echo "1) Run Daily Summary"
+  echo "2) View System Stats"
+  echo "3) Run Weekly Upgrade"
+  echo "4) View Activity Log"
+  echo "5) View Event Log"
+  echo "6) Add Note"
+  echo "7) Start Golem Provider (systemd user service)"
+  echo "8) Stop Golem Provider (systemd user service)"
+  echo "9) Open Outlier"
+  echo "10) System Cleanup"
+  echo "11) Backup Echo"
+  echo "12) Echo Modes"
+  echo "13) Run Content Bot (generate drafts)"
+  echo "14) Open Dev/Content Workspace"
+  echo "15) Publish Draft (not configured)"
+  echo "16) GPU Monitor (basic)"
+  echo "17) Self-Test (Echo + Golem)"
+  echo "18) Golem Provider Status"
+  echo "19) Check Earnings"
+  echo "20) Exit"
+  echo "================================"
+  read -r -p "Choose an option (1-20): " choice
+
+  if ! [[ "$choice" =~ ^[0-9]+$ ]]; then
+    echo "Invalid input."
+    pause
+    continue
+  fi
+
+  case "$choice" in
+    1)  run_if_exists "$ECHO_DIR/daily_summary.sh"; pause ;;
+    2)  run_if_exists "$ECHO_DIR/stats.sh"; pause ;;
+    3)  run_if_exists "$ECHO_DIR/weekly_upgrade.sh"; pause ;;
+    4)  less "$LOG_DIR/activity.log" ;;
+    5)  less "$LOG_DIR/events.log" ;;
+    6)  read -r -p "Type your note: " note
+        echo "$(date): $note" >> "$LOG_DIR/log_notes.txt"
+        log "NOTE added"
+        pause ;;
+    7)  log "GOLEM start requested"
+        systemctl --user start golem-provider.service
+        systemctl --user status golem-provider.service -l --no-pager | sed -n '1,18p'
+        pause ;;
+    8)  log "GOLEM stop requested"
+        systemctl --user stop golem-provider.service
+        systemctl --user status golem-provider.service -l --no-pager | sed -n '1,18p'
+        pause ;;
+    9)  run_if_exists "$ECHO_DIR/open_outlier.sh"; pause ;;
+    10) run_if_exists "$ECHO_DIR/cleanup.sh"; pause ;;
+    11) run_if_exists "$ECHO_DIR/backup_echo.sh"; pause ;;
+    12) run_if_exists "$ECHO_DIR/echo_modes.sh"; pause ;;
+    13) run_if_exists "$ECHO_DIR/run_content_bot.sh"; pause ;;
+    14) if [[ -x "$ECHO_DIR/quick_launch.sh" ]]; then
+          run_if_exists "$ECHO_DIR/quick_launch.sh"
+        else
+          run_if_exists "$ECHO_DIR/start_echo_build.sh"
+        fi
+        pause ;;
+    15) echo "Publish not configured (no publish script found)."; pause ;;
+    16) if command -v nvidia-smi >/dev/null 2>&1; then nvidia-smi; else echo "No nvidia-smi found."; fi; pause ;;
+    17) echo "=== SELF-TEST ==="; \
+        echo "--- golem-provider.service ---"; \
+        systemctl --user status golem-provider.service -l --no-pager | sed -n "1,18p" || true; \
+        echo; \
+        echo "--- yagna auth check (/me) ---"; \
+        source "$HOME/.config/echo/golem.env"; \
+        curl -sS -m 2 -H "Authorization: Bearer $YAGNA_APPKEY" http://127.0.0.1:7465/me || echo "FAILED"; \
+        echo; \
+        echo "--- provider log tail ---"; \
+        tail -20 "$HOME/.local/share/ya-provider/ya-provider_rCURRENT.log" 2>/dev/null || echo "(no log yet)"; \
+        pause ;;
+    18) echo "=== golem-provider.service ==="
+        systemctl --user status golem-provider.service -l --no-pager || true
+        echo
+        echo "=== ya-provider log tail ==="
+        tail -30 "$HOME/.local/share/ya-provider/ya-provider_rCURRENT.log" 2>/dev/null || echo "(no provider log yet)"
+        pause ;;
+    19) if [[ -x "$ECHO_DIR/monitor_earnings.sh" ]]; then
+          run_if_exists "$ECHO_DIR/monitor_earnings.sh"
+        fi
+        echo "=== glm_balance.csv (tail) ==="
+        tail -10 "$LOG_DIR/glm_balance.csv" 2>/dev/null || true
+        pause ;;
+    20) log "Panel exit"; exit 0 ;;
+    *)  echo "Invalid option (1-20)."; pause ;;
+  esac
+done

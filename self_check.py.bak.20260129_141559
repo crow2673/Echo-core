@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+import subprocess
+import sys
+
+# List of required Python packages for Echo
+REQUIRED_PACKAGES = ['psutil', 'ccxt', 'streamlit', 'plotly']
+
+def check_packages(packages):
+    """Check if required Python packages are installed."""
+    missing = []
+    for pkg in packages:
+        try:
+            __import__(pkg)
+        except ImportError:
+            missing.append(pkg)
+    return missing
+
+def check_services(services):
+    """Check if key system services are running."""
+    running_services = []
+    for svc in services:
+        try:
+            result = subprocess.run(['systemctl', '--user', 'is-active', svc], 
+                                    capture_output=True, text=True)
+            status = result.stdout.strip()
+            if status == 'active':
+                running_services.append(svc)
+        except Exception as e:
+            print(f"Error checking service {svc}: {e}")
+    return running_services
+
+def main():
+    print("Running Echo Self-Check...")
+
+    # Check for missing Python packages
+    missing_packages = check_packages(REQUIRED_PACKAGES)
+    if missing_packages:
+        print(f"Missing Python packages: {missing_packages}")
+        print("Consider installing them with: pip install " + ' '.join(missing_packages))
+    else:
+        print("All required Python packages are installed.")
+
+    # Check if key services are running
+    services_to_check = ['yagna', 'ollama']  # Add other essential services if needed
+    active_services = check_services(services_to_check)
+    missing_services = [svc for svc in services_to_check if svc not in active_services]
+
+    if missing_services:
+        print(f"Some services are not running: {missing_services}")
+    else:
+        print("All key services are running.")
+
+    # Optional: Check configurations, API keys, etc.
+    # Example: Check if KuCoin API keys are set
+    kucoin_api = os.getenv('KUCOIN_APIKEY')
+    if not kucoin_api or kucoin_api == 'demo':
+        print("⚠️ KuCoin API key is not set or still using demo key.")
+    else:
+        print("KuCoin API key is set.")
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,17 @@
+{
+  "milestone": "Golem Provider on public subnet",
+  "date": "2026-02-13",
+  "details": {
+    "subnet": "public",
+    "node_name": "echo-X570-Taichi",
+    "public_address": "104.8.58.112:11500",
+    "offers": ["vm", "wasmtime"],
+    "offer_is_public": true,
+    "evidence": [
+      "ps aux shows --subnet public --node-name echo-X570-Taichi",
+      "yagna net status shows publicAddress 104.8.58.112:11500",
+      "market offers show golem.node.net.is-public=true and subnet=public"
+    ]
+  },
+  "status": "complete"
+}

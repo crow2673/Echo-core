@@ -1,0 +1,15 @@
+#!/bin/bash
+echo "$(date) — Entered Low Power Mode" >> ~/Echo/memory/mode_history.log
+echo "Switching to Low Power Mode..."
+
+# CPU: powersave
+powerprofilesctl set power-saver
+
+# Stop Golem
+~/Echo/stop_golem.sh
+
+# Disable reminders
+rm -f ~/.echo_reminders_enabled
+
+notify-send "Echo" "Low Power Mode activated."
+echo "Low Power Mode activated."

@@ -1,0 +1,121 @@
+[
+  {
+    "capsule_id": "COMMAND:MasterFirst",
+    "purpose": "Combine financial automation, income scanning, and workflow readiness (driven by: Final test for full autonomy)",
+    "key_items": [
+      "Outlier",
+      "Hubstaff",
+      "Echo",
+      "Browser",
+      "Terminal",
+      "Financial",
+      "Income"
+    ],
+    "entry_points": [
+      "./echo.py",
+      "./workflow_intake.py --id 'AutomatedMasterTask' --purpose 'Automated intake for MasterFirst workflow processing' --sensitivity 'internal' --key-items 'master,workflow,automation' --entry-points 'execute,monitor'",
+      "outlier-app",
+      "hubstaff-app"
+    ],
+    "sensitivity": "internal",
+    "tasks": [
+      {
+        "task": "Check and pay all upcoming bills automatically",
+        "tool": "Echo",
+        "status": "pending",
+        "notes": ""
+      },
+      {
+        "task": "Scan Outlier and other platforms for passive income opportunities",
+        "tool": "Outlier",
+        "status": "pending",
+        "notes": ""
+      },
+      {
+        "task": "Review and organize all active tasks in Echo memory, flag high-priority items",
+        "tool": "Echo",
+        "status": "pending",
+        "notes": ""
+      }
+    ],
+    "parent_root": "ROOT:Workspace",
+    "instruction": "Final test for full autonomy",
+    "confidence": 90,
+    "timestamp": 1767921101,
+    "verified": true
+  },
+  {
+    "capsule_id": "AutomatedMasterTask",
+    "purpose": "Automated intake for MasterFirst workflow processing",
+    "key_items": [
+      "master",
+      "workflow",
+      "automation"
+    ],
+    "sensitivity": "internal",
+    "entry_points": [
+      "execute",
+      "monitor"
+    ]
+  },
+  {
+    "capsule_id": "AutomatedMasterTask",
+    "sensitivity": "internal"
+  },
+  {
+    "capsule_id": "WORKFLOW:TestWorkflow123",
+    "purpose": "TestWorkflow123",
+    "verified": true,
+    "have": "n",
+    "how": "Implement a simple automated test for the workflow.",
+    "why": "To verify basic functionality without complex dependencies.",
+    "confidence": 90,
+    "timestamp": 1767919524,
+    "entry_points": []
+  },
+  {
+    "capsule_id": "WORKFLOW:Standard task execution",
+    "purpose": "Standard task execution",
+    "verified": true,
+    "have": "n",
+    "how": "Define clear steps for each task in the workflow.",
+    "why": "To ensure consistency and minimize errors in task execution.",
+    "confidence": 90,
+    "timestamp": 1767919920,
+    "entry_points": []
+  },
+  {
+    "capsule_id": "WORKFLOW:CurrentGoal",
+    "purpose": "CurrentGoal",
+    "verified": true,
+    "have": "n",
+    "how": "Draft a concise summary of the current workflow goals.",
+    "why": "To ensure clarity and alignment among team members regarding the objectives.",
+    "confidence": 90,
+    "timestamp": 1767919931,
+    "entry_points": []
+  },
+  {
+    "capsule_id": "WORKFLOW:MasterFirst",
+    "purpose": "MasterFirst",
+    "verified": true,
+    "have": "n",
+    "how": "Develop a clear, concise mission statement for the company.",
+    "why": "To ensure all team members understand and are aligned with the company's goals.",
+    "confidence": 90,
+    "timestamp": 1767919939,
+    "entry_points": []
+  },
+  {
+    "capsule_id": "WORKFLOW:StatusTest1",
+    "purpose": "StatusTest1",
+    "verified": true,
+    "status": "done",
+    "have": "n",
+    "how": "Define clear criteria for what constitutes a passing status test.",
+    "why": "To ensure consistency and objectivity in evaluating the workflow's status.",
+    "confidence": 90,
+    "timestamp": 1767921205,
+    "entry_points": []
+  }
+]

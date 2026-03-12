@@ -1,0 +1,17 @@
+#!/bin/bash
+echo "$(date) — Entered Workday Mode" >> ~/Echo/memory/mode_history.log
+echo "Switching to Workday Mode..."
+# CPU: performance
+powerprofilesctl set performance
+
+# Start Golem
+~/Echo/start_golem.sh
+
+# Open Outlier
+xdg-open https://app.outlier.ai &
+
+# Enable reminders
+touch ~/.echo_reminders_enabled
+
+notify-send "Echo" "Workday Mode activated."
+echo "Workday Mode activated."

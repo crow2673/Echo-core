@@ -1,0 +1,2 @@
+{"type":"blocked_optimization","name":"public_reachability","cause":"CGNAT / no public IPv4","status":"deferred","decision":"Do not pursue ISP public IPv4 or VPS tunnel until demand signal exists","wake_conditions":["agreements_detected_without_income","market_activity_low_match_rate","explicit_builder_request"],"recommended_solution":"VPS + WireGuard (preferred) or ISP public IPv4","notes":"Provider healthy, network active, but no earnings yet. Optimization premature.","ts":1738930000}
+

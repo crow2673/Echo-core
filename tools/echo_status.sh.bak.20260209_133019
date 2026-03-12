@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd ~/Echo
+
+echo "=== TIME ==="
+date
+echo
+
+echo "=== CORE SERVICES ==="
+systemctl --user is-active echo-core.service || true
+systemctl --user is-active self_act.service || true
+systemctl --user is-active golem-provider.service || true
+systemctl --user status echo-core.service --no-pager | sed -n '1,12p' || true
+echo
+
+echo "=== CORE PID ==="
+pgrep -af echo_core_daemon.py || echo "core daemon not found"
+echo
+
+echo "=== ACTIVE ECHO TIMERS ==="
+systemctl --user list-timers --all | egrep -i "echo-(pulse|reachability|golem)" || true
+echo
+
+echo "=== CORE STATE (SYSTEM) ==="
+if [ -f "$HOME/Echo/memory/core_state_system.json" ]; then
+  sed -n "1,120p" "$HOME/Echo/memory/core_state_system.json"
+else
+  echo "(missing)"
+fi
+echo
+
+echo "=== LAST PULSE ==="
+tail -n 1 ~/Echo/memory/experience_log.jsonl 2>/dev/null || echo "no experience_log.jsonl yet"
+echo
+
+echo "=== LAST COMMANDS ==="
+tail -n 6 ~/Echo/echo_memory.json 2>/dev/null || echo "no echo_memory.json yet"

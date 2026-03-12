@@ -1,0 +1,15 @@
+#!/bin/bash
+LOG_DIR="$HOME/Echo/memory"
+PROVIDER_LOG="$LOG_DIR/ya_provider.log"
+log() { echo "$(date): $1" | tee -a "$LOG_DIR/activity.log"; }
+APP_KEY_FILE=$(cat "$LOG_DIR/app_key.path")
+SUBNET="community.1"
+
+log "ya-provider ready (service up)..."
+nohup ya-provider run \
+  --app-key "$APP_KEY_FILE" \
+  --subnet "$SUBNET" \
+  > "$PROVIDER_LOG" 2>&1 &
+PID=$!
+echo $PID > "$LOG_DIR/provider.pid"
+log "PID $PID live! Tail ya_provider.log for GLM/tasks."

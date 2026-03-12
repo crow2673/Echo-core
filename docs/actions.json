@@ -1,0 +1,271 @@
+{
+  "actions": [
+    {
+      "id": "golem_status",
+      "label": "Golem Provider Status",
+      "cmd": [
+        "bash",
+        "-lc",
+        "golemsp status"
+      ],
+      "safe": true
+    },
+    {
+      "id": "golem_start",
+      "label": "Start Golem Provider",
+      "cmd": [
+        "bash",
+        "-lc",
+        "~/golem_start.sh"
+      ],
+      "safe": false
+    },
+    {
+      "id": "golem_stop",
+      "label": "Stop Golem Provider",
+      "cmd": [
+        "bash",
+        "-lc",
+        "pkill -f ya-provider; pkill -f yagna; echo 'Golem stopped.'"
+      ],
+      "safe": false
+    },
+    {
+      "id": "golem_payment",
+      "label": "Golem Payment Accounts",
+      "cmd": [
+        "bash",
+        "-lc",
+        "yagna payment accounts"
+      ],
+      "safe": true
+    },
+    {
+      "id": "golem_net",
+      "label": "Golem Network Status",
+      "cmd": [
+        "bash",
+        "-lc",
+        "yagna net status"
+      ],
+      "safe": true
+    },
+    {
+      "id": "system_status",
+      "label": "System Resource Status",
+      "cmd": [
+        "bash",
+        "-lc",
+        "echo '=== CPU/RAM ===' && top -bn1 | head -5 && echo '=== GPU ===' && nvidia-smi --query-gpu=name,memory.used,memory.total,utilization.gpu --format=csv,noheader && echo '=== Disk ===' && df -h /home/andrew"
+      ],
+      "safe": true
+    },
+    {
+      "id": "processes",
+      "label": "Key Process Status",
+      "cmd": [
+        "bash",
+        "-lc",
+        "ps aux | grep -E 'yagna|ya-provider|ollama|echo_core' | grep -v grep"
+      ],
+      "safe": true
+    },
+    {
+      "id": "echo_memory_stats",
+      "label": "Echo Memory Stats",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd ~/Echo && python3 -c \"from echo_memory_sqlite import get_memory; m=get_memory(); print(f'Semantic memories: {m.count()}'); last=m.get_last_session_summary(); print(f'Last session: {last[\\\"created_at\\\"][:10] if last else None}')\""
+      ],
+      "safe": true
+    },
+    {
+      "id": "daily_summary",
+      "label": "Run Daily Summary",
+      "cmd": [
+        "bash",
+        "-lc",
+        "~/Echo/daily_summary.sh"
+      ],
+      "safe": true
+    },
+    {
+      "id": "backup",
+      "label": "Backup Echo",
+      "cmd": [
+        "bash",
+        "-lc",
+        "~/Echo/backup_echo.sh"
+      ],
+      "safe": false
+    },
+    {
+      "id": "cleanup",
+      "label": "System Cleanup",
+      "cmd": [
+        "bash",
+        "-lc",
+        "~/Echo/cleanup.sh"
+      ],
+      "safe": false
+    },
+    {
+      "id": "healthcheck",
+      "label": "Echo+Golem Healthcheck",
+      "cmd": [
+        "bash",
+        "-lc",
+        "~/Echo/echo_healthcheck.sh"
+      ],
+      "safe": true
+    },
+    {
+      "id": "ollama_list",
+      "label": "List Ollama Models",
+      "cmd": [
+        "bash",
+        "-lc",
+        "ollama list"
+      ],
+      "safe": true
+    },
+    {
+      "id": "read_file",
+      "label": "Read a file from Echo's directory",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cat ~/Echo/$ECHO_FILE 2>/dev/null || echo 'file not found'"
+      ],
+      "safe": true,
+      "note": "Set ECHO_FILE env var to relative path"
+    },
+    {
+      "id": "list_echo_files",
+      "label": "List recent Echo Python files",
+      "cmd": [
+        "bash",
+        "-lc",
+        "find ~/Echo -name '*.py' -newer ~/Echo/CHANGELOG.md -not -path '*/venv/*' | head -20"
+      ],
+      "safe": true
+    },
+    {
+      "id": "run_python_safe",
+      "label": "Run a Python file in Echo directory (safe, read-only intent)",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd ~/Echo && timeout 30 python3 $ECHO_SCRIPT 2>&1 | head -50"
+      ],
+      "safe": true,
+      "note": "Set ECHO_SCRIPT env var to script name"
+    },
+    {
+      "id": "append_changelog",
+      "label": "Append a note to CHANGELOG.md",
+      "cmd": [
+        "bash",
+        "-lc",
+        "echo \"$ECHO_NOTE\" >> ~/Echo/CHANGELOG.md && echo 'logged'"
+      ],
+      "safe": true,
+      "note": "Set ECHO_NOTE env var"
+    },
+    {
+      "id": "service_restart",
+      "label": "Restart a systemd user service",
+      "cmd": [
+        "bash",
+        "-lc",
+        "systemctl --user restart $ECHO_SERVICE && echo 'restarted'"
+      ],
+      "safe": false,
+      "note": "Set ECHO_SERVICE env var"
+    },
+    {
+      "id": "read_changelog",
+      "label": "Read recent CHANGELOG entries",
+      "cmd": [
+        "bash",
+        "-lc",
+        "tail -60 ~/Echo/CHANGELOG.md"
+      ],
+      "safe": true
+    },
+    {
+      "id": "read_feedback_log",
+      "label": "Read Echo feedback/reasoning log",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cat ~/Echo/memory/feedback_log.json | python3 -m json.tool 2>/dev/null | tail -80"
+      ],
+      "safe": true
+    },
+    {
+      "id": "write_python_file",
+      "label": "Write a Python file inside Echo directory (self-coding)",
+      "cmd": [
+        "bash",
+        "-lc",
+        "echo \"$ECHO_CODE\" | python3 ~/Echo/tools/safe_write.py $ECHO_FILE"
+      ],
+      "safe": false,
+      "note": "Set ECHO_FILE (relative path) and ECHO_CODE (python code)"
+    },
+    {
+      "id": "golem_task_list",
+      "label": "Check Golem task queue",
+      "cmd": [
+        "bash",
+        "-lc",
+        "ya-provider task list 2>/dev/null || golemsp status 2>/dev/null | head -20"
+      ],
+      "safe": true
+    },
+    {
+      "id": "golem_earnings_check",
+      "label": "Check Golem earnings and payment status",
+      "cmd": [
+        "bash",
+        "-lc",
+        "yagna payment status 2>/dev/null && yagna payment accounts 2>/dev/null"
+      ],
+      "safe": true
+    },
+    {
+      "id": "echo_services_full",
+      "label": "Full Echo services and timers status",
+      "cmd": [
+        "bash",
+        "-lc",
+        "systemctl --user list-units --state=active | grep echo && systemctl --user list-timers --no-pager | grep echo"
+      ],
+      "safe": true
+    },
+    {
+      "id": "fix_python_file",
+      "label": "Fix/patch a Python file using self_coder",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd ~/Echo && python3 -c \"import sys; sys.path.insert(0, str(__import__(\"pathlib\").Path.home() / \"Echo\")); from core.self_coder import SelfCoder; sc = SelfCoder(); sc.fix_file(\"\", \"\")\" 2>&1"
+      ],
+      "safe": false,
+      "note": "Set ECHO_FILE (relative path) and ECHO_FIX (description of what to fix)"
+    },
+    {
+      "id": "fix_python_file",
+      "label": "Fix/patch a Python file using self_coder",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd ~/Echo && python3 -c \"import sys; sys.path.insert(0, '/home/andrew/Echo'); from core.self_coder import fix_file; fix_file('$ECHO_FILE', '$ECHO_FIX')\""
+      ],
+      "safe": false,
+      "note": "Set ECHO_FILE (relative path) and ECHO_FIX (description of what to fix)"
+    }
+  ]
+}

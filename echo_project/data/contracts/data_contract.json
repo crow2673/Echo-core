@@ -1,0 +1,13 @@
+{
+  "columns": [
+    "id",
+    "feature",
+    "feature_norm"
+  ],
+  "dtypes": {
+    "id": "int64",
+    "feature": "int64",
+    "feature_norm": "float64"
+  },
+  "hash": "efa4ef037e12aa7a3aed78610b87232222b80abdb72e9352f978fd60840f5ef2"
+}

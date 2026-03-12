@@ -1,0 +1,41 @@
+=== ECHO AI SCAN (Mon Jan 26 12:00:04 CST 2026) ===
+Processes (echo/ollama/python):
+avahi       1731  0.0  0.0   6824  4404 ?        Ss   Jan25   0:01 avahi-daemon: running [echo-X570-Taichi.local]
+andrew      6357  0.1  4.3 3214140 1367320 pts/2 Sl   Jan25   1:56 ollama serve
+andrew     58583  0.0  0.0  54808 12220 ?        Ssl  00:05   0:23 ya-provider run --payment-network polygon --app-key 6267e74eaf1143139e224a928542af3a --subnet public --node-name echo-X570-Taichi
+andrew    160531  0.0  0.0  20124  4216 pts/4    S+   10:59   0:00 screen -S echowatch
+andrew    160532  0.0  0.0  20400  2736 ?        Ss   10:59   0:00 SCREEN -S echowatch
+andrew    160575  0.0  0.0   3040  1936 ?        Ss   11:00   0:00 /bin/sh -c python3 ~/Echo/golem_monitor.py  # Daily earnings
+andrew    160576  0.0  0.0  31796 12300 ?        S    11:00   0:00 python3 /home/andrew/Echo/golem_monitor.py
+andrew    167315 12.3  2.3 46528116 731448 pts/2 Sl   11:58   0:10 /usr/local/bin/ollama runner --model /home/andrew/.ollama/models/blobs/sha256-2bada8a7450677000f678be90653b85d364de7db25eb5ea54136ada5f3933730 --port 45941
+Resource Spy:
+               total        used        free      shared  buff/cache   available
+Mem:            30Gi       5.6Gi        16Gi       167Mi       9.2Gi        24Gi
+Swap:          8.0Gi          0B       8.0Gi
+/dev/nvme0n1p2  937G   98G  792G  11% /
+15, 5207
+Vision Screens:
+/home/andrew/Echo/screen_006.png Jan 24 15:18
+/home/andrew/Echo/screen_005.png Jan 24 01:57
+/home/andrew/Echo/screen_004.png Jan 23 20:58
+/home/andrew/Echo/screen_003.png Jan 23 18:56
+/home/andrew/Echo/screen_002.png Jan 23 18:51
+Memory Files:
+3.3M	/home/andrew/Echo/echo_memory.json
+508K	/home/andrew/Echo/autonomous.log
+4.0K	/home/andrew/Echo/clean_daemon.log
+4.0K	/home/andrew/Echo/control_center.log
+4.0K	/home/andrew/Echo/control_center_new.log
+72K	/home/andrew/Echo/daemon.log
+4.0K	/home/andrew/Echo/daemon_venv.log
+0	/home/andrew/Echo/echo_activity.log
+2.1M	/home/andrew/Echo/echo_agi_lite.log
+4.0K	/home/andrew/Echo/echo_agi.log
+Ollama Live:
+NAME          ID              SIZE      PROCESSOR    CONTEXT    UNTIL              
+gai:latest    1f06dd672a85    4.9 GB    100% GPU     4096       3 minutes from now    
+AI Logs Tail:
+Logs quiet
+Self-Act PIDs:
+No AI loops
+=== END AI SCAN ===

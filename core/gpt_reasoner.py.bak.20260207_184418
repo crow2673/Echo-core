@@ -1,0 +1,86 @@
+# DEBUG_STAMP: Sat Feb  7 17:22:08 2026
+import json
+import os
+import re
+import requests
+import sys
+
+# ---- Ollama-native endpoint ----
+OLLAMA_API_URL = os.environ.get("OLLAMA_API_URL", "http://localhost:11434/api/chat")
+OLLAMA_MODEL   = os.environ.get("OLLAMA_MODEL", "gai:latest")
+
+def _extract_json(text: str):
+    text = (text or "").strip()
+    text = re.sub(r"^```(json)?\s*", "", text, flags=re.IGNORECASE).strip()
+    text = re.sub(r"\s*```$", "", text).strip()
+
+    try:
+        return json.loads(text)
+    except Exception:
+        pass
+
+    m = re.search(r"\{.*\}", text, flags=re.DOTALL)
+    if m:
+        try:
+            return json.loads(m.group(0))
+        except Exception:
+            pass
+
+    return None
+
+def gpt_reasoner(x_flag, context_memory):
+    system_message = (
+        "You are Echo. Return ONLY a valid JSON object with keys: how, why, confidence. "
+        "No markdown, no extra text."
+    )
+
+    user_message = (
+        f"Task: {x_flag}\n\n"
+        f"Context:\n{json.dumps(context_memory, indent=2, default=str)}\n\n"
+        "Return ONLY JSON:\n"
+        "{\n"
+        '  "how": "...",\n'
+        '  "why": "...",\n'
+        '  "confidence": 0.0\n'
+        "}\n"
+    )
+
+    payload = {
+        "format": "json",
+        "model": OLLAMA_MODEL,
+        "stream": False,
+        "messages": [
+            {"role": "system", "content": system_message},
+            {"role": "user", "content": user_message},
+        ],
+        "options": {"temperature": 0.3},
+    }
+
+    try:
+        r = requests.post(OLLAMA_API_URL, json=payload, timeout=180)
+        r.raise_for_status()
+        data = r.json()
+        content = (data.get("message") or {}).get("content", "")
+
+        obj = _extract_json(content)
+        if not isinstance(obj, dict):
+            return {
+                "how": (content or "").strip()[:800] or "No method provided.",
+                "why": "Model did not return valid JSON; saved raw response in how.",
+                "confidence": 0.2,
+            }
+
+        return {
+            "how": obj.get("how", "No method provided by LLM."),
+            "why": obj.get("why", "No reasoning provided by LLM."),
+            "confidence": float(obj.get("confidence", 0.0)),
+        }
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error calling Ollama API ({OLLAMA_API_URL}): {e}", file=sys.stderr)
+        return {
+            "how": f"Failed to get Ollama response for '{x_flag}'.",
+            "why": f"API call failed: {e}",
+            "confidence": 0.1,
+        }
+

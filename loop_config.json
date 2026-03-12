@@ -1,0 +1,4 @@
+{
+  "loop_interval_seconds": 60,
+  "log_file": "~/Echo/always_on_log.json"
+}

@@ -1,0 +1,74 @@
+import json
+import time
+from pathlib import Path
+from datetime import datetime, timezone
+
+from core.memory_store import file_lock, load_memory, save_memory
+
+EVENTS_FILE = Path("echo_events.ndjson")
+CURSOR_FILE = Path("memory/events_cursor.json")
+
+def utcnow():
+    return datetime.now(timezone.utc).isoformat()
+
+def load_cursor():
+    if CURSOR_FILE.exists():
+        try:
+            return json.loads(CURSOR_FILE.read_text())
+        except Exception:
+            pass
+    return {"offset": 0}
+
+def save_cursor(c):
+    CURSOR_FILE.parent.mkdir(parents=True, exist_ok=True)
+    CURSOR_FILE.write_text(json.dumps(c, indent=2) + "\n")
+
+def tick(max_lines: int = 50) -> int:
+    """
+    Read new lines from echo_events.ndjson since last cursor,
+    convert file_change events into memory capsules (type=event),
+    and advance cursor.
+    Returns number of capsules emitted.
+    """
+    if not EVENTS_FILE.exists():
+        return 0
+
+    cur = load_cursor()
+    offset = int(cur.get("offset", 0))
+
+    lines = EVENTS_FILE.read_text().splitlines()
+    if offset >= len(lines):
+        return 0
+
+    new_lines = lines[offset:offset + max_lines]
+    emitted = 0
+    capsules = []
+
+    for ln in new_lines:
+        try:
+            ev = json.loads(ln)
+        except Exception:
+            continue
+
+        if ev.get("type") == "file_change":
+            cap_id = f"EVENT:file_change:{int(time.time()*1000)}"
+            capsules.append({
+                "capsule_id": cap_id,
+                "type": "event",
+                "subtype": "file_change",
+                "status": "new",
+                "created_at": utcnow(),
+                "event": ev,
+            })
+            emitted += 1
+
+    if capsules:
+        with file_lock():
+            mem = load_memory()
+            mem.extend(capsules)
+            save_memory(mem)
+
+    cur["offset"] = offset + len(new_lines)
+    save_cursor(cur)
+
+    return emitted

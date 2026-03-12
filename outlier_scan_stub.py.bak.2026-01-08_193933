@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+import json
+import time
+from pathlib import Path
+import argparse
+
+BASE_DIR = Path(__file__).parent.resolve()
+MEMORY_FILE = BASE_DIR / "echo_memory.json"
+
+def load_memory():
+    if not MEMORY_FILE.exists() or MEMORY_FILE.stat().st_size == 0:
+        return []
+    return json.loads(MEMORY_FILE.read_text())
+
+def save_memory(m):
+    MEMORY_FILE.write_text(json.dumps(m, indent=2))
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--capsule-id", default="TASK:MasterFirst:2")
+    args = p.parse_args()
+
+    m = load_memory()
+    cap = next((c for c in m if c.get("capsule_id") == args.capsule_id), None)
+    if not cap:
+        raise SystemExit(f"Capsule not found: {args.capsule_id}")
+
+    ts = int(time.time())
+    note = (
+        f"[outlier_scan_stub] Scan performed at {ts}. "
+        "No scraping/API yet; this is a placeholder for manual review results."
+    )
+
+    cap.setdefault("result_notes", [])
+    cap["result_notes"].append(note)
+    cap["last_scan_ts"] = ts
+    cap["confidence"] = max(int(cap.get("confidence") or 0), 50)  # scan happened, not “complete”
+    save_memory(m)
+
+    print(note)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,13 @@
+[
+  {
+    "capsule_id": "COMMAND:20260206_192813",
+    "type": "command",
+    "status": "new",
+    "created_at": "2026-02-07T01:28:13.895985+00:00",
+    "text": "ping",
+    "source": "echo_command.py"
+  }
+]{"ts": 1770427696.9060524, "glml": 0.1945, "order": {"hold": 0.1945}, "action": "ramp"}
+{"ts": 1770427754.585716, "glml": 0.1945, "order": {"hold": 0.1945}, "action": "ramp"}
+{"ts": 1770427799.8394287, "glml": 0.1945, "order": {"hold": 0.1945}, "action": "ramp"}
+{"ts": 1770427814.475913, "glml": 0.1945, "order": {"hold": 0.1945}, "action": "ramp"}

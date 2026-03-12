@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ECHO_DIR="$HOME/Echo"
+
+cmd="${1:-help}"; shift || true
+
+case "$cmd" in
+  help)
+    cat <<'H'
+echoc <command>
+
+  panel                 Launch menu UI
+  actions               List actions (from docs/actions.json)
+  run <action_id>        Run an action by id
+  state get <path>      Read from echo_state.json
+  state validate        Validate echo_state.json
+
+Examples:
+  echoc actions
+  echoc run golem_status
+H
+    ;;
+  panel) exec "$ECHO_DIR/echo_panel.sh" ;;
+  actions) python3 "$ECHO_DIR/core/action_runner.py" list ;;
+  run) python3 "$ECHO_DIR/core/action_runner.py" run "${1:-}" ;;
+  state)
+    sub="${1:-}"; shift || true
+    case "$sub" in
+      get) "$ECHO_DIR/echo_state_get.sh" "${1:-}" ;;
+      validate) "$ECHO_DIR/echo_state_validate.sh" ;;
+      *) echo "Usage: echoc state get <dot.path> | echoc state validate" ; exit 2 ;;
+    esac
+    ;;
+  *) echo "Unknown: $cmd"; exit 2 ;;
+esac

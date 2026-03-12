@@ -1,0 +1,8 @@
+{"wf_id": "echo", "tasks": {"2024-10-15": [{"desc": "Phase 2: Reflection tools", "priority": "high", "status": "pending", "created": "2026-02-04T21:20:11.856215"}]}, "type": "task_update"}
+{"wf_id": "echo", "tasks": {"2024-10-20": [{"desc": "Integrate chat_memory.json", "priority": "high", "status": "pending", "created": "2026-02-04T21:20:11.856277"}]}, "type": "task_update"}
+{"wf_id": "echo", "tasks": {"2024-10-25": [{"desc": "Companionship voice tuning", "priority": "medium", "status": "pending", "created": "2026-02-04T21:20:11.856318"}]}, "type": "task_update"}
+{"wf_id": "daily", "tasks": {"2026-02-04": [{"desc": "Morning reflection: wins/challenges", "priority": "daily", "status": "pending", "created": "2026-02-04T21:26:00.286325"}]}, "type": "task_update"}
+{"wf_id": "echo", "tasks": {"2026-02-04": [{"desc": "Debug chat integration (commands + context)", "priority": "high", "status": "pending", "created": "2026-02-04T21:58:09.916535"}]}, "type": "task_update"}
+{"wf_id": "echo", "tasks": {"2026-02-05": [{"desc": "Verify split architecture working", "priority": "high", "status": "pending", "created": "2026-02-05T08:00:17.829008"}]}, "type": "task_update"}
+{"wf_id": "echo", "tasks": {"2026-02-05": [{"desc": "Verify split architecture working", "priority": "high", "status": "pending", "created": "2026-02-05T08:00:17.829008"}, {"desc": "Read and review all files related to echo (self).", "priority": "daily", "status": "pending", "created": "2026-02-05T08:15:59.120288"}]}, "type": "task_update"}
+{"wf_id": "echo", "tasks": {"2026-02-06": [{"desc": "Autonomy setup: Adjust self-management and task prioritization algorithms", "priority": "high", "status": "pending", "created": "2026-02-06T08:06:24.641575"}]}, "type": "task_update"}

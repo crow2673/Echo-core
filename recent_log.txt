@@ -1,0 +1,2 @@
+time=2026-01-20T19:43:17.851-06:00 level=INFO source=server.go:429 msg="starting runner" cmd="/usr/local/bin/ollama runner --ollama-engine --port 33067"
+time=2026-01-20T19:43:18.229-06:00 level=INFO source=server.go:429 msg="starting runner" cmd="/usr/local/bin/ollama runner --ollama-engine --port 33619"

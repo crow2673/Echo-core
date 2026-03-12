@@ -1,0 +1,49 @@
+import subprocess
+import requests
+from threading import Thread
+
+def listen_for_ntfy_messages(topic, auth_token):
+    """
+    Listen for incoming ntfy.sh messages and feed them into echo_message_intake.py.
+    
+    Args:
+        topic (str): The ntfy.sh topic to subscribe to.
+        auth_token (str): Authentication token for the ntfy.sh subscription.
+
+    Returns:
+        None
+    """
+    def handle_message(message):
+        try:
+            # Simulate feeding message into echo_message_intake.py
+            subprocess.run(["python3", "echo_message_intake.py", "--input", message])
+        except Exception as e:
+            print(f"Error processing message: {e}")
+
+    while True:
+        try:
+            response = requests.get(f"https://ntfy.sh/{topic}", headers={"Authorization": f"Bearer {auth_token}"}, stream=True)
+            if response.status_code == 200:
+                for line in response.iter_lines():
+                    if line:
+                        handle_message(line.decode('utf-8'))
+            else:
+                print("Failed to subscribe to ntfy topic.")
+        except Exception as e:
+            print(f"Error receiving message: {e}")
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Listen for incoming ntfy.sh messages and process them.")
+    parser.add_argument("--topic", required=True, help="The ntfy topic to listen on")
+    parser.add_argument("--auth-token", required=False, default="", help="Authorization token (if needed)")
+    args = parser.parse_args()
+
+    topic = args.topic
+    auth_token = args.auth_token
+
+    listener_thread = Thread(target=listen_for_ntfy_messages, args=(topic, auth_token))
+    listener_thread.daemon = True
+    listener_thread.start()
+    listener_thread.join()

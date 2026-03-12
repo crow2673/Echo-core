@@ -1,0 +1,13 @@
+{
+  "WORKFLOW:Test": {
+    "tasks": {
+      "2023-12-25": {"name": "Holiday"},
+      "foo": "bar"
+    }
+  }
+}
+{"ts": 1770259565.2021978, "glml": 0.2133, "order": {"hold": 0.2133}, "action": "ramp"}
+{"ts": 1770259603.003637, "glml": 0.2133, "order": {"hold": 0.2133}, "action": "ramp"}
+{"ts": 1770259638.2452395, "glml": 0.2133, "order": {"hold": 0.2133}, "action": "ramp"}
+{"ts": 1770259691.0186415, "glml": 0.2133, "order": {"hold": 0.2133}, "action": "ramp"}
+{"ts": 1770259726.9679146, "glml": 0.2133, "order": {"hold": 0.2133}, "action": "ramp"}

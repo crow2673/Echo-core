@@ -1,0 +1,123 @@
+#!/usr/bin/env python3
+import json
+import subprocess
+from pathlib import Path
+import sys
+import time
+from core.identity import load_identity, assert_scope
+
+# Paths
+BASE_DIR = Path(__file__).parent
+STATE_FILE = BASE_DIR / "echo_state.json"
+MEMORY_FILE = BASE_DIR / "echo_memory.json"
+WORKFLOW_SCRIPT_AUTO = BASE_DIR / "workflow_intake_auto.py"
+AUDIT_SCRIPT = BASE_DIR / "echo_audit_snapshot.py"
+
+# Identity
+IDENTITY = load_identity()
+
+# --- State / Memory ---
+def load_state():
+    if not STATE_FILE.exists():
+        print("Echo cannot start: state file missing.")
+        sys.exit(1)
+    with open(STATE_FILE, "r") as f:
+        return json.load(f)
+
+def load_memory():
+    if MEMORY_FILE.exists():
+        with open(MEMORY_FILE, "r") as f:
+            return json.load(f)
+    return []
+
+def save_memory(memory):
+    with open(MEMORY_FILE, "w") as f:
+        json.dump(memory, f, indent=2)
+
+# --- Update confidence based on completion ---
+def update_confidence(memory):
+    for capsule in memory:
+        # Completed capsules
+        if capsule.get("timestamp"):
+            capsule["confidence"] = 90
+        # Pending or unknown capsules
+        else:
+            capsule["confidence"] = 30
+    save_memory(memory)
+
+# --- Summarize Memory ---
+def summarize_memory(memory):
+    if not memory:
+        print("No capsules in memory yet.")
+        return
+    print("\n--- Echo Memory Summary ---")
+    for i, capsule in enumerate(memory, start=1):
+        print(f"{i}) {capsule.get('capsule_id', 'UNKNOWN')} | Purpose: {capsule.get('purpose', '')} | Sensitivity: {capsule.get('sensitivity', 'internal')} | Confidence: {capsule.get('confidence', 'N/A')}%")
+        key_items = capsule.get('key_items', [])
+        entry_points = capsule.get('entry_points', [])
+        if key_items:
+            print(f"   Key items: {', '.join(key_items)}")
+        if entry_points:
+            print(f"   Entry points: {', '.join(entry_points)}")
+    print("---------------------------\n")
+
+# --- Startup Checkpoint ---
+def write_startup_checkpoint(state, memory):
+    capsule = {
+        "capsule_id": "STARTUP_CHECKPOINT",
+        "timestamp": int(time.time()),
+        "phase": state.get("build_state", {}).get("phase", "unknown"),
+        "confidence": state.get("build_state", {}).get("confidence", "unknown"),
+        "authority": IDENTITY.get("authority") or IDENTITY.get("owner") or "Unknown",
+        "notes": "Startup completed successfully"
+    }
+    last_capsule = memory[-1] if memory else None
+    if last_capsule and last_capsule.get("capsule_id") == "STARTUP_CHECKPOINT":
+        return
+    memory.append(capsule)
+    save_memory(memory)
+
+# --- Workflow Execution ---
+def run_workflows_sequentially():
+    workflow_list = [
+        "Standard task execution",
+        "CurrentGoal",
+        "MasterFirst"
+    ]
+    for wf in workflow_list:
+        subprocess.run([sys.executable, str(WORKFLOW_SCRIPT_AUTO), wf])
+
+# --- Audit Snapshot ---
+def run_audit_snapshot():
+    if AUDIT_SCRIPT.exists():
+        try:
+            subprocess.Popen([sys.executable, str(AUDIT_SCRIPT)])
+            print("Echo audit snapshot triggered.\n")
+        except Exception as e:
+            print(f"Failed to trigger audit snapshot: {e}")
+
+# --- Main ---
+def main():
+    state = load_state()
+    identity = state.get("echo_identity", {})
+    build = state.get("build_state", {})
+
+    memory = load_memory()
+    write_startup_checkpoint(state, memory)
+
+    print(f"Echo online.")
+    print(f"Identity: {identity.get('name', 'Unknown')}")
+    print(f"Role: {identity.get('role', 'Undefined')}")
+    print(f"Build phase: {build.get('phase', 'unknown')}")
+    print(f"Confidence: {build.get('confidence', 'unknown')}\n")
+
+    run_workflows_sequentially()
+
+    memory = load_memory()  # reload memory after workflow runs
+    update_confidence(memory)  # auto-update confidence based on timestamps
+    summarize_memory(memory)
+
+    run_audit_snapshot()  # trigger fresh audit snapshot
+
+if __name__ == "__main__":
+    main()

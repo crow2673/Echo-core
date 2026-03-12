@@ -1,0 +1,29 @@
+{
+  "obs": {
+    "ts": "2026-01-29T14:32:00",
+    "scan": "=== ECHO AI SCAN (Thu Jan 29 14:32:00 CST 2026) ===\nProcesses (echo/ollama/python):\nandrew      6357  0.4  4.3 3289160 1373352 pts/2 Sl   Jan25  28:05 ollama serve\nandrew    160531  0.0  0.0  20124  4240 pts/4    S+   Jan26   0:00 screen -S echowatch\nandrew    170233 24.5  3.2 47550780 1027340 pts/2 Sl  Jan26 1093:56 /usr/local/bin/ollama runner --model /home/andrew/.ollama/models/blobs/sha256-2bada8a7450677000f678be90653b85d364de7db25eb5ea54136ada5f3933730 --port 41447\nandrew    171250  0.0  0.0  46680 27704 pts/7    S+   Jan26   0:13 python3 echo_agi_lite.py\nandrew   1635983  0.0  0.0  33956 15536 pts/27   S    14:12   0:00 /usr/bin/python3 echo_agi_lite.py\nResource Spy:\n               total        used        free      shared  buff/cache   available\nMem:            30Gi       8.6Gi       3.1Gi       348Mi        19Gi        21Gi\nSwap:          8.0Gi       252Ki       8.0Gi\n/dev/nvme0n1p2  937G  117G  773G  14% /\n97, 5480\nVision Screens:\n/home/andrew/Echo/screen_997.png Jan 29 06:57\n/home/andrew/Echo/screen_996.png Jan 29 06:55\n/home/andrew/Echo/screen_995.png Jan 29 06:54\n/home/andrew/Echo/screen_994.png Jan 29 06:54\n/home/andrew/Echo/screen_993.png Jan 29 06:53\nls: Broken pipe\nMemory Files:\n3.7M\t/home/andrew/Echo/echo_memory.json\n508K\t/home/andrew/Echo/autonomous.log\n4.0K\t/home/andrew/Echo/clean_daemon.log\n4.0K\t/home/andrew/Echo/control_center.log\n4.0K\t/home/andrew/Echo/control_center_new.log\n72K\t/home/andrew/Echo/daemon.log\n4.0K\t/home/andrew/Echo/daemon_venv.log\n196K\t/home/andrew/Echo/echo_activity.log\n2.1M\t/home/andrew/Echo/echo_agi_lite.log\n4.0K\t/home/andrew/Echo/echo_agi.log\nOllama Live:\nNAME          ID              SIZE      PROCESSOR    CONTEXT    UNTIL              \ngai:latest    1f06dd672a85    4.9 GB    100% GPU     4096       4 minutes from now    \nAI Logs Tail:\nLogs quiet\nSelf-Act PIDs:\nNo AI loops\n=== END AI SCAN ===\n",
+    "vision": "OCR_DISABLED (latest_png=screen_997.png)",
+    "level": 5,
+    "cycles": 1428
+  },
+  "gai_raw_head": "{\n  \"state_summary\": \"Current system has high CPU usage with process /usr/local/bin/ollama runner consuming significant resources. Vision screens are up-to-date but OCR is disabled. Memory usage and swap are within safe limits.\",\n  \"anomaly\": \"High CPU usage by ollama runner process may impact system performance.\",\n  \"next_act\": [\"top -b -n 1 | grep ollama\", \"sudo systemctl restart ollama-runner\"],\n  \"self_evo\": \"if (resource_usage['cpu'] > 80): set_vision_mode('OCR_ACTIVE')\"\n}\n\n",
+  "gai": {
+    "state_summary": "Current system has high CPU usage with process /usr/local/bin/ollama runner consuming significant resources. Vision screens are up-to-date but OCR is disabled. Memory usage and swap are within safe limits.",
+    "anomaly": "High CPU usage by ollama runner process may impact system performance.",
+    "next_act": [
+      "top -b -n 1 | grep ollama",
+      "sudo systemctl restart ollama-runner"
+    ],
+    "self_evo": "if (resource_usage['cpu'] > 80): set_vision_mode('OCR_ACTIVE')"
+  },
+  "acts": [
+    {
+      "cmd": "top -b -n 1 | grep ollama",
+      "status": "blocked"
+    },
+    {
+      "cmd": "sudo systemctl restart ollama-runner",
+      "status": "blocked"
+    }
+  ]
+}

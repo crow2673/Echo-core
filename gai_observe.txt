@@ -1,0 +1,90 @@
+=== ECHO SCAN (Sun Jan 25 14:16:51 CST 2026) ===
+Processes:
+avahi       1731  0.0  0.0   6824  4384 ?        Ss   13:25   0:00 avahi-daemon: running [echo-X570-Taichi.local]
+andrew      2321  1.1  0.4 769756 146964 ?       Ssl  13:25   0:33 /home/andrew/.local/bin/yagna service run
+andrew      5042  0.0  0.0  18232  3472 pts/0    S+   13:27   0:00 watch -n30 yagna payment status --network polygon && yagna market agreements list
+andrew      6188  0.0  0.0  18364  3628 pts/1    S+   13:33   0:00 watch -n10 yagna activity list --json | jq ".[] | {id, state}"
+andrew      6357  0.7  0.4 3066164 150508 pts/2  Sl   13:35   0:19 ollama serve
+andrew      7784 24.5  2.5 46814080 806588 pts/2 Sl   13:47   7:15 /usr/local/bin/ollama runner --model /home/andrew/.ollama/models/blobs/sha256-2bada8a7450677000f678be90653b85d364de7db25eb5ea54136ada5f3933730 --port 35863
+andrew     10524  0.0  0.0  54820 12152 ?        Ssl  14:03   0:00 ya-provider run --payment-network polygon --app-key 6267e74eaf1143139e224a928542af3a --subnet public --node-name echo-X570-Taichi
+andrew     13958  2.0  0.0 1695420 30956 pts/3   Sl   14:16   0:00 ollama run gai Ramp level 10. Analyze outlier? Plan action: === ECHO SCAN (Sun Jan 25 14:16:48 CST 2026) === Processes: avahi       1731  0.0  0.0   6824  4384 ?        Ss   13:25   0:00 avahi-daemon: running [echo-X570-Taichi.local] andrew      2321  1.1  0.4 759476 146940 ?       Ssl  13:25   0:33 /home/andrew/.local/bin/yagna service run andrew      5042  0.0  0.0  18232  3472 pts/0    S+   13:27   0:00 watch -n30 yagna payment status --network polygon && yagna market agreements list andrew      6188  0.0  0.0  18364  3628 pts/1    S+   13:33   0:00 watch -n10 yagna activity list --json | jq ".[] | {id, state}" andrew      6357  0.7  0.4 3066164 150008 pts/2  Sl   13:35   0:19 ollama serve andrew      7784 24.5  2.5 46814080 806580 pts/2 Sl   13:47   7:15 /usr/local/bin/ollama runner --model /home/andrew/.ollama/models/blobs/sha256-2bada8a7450677000f678be90653b85d364de7db25eb5ea54136ada5f3933730 --port 35863 andrew     10524  0.0  0.0  54776 12136 ?        Ssl  14:03   0:00 ya-provider run --payment-network polygon --app-key 6267e74eaf114313
+Payments:
+
+Status for account: 0x400ec5a2ff6afbd42d169a86ae0cac5dcd4db296
+Payment Driver status: OK
+
+┌────────────────────┬────────────────┬────────────┬─────────────┬────────────┬────────────┬─────────┐
+│  platform          │  total amount  │  reserved  │  amount     │  incoming  │  outgoing  │  gas    │
+├────────────────────┼────────────────┼────────────┼─────────────┼────────────┼────────────┼─────────┤
+│  driver: erc20     │  0 GLM         │  0 GLM     │  accepted   │  0 GLM     │  0 GLM     │  1 POL  │
+│  network: polygon  │                │            │  confirmed  │  0 GLM     │  0 GLM     │         │
+│  token: GLM        │                │            │  requested  │  0 GLM     │  0 GLM     │         │
+└────────────────────┴────────────────┴────────────┴─────────────┴────────────┴────────────┴─────────┘
+Offers/Agreements:
+
+Matching agreements:
+
+┌──────┬────────┬───────────┬────────────┐
+│  id  │  role  │  created  │  approved  │
+├──────┼────────┼───────────┼────────────┤
+│      │        │           │            │
+└──────┴────────┴───────────┴────────────┘
+Provider:
+● golem-provider.service - Golem Provider (Echo) - hardened
+     Loaded: loaded (/home/andrew/.config/systemd/user/golem-provider.service; enabled; preset: enabled)
+    Drop-In: /home/andrew/.config/systemd/user/golem-provider.service.d
+             └─10-yagna-dep.conf
+     Active: active (running) since Sun 2026-01-25 14:03:27 CST; 13min ago
+ Invocation: 5c1bf14974754c88b37830e9b2e360fa
+    Process: 10509 ExecStartPre=/bin/bash -lc for i in {1..60}; do code=$(curl -sS -m 1 -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $YAGNA_APPKEY" http://127.0.0.1:7465/me || true); if [ "$code" = "200" ]; then exit 0; fi; sleep 1; done; exit 1 (code=exited, status=0/SUCCESS)
+   Main PID: 10524 (ya-provider)
+      Tasks: 20 (limit: 36930)
+     Memory: 4.3M (peak: 115.8M)
+        CPU: 1.767s
+     CGroup: /user.slice/user-1000.slice/user@1000.service/app.slice/golem-provider.service
+Logs Tail:
+Jan 25 14:03:30 echo-X570-Taichi bash[10524]:     "golem.node.net.is-public": true,
+Jan 25 14:03:30 echo-X570-Taichi bash[10524]:     "golem.runtime.name": "wasmtime",
+Jan 25 14:03:30 echo-X570-Taichi bash[10524]:     "golem.runtime.version": "0.2.1",
+Jan 25 14:03:30 echo-X570-Taichi bash[10524]:     "golem.srv.caps.multi-activity": true,
+Jan 25 14:03:30 echo-X570-Taichi bash[10524]:     "golem.srv.caps.payload-manifest": false
+Jan 25 14:03:30 echo-X570-Taichi bash[10524]:   },
+Jan 25 14:03:30 echo-X570-Taichi bash[10524]:   "constraints": "(&\n  (golem.srv.comp.expiration>1769371410955)\n  (golem.node.debug.subnet=public)\n)"
+Jan 25 14:03:30 echo-X570-Taichi bash[10524]: }
+Jan 25 14:03:30 echo-X570-Taichi bash[10524]: [2026-01-25T14:03:30.955-0600 INFO  ya_provider::market::provider_market] Subscribing to events... [wasmtime]
+Jan 25 14:03:30 echo-X570-Taichi bash[10524]: [2026-01-25T14:03:30.956-0600 INFO  ya_provider::market::provider_market] Subscribed offer. Subscription id [0aeabc7e057d456a9b51a578fbfa9c2b-f1ce5b0426bbf16043f8e90377e3572e8422f5d1e3e8ceb9dbaebfa7a4491067], preset [wasmtime].
+Local Logs:
+-rw-rw-r-- 1 andrew andrew 502K Jan 10 15:50 /home/andrew/Echo/autonomous.log
+-rw-rw-r-- 1 andrew andrew   73 Jan 20 20:30 /home/andrew/Echo/clean_daemon.log
+-rw-rw-r-- 1 andrew andrew    1 Jan  9 09:33 /home/andrew/Echo/control_center.log
+No logs
+Cron:
+# Edit this file to introduce tasks to be run by cron.
+# 
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+# 
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').
+# 
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+# 
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+# 
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+# 
+# For more information see the manual pages of crontab(5) and cron(8)
+# 
+# m h  dom mon dow   command
+0 3 * * * ~/Echo/auto_backup.sh  # Nightly backup
+0 11 * * * python3 ~/Echo/golem_monitor.py  # Daily earnings
+@reboot cd ~/Echo && nohup ./gai_ramp.py &
+Net:
+104.8.58.112Golem.net fail
+=== END SCAN ===

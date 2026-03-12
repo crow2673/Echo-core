@@ -1,0 +1,56 @@
+# Memory and databases
+echo_memory.json
+echo_memory.lock
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+logs/
+*.log
+*.log.gz
+
+# Secrets
+.env
+*.key
+*.token
+echo_contract.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.pytest_cache/
+
+# Checkpoints (too large)
+checkpoints/
+
+# Temp
+/tmp/
+*.tmp
+
+# Keys and tokens
+appkey.txt
+*.txt.key
+
+# Junk
+*.swp
+*.zip
+*.bak.*
+agent_log.txt
+ai_suggestions.txt
+always_on_log.json
+always_on_task_log.json
+
+# Old backup directories
+backup_project/
+backup_echo_memory.json
+
+# Large files
+voice_models/
+bundles_all_no_images/
+bundles_raw/

@@ -1,0 +1,102 @@
+import os
+import json
+from urllib import request
+
+LMSTUDIO_BASE = os.getenv("LMSTUDIO_BASE")  # opt-in only
+OLLAMA_BASE = "http://localhost:11434"
+
+def _post_json(url: str, payload: dict, timeout: float) -> dict:
+    data = json.dumps(payload).encode("utf-8")
+    req = request.Request(url, data=data, headers={"Content-Type": "application/json"})
+    with request.urlopen(req, timeout=timeout) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+def _get_json(url: str, timeout: float = 3.0) -> dict:
+    with request.urlopen(url, timeout=timeout) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+def lmstudio_up() -> bool:
+    if not LMSTUDIO_BASE:
+        return False
+    try:
+        _get_json(f"{LMSTUDIO_BASE}/v1/models", timeout=2.0)
+        return True
+    except Exception:
+        return False
+
+def ollama_up() -> bool:
+    try:
+        _get_json(f"{OLLAMA_BASE}/api/tags", timeout=2.0)
+        return True
+    except Exception:
+        return False
+
+def call_ollama(
+    prompt: str,
+    model: str,
+    timeout: float,
+    system_prompt: str,
+) -> str:
+    out = _post_json(
+        f"{OLLAMA_BASE}/api/chat",
+        {
+            "model": model,
+            "stream": False,
+            "keep_alive": "30m",
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt},
+            ],
+        },
+        timeout=timeout,
+    )
+    return (out.get("message", {}) or {}).get("content", "").strip()
+
+def llm(prompt: str, role: str = "summarize", offline: bool = False) -> str:
+    # Clean + reliable behavior: use qwen for everything for now.
+    summarize_model = "qwen2.5:7b"
+    plan_model = "qwen2.5:7b"
+    write_model = "qwen2.5:7b"
+
+    def pick_model(r: str) -> str:
+        if r == "plan":
+            return plan_model
+        if r == "write":
+            return write_model
+        return summarize_model
+
+    timeout = 120.0 if role == "summarize" else 240.0
+    model = pick_model(role)
+
+    if role == "summarize":
+        system_prompt = (
+            "Output must be English only.\n"
+            "Rewrite the user's text as a single-sentence summary.\n"
+            "Rules:\n"
+            "- Do NOT add new facts.\n"
+            "- Do NOT mention yourself, 'I', or 'you'.\n"
+            "- Do NOT describe companies/products/platforms.\n"
+            "- Output ONLY the summary sentence."
+        )
+    elif role == "plan":
+        system_prompt = (
+            "Output must be English only.\n"
+            "Create a practical, low-risk plan.\n"
+            "Output a numbered list.\n"
+            "Each step should be concrete and doable."
+        )
+    else:  # write
+        system_prompt = (
+            "Output must be English only.\n"
+            "Write clearly, concise, and practical."
+        )
+
+    if offline:
+        if not ollama_up():
+            raise RuntimeError("Offline mode: Ollama is not available.")
+        return call_ollama(prompt, model=model, timeout=timeout, system_prompt=system_prompt)
+
+    if ollama_up():
+        return call_ollama(prompt, model=model, timeout=timeout, system_prompt=system_prompt)
+
+    raise RuntimeError("No local LLM providers available (Ollama down).")

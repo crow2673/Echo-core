@@ -1,0 +1,19 @@
+#!/bin/bash
+echo "=== ECHO SCAN ($(date)) ==="
+echo "Processes:"
+ps aux | grep -E 'echo|yagna|golem|ollama' | grep -v grep | head -15
+echo "Payments:"
+yagna payment status --network polygon --precise || echo "yagna offline"
+echo "Offers/Agreements:"
+yagna market agreements list || echo "No market"
+echo "Provider:"
+systemctl --user status golem-provider.service --no-pager -l | head -12 || echo "systemctl fail"
+echo "Logs Tail:"
+journalctl --user -u golem-provider -n10 --no-pager
+echo "Local Logs:"
+ls -lh ~/Echo/*.log | head -3; tail -3 ~/Echo/{daemon,agent_log.txt} 2>/dev/null || echo "No logs"
+echo "Cron:"
+crontab -l 2>/dev/null || echo "No cron"
+echo "Net:"
+curl -s ipinfo.io/ip || echo "IP fail"; ping -c1 -W2 registry.golem.network >/dev/null && echo "Golem.net OK" || echo "Golem.net fail"
+echo "=== END SCAN ==="

@@ -1,0 +1,232 @@
+=== STATE ===
+{
+  "echo_identity": {
+    "name": "Echo",
+    "role": "offline-first system assistant and builder companion",
+    "trust_level": "high"
+  },
+  "build_state": {
+    "phase": "Alpha-Execution",
+    "confidence": "high",
+    "last_verified": "2026-01-08T20:52:45.944708"
+  },
+  "memory_policy": {
+    "store_only": [
+      "summaries",
+      "capsules",
+      "manifests"
+    ],
+    "never_store": [
+      "raw files",
+      "credentials",
+      "client data"
+    ],
+    "confirmation_required": true
+  },
+  "current_focus": {
+    "primary_goal": "stabilize income-support workflows",
+    "secondary_goal": "consolidate Echo into a single coherent system",
+    "blocked_on": null
+  },
+  "paths": {
+    "content_bot_dir": "/home/andrew/content_bot",
+    "content_bot_python": "/home/andrew/autogpt_env/bin/python"
+  },
+  "identity": {
+    "name": "Echo-X570",
+    "role": "Autonomous Engine"
+  },
+  "phase": "Alpha-Execution",
+  "confidence": "high",
+  "last_verified": "2026-01-08T20:28:07.884032"
+}{
+  "echo_debug_mobile.py": {
+    "path": "/home/andrew/Echo/echo_debug_mobile.py",
+    "name": "echo_debug_mobile.py",
+    "type": "python"
+  },
+  "echo_interface.py": {
+    "path": "/home/andrew/Echo/echo_interface.py",
+    "name": "echo_interface.py",
+    "type": "python"
+  },
+  "echo_mobile_listener.py": {
+    "path": "/home/andrew/Echo/echo_mobile_listener.py",
+    "name": "echo_mobile_listener.py",
+    "type": "python"
+  },
+  "echo_income_monitor.py": {
+    "path": "/home/andrew/Echo/echo_income_monitor.py",
+    "name": "echo_income_monitor.py",
+    "type": "python"
+  },
+  "echo_chat_bridge.py": {
+    "path": "/home/andrew/Echo/echo_chat_bridge.py",
+    "name": "echo_chat_bridge.py",
+    "type": "python"
+  },
+  "echo_sync_finances.py": {
+    "path": "/home/andrew/Echo/echo_sync_finances.py",
+    "name": "echo_sync_finances.py",
+    "type": "python"
+  },
+  "echo_launcher.py": {
+    "path": "/home/andrew/Echo/echo_launcher.py",
+    "name": "Echo Launcher",
+    "type": "python"
+  },
+  "echo_command.py": {
+    "path": "/home/andrew/Echo/echo_command.py",
+    "name": "echo_command.py",
+    "type": "python"
+  },
+  "echo_always_on.py": {
+    "path": "/home/andrew/Echo/echo_always_on.py",
+    "name": "echo_always_on.py",
+    "type": "python"
+  },
+  "echo_listen_mobile.py": {
+    "path": "/home/andrew/Echo/echo_listen_mobile.py",
+    "name": "echo_listen_mobile.py",
+    "type": "python"
+  },
+  "echo_crypto_watch.py": {
+    "path": "/home/andrew/Echo/echo_crypto_watch.py",
+    "name": "echo_crypto_watch.py",
+    "type": "python"
+  },
+  "echo_ai_trade_feed.py": {
+    "path": "/home/andrew/Echo/echo_ai_trade_feed.py",
+    "name": "echo_ai_trade_feed.py",
+    "type": "python"
+  },
+  "echo_autonomous.py": {
+    "path": "/home/andrew/Echo/echo_autonomous.py",
+    "name": "echo_autonomous.py",
+    "type": "python"
+  },
+  "echo_sync_golem.py": {
+    "path": "/home/andrew/Echo/echo_sync_golem.py",
+    "name": "echo_sync_golem.py",
+    "type": "python"
+  },
+  "echo_gui.py": {
+    "path": "/home/andrew/Echo/echo_gui.py",
+    "name": "Echo Dashboard",
+    "type": "python"
+  },
+  "echo_intake.py": {
+    "path": "/home/andrew/Echo/echo_intake.py",
+    "name": "echo_intake.py",
+    "type": "python"
+  },
+  "echo_autonomous_task.py": {
+    "path": "/home/andrew/Echo/echo_autonomous_task.py",
+    "name": "echo_autonomous_task.py",
+    "type": "python"
+  },
+  "echo_status.py": {
+    "path": "/home/andrew/Echo/echo_status.py",
+    "name": "Status",
+    "type": "python"
+  },
+  "echo_trade_feed.py": {
+    "path": "/home/andrew/Echo/echo_trade_feed.py",
+    "name": "echo_trade_feed.py",
+    "type": "python"
+  },
+  "echo_price_sentry.py": {
+    "path": "/home/andrew/Echo/echo_price_sentry.py",
+    "name": "echo_price_sentry.py",
+    "type": "python"
+  },
+  "echo_chat.py": {
+    "path": "/home/andrew/Echo/echo_chat.py",
+    "name": "echo_chat.py",
+    "type": "python"
+  },
+  "echo_control_center.py": {
+    "path": "/home/andrew/Echo/echo_control_center.py",
+    "name": "Echo Control Center",
+    "type": "python"
+  },
+  "echo_audit_snapshot.py": {
+    "path": "/home/andrew/Echo/echo_audit_snapshot.py",
+    "name": "echo_audit_snapshot.py",
+    "type": "python"
+  },
+  "echo_scan.py": {
+    "path": "/home/andrew/Echo/echo_scan.py",
+    "name": "echo_scan.py",
+    "type": "python"
+  },
+  "echo_audit.py": {
+    "path": "/home/andrew/Echo/echo_audit.py",
+    "name": "echo_audit.py",
+    "type": "python"
+  },
+  "echo_ping_mobile.sh": {
+    "path": "/home/andrew/Echo/echo_ping_mobile.sh",
+    "name": "echo_ping_mobile.sh",
+    "type": "shell"
+  },
+  "echo_modes.sh": {
+    "path": "/home/andrew/Echo/echo_modes.sh",
+    "name": "echo_modes.sh",
+    "type": "shell"
+  },
+  "echo_state_validate.sh": {
+    "path": "/home/andrew/Echo/echo_state_validate.sh",
+    "name": "echo_state_validate.sh",
+    "type": "shell"
+  },
+  "echo_automate.sh": {
+    "path": "/home/andrew/Echo/echo_automate.sh",
+    "name": "echo_automate.sh",
+    "type": "shell"
+  },
+  "echo_doctor.sh": {
+    "path": "/home/andrew/Echo/echo_doctor.sh",
+    "name": "echo_doctor.sh",
+    "type": "shell"
+  },
+  "echo_healthcheck.sh": {
+    "path": "/home/andrew/Echo/echo_healthcheck.sh",
+    "name": "echo_healthcheck.sh",
+    "type": "shell"
+  },
+  "echo_state_get.sh": {
+    "path": "/home/andrew/Echo/echo_state_get.sh",
+    "name": "echo_state_get.sh",
+    "type": "shell"
+  },
+  "echo_state.sh": {
+    "path": "/home/andrew/Echo/echo_state.sh",
+    "name": "echo_state.sh",
+    "type": "shell"
+  },
+  "echo_panel.sh": {
+    "path": "/home/andrew/Echo/echo_panel.sh",
+    "name": "echo_panel.sh",
+    "type": "shell"
+  }
+}[GIN] 2026/01/20 - 19:07:40 | 200 |  4.938607037s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:07:43 | 200 |  4.705968405s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:07:45 | 200 |    4.3706262s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:07:47 | 200 |  2.918124548s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:07:49 | 200 |  2.091257189s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:07:51 | 200 |  2.992424515s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:07:54 | 200 |  4.391950997s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:07:58 | 200 |  5.600730223s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:08:01 | 200 |  6.429577604s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:08:05 | 200 |  6.180828865s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:08:11 | 200 |  8.975675636s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:08:16 | 200 |  9.811348747s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:08:18 | 200 |  5.512041976s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:09:12 | 200 |  6.499936179s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:09:19 | 200 | 13.056151473s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:10:44 | 200 |  9.266280644s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:10:53 | 200 | 16.791251715s |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/01/20 - 19:13:17 | 200 |  3.770030847s |       127.0.0.1 | POST     "/api/chat"
+time=2026-01-20T19:43:17.851-06:00 level=INFO source=server.go:429 msg="starting runner" cmd="/usr/local/bin/ollama runner --ollama-engine --port 33067"
+time=2026-01-20T19:43:18.229-06:00 level=INFO source=server.go:429 msg="starting runner" cmd="/usr/local/bin/ollama runner --ollama-engine --port 33619"

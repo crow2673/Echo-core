@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+import json
+import subprocess
+from pathlib import Path
+import sys
+import time
+
+BASE_DIR = Path(__file__).parent.resolve()
+STATE_FILE = BASE_DIR / "echo_state.json"
+MEMORY_FILE = BASE_DIR / "echo_memory.json"
+WORKFLOW_SCRIPT_AUTO = BASE_DIR / "workflow_intake_auto.py"
+AUDIT_SCRIPT = BASE_DIR / "echo_audit_snapshot.py"
+
+def load_identity_robust():
+    identity_file = BASE_DIR / "core" / "identity.json"
+    if identity_file.exists() and identity_file.stat().st_size > 0:
+        try:
+            return json.loads(identity_file.read_text())
+        except json.JSONDecodeError:
+            print(f"Warning: {identity_file} is corrupted or not valid JSON.", file=sys.stderr)
+    return {"name": "N/A", "role": "N/A", "build_phase": "N/A", "confidence": "N/A"}
+
+IDENTITY = load_identity_robust()
+
+def load_state():
+    if not STATE_FILE.exists():
+        print("Echo cannot start: state file missing.", file=sys.stderr)
+        sys.exit(1)
+    return json.loads(STATE_FILE.read_text())
+
+def load_memory():
+    if not MEMORY_FILE.exists() or MEMORY_FILE.stat().st_size == 0:
+        return []
+    try:
+        loaded = json.loads(MEMORY_FILE.read_text())
+        return loaded if isinstance(loaded, list) else []
+    except json.JSONDecodeError:
+        return []
+
+def save_memory(memory):
+    MEMORY_FILE.write_text(json.dumps(memory, indent=2))
+
+def summarize_memory(memory):
+    if not memory:
+        return "Memory is empty."
+    parts, seen, recent = [], set(), []
+    for cap in reversed(memory):
+        cid = cap.get("capsule_id")
+        if cid not in seen:
+            recent.append(cap); seen.add(cid)
+        if len(recent) >= 3:
+            break
+    for cap in reversed(recent):
+        parts.append(f"- {cap.get('capsule_id','N/A')}: {cap.get('purpose','No purpose')}")
+    return "\n".join(parts)
+
+def run_workflows_sequentially():
+    for wf in ["Standard task execution", "CurrentGoal", "MasterFirst"]:
+        cmd = [sys.executable, str(WORKFLOW_SCRIPT_AUTO), "--purpose", wf, "--have", "n", "--auto-draft"]
+        r = subprocess.run(cmd, cwd=str(BASE_DIR))
+        print(f"Workflow '{wf}' processed (exit={r.returncode}).\n")
+
+def update_masterfirst_command(memory):
+    for cap in reversed(memory):
+        if cap.get("capsule_id") == "COMMAND:MasterFirst":
+            cap["confidence"] = 90
+            cap["timestamp"] = int(time.time())
+            print("Updated 'COMMAND:MasterFirst' confidence to 90% and set timestamp.")
+            return True
+    print("Note: No capsule with capsule_id=='COMMAND:MasterFirst' found to update.")
+    return False
+
+def run_audit_snapshot():
+    if AUDIT_SCRIPT.exists():
+        r = subprocess.run([sys.executable, str(AUDIT_SCRIPT)], cwd=str(BASE_DIR))
+        print(f"Echo audit snapshot triggered (exit={r.returncode}).\n")
+
+def main():
+    print("Echo online.")
+    print(f"Identity: {IDENTITY.get('name','N/A')}")
+    print(f"Role: {IDENTITY.get('role','N/A')}")
+    print(f"Build phase: {IDENTITY.get('build_phase','N/A')}")
+    print(f"Confidence: {IDENTITY.get('confidence','N/A')}\n")
+
+    _state = load_state()
+    run_workflows_sequentially()
+
+    memory = load_memory()
+    if update_masterfirst_command(memory):
+        save_memory(memory)
+
+    run_audit_snapshot()
+
+    memory = load_memory()
+    print("Echo has completed its initial autonomous sequence.")
+    print("Current memory summary:")
+    print(summarize_memory(memory))
+
+if __name__ == "__main__":
+    main()

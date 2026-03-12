@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+import json
+from pathlib import Path
+
+MEMORY_FILE = Path(__file__).parent / "echo_memory.json"
+
+def load_memory():
+    if MEMORY_FILE.exists():
+        with open(MEMORY_FILE, "r") as f:
+            return json.load(f)
+    return []
+
+def store_capsule(capsule):
+    memory = load_memory()
+    memory.append(capsule)
+    with open(MEMORY_FILE, "w") as f:
+        json.dump(memory, f, indent=2)
+    print(f"Root capsule stored: {capsule['capsule_id']}")
+
+def main():
+    print("Echo Root Workspace Intake — Offline-Friendly")
+
+    capsule_id = input("Capsule ID: ")
+    scope = input("Scope (what directories are included/excluded): ")
+    locations = input("Location/Label (comma-separated paths): ").split(",")
+    purpose = input("Purpose (1-2 lines): ")
+    sensitivity = input("Sensitivity (public/internal/private): ")
+    size_scale = input("Size/Scale (approx #projects, datasets, or size): ")
+    key_items = input("Key items (comma-separated, max 5): ").split(",")[:5]
+    entry_points = input("Entry points/commands (comma-separated, max 5): ").split(",")[:5]
+    notes = input("Notes / gotchas (optional, 1-3 bullets, comma-separated): ").split(",")[:3]
+
+    capsule = {
+        "capsule_id": capsule_id.strip(),
+        "scope": scope.strip(),
+        "locations": [loc.strip() for loc in locations if loc.strip()],
+        "purpose": purpose.strip(),
+        "sensitivity": sensitivity.strip(),
+        "size_scale": size_scale.strip(),
+        "key_items": [item.strip() for item in key_items if item.strip()],
+        "entry_points": [item.strip() for item in entry_points if item.strip()],
+        "notes": [note.strip() for note in notes if note.strip()]
+    }
+
+    store_capsule(capsule)
+    print("Root capsule intake complete. Only allowed fields stored according to policy.")
+
+if __name__ == "__main__":
+    main()

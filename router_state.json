@@ -1,0 +1,13 @@
+{
+  "confirmed_task_examples": [
+    {
+      "text": "just trying to make you fully autonomous",
+      "wf_id": "echo",
+      "due": "today",
+      "priority": "high",
+      "desc": "Autonomy setup: Adjust self-management and task prioritization algorithms",
+      "ts": 1770386784.6417136
+    }
+  ],
+  "similarity_threshold": 0.86
+}

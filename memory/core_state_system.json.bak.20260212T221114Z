@@ -1,0 +1,32 @@
+{
+  "updated_at": "2026-02-12T22:11:11.615403+00:00",
+  "core": {
+    "service": "echo-core.service",
+    "status": "active",
+    "procs": [
+      "290770 /home/andrew/Echo/venv/bin/python3 -u /home/andrew/Echo/echo_core_daemon.py"
+    ]
+  },
+  "services": {
+    "self_act": "inactive",
+    "golem_provider": "active"
+  },
+  "timers": {
+    "pulse": "active",
+    "reachability": "active",
+    "golem_monitor": "active"
+  },
+  "last": {
+    "pulse_line": "{\"ts\": \"2026-02-12T06:05:41.670446+00:00\", \"type\": \"echo_pulse\", \"source\": \"echo-pulse.service\", \"note\": \"daily heartbeat\"}",
+    "command": {
+      "capsule_id": "COMMAND:20260207_002442",
+      "type": "command",
+      "status": "done",
+      "created_at": "2026-02-07T06:24:42.161477+00:00",
+      "text": "status",
+      "source": "echo_command.py",
+      "processed_at": "2026-02-07T06:24:42.583284+00:00"
+    }
+  },
+  "errors": []
+}

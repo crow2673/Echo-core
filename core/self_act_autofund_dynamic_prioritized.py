@@ -1,0 +1,59 @@
+import time
+import json
+from gpt_reasoner import gpt_reasoner
+import resource_tracker  # updates core_state["resources"]
+from task_prioritizer import prioritize_tasks  # adaptive task injection based on live income
+
+CORE_STATE_PATH = "../memory/core_state.json"
+
+# --- Load or initialize core_state ---
+try:
+    with open(CORE_STATE_PATH, "r") as f:
+        core_state = json.load(f)
+except FileNotFoundError:
+    core_state = {
+        "reasoning_history": [],
+        "knowledge": {},
+        "X_flags": [],
+        "resources": {},
+        "income_sources": {},  # track potential income per task
+        "skills_needed": {}    # skills needed to unlock tasks
+    }
+
+def weighted_reasoning_cycle():
+    # Update live resources
+    resource_tracker  # updates core_state["resources"]
+
+    cpu_limit = 80.0
+    mem_limit = 80.0
+    disk_limit = 90.0
+    resources = core_state.get("resources", {})
+    cpu = resources.get("cpu_percent", 0)
+    mem = resources.get("memory_percent", 0)
+    disk = resources.get("disk_percent", 0)
+
+    if cpu > cpu_limit or mem > mem_limit or disk > disk_limit:
+        print("Resources high, delaying reasoning cycle.")
+        return
+
+    # Adaptive task injection based on skills and live income
+    prioritize_tasks(core_state)
+
+    # Process X_flags with GPT-based reasoning
+    for x_flag in core_state.get("X_flags", []):
+        if x_flag in core_state.get("knowledge", {}):
+            continue
+        result = gpt_reasoner(x_flag, core_state)
+        core_state["reasoning_history"].append(result)
+        core_state["knowledge"][x_flag] = result
+        print(f"Processed {x_flag}: {result}")
+
+    # Save updated state
+    with open(CORE_STATE_PATH, "w") as f:
+        json.dump(core_state, f, indent=2)
+
+if __name__ == "__main__":
+    while True:
+        print("Echo alive - Starting prioritized dynamic reasoning cycle.")
+        weighted_reasoning_cycle()
+        time.sleep(10)

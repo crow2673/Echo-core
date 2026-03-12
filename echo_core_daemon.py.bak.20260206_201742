@@ -1,0 +1,142 @@
+#!/usr/bin/env python3
+import time
+import argparse
+from datetime import datetime, timezone
+
+from core.providers.router import call_ollama
+from core.command_handler import handle_command
+from core.events_to_capsules import tick as events_tick
+from core.memory_store import file_lock, load_memory, save_memory
+from core.file_watcher_worker import tick as filewatch_tick, init_baseline as filewatch_init
+
+SYSTEM_NOTE = (
+    "You are Echo, running locally on Andrew's Ubuntu machine.\n"
+    "Assume Ubuntu unless told otherwise.\n"
+    "Give concrete commands Andrew can run in a terminal.\n"
+    "Prefer: (1) what to check, (2) exact command, (3) how to interpret output.\n"
+    "Do not give Windows/Mac steps unless asked.\n"
+)
+
+# Tripwire: refuse to run on corrupted memory
+try:
+    load_memory()
+except Exception as e:
+    raise RuntimeError(f"FATAL: echo_memory.json is corrupted: {e}")
+
+
+def utcnow():
+    return datetime.now(timezone.utc).isoformat()
+
+def find_next_capsule(memory):
+    for cap in memory:
+        if cap.get("status") == "new" and cap.get("type") in ("message", "command", "event"):
+            return cap
+    return None
+
+def make_reply(in_reply_to_id: str, text: str, model: str):
+    return {
+        "capsule_id": f"REPLY:{in_reply_to_id}:{int(time.time()*1000)}",
+        "type": "reply",
+        "in_reply_to": in_reply_to_id,
+        "text": text,
+        "created_at": utcnow(),
+        "status": "done",
+        "model": model,
+    }
+
+def process_one_capsule() -> bool:
+    """
+    Returns True if a capsule was processed.
+    """
+    with file_lock():
+        memory = load_memory()
+        cap = find_next_capsule(memory)
+
+        if not cap:
+            return False
+
+        cap_id = cap.get("capsule_id", "CAPSULE:unknown")
+        cap_type = cap.get("type", "unknown")
+        text = cap.get("text", "")
+
+        try:
+            if cap_type == "message":
+                response = call_ollama(
+                    prompt=text,
+                    model="qwen2.5:7b",
+                    timeout=240.0,
+                    system_prompt=SYSTEM_NOTE,
+                )
+                model_used = "qwen2.5:7b"
+            elif cap_type == "command":
+                response = handle_command(text)
+                model_used = "command_handler"
+            elif cap_type == "event":
+                # Safe default: describe the event (no actions)
+                subtype = cap.get("subtype", "unknown")
+                ev = cap.get("event", {})
+                response = f"[event:{subtype}] {ev}"
+                model_used = "event_handler"
+            else:
+                response = f"(unsupported capsule type: {cap_type})"
+                model_used = "core"
+        except Exception as e:
+            response = f"(error processing {cap_type}: {e})"
+            model_used = "core_error"
+
+        cap["status"] = "done"
+        cap["processed_at"] = utcnow()
+
+        reply = make_reply(cap_id, response, model_used)
+        memory.append(reply)
+        save_memory(memory)
+
+    print(f"[reply] {reply['capsule_id']} (to {cap_type} {cap_id})")
+    print(response)
+    print("---")
+    return True
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--poll", type=float, default=0.5)
+    p.add_argument("--once", action="store_true")
+    args = p.parse_args()
+
+    # baseline file watcher once at boot (no loop)
+    baseline = filewatch_init()
+    print(f"Echo core daemon online. (filewatch baseline: {baseline} files)")
+
+    next_filewatch = time.time() + 2.0
+    next_events = time.time() + 2.0
+
+    while True:
+        did = process_one_capsule()
+
+        now = time.time()
+        if now >= next_filewatch:
+            try:
+                emitted = filewatch_tick()
+                if emitted:
+                    print(f"[filewatch] emitted {emitted} events")
+            except Exception as e:
+                print(f"[filewatch] error: {e}")
+            next_filewatch = now + 2.0
+
+        if now >= next_events:
+            try:
+                emitted = events_tick()
+                if emitted:
+                    print(f"[events] emitted {emitted} capsules")
+            except Exception as e:
+                print(f"[events] error: {e}")
+            next_events = now + 2.0
+
+        if args.once:
+            return 0
+
+        # If we processed something, we can loop again quickly; otherwise sleep a bit.
+        if not did:
+            time.sleep(args.poll)
+
+if __name__ == "__main__":
+    raise SystemExit(main())

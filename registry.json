@@ -1,0 +1,22 @@
+{
+  "orchestrator": "echo_core_daemon.py",
+  "memory_store": "core/memory_store.py",
+  "workers": {
+    "command_handler": {
+      "path": "core/command_handler.py",
+      "entry": "handle_command",
+      "enabled": true,
+      "schedule": "on_capsule:command"
+    },
+    "file_watcher": {
+      "path": "core/file_watcher_worker.py",
+      "entry": "tick",
+      "enabled": true,
+      "schedule": "interval:2s"
+    }
+  },
+  "legacy_loops": [
+    "app/file_watcher.py"
+  ],
+  "notes": "Single-loop architecture: only echo_core_daemon.py may run while True."
+}

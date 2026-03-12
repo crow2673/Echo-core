@@ -1,0 +1,187 @@
+{
+  "echo_utils.py": {
+    "path": "/home/andrew/Echo/echo_utils.py",
+    "name": "echo_utils.py",
+    "type": "python"
+  },
+  "echo_debug_mobile.py": {
+    "path": "/home/andrew/Echo/echo_debug_mobile.py",
+    "name": "echo_debug_mobile.py",
+    "type": "python"
+  },
+  "echo_interface.py": {
+    "path": "/home/andrew/Echo/echo_interface.py",
+    "name": "echo_interface.py",
+    "type": "python"
+  },
+  "echo_mobile_listener.py": {
+    "path": "/home/andrew/Echo/echo_mobile_listener.py",
+    "name": "echo_mobile_listener.py",
+    "type": "python"
+  },
+  "echo_income_monitor.py": {
+    "path": "/home/andrew/Echo/echo_income_monitor.py",
+    "name": "echo_income_monitor.py",
+    "type": "python"
+  },
+  "echo_chat_bridge.py": {
+    "path": "/home/andrew/Echo/echo_chat_bridge.py",
+    "name": "echo_chat_bridge.py",
+    "type": "python"
+  },
+  "echo_message_intake.py": {
+    "path": "/home/andrew/Echo/echo_message_intake.py",
+    "name": "echo_message_intake.py",
+    "type": "python"
+  },
+  "echo_sync_finances.py": {
+    "path": "/home/andrew/Echo/echo_sync_finances.py",
+    "name": "echo_sync_finances.py",
+    "type": "python"
+  },
+  "echo_launcher.py": {
+    "path": "/home/andrew/Echo/echo_launcher.py",
+    "name": "Echo Launcher",
+    "type": "python"
+  },
+  "echo_command.py": {
+    "path": "/home/andrew/Echo/echo_command.py",
+    "name": "echo_command.py",
+    "type": "python"
+  },
+  "echo_always_on.py": {
+    "path": "/home/andrew/Echo/echo_always_on.py",
+    "name": "echo_always_on.py",
+    "type": "python"
+  },
+  "echo_listen_mobile.py": {
+    "path": "/home/andrew/Echo/echo_listen_mobile.py",
+    "name": "echo_listen_mobile.py",
+    "type": "python"
+  },
+  "echo_crypto_watch.py": {
+    "path": "/home/andrew/Echo/echo_crypto_watch.py",
+    "name": "echo_crypto_watch.py",
+    "type": "python"
+  },
+  "echo_ai_trade_feed.py": {
+    "path": "/home/andrew/Echo/echo_ai_trade_feed.py",
+    "name": "echo_ai_trade_feed.py",
+    "type": "python"
+  },
+  "echo_core_daemon.py": {
+    "path": "/home/andrew/Echo/echo_core_daemon.py",
+    "name": "echo_core_daemon.py",
+    "type": "python"
+  },
+  "echo_autonomous.py": {
+    "path": "/home/andrew/Echo/echo_autonomous.py",
+    "name": "echo_autonomous.py",
+    "type": "python"
+  },
+  "echo_sync_golem.py": {
+    "path": "/home/andrew/Echo/echo_sync_golem.py",
+    "name": "echo_sync_golem.py",
+    "type": "python"
+  },
+  "echo_gui.py": {
+    "path": "/home/andrew/Echo/echo_gui.py",
+    "name": "Echo Dashboard",
+    "type": "python"
+  },
+  "echo_intake.py": {
+    "path": "/home/andrew/Echo/echo_intake.py",
+    "name": "echo_intake.py",
+    "type": "python"
+  },
+  "echo_autonomous_task.py": {
+    "path": "/home/andrew/Echo/echo_autonomous_task.py",
+    "name": "echo_autonomous_task.py",
+    "type": "python"
+  },
+  "echo_status.py": {
+    "path": "/home/andrew/Echo/echo_status.py",
+    "name": "Status",
+    "type": "python"
+  },
+  "echo_trade_feed.py": {
+    "path": "/home/andrew/Echo/echo_trade_feed.py",
+    "name": "echo_trade_feed.py",
+    "type": "python"
+  },
+  "echo_price_sentry.py": {
+    "path": "/home/andrew/Echo/echo_price_sentry.py",
+    "name": "echo_price_sentry.py",
+    "type": "python"
+  },
+  "echo_chat.py": {
+    "path": "/home/andrew/Echo/echo_chat.py",
+    "name": "echo_chat.py",
+    "type": "python"
+  },
+  "echo_control_center.py": {
+    "path": "/home/andrew/Echo/echo_control_center.py",
+    "name": "Echo Control Center",
+    "type": "python"
+  },
+  "echo_audit_snapshot.py": {
+    "path": "/home/andrew/Echo/echo_audit_snapshot.py",
+    "name": "echo_audit_snapshot.py",
+    "type": "python"
+  },
+  "echo_scan.py": {
+    "path": "/home/andrew/Echo/echo_scan.py",
+    "name": "echo_scan.py",
+    "type": "python"
+  },
+  "echo_audit.py": {
+    "path": "/home/andrew/Echo/echo_audit.py",
+    "name": "echo_audit.py",
+    "type": "python"
+  },
+  "echo_ping_mobile.sh": {
+    "path": "/home/andrew/Echo/echo_ping_mobile.sh",
+    "name": "echo_ping_mobile.sh",
+    "type": "shell"
+  },
+  "echo_modes.sh": {
+    "path": "/home/andrew/Echo/echo_modes.sh",
+    "name": "echo_modes.sh",
+    "type": "shell"
+  },
+  "echo_state_validate.sh": {
+    "path": "/home/andrew/Echo/echo_state_validate.sh",
+    "name": "echo_state_validate.sh",
+    "type": "shell"
+  },
+  "echo_automate.sh": {
+    "path": "/home/andrew/Echo/echo_automate.sh",
+    "name": "echo_automate.sh",
+    "type": "shell"
+  },
+  "echo_doctor.sh": {
+    "path": "/home/andrew/Echo/echo_doctor.sh",
+    "name": "echo_doctor.sh",
+    "type": "shell"
+  },
+  "echo_healthcheck.sh": {
+    "path": "/home/andrew/Echo/echo_healthcheck.sh",
+    "name": "echo_healthcheck.sh",
+    "type": "shell"
+  },
+  "echo_state_get.sh": {
+    "path": "/home/andrew/Echo/echo_state_get.sh",
+    "name": "echo_state_get.sh",
+    "type": "shell"
+  },
+  "echo_state.sh": {
+    "path": "/home/andrew/Echo/echo_state.sh",
+    "name": "echo_state.sh",
+    "type": "shell"
+  },
+  "echo_panel.sh": {
+    "path": "/home/andrew/Echo/echo_panel.sh",
+    "name": "echo_panel.sh",
+    "type": "shell"
+  }
+}

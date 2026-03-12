@@ -1,0 +1,65 @@
+import time
+import json
+import sys
+import os
+import argparse
+from pathlib import Path
+
+# Resolve project root reliably: .../Echo/core/self_act.py -> .../Echo
+ECHO = Path(__file__).resolve().parents[1]
+CORE = ECHO / "core"
+MEM  = ECHO / "memory"
+
+# Ensure core folder is on path
+sys.path.append(str(CORE))
+
+from core.gpt_reasoner import gpt_reasoner
+
+# IMPORTANT:
+# - core_state.json is reserved for Echo's higher-level state (and was being collided with).
+# - This worker writes to its own file:
+STATE_PATH = MEM / "core_state_reasoning.json"
+
+def load_state():
+    try:
+        return json.loads(STATE_PATH.read_text())
+    except FileNotFoundError:
+        return {"reasoning_history": [], "knowledge": {}, "X_flags": []}
+    except Exception as e:
+        return {"reasoning_history": [], "knowledge": {}, "X_flags": [], "errors": [f"load_state: {e}"]}
+
+def save_state(state):
+    STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    STATE_PATH.write_text(json.dumps(state, indent=2) + "\n")
+
+def reasoning_cycle(state):
+    # Loop over X_flags
+    for x_flag in state.get("X_flags", []):
+        result = gpt_reasoner(x_flag, state)
+        state["reasoning_history"].append(result)
+        state.setdefault("knowledge", {})[x_flag] = result
+        print(f"Processed {x_flag}: {result}")
+
+    save_state(state)
+
+def main():
+    ap = argparse.ArgumentParser(description="Echo self_act worker (reasoning cycle).")
+    ap.add_argument("--once", action="store_true", help="Run a single reasoning cycle and exit.")
+    ap.add_argument("--sleep", type=int, default=10, help="Sleep seconds between cycles (loop mode).")
+    args = ap.parse_args()
+
+    state = load_state()
+
+    if args.once:
+        print("Echo self_act: once")
+        reasoning_cycle(state)
+        return 0
+
+    # loop mode (not used under systemd anymore)
+    while True:
+        print("Echo self_act: alive")
+        reasoning_cycle(state)
+        time.sleep(max(1, args.sleep))
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,8 @@
+{
+  "model_type": "LinearRegression",
+  "input_features": [
+    "feature_norm"
+  ],
+  "output": "feature",
+  "hash": "548ade9ec4b271b2937fa1cab4be94f7b5a1cdca9d71ae2db813d6f30eb88195"
+}

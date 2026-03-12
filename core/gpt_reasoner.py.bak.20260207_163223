@@ -1,0 +1,99 @@
+import json
+import requests # <--- Make sure requests is imported
+import sys
+
+# --- Configuration for LLM Studio ---
+# Adjust this URL if your LLM Studio runs on a different host or port
+LLM_STUDIO_API_URL = "http://localhost:11434/v1/chat/completions"
+# Or if it's a different endpoint, e.g., for text completion:
+# LLM_STUDIO_API_URL = "http://localhost:11434/v1/completions"
+
+# --- No API key needed for local LLM Studio usually, but keep this in mind for real deployments ---
+
+def gpt_reasoner(x_flag, context_memory):
+    """
+    Interacts with a local LLM Studio server for Echo's reasoning.
+    x_flag: the current unknown/task to reason about
+    context_memory: Echo's current memory state
+    Returns: dict with how, why, and confidence
+    """
+    # --- Prompt generation ---
+    system_message = "You are Echo, a highly intelligent and autonomous reasoning AI. Your goal is to help your user by generating actionable steps (how), causal reasoning (why), and a confidence score for tasks or observations. Always output in JSON format."
+    
+    user_message = f"""
+    Task to reason about: {x_flag}
+    Current context of Echo's system and knowledge: {json.dumps(context_memory, indent=2, default=str)}
+
+    Based on the Task and Context, please provide your reasoning.
+    Output MUST be a valid JSON object with the following keys:
+    - "how": A concise, step-by-step method or plan to address the task.
+    - "why": The causal reasoning or justification for the plan, explaining its importance for Echo's goals (e.g., income generation, system maintenance).
+    - "confidence": A float between 0.0 and 1.0 indicating your certainty in the plan's success.
+    """
+
+    # --- Construct the API request payload ---
+    payload = {
+       # "model": "local-model", # The model name doesn't usually matter for local APIs, but some require it.
+                                # Use the actual model name loaded in LLM Studio if it's picky.
+        "model": "llama3.2:1b",
+        "messages": [
+            {"role": "system", "content": system_message},
+            {"role": "user", "content": user_message}
+        ],
+        "response_format": {"type": "json_object"}, # Request JSON object output
+        "temperature": 0.7, # Adjust for creativity vs. consistency
+        "max_tokens": 1024 # Limit the response length
+    }
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    try:
+        # --- Actual LLM Studio API Call using requests ---
+        response = requests.post(LLM_STUDIO_API_URL, headers=headers, json=payload, timeout=120) # Increased timeout for local models
+        response.raise_for_status() # Raise an exception for HTTP errors (4xx or 5xx)
+
+        # Parse the actual response
+        response_data = response.json()
+        
+        # Extract content (might vary slightly based on specific LLM Studio version/model)
+        # This assumes an OpenAI-compatible chat completions response structure
+        response_content = response_data['choices'][0]['message']['content']
+        reasoning_result = json.loads(response_content)
+
+        # Validate keys, provide defaults if missing
+        return {
+            "how": reasoning_result.get("how", "No method provided by LLM."),
+            "why": reasoning_result.get("why", "No reasoning provided by LLM."),
+            "confidence": float(reasoning_result.get("confidence", 0.0))
+        }
+
+    except requests.exceptions.ConnectionError:
+        print(f"Error: Could not connect to LLM Studio at {LLM_STUDIO_API_URL}. Is it running and is the model loaded?", file=sys.stderr)
+        return {
+            "how": f"Failed to connect to LLM Studio for '{x_flag}'.",
+            "why": "LLM Studio server is not reachable.",
+            "confidence": 0.0
+        }
+    except requests.exceptions.RequestException as e:
+        print(f"Error calling LLM Studio API: {e}", file=sys.stderr)
+        return {
+            "how": f"Failed to get LLM Studio response for '{x_flag}'.",
+            "why": f"API call failed: {e}",
+            "confidence": 0.1
+        }
+    except json.JSONDecodeError as e:
+        print(f"Error decoding LLM Studio JSON response: {e}. Raw response: {response_content[:500]}", file=sys.stderr)
+        return {
+            "how": f"LLM Studio returned invalid JSON for '{x_flag}'.",
+            "why": f"JSON decode error: {e}",
+            "confidence": 0.2
+        }
+    except Exception as e:
+        print(f"An unexpected error occurred in gpt_reasoner: {e}", file=sys.stderr)
+        return {
+            "how": f"An unexpected error occurred for '{x_flag}'.",
+            "why": f"Unexpected error: {e}",
+            "confidence": 0.1
+        }

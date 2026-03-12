@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+import json
+import subprocess
+from pathlib import Path
+import sys
+import time
+
+BASE_DIR = Path(__file__).parent.resolve()
+STATE_FILE = BASE_DIR / "echo_state.json"
+MEMORY_FILE = BASE_DIR / "echo_memory.json"
+WORKFLOW_SCRIPT_AUTO = BASE_DIR / "workflow_intake_auto.py"
+AUDIT_SCRIPT = BASE_DIR / "echo_audit_snapshot.py"
+
+def load_identity_robust():
+    identity_file = BASE_DIR / "core" / "identity.json"
+    if identity_file.exists() and identity_file.stat().st_size > 0:
+        try:
+            return json.loads(identity_file.read_text())
+        except json.JSONDecodeError:
+            print(f"Warning: {identity_file} is corrupted or not valid JSON.", file=sys.stderr)
+    return {"name": "N/A", "role": "N/A", "build_phase": "N/A", "confidence": "N/A"}
+
+IDENTITY = load_identity_robust()
+
+def load_state():
+    if not STATE_FILE.exists():
+        print("Echo cannot start: state file missing.", file=sys.stderr)
+        sys.exit(1)
+    return json.loads(STATE_FILE.read_text())
+
+def load_memory():
+    if not MEMORY_FILE.exists() or MEMORY_FILE.stat().st_size == 0:
+        return []
+    try:
+        loaded = json.loads(MEMORY_FILE.read_text())
+        if isinstance(loaded, list):
+            return loaded
+        print(f"Warning: {MEMORY_FILE} is not a list; using empty.", file=sys.stderr)
+        return []
+    except json.JSONDecodeError:
+        print(f"Warning: {MEMORY_FILE} is corrupted; using empty.", file=sys.stderr)
+        return []
+
+def save_memory(memory):
+    MEMORY_FILE.write_text(json.dumps(memory, indent=2))
+
+def summarize_memory(memory):
+    if not memory:
+        return "Memory is empty."
+    summary_parts = []
+    seen_ids = set()
+    recent_capsules = []
+    for capsule in reversed(memory):
+        cid = capsule.get("capsule_id")
+        if cid not in seen_ids:
+            recent_capsules.append(capsule)
+            seen_ids.add(cid)
+        if len(recent_capsules) >= 3:
+            break
+    for capsule in reversed(recent_capsules):
+        summary_parts.append(f"- {capsule.get('capsule_id', 'N/A')}: {capsule.get('purpose', 'No purpose')}")
+    return "\n".join(summary_parts)
+
+def run_workflows_sequentially():
+    workflow_list = [
+        "Standard task execution",
+        "CurrentGoal",
+        "MasterFirst",
+    ]
+
+    for wf in workflow_list:
+        cmd = [
+            sys.executable,
+            str(WORKFLOW_SCRIPT_AUTO),
+            "--purpose", wf,
+            "--have", "n",
+            "--auto-draft",
+        ]
+        r = subprocess.run(cmd, cwd=str(BASE_DIR))
+        print(f"Workflow '{wf}' processed (exit={r.returncode}).\n")
+
+def run_audit_snapshot():
+    if AUDIT_SCRIPT.exists():
+        r = subprocess.run([sys.executable, str(AUDIT_SCRIPT)], cwd=str(BASE_DIR))
+        print(f"Echo audit snapshot triggered (exit={r.returncode}).\n")
+    else:
+        print(f"Audit script not found at {AUDIT_SCRIPT}", file=sys.stderr)
+
+def main():
+    print("Echo online.")
+    print(f"Identity: {IDENTITY.get('name', 'N/A')}")
+    print(f"Role: {IDENTITY.get('role', 'N/A')}")
+    print(f"Build phase: {IDENTITY.get('build_phase', 'N/A')}")
+    print(f"Confidence: {IDENTITY.get('confidence', 'N/A')}\n")
+
+    _state = load_state()
+
+    run_workflows_sequentially()
+    run_audit_snapshot()
+
+    # Update the most recent MasterFirst command capsule (if present)
+    memory = load_memory()
+    updated = False
+    for capsule in reversed(memory):
+        if capsule.get("capsule_id") == "COMMAND:MasterFirst":
+            try:
+                current_conf = int(capsule.get("confidence", 0))
+            except (ValueError, TypeError):
+                current_conf = 0
+            if current_conf < 90:
+                capsule["confidence"] = 90
+                capsule["timestamp"] = int(time.time())
+                print("Updated 'COMMAND:MasterFirst' confidence to 90% and set timestamp.")
+            updated = True
+            break
+
+    if updated:
+        save_memory(memory)
+
+    print("Echo has completed its initial autonomous sequence.")
+    print("Current memory summary:")
+    print(summarize_memory(memory))
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,30 @@
+import subprocess
+import json
+import time
+import re
+
+while True:
+    try:
+        out = subprocess.run(["yagna", "payment", "status", "--network", "polygon", "--precise"], 
+                             capture_output=True, text=True, timeout=30)
+        # Extract GLM (e.g. "0 GLM")
+        glm_match = re.search(r'total amount\s+([0-9.]+ GLM)', out.stdout)
+        glml = float(glm_match.group(1).split()[0]) if glm_match else 0.0
+        log = {'ts': time.time(), 'glml': glml, 'raw': out.stdout[:100]}
+        with open('golem_earnings.json', 'a') as f:
+            json.dump(log, f)
+            f.write('\n')
+        print(f"GLM: {glml}")
+    except Exception as e:
+        print(f"Err: {e}")
+    time.sleep(300)
+# Updated extract (line after table)
+lines = out.stdout.split('\n')
+for line in lines:
+    if 'total amount' in line and 'GLM' in line:
+        glm_match = re.search(r'([0-9.]+) GLM', line)
+        if glm_match: glml = float(glm_match.group(1))
+# Log ONLY JSON line-by-line (clean dashboard)
+with open('golem_pure.json', 'a') as pure_f:
+    json.dump({'ts': log['ts'], 'glml': log['glml']}, pure_f)
+    pure_f.write('\n')

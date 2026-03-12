@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+import json
+import time
+import argparse
+from pathlib import Path
+from datetime import datetime, timezone
+
+#from core.providers.router import llm
+from core.providers.router import call_ollama
+
+MEMORY_FILE = Path("echo_memory.json")
+
+SYSTEM_NOTE = (
+    "You are Echo, running locally on Andrew's Ubuntu machine.\n"
+    "Assume Ubuntu unless told otherwise.\n"
+    "Give concrete commands Andrew can run in a terminal.\n"
+    "Prefer: (1) what to check, (2) exact command, (3) how to interpret output.\n"
+    "Do not give Windows/Mac steps unless asked.\n"
+)
+def load_memory():
+    if not MEMORY_FILE.exists() or MEMORY_FILE.stat().st_size == 0:
+        return []
+    try:
+        data = json.loads(MEMORY_FILE.read_text())
+        return data if isinstance(data, list) else []
+    except json.JSONDecodeError:
+        return []
+
+def save_memory(memory):
+    tmp = MEMORY_FILE.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(memory, indent=2))
+    tmp.replace(MEMORY_FILE)
+
+def find_next_message(memory):
+    # oldest "new" message first
+    for cap in memory:
+        if cap.get("type") == "message" and cap.get("status") == "new":
+            return cap
+    return None
+
+def utcnow():
+    return datetime.now(timezone.utc).isoformat()
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--poll", type=float, default=1.0)
+    p.add_argument("--once", action="store_true")
+    p.add_argument("--model_role", default="write", choices=["summarize", "plan", "write"])
+    args = p.parse_args()
+
+    print("Echo core daemon online.")
+    while True:
+        memory = load_memory()
+        msg = find_next_message(memory)
+
+        if msg:
+            msg_id = msg.get("capsule_id", "MESSAGE:unknown")
+            user_text = msg.get("text", "")
+
+            prompt = f"{SYSTEM_NOTE}\nUser message:\n{user_text}\n"
+
+            try:
+                response = call_ollama(
+                    prompt=user_text,
+                    model="qwen2.5:7b",
+                    timeout=240.0,
+                    system_prompt=SYSTEM_NOTE,
+                )
+            except Exception as e:
+                response = f"(error calling LLM: {e})"
+
+            # mark message processed
+            msg["status"] = "done"
+            msg["processed_at"] = utcnow()
+
+            reply_id = f"REPLY:{msg_id}"
+            reply = {
+                "capsule_id": reply_id,
+                "type": "reply",
+                "in_reply_to": msg_id,
+                "text": response,
+                "created_at": utcnow(),
+                "status": "done",
+                "model": "qwen2.5:7b",
+            }
+            memory.append(reply)
+            save_memory(memory)
+
+            print(f"[reply] {reply_id}")
+            print(response)
+            print("---")
+
+            if args.once:
+                return 0
+
+        time.sleep(args.poll)
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# Ensure memory directory exists
+mkdir -p ~/Echo/memory
+touch ~/Echo/memory/activity.log
+touch ~/Echo/memory/events.log
+touch ~/Echo/memory/time_log.csv
+touch ~/Echo/memory/log_notes.txt
+
+while true; do
+    echo ""
+    echo "===== Echo Control Center ====="
+    echo "1) Run Daily Summary"
+    echo "2) View System Stats"
+    echo "3) Run Weekly Upgrade"
+    echo "4) View Activity Log"
+    echo "5) View Event Log"
+    echo "6) Add Note"
+    echo "7) Start Golem Provider"
+    echo "8) Stop Golem Provider"
+    echo "9) Open Outlier"
+    echo "10) System Cleanup"
+    echo "11) Backup Echo"
+    echo "12) Echo Modes"
+    echo "13) Run Content Bot (generate drafts)"
+    echo "14) Open Dev/Content Workspace"
+    echo "15) Publish Next Refined Draft (Dev.to)"
+    echo "16) Monitor GPU Utilization"
+    echo "18) Golem Provider Status"
+echo "19) Check Earnings"
+
+    echo "20) Exit"
+    echo "================================"
+    read -p "read -p "Choose an option (1-20): " choice " choice
+
+    case $choice in
+        1) ~/Echo/daily_summary.sh ;;
+        2) ~/Echo/stats.sh ;;
+        3) ~/Echo/weekly_upgrade.sh ;;
+        4) cat ~/Echo/memory/activity.log ;;
+        5) cat ~/Echo/memory/events.log ;;
+        6) read -p "Type your note: " note; echo "$note" >> ~/Echo/memory/log_notes.txt ;;
+        7) ~/Echo/start_golem.sh ;;
+        8) ~/Echo/stop_golem.sh ;;
+        9) ~/Echo/open_outlier.sh ;;
+        10) ~/Echo/cleanup.sh ;;
+        11) ~/Echo/backup_echo.sh ;;
+        12) ~/Echo/echo_modes.sh ;;
+        13) ~/Echo/run_content_bot.sh ;;
+        14) ~/Echo/quick_launch.sh ;;
+        15) ~/content_bot/publish_helper.sh ;;
+        16) watch -n 2 nvidia-smi ;;
+        *) echo "Invalid option."; ;;
+    esac
+done
+
+    case $choice in
+        7)
+            ~/Echo/start_golem.sh
+            echo "Golem provider started (systemd managed)."
+            ;;
+        8)
+            ~/Echo/stop_golem.sh
+            systemctl --user stop golem-provider.service 2>/dev/null
+            echo "Golem provider stopped."
+            ;;
+        18)
+            echo "=== Golem Status ==="
+            yagna provider status --app-key-file=$(cat ~/Echo/memory/app_key.path 2>/dev/null || echo ~/.local/share/yagna/*.json | xargs ls | tail -1) 2>/dev/null || echo "Provider inactive."
+            tail -5 ~/Echo/memory/activity.log
+            tail -1 ~/Echo/memory/{glm_balance,provider_status}.csv 2>/dev/null || echo "No earnings yet."
+            ;;
+        19)
+            ./monitor_earnings.sh
+            tail -5 ~/Echo/memory/glm_balance.csv
+            ;;
+        *)
+            echo "Invalid option."
+            ;;
+    esac
+
+    echo "Press Enter to continue..."
+    read
+done

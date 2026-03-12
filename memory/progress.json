@@ -1,0 +1,17 @@
+{
+  "updated_at": "2026-02-07T20:55:00Z",
+  "done": [
+    "command->reply pipeline works",
+    "core_state_system.json writer + timer active (system truth every 60s)",
+    "echo-core.service running",
+    "echo-pulse.timer writes daily heartbeat",
+    "events_tick disabled; event capsules removed"
+  ],
+  "next": [
+    "Add progress tracker commands: status / todo add / todo done",
+    "Lock all writers to absolute paths under ~/Echo",
+    "Convert remaining loops into workers triggered by the core daemon"
+  ],
+  "blockers": [],
+  "notes": "Crowned king: echo_core_daemon.py. Keep workers, don\u2019t delete yet."
+}

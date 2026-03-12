@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail
+
+ECHO_DIR="$HOME/Echo"
+BOT_DIR="$("$ECHO_DIR/echo_state_get.sh" paths.content_bot_dir)"
+PYBIN="$("$ECHO_DIR/echo_state_get.sh" paths.content_bot_python)"
+
+echo "Running content bot..."
+echo "BOT_DIR=$BOT_DIR"
+echo "PYBIN=$PYBIN"
+
+cd "$BOT_DIR" || { echo "content_bot directory not found: $BOT_DIR"; exit 1; }
+"$PYBIN" generate_content.py
+
+echo "Content bot finished. Check drafts in $BOT_DIR/drafts/"

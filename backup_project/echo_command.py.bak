@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+import json
+from pathlib import Path
+
+MEMORY_FILE = Path("echo_memory.json")
+
+def load_memory():
+    if MEMORY_FILE.exists():
+        with open(MEMORY_FILE, "r") as f:
+            return json.load(f)
+    return []
+
+def save_memory(memory):
+    with open(MEMORY_FILE, "w") as f:
+        json.dump(memory, f, indent=2)
+
+def main():
+    print("Echo Command Intake — Phase 1 Master First Command")
+    instruction = input("Enter your instruction: ").strip()
+    
+    if not instruction:
+        print("No instruction entered. Exiting.")
+        return
+
+    memory = load_memory()
+    
+    # Create master command capsule
+    capsule = {
+        "capsule_id": "COMMAND:MasterFirst",
+        "purpose": "Combine financial automation, income scanning, and workflow readiness",
+        "key_items": ["Outlier", "Hubstaff", "Echo", "Browser", "Terminal"],
+        "entry_points": ["./echo.py", "./workflow_intake.py", "outlier-app", "hubstaff-app"],
+        "sensitivity": "internal",
+        "tasks": [
+            {"task": "Check and pay all upcoming bills automatically", "tool": "Echo", "status": "pending", "notes": ""},
+            {"task": "Scan Outlier and other platforms for passive income opportunities", "tool": "Outlier", "status": "pending", "notes": ""},
+            {"task": "Review and organize all active tasks in Echo memory, flag high-priority items", "tool": "Echo", "status": "pending", "notes": ""}
+        ],
+        "parent_root": "ROOT:Workspace",
+        "instruction": instruction
+    }
+    
+    # Append to memory
+    memory.append(capsule)
+    save_memory(memory)
+
+    print("\nMaster First Command capsule created and stored in Echo memory.")
+    print("Tasks ready for Phase 2 execution:")
+    for i, t in enumerate(capsule["tasks"], start=1):
+        print(f"{i}) {t['task']} [Tool: {t['tool']}] Status: {t['status']}")
+
+if __name__ == "__main__":
+    main()

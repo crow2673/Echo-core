@@ -1,0 +1,79 @@
+#!/bin/bash
+set -e
+
+LOG_DIR="$HOME/Echo/memory"
+mkdir -p "$LOG_DIR"
+touch "$LOG_DIR/activity.log" "$LOG_DIR/events.log" "$LOG_DIR/log_notes.txt" "$LOG_DIR/glm_balance.csv"
+
+pause() { read -r -p "Press Enter to continue..."; }
+
+while true; do
+  clear
+  echo "===== Echo Control Center ====="
+  echo "1) Run Daily Summary"
+  echo "2) View System Stats"
+  echo "3) Run Weekly Upgrade"
+  echo "4) View Activity Log"
+  echo "5) View Event Log"
+  echo "6) Add Note"
+  echo "7) Start Golem Provider"
+  echo "8) Stop Golem Provider"
+  echo "9) Open Outlier"
+  echo "10) System Cleanup"
+  echo "11) Backup Echo"
+  echo "12) Echo Modes"
+  echo "13) Run Content Bot (generate drafts)"
+  echo "14) Open Dev/Content Workspace"
+  echo "15) Publish Next Refined Draft (Dev.to)"
+  echo "16) Monitor GPU Utilization"
+  echo "18) Golem Provider Status"
+  echo "19) Check Earnings"
+  echo "20) Exit"
+  echo "================================"
+  read -r -p "Choose an option (1-20): " choice
+
+  case "$choice" in
+    1)  ~/Echo/daily_summary.sh; pause ;;
+    2)  ~/Echo/stats.sh; pause ;;
+    3)  ~/Echo/weekly_upgrade.sh; pause ;;
+    4)  less "$LOG_DIR/activity.log" ;;
+    5)  less "$LOG_DIR/events.log" ;;
+    6)  read -r -p "Type your note: " note; echo "$(date): $note" >> "$LOG_DIR/log_notes.txt"; pause ;;
+    7)  systemctl --user start golem-provider.service 2>/dev/null || true
+        ~/Echo/start_provider.sh
+        echo "$(date): Panel start golem" >> "$LOG_DIR/activity.log"
+        echo "Golem start requested."
+        pause ;;
+    8)  systemctl --user stop golem-provider.service 2>/dev/null || true
+        ~/Echo/stop_golem.sh
+        echo "$(date): Panel stop golem" >> "$LOG_DIR/activity.log"
+        echo "Golem stop requested."
+        pause ;;
+    9)  ~/Echo/open_outlier.sh; pause ;;
+    10) ~/Echo/cleanup.sh; pause ;;
+    11) ~/Echo/backup.sh; pause ;;
+    12) ~/Echo/modes.sh; pause ;;
+    13) ~/Echo/content_bot.sh; pause ;;
+    14) ~/Echo/workspace.sh; pause ;;
+    15) ~/Echo/publish_devto.sh; pause ;;
+    16) ~/Echo/gpu_monitor.sh; pause ;;
+    18) echo "=== golem-provider.service ==="
+        systemctl --user status golem-provider.service --no-pager -l 2>/dev/null || echo "(no user service)"
+        echo
+        echo "=== ya-provider log (tail) ==="
+        tail -20 "$HOME/.local/share/ya-provider/ya-provider_rCURRENT.log" 2>/dev/null || echo "(no provider log yet)"
+        echo
+        echo "=== last activity ==="
+        tail -10 "$LOG_DIR/activity.log"
+        pause ;;
+    19) if [ -x "$HOME/Echo/monitor_earnings.sh" ]; then
+          "$HOME/Echo/monitor_earnings.sh"
+        else
+          echo "monitor_earnings.sh not found; showing glm_balance.csv only."
+        fi
+        tail -10 "$LOG_DIR/glm_balance.csv"
+        pause ;;
+    20) exit 0 ;;
+    *)  echo "Invalid option (1-20)."; pause ;;
+  esac
+done

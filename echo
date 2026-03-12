@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+BASE="$HOME/Echo"
+
+cmd="${1:-}"
+shift || true
+
+case "$cmd" in
+  status)
+    exec "$BASE/tools/echo_status.py" "$@"
+    ;;
+  *)
+    /usr/bin/printf "%s\n" "Usage:"
+    /usr/bin/printf "%s\n" "  $BASE/echo status"
+    exit 2
+    ;;
+esac

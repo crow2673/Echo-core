@@ -1,0 +1,13 @@
+#!/bin/bash
+archive_dir=~/Echo/memory/archive_$(date +%Y%m%d)
+mkdir -p "$archive_dir"
+mv ~/Echo/memory/activity.log "$archive_dir/activity.log"
+mv ~/Echo/memory/events.log "$archive_dir/events.log"
+touch ~/Echo/memory/activity.log
+touch ~/Echo/memory/events.log
+echo "Archived old logs to $archive_dir"
+
+~/Echo/run_content_bot.sh
+python3 ~/content_bot/refine_content.py
+python3 ~/Echo/analyze_content.py
+echo "Weekly upgrade complete!"

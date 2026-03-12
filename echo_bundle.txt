@@ -1,0 +1,1439 @@
+ECHO BUNDLE
+Generated: Fri Feb  6 09:22:47 2026
+Root: /home/andrew/Echo
+
+CURRENT CANONICAL TRUTH STORES (typical):
+- events: echo_events.ndjson (echo_memory.json is a symlink to it for legacy compatibility)
+- tasks:  echo_tasks.ndjson
+- chat:   echo_chat_memory_v2.json
+- capsules/executor state: echo_capsules.json
+
+NOTE: This bundle is curated and excludes venv, logs, screenshots, backups, and likely secrets.
+
+
+=== PROJECT TREE (shallow) ===
+
+agent_log.txt
+ai_suggestions.txt
+always_on_log.json
+always_on_task_log.json
+analyze_content.py
+auto_activity.sh
+auto_backup.sh
+auto_content_pipeline.sh
+auto_events.sh
+auto_stop_session.sh
+backup.sh
+backup_echo.sh
+backup_echo_memory.json
+chat_integrate.py
+check_node_status.py
+cleanup.sh
+compact_memory.py
+content_bot.sh
+content_generator.py
+current_state.txt
+daily_summary.sh
+dashboard.py
+dashboard_ai.py
+dashboard_fixed.py
+dashboard_safe.py
+dashboard_simple.py
+data_handler.py
+doctor.txt
+e_health.sh
+e_scan.sh
+echo-hub.sh
+echo.py
+echo_agent.py
+echo_agent_fixed.py
+echo_agi_gai.py
+echo_agi_lite.py
+echo_agi_state.json
+echo_ai_trade_feed.py
+echo_always_on.py
+echo_audit.py
+echo_audit_snapshot.py
+echo_automate.sh
+echo_autonomous.py
+echo_autonomous_task.py
+echo_bad_lines.txt
+echo_capsules.json
+echo_chat.py
+echo_chat_bridge.py
+echo_chat_fixed.py
+echo_chat_fixed_v2.py
+echo_chat_fixed_v3.py
+echo_chat_main.py
+echo_chat_memory.json
+echo_chat_memory_v2.json
+echo_chat_router.py
+echo_chat_router_confirm.py
+echo_command.py
+echo_contract.json
+echo_control_center.py
+echo_core_daemon.py
+echo_crypto_watch.py
+echo_daemon_ai.py
+echo_daemon_loop.py
+echo_debug_mobile.py
+echo_doctor.sh
+echo_farm.sh
+echo_gui.py
+echo_healthcheck.sh
+echo_income_monitor.py
+echo_intake.py
+echo_interface.py
+echo_launcher.py
+echo_listen_mobile.py
+echo_manifest.json
+echo_memory.json
+echo_memory_ai.json
+echo_memory_backup.json
+echo_message_intake.py
+echo_mobile_listener.py
+echo_modes.sh
+echo_panel.sh
+echo_ping_mobile.sh
+echo_price_sentry.py
+echo_scan.py
+echo_simple_agent.py
+echo_state.json
+echo_state.sh
+echo_state_get.sh
+echo_state_validate.sh
+echo_status.py
+echo_sync_finances.py
+echo_sync_golem.py
+echo_system_manifest.txt
+echo_test_note.txt
+echo_trade_feed.py
+echo_utils.py
+events_reader.py
+file_watcher.py
+finance.py
+fix_json.py
+full_ports.txt
+gai_chat.py
+gai_log.txt
+gai_observe.txt
+gai_omni.json
+gai_omni.txt
+gai_ramp.py
+gai_state.json
+glm_auto_accept.sh
+golem_earnings.json
+golem_log.txt
+golem_mainnet_monitor.py
+golem_monitor.py
+golem_pure.json
+golem_summary.sh
+gpt_reasoner.py
+gpu_monitor.sh
+high_perf_mode.sh
+jarvis_speech_input.py
+jarvis_speech_input_fixed.py
+jarvis_voice.py
+key_files_checksums.txt
+kucoin_live.py
+kucoin_test.py
+launch_chat.txt
+launch_daemon.txt
+launch_status.txt
+launcher.txt
+link_capsules.py
+loop_config.json
+make_bundle.py
+mem.txt
+memory_status.json
+memory_summary.py
+micro_safe_capital.json
+micro_safe_trade_log.json
+micro_safe_trading_bot.py
+micro_safe_trading_bot_auto_tune.py
+micro_safe_trading_bot_echo.py
+micro_safe_trading_bot_fee.py
+micro_safe_trading_bot_live.py
+micro_safe_trading_bot_live_fees.py
+micro_safe_trading_bot_multi_platform.py
+micro_safe_trading_bot_platform.py
+mode_suggestions.sh
+modes.sh
+monitor.sh
+monitor_earnings.sh
+new_module.py
+ocr_agent.py
+ocr_dash_fix.py
+ollama_models.txt
+open_outlier.sh
+optimize_golem.py
+outlier_scan.py
+outlier_scan_stub.py
+platform_adapter.py
+ports.txt
+progress_log.json
+provider_simple.py
+provider_watch.py
+provider_watch_fixed.py
+publish_devto.sh
+quick_launch.sh
+real_trades.py
+recent_log.txt
+reflection_engine.py
+reminders.sh
+review.sh
+roadmap_tasks.py
+robinhood_adapter.py
+robinhood_adapter_stub.py
+root_intake.py
+router_state.json
+routine_reminder.txt
+run_all_passive.py
+run_capsule.py
+run_content_bot.sh
+run_farm.sh
+run_gamepayer.py
+run_google_opinion_rewards.py
+run_micro_safe_trades.py
+run_micro_safe_trades_auto_screen.py
+run_micro_safe_trades_echo.py
+run_micro_safe_trades_echo_auto.py
+run_micro_safe_trades_echo_auto_full.py
+run_micro_safe_trades_echo_auto_tune.py
+run_micro_safe_trades_echo_live.py
+run_micro_safe_trades_echo_loop.py
+run_micro_safe_trades_fee.py
+run_micro_safe_trades_live.py
+run_micro_safe_trades_multi.py
+run_micro_safe_trades_platform.py
+run_micro_safe_trades_sandbox.py
+run_micro_safe_trades_screen.py
+run_passiveapp.py
+run_safe_trades.py
+run_workflow.py
+safe_trading_bot.py
+sandbox_adapter.py
+self_act_autofund_live_api.py
+self_check.py
+self_check_ai.py
+split_masterfirst.py
+split_memory.py
+start_echo_build.sh
+start_golem_v2.sh
+start_income.sh
+start_provider.sh
+stats.sh
+status.txt
+status_run.txt
+stop_provider.sh
+stop_session.sh
+super_scan.sh
+sys.txt
+task_manager.py
+task_manager_new.py
+task_manager_pro.py
+task_manager_v2.py
+task_manager_v3.py
+test_capture.py
+test_chat_memory.py
+test_echo_chat.py
+test_finance.py
+test_safe_trading_bot.py
+test_trading_bot.py
+tmp_log.json
+trading_bot.py
+update_echo_chat.py
+venv_env_vars.txt
+venv_packages.txt
+voice_companion.py
+weekly_upgrade.sh
+work_detected.txt
+workflow_intake.py
+workflow_intake_auto.py
+workflow_tasks.py
+workspace.sh
+modes/focus_mode.sh
+modes/high_perf_mode.sh
+modes/low_power_mode.sh
+modes/workday_mode.sh
+core/__init__.py
+core/action_runner.py
+core/autonomous_multiplier.py
+core/boot_verifier.py
+core/continuity_capsule.json
+core/echo_identity.json
+core/executor.py
+core/gpt_reasoner.py
+core/identity.json
+core/identity.py
+core/income_api_placeholders.py
+core/income_feed.py
+core/multiplier_test.py
+core/resource_tracker.py
+core/self_act.py
+core/self_act_autofund.py
+core/self_act_autofund_api_blueprint.py
+core/self_act_autofund_autonomous.py
+core/self_act_autofund_blueprint.py
+core/self_act_autofund_continuous.py
+core/self_act_autofund_continuous_full.py
+core/self_act_autofund_dynamic.py
+core/self_act_autofund_dynamic_prioritized.py
+core/self_act_autofund_harness.py
+core/self_act_autofund_income.py
+core/self_act_autofund_live_api.py
+core/self_act_autofund_live_api_blueprint.py
+core/self_act_autofund_live_xp.py
+core/self_act_autofund_pruned.py
+core/self_act_hybrid.py
+core/self_act_live_income.py
+core/self_act_test_harness.py
+core/skill_unlock_validator.py
+core/skill_xp_engine.py
+core/state.json
+core/task_prioritizer.py
+core/providers/__init__.py
+core/providers/router.py
+app/echo_chat_main.py
+app/echo_chat_router_confirm.py
+app/events_reader.py
+app/file_watcher.py
+app/task_manager_v3.py
+routines/extracted_patterns.txt
+echo_project/run_pipeline.py
+echo_project/contracts_layer/model_validator.py
+echo_project/contracts_layer/validator.py
+echo_project/models/manifests/model_contract.json
+echo_project/pipelines/preprocess.py
+echo_project/pipelines/train.py
+echo_project/env/requirements.txt
+echo_project/data/contracts/data_contract.json
+legacy/echo_chat_fixed.py
+legacy/echo_chat_fixed_v2.py
+legacy/echo_chat_fixed_v3.py
+legacy/task_manager.py
+legacy/task_manager_v2.py
+legacy/test_echo_chat.py
+.pytest_cache/README.md
+upgrade/weekly_upgrade.txt
+docs/actions.json
+
+
+=== FILES ===
+
+
+
+===== FILE: echo.py =====
+#!/usr/bin/env python3
+import os, sys, runpy
+
+BASE = os.path.dirname(__file__)
+os.chdir(BASE)
+
+# Prefer canonical code in ./app
+sys.path.insert(0, os.path.join(BASE, "app"))
+
+runpy.run_path(os.path.join(BASE, "app", "echo_chat_main.py"), run_name="__main__")
+
+
+
+===== FILE: app/echo_chat_main.py =====
+import json, re, time
+from pathlib import Path
+from datetime import date, datetime
+
+import ollama
+from task_manager_v3 import TaskManager
+from events_reader import summarize_events
+
+CHAT_MEMORY_FILE = Path("echo_chat_memory_v2.json")
+EVENTS_FILE = Path("echo_events.ndjson")
+STATE_FILE = Path("router_state.json")
+
+BASE_SYSTEM = """You are Echo, Andrew's personal symbiotic AI companion.
+- The user is Andrew. Do NOT address him as "Grok".
+- Be grounded and practical.
+You will receive LIVE CONTEXT (tasks + recent events). Treat it as authoritative.
+"""
+
+ROUTER_SYSTEM = """Output ONLY strict JSON.
+Route user message into:
+- chat
+- task (wf_id, due[today|YYYY-MM-DD], priority[low|medium|high|daily], desc)
+- event (event_type, summary)
+Return JSON only.
+"""
+
+def load_json(path, default):
+    try:
+        if path.exists():
+            return json.loads(path.read_text())
+    except Exception:
+        pass
+    return default
+
+def save_json(path, obj):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(obj, indent=2))
+
+def append_event(event_type: str, summary: str, raw: str = ""):
+    evt = {"ts": time.time(), "type": event_type, "summary": summary}
+    if raw:
+        evt["raw"] = raw[:2000]
+    with open(EVENTS_FILE, "a") as f:
+        f.write(json.dumps(evt) + "\n")
+
+def parse_due(s: str) -> date:
+    s = (s or "today").strip().lower()
+    if s == "today":
+        return date.today()
+    return datetime.strptime(s, "%Y-%m-%d").date()
+
+def tasks_summary(tm: TaskManager, max_lines=25):
+    tasks = tm.parse_tasks()
+    lines = []
+    for wf_id in sorted(tasks.keys()):
+        for due in sorted(tasks[wf_id].keys()):
+            for t in tasks[wf_id][due]:
+                lines.append(f"- [{wf_id}] {due} ({t.get('priority','medium')}/{t.get('status','pending')}) {t.get('desc','')}")
+    return "\n".join(lines[:max_lines]) if lines else "No tasks found."
+
+def reflection_summary(tm: TaskManager):
+    tasks = tm.parse_tasks()
+    total = sum(sum(len(v) for v in wf.values()) for wf in tasks.values())
+    next_items = []
+    for wf_id, wf in tasks.items():
+        if wf:
+            d = sorted(wf.keys())[0]
+            next_items.append(f"{wf_id}: {d} - {wf[d][0].get('desc','')}")
+    nxt = "\n".join(next_items) if next_items else "None."
+    return f"Active tasks: {total}\nNext tasks:\n{nxt}\n"
+
+def route_with_llm(user_text: str, live_context: str) -> dict:
+    msgs = [
+        {"role": "system", "content": ROUTER_SYSTEM},
+        {"role": "system", "content": "LIVE CONTEXT:\n" + live_context},
+        {"role": "user", "content": user_text},
+    ]
+    r = ollama.chat(model="gai:latest", messages=msgs)
+    content = r["message"]["content"].strip()
+    m = re.search(r"\{.*\}", content, re.S)
+    if not m:
+        return {"route": "chat"}
+    try:
+        obj = json.loads(m.group(0))
+    except Exception:
+        return {"route": "chat"}
+    if obj.get("route") not in ("chat", "task", "event"):
+        return {"route": "chat"}
+    return obj
+
+print("=== Echo - Main Chat (modes) (Ctrl+C to exit) ===")
+print("Commands: tasks | reflect | mode chat | mode agent")
+print("Prefixes: task: <desc> | note: <summary> (explicit routing)\n")
+
+tm = TaskManager()
+messages = load_json(CHAT_MEMORY_FILE, [{"role": "system", "content": BASE_SYSTEM}])
+state = load_json(STATE_FILE, {"mode": "chat"})  # default chat mode
+pending = None  # pending task confirm
+
+while True:
+    try:
+        user = input("\nYou: ").strip()
+        if not user:
+            continue
+
+        low = user.lower().strip()
+
+        # pending confirmation handling
+        if pending:
+            if low in ("yes","y"):
+                d = pending
+                tm.add_task(d["wf_id"], d["due"], d["desc"], d["priority"])
+                append_event("router", "task_confirmed_saved", raw=d["raw"])
+                print(f"\nEcho: Saved task: [{d['wf_id']}] {d['due']} ({d['priority']}) {d['desc']}")
+                pending = None
+                continue
+            if low in ("no","n","cancel"):
+                print("\nEcho: Okay—won’t save that as a task.")
+                append_event("router", "task_confirmed_discarded", raw=pending["raw"])
+                pending = None
+                continue
+            if low.startswith("edit "):
+                new_desc = user[5:].strip()
+                if new_desc:
+                    d = pending
+                    tm.add_task(d["wf_id"], d["due"], new_desc, d["priority"])
+                    append_event("router", "task_confirmed_saved_edited", raw=d["raw"])
+                    print(f"\nEcho: Saved edited task: [{d['wf_id']}] {d['due']} ({d['priority']}) {new_desc}")
+                    pending = None
+                    continue
+            print("\nEcho: Reply with yes / no / edit <new description>")
+            continue
+
+        # mode switching
+        if low.startswith("mode "):
+            mode = low.split(" ", 1)[1].strip()
+            if mode in ("chat","agent"):
+                state["mode"] = mode
+                save_json(STATE_FILE, state)
+                print(f"\nEcho: Mode set to {mode.upper()}.")
+            else:
+                print("\nEcho: Use: mode chat | mode agent")
+            continue
+
+        # local commands
+        tm.load_all()
+        if low in ("tasks","show tasks","list tasks"):
+            print("\nEcho:", tasks_summary(tm))
+            continue
+        if low in ("reflect","reflection"):
+            print("\nEcho: === ECHO REFLECTION ===")
+            print(reflection_summary(tm) + "\nEVENTS:\n" + summarize_events(50))
+            continue
+
+        # explicit routing prefixes (work in any mode)
+        if low.startswith("task:"):
+            desc = user.split(":",1)[1].strip()
+            if not desc:
+                print("\nEcho: task: needs a description.")
+                continue
+            pending = {
+                "raw": user,
+                "wf_id": "echo",
+                "due": date.today(),
+                "priority": "medium",
+                "desc": desc
+            }
+            print("\nEcho: Confirm save task? (yes/no/edit ...)")
+            print(f"  wf: echo\n  due: today\n  priority: medium\n  desc: {desc}")
+            continue
+
+        if low.startswith("note:"):
+            summary = user.split(":",1)[1].strip()
+            if not summary:
+                print("\nEcho: note: needs a summary.")
+                continue
+            append_event("note", summary, raw=user)
+            print("\nEcho: Logged note.")
+            continue
+
+        # CHAT mode: do NOT auto-route; just talk
+        live_context = (
+            reflection_summary(tm)
+            + "\nTASKS:\n" + tasks_summary(tm, max_lines=15)
+            + "\n\nEVENTS:\n" + summarize_events(50)
+        )
+
+        messages.append({"role": "user", "content": user})
+
+        if state.get("mode") == "agent":
+            # agent mode: use router, but confirm tasks
+            decision = route_with_llm(user, live_context)
+
+            if decision.get("route") == "task":
+                desc = (decision.get("desc") or "").strip()
+                if not desc:
+                    # don't bug you with missing desc
+                    decision = {"route":"chat"}
+                else:
+                    wf_id = decision.get("wf_id") or "echo"
+                    due = parse_due(decision.get("due") or "today")
+                    pr = decision.get("priority") or "medium"
+                    pending = {"raw": user, "wf_id": wf_id, "due": due, "priority": pr, "desc": desc}
+                    print("\nEcho: I think this is a NEW task. Confirm save? (yes/no/edit ...)")
+                    print(f"  wf: {wf_id}\n  due: {due}\n  priority: {pr}\n  desc: {desc}")
+                    continue
+
+            if decision.get("route") == "event":
+                summary = (decision.get("summary") or "").strip()
+                if summary:
+                    append_event(decision.get("event_type") or "note", summary, raw=user)
+                # don't interrupt chat with it
+
+        # normal assistant response
+        context_msg = {"role": "system", "content": "LIVE CONTEXT (authoritative):\n" + live_context}
+        resp = ollama.chat(model="gai:latest", messages=[messages[0], context_msg] + messages[1:])
+        reply = resp["message"]["content"]
+        print("\nEcho:", reply)
+        messages.append({"role": "assistant", "content": reply})
+
+    except KeyboardInterrupt:
+        save_json(CHAT_MEMORY_FILE, messages)
+        print("\nConversation saved to echo_chat_memory_v2.json.")
+        print("Chat ended.")
+        break
+
+
+
+===== FILE: app/echo_chat_router_confirm.py =====
+import json, re, time
+from pathlib import Path
+from datetime import date, datetime
+
+import ollama
+from task_manager_v3 import TaskManager
+from events_reader import summarize_events
+
+CHAT_MEMORY_FILE = Path("echo_chat_memory_v2.json")
+EVENTS_FILE = Path("echo_events.ndjson")
+STATE_FILE = Path("router_state.json")
+
+BASE_SYSTEM = """You are Echo, Andrew's personal symbiotic AI companion.
+- The user is Andrew. Do NOT address him as "Grok".
+- Be grounded and practical.
+You will receive LIVE CONTEXT (tasks + recent events). Treat it as authoritative.
+"""
+
+ROUTER_SYSTEM = """Output ONLY strict JSON.
+Route user message into:
+- chat
+- task (wf_id, due[today|YYYY-MM-DD], priority[low|medium|high|daily], desc)
+- event (event_type, summary)
+Return JSON only.
+"""
+
+def load_json(path, default):
+    try:
+        if path.exists():
+            return json.loads(path.read_text())
+    except Exception:
+        pass
+    return default
+
+def save_json(path, obj):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(obj, indent=2))
+
+def append_event(event_type: str, summary: str, raw: str = ""):
+    evt = {"ts": time.time(), "type": event_type, "summary": summary}
+    if raw:
+        evt["raw"] = raw[:2000]
+    with open(EVENTS_FILE, "a") as f:
+        f.write(json.dumps(evt) + "\n")
+
+def parse_due(s: str) -> date:
+    s = (s or "today").strip().lower()
+    if s == "today":
+        return date.today()
+    return datetime.strptime(s, "%Y-%m-%d").date()
+
+def tasks_summary(tm: TaskManager, max_lines=25):
+    tasks = tm.parse_tasks()
+    lines = []
+    for wf_id in sorted(tasks.keys()):
+        for due in sorted(tasks[wf_id].keys()):
+            for t in tasks[wf_id][due]:
+                lines.append(f"- [{wf_id}] {due} ({t.get('priority','medium')}/{t.get('status','pending')}) {t.get('desc','')}")
+    return "\n".join(lines[:max_lines]) if lines else "No tasks found."
+
+def reflection_summary(tm: TaskManager):
+    tasks = tm.parse_tasks()
+    total = sum(sum(len(v) for v in wf.values()) for wf in tasks.values())
+    next_items = []
+    for wf_id, wf in tasks.items():
+        if wf:
+            d = sorted(wf.keys())[0]
+            next_items.append(f"{wf_id}: {d} - {wf[d][0].get('desc','')}")
+    nxt = "\n".join(next_items) if next_items else "None."
+    return f"Active tasks: {total}\nNext tasks:\n{nxt}\n"
+
+def route_with_llm(user_text: str, live_context: str) -> dict:
+    msgs = [
+        {"role": "system", "content": ROUTER_SYSTEM},
+        {"role": "system", "content": "LIVE CONTEXT:\n" + live_context},
+        {"role": "user", "content": user_text},
+    ]
+    r = ollama.chat(model="gai:latest", messages=msgs)
+    content = r["message"]["content"].strip()
+    m = re.search(r"\{.*\}", content, re.S)
+    if not m:
+        return {"route": "chat"}
+    try:
+        obj = json.loads(m.group(0))
+    except Exception:
+        return {"route": "chat"}
+    if obj.get("route") not in ("chat", "task", "event"):
+        return {"route": "chat"}
+    return obj
+
+print("=== Echo - Main Chat (modes) (Ctrl+C to exit) ===")
+print("Commands: tasks | reflect | mode chat | mode agent")
+print("Prefixes: task: <desc> | note: <summary> (explicit routing)\n")
+
+tm = TaskManager()
+messages = load_json(CHAT_MEMORY_FILE, [{"role": "system", "content": BASE_SYSTEM}])
+state = load_json(STATE_FILE, {"mode": "chat"})  # default chat mode
+pending = None  # pending task confirm
+
+while True:
+    try:
+        user = input("\nYou: ").strip()
+        if not user:
+            continue
+
+        low = user.lower().strip()
+
+        # pending confirmation handling
+        if pending:
+            if low in ("yes","y"):
+                d = pending
+                tm.add_task(d["wf_id"], d["due"], d["desc"], d["priority"])
+                append_event("router", "task_confirmed_saved", raw=d["raw"])
+                print(f"\nEcho: Saved task: [{d['wf_id']}] {d['due']} ({d['priority']}) {d['desc']}")
+                pending = None
+                continue
+            if low in ("no","n","cancel"):
+                print("\nEcho: Okay—won’t save that as a task.")
+                append_event("router", "task_confirmed_discarded", raw=pending["raw"])
+                pending = None
+                continue
+            if low.startswith("edit "):
+                new_desc = user[5:].strip()
+                if new_desc:
+                    d = pending
+                    tm.add_task(d["wf_id"], d["due"], new_desc, d["priority"])
+                    append_event("router", "task_confirmed_saved_edited", raw=d["raw"])
+                    print(f"\nEcho: Saved edited task: [{d['wf_id']}] {d['due']} ({d['priority']}) {new_desc}")
+                    pending = None
+                    continue
+            print("\nEcho: Reply with yes / no / edit <new description>")
+            continue
+
+        # mode switching
+        if low.startswith("mode "):
+            mode = low.split(" ", 1)[1].strip()
+            if mode in ("chat","agent"):
+                state["mode"] = mode
+                save_json(STATE_FILE, state)
+                print(f"\nEcho: Mode set to {mode.upper()}.")
+            else:
+                print("\nEcho: Use: mode chat | mode agent")
+            continue
+
+        # local commands
+        tm.load_all()
+        if low in ("tasks","show tasks","list tasks"):
+            print("\nEcho:", tasks_summary(tm))
+            continue
+        if low in ("reflect","reflection"):
+            print("\nEcho: === ECHO REFLECTION ===")
+            print(reflection_summary(tm) + "\nEVENTS:\n" + summarize_events(50))
+            continue
+
+        # explicit routing prefixes (work in any mode)
+        if low.startswith("task:"):
+            desc = user.split(":",1)[1].strip()
+            if not desc:
+                print("\nEcho: task: needs a description.")
+                continue
+            pending = {
+                "raw": user,
+                "wf_id": "echo",
+                "due": date.today(),
+                "priority": "medium",
+                "desc": desc
+            }
+            print("\nEcho: Confirm save task? (yes/no/edit ...)")
+            print(f"  wf: echo\n  due: today\n  priority: medium\n  desc: {desc}")
+            continue
+
+        if low.startswith("note:"):
+            summary = user.split(":",1)[1].strip()
+            if not summary:
+                print("\nEcho: note: needs a summary.")
+                continue
+            append_event("note", summary, raw=user)
+            print("\nEcho: Logged note.")
+            continue
+
+        # CHAT mode: do NOT auto-route; just talk
+        live_context = (
+            reflection_summary(tm)
+            + "\nTASKS:\n" + tasks_summary(tm, max_lines=15)
+            + "\n\nEVENTS:\n" + summarize_events(50)
+        )
+
+        messages.append({"role": "user", "content": user})
+
+        if state.get("mode") == "agent":
+            # agent mode: use router, but confirm tasks
+            decision = route_with_llm(user, live_context)
+
+            if decision.get("route") == "task":
+                desc = (decision.get("desc") or "").strip()
+                if not desc:
+                    # don't bug you with missing desc
+                    decision = {"route":"chat"}
+                else:
+                    wf_id = decision.get("wf_id") or "echo"
+                    due = parse_due(decision.get("due") or "today")
+                    pr = decision.get("priority") or "medium"
+                    pending = {"raw": user, "wf_id": wf_id, "due": due, "priority": pr, "desc": desc}
+                    print("\nEcho: I think this is a NEW task. Confirm save? (yes/no/edit ...)")
+                    print(f"  wf: {wf_id}\n  due: {due}\n  priority: {pr}\n  desc: {desc}")
+                    continue
+
+            if decision.get("route") == "event":
+                summary = (decision.get("summary") or "").strip()
+                if summary:
+                    append_event(decision.get("event_type") or "note", summary, raw=user)
+                # don't interrupt chat with it
+
+        # normal assistant response
+        context_msg = {"role": "system", "content": "LIVE CONTEXT (authoritative):\n" + live_context}
+        resp = ollama.chat(model="gai:latest", messages=[messages[0], context_msg] + messages[1:])
+        reply = resp["message"]["content"]
+        print("\nEcho:", reply)
+        messages.append({"role": "assistant", "content": reply})
+
+    except KeyboardInterrupt:
+        save_json(CHAT_MEMORY_FILE, messages)
+        print("\nConversation saved to echo_chat_memory_v2.json.")
+        print("Chat ended.")
+        break
+
+
+
+===== FILE: app/events_reader.py =====
+import json
+from pathlib import Path
+from collections import Counter
+
+EVENTS_FILE = Path("echo_events.ndjson")
+
+def tail_events(n=50):
+    if not EVENTS_FILE.exists():
+        return []
+    # cheap tail: read all lines if file isn't massive; if it grows huge we can optimize later
+    lines = EVENTS_FILE.read_text().splitlines()[-n:]
+    events = []
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            pass
+    return events
+
+def summarize_events(n=50):
+    evs = tail_events(n)
+    if not evs:
+        return "No recent events."
+    actions = Counter()
+    glml_vals = []
+    for e in evs:
+        if isinstance(e, dict):
+            if "action" in e:
+                actions[str(e["action"])] += 1
+            if "glml" in e:
+                try:
+                    glml_vals.append(float(e["glml"]))
+                except Exception:
+                    pass
+    action_part = ", ".join(f"{k}:{v}" for k,v in actions.most_common(8)) or "none"
+    glml_part = ""
+    if glml_vals:
+        glml_part = f" | glml last={glml_vals[-1]:.4f} min={min(glml_vals):.4f} max={max(glml_vals):.4f}"
+    return f"Recent events (last {len(evs)}): actions[{action_part}]{glml_part}"
+
+if __name__ == "__main__":
+    print(summarize_events(50))
+
+
+
+===== FILE: app/file_watcher.py =====
+#!/usr/bin/env python3
+import json
+import time
+import fnmatch
+from pathlib import Path
+
+EVENTS_FILE = Path("echo_events.ndjson")
+STATE_FILE = Path("memory/file_watcher_state.json")
+
+WATCH_DIRS = [Path("/home/andrew/Echo")]
+
+# Keep this tight to reduce noise; expand later if you want
+INCLUDE = ["*.py", "*.sh", "*.md"]
+
+EXCLUDE_DIRS = {
+    ".git", "__pycache__", "venv", ".venv", "node_modules", "memory",
+    "backup_project",
+}
+
+# Critical: do not watch files that Echo itself writes/updates a lot
+EXCLUDE_FILES = {
+    "echo_events.ndjson",
+    "echo_tasks.ndjson",
+    "echo_capsules.json",
+    "echo_chat_memory.json",
+    "echo_chat_memory_v2.json",
+    "daemon.log",
+    "file_watcher.log",
+    "echo_memory.json",          # symlink to events
+    "echo_memory.legacy.ndjson", # old
+}
+
+POLL_SECONDS = 2.0
+
+def match_any(name: str, patterns) -> bool:
+    return any(fnmatch.fnmatch(name, p) for p in patterns)
+
+def load_state():
+    try:
+        if STATE_FILE.exists():
+            return json.loads(STATE_FILE.read_text())
+    except Exception:
+        pass
+    return {}
+
+def save_state(state):
+    STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    STATE_FILE.write_text(json.dumps(state))
+
+def append_event(obj: dict):
+    obj.setdefault("ts", time.time())
+    with EVENTS_FILE.open("a") as f:
+        f.write(json.dumps(obj) + "\n")
+
+def iter_files():
+    for root in WATCH_DIRS:
+        if not root.exists():
+            continue
+        for p in root.rglob("*"):
+            try:
+                if p.is_dir():
+                    continue
+
+                # ignore symlinks (prevents echo_memory.json -> echo_events.ndjson feedback)
+                if p.is_symlink():
+                    continue
+
+                if p.name in EXCLUDE_FILES:
+                    continue
+
+                if any(part in EXCLUDE_DIRS for part in p.parts):
+                    continue
+
+                if not match_any(p.name, INCLUDE):
+                    continue
+
+                yield p
+            except Exception:
+                continue
+
+def snapshot():
+    snap = {}
+    for p in iter_files():
+        try:
+            st = p.stat()
+            snap[str(p)] = {"mtime": st.st_mtime, "size": st.st_size}
+        except FileNotFoundError:
+            continue
+    return snap
+
+def main():
+    state = load_state()
+    current = snapshot()
+
+    # Baseline with no events
+    if not state:
+        save_state(current)
+        print(f"File watcher initialized: tracking {len(current)} files")
+    else:
+        print(f"File watcher resumed: tracking {len(state)} files")
+
+    while True:
+        time.sleep(POLL_SECONDS)
+        new = snapshot()
+
+        for path, meta in new.items():
+            prev = state.get(path)
+            if prev is None:
+                append_event({"type": "file_change", "op": "created", "path": path, **meta})
+            else:
+                if meta["mtime"] != prev.get("mtime") or meta["size"] != prev.get("size"):
+                    append_event({"type": "file_change", "op": "modified", "path": path, **meta})
+
+        for path in state.keys():
+            if path not in new:
+                append_event({"type": "file_change", "op": "deleted", "path": path})
+
+        state = new
+        save_state(state)
+
+if __name__ == "__main__":
+    main()
+
+
+
+===== FILE: app/task_manager_v3.py =====
+import json
+from pathlib import Path
+from collections import defaultdict
+from datetime import date, datetime
+from dateutil.parser import parse as date_parse
+
+TASKS_FILE = Path("echo_tasks.ndjson")
+
+class TaskManager:
+    def __init__(self):
+        self.events = []
+        self.tasks = defaultdict(lambda: defaultdict(list))
+        self.load_all()
+
+    def load_ndjson(self):
+        self.events = []
+        if TASKS_FILE.exists():
+            with open(TASKS_FILE, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        self.events.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        pass
+        # no print here (keeps chat clean)
+
+    def parse_tasks(self):
+        self.tasks.clear()
+        for event in self.events:
+            if isinstance(event, dict) and "tasks" in event:
+                wf_id = event.get("wf_id", "default")
+                for date_str, task_list in event["tasks"].items():
+                    try:
+                        due = date_parse(date_str).date()
+                        self.tasks[wf_id][due].extend(task_list)
+                    except ValueError:
+                        pass
+        return dict(self.tasks)
+
+    def add_task(self, wf_id="default", due_date=None, description="New task", priority="medium"):
+        if due_date is None:
+            due_date = date.today()
+        task = {
+            "desc": description,
+            "priority": priority,
+            "status": "pending",
+            "created": datetime.now().isoformat()
+        }
+        if wf_id not in self.tasks:
+            self.tasks[wf_id] = defaultdict(list)
+        self.tasks[wf_id][due_date].append(task)
+
+        new_event = {
+            "wf_id": wf_id,
+            "tasks": {due_date.isoformat(): self.tasks[wf_id][due_date]},
+            "type": "task_update"
+        }
+        with open(TASKS_FILE, 'a') as f:
+            f.write(json.dumps(new_event) + '\n')
+
+    def list_tasks(self):
+        parsed = self.parse_tasks()
+        for wf, dates in parsed.items():
+            print(f"\n{wf}:")
+            for d, ts in dates.items():
+                print(f"  {d}: {len(ts)} tasks")
+
+    def load_all(self):
+        self.load_ndjson()
+        self.parse_tasks()
+
+if __name__ == "__main__":
+    tm = TaskManager()
+    tm.list_tasks()
+
+
+
+===== FILE: echo_daemon_loop.py =====
+#!/usr/bin/env python3
+import os
+import time
+import subprocess
+
+os.chdir('/home/andrew/Echo')
+
+BOT_CMD = ['/home/andrew/Echo/venv/bin/python3', 'trading_bot.py', 'ramp']
+AGENT_CMD = ['/home/andrew/Echo/venv/bin/python3', 'echo_simple_agent.py']
+JARVIS_CMD = ['/home/andrew/Echo/venv/bin/python3', 'jarvis_voice.py']
+SELF_CHECK_CMD = ['/home/andrew/Echo/venv/bin/python3', 'self_check.py']
+
+bot_proc = None
+
+def run_agent():
+    subprocess.run(AGENT_CMD, timeout=600)
+
+def ensure_bot_running():
+    global bot_proc
+    if bot_proc is None or bot_proc.poll() is not None:
+        bot_proc = subprocess.Popen(BOT_CMD)
+        print(f"✅ Started trading bot: pid={bot_proc.pid}")
+
+def run_self_check():
+    result = subprocess.run(SELF_CHECK_CMD, capture_output=True, text=True)
+    print("Echo Self-Check Report:\n", result.stdout)
+
+while True:
+    try:
+        print("∞ Daemon: Agent + Bot + Jarvis")
+        ensure_bot_running()
+        run_agent()
+
+        now = int(time.time())
+
+        # Jarvis voice roughly once an hour (first 5 minutes)
+        if now % 3600 < 300:
+            subprocess.run(JARVIS_CMD)
+            print("🗣️ Jarvis GLM!")
+
+        # Self-check every hour (first minute)
+        if now % 3600 < 60:
+            run_self_check()
+
+        print("∞ Cycle OK")
+    except Exception as e:
+        print(f"Loop err: {e} - Retry")
+
+    time.sleep(5)
+
+
+
+===== FILE: trading_bot.py =====
+#!/usr/bin/env python3
+import time
+import json
+import sys
+
+def main(mode='ramp'):
+    print(f"Trading bot running in '{mode}' mode...")
+
+    # Simulated trading loop
+    for i in range(5):
+        print(f"Simulated trade {i+1} in {mode} mode")
+        time.sleep(1)
+
+    # Optionally: Query AI for trade strategy
+    try:
+        import ollama
+        with open('echo_memory.json', 'r') as f:
+            recent_memory = f.readlines()[-10:]
+
+        ai_resp = ollama.chat(model='qwen2.5:7b', messages=[
+            {'role': 'system', 'content': 'You are Echo Jarvis. Suggest trading strategy adjustments.'},
+            {'role': 'user', 'content': f"Trading memory: {recent_memory}. Any adjustments to the strategy?"}
+        ])
+        print("AI Trading Suggestion:", ai_resp['message']['content'][:200])
+    except Exception as e:
+        print(f"⚠️ AI trading suggestion error: {e}")
+
+    print("Trading bot completed.")
+
+if __name__ == '__main__':
+    mode = sys.argv[1] if len(sys.argv) > 1 else 'ramp'
+    main(mode)
+
+
+
+===== FILE: echo_simple_agent.py =====
+#!/usr/bin/env python3
+import os
+import subprocess
+import json
+import time
+import ccxt
+import psutil
+import sys
+
+os.chdir('/home/andrew/Echo')
+
+print("🤖 Echo Ultimate: Trades + Autonomy + CCXT")
+
+# KuCoin Exchange Setup (no sandbox mode)
+exchange = ccxt.kucoin({
+    'apiKey': os.getenv('KUCOIN_APIKEY', 'demo'),
+    'secret': os.getenv('KUCOIN_SECRET', ''),
+    'password': os.getenv('KUCOIN_PASSWORD', ''),
+    'enableRateLimit': True,
+})
+
+if exchange.apiKey == 'demo' or not exchange.secret:
+    print("⚠️ Warning: Using demo API key. Real trading is disabled.")
+else:
+    print("✅ Using real API keys for KuCoin.")
+
+try:
+    ollama = __import__('ollama')
+except ImportError:
+    print("⚠️ Ollama module not found. Please ensure ollama is installed in the virtual environment.")
+    ollama = None
+
+# Ollama interaction (if available)
+if ollama:
+    try:
+        resp = ollama.chat(model='qwen2.5:7b', messages=[{'role': 'user', 'content': 'Autonomous GLM farm/trade ramp?'}])
+        print("qwen:", resp['message']['content'][:150])
+    except Exception as e:
+        print(f"⚠️ Ollama chat error: {e}")
+        print("Ollama fallback: Ramp")
+
+# CCXT Trade Ramp
+try:
+    ticker = exchange.fetch_ticker('GLM/USDT')['last']
+    print(f'GLM Live: {ticker}')
+    if ticker < 0.045:
+        print('🚀 SIM BUY 10 GLM (add keys for live trading)')
+        order = {'id': 'sim', 'price': ticker}
+    else:
+        order = {'hold': ticker}
+except Exception as e:
+    print(f'CCXT error: {e}')
+    order = {'error': str(e)}
+
+# Run the trading bot (ramp mode)
+subprocess.run(
+    ['/home/andrew/Echo/venv/bin/python3', 'trading_bot.py', 'ramp']
+)
+print("GLM ramped | Offers live")
+
+# Write the memory log
+log = {'ts': time.time(), 'glml': ticker if 'ticker' in locals() else 0, 'order': order, 'action': 'ramp'}
+with open('echo_memory.json', 'a') as f:
+    f.write(json.dumps(log) + '\n')
+print("✅ Memory | Dashboard | Provider = Earnings Farm")
+
+# Jarvis Self-Improvement: Echo reviews memory and system metrics
+if ollama:
+    try:
+        memory_lines = open('echo_memory.json').readlines()[-10:]
+        cpu_load = psutil.cpu_percent(interval=1)
+        mem_load = psutil.virtual_memory().percent
+        self_resp = ollama.chat(model='qwen2.5:7b', messages=[
+            {'role': 'system', 'content': 'You are Echo Jarvis. Review memory and system load. Suggest next ramp strategy.'},
+            {'role': 'user', 'content': f"Memory ramp: {memory_lines}. Current GLM: {ticker}. CPU load: {cpu_load}%. Memory load: {mem_load}%. What next tweak?"}
+        ])
+        print("Jarvis Echo:", self_resp['message']['content'][:200])
+    except Exception as e:
+        print(f"⚠️ Ollama self-response error: {e}")
+
+# Self-Check and AI Reasoning: Echo analyzes its own environment
+try:
+    result = subprocess.run(
+        ['/home/andrew/Echo/venv/bin/python3', 'self_check.py'],
+        capture_output=True, text=True
+    )
+    self_check_output = result.stdout
+    print("Self-Check Output:\n", self_check_output)
+
+    if ollama:
+        diagnosis_resp = ollama.chat(model='qwen2.5:7b', messages=[
+            {'role': 'system', 'content': 'You are Echo Jarvis. Analyze the system self-check and recommend next actions.'},
+            {'role': 'user', 'content': f"Self-check output:\n{self_check_output}. What should we do next?"}
+        ])
+        print("Self-Diagnosis Suggestion:", diagnosis_resp['message']['content'][:300])
+
+        # Optional: Auto-fix mode (set AUTO_FIX=True for automatic fixes)
+        AUTO_FIX = False  # Change this to True if you want Echo to attempt auto-fixes
+        if AUTO_FIX:
+            if 'Missing Python packages' in self_check_output:
+                missing_pkgs = [line.split(':')[1].strip() for line in self_check_output.splitlines() if 'Missing Python packages' in line]
+                for pkg in missing_pkgs:
+                    print(f"Auto-fixing: Installing package {pkg}")
+                    subprocess.run(['/home/andrew/Echo/venv/bin/pip', 'install', pkg])
+            
+            if 'Some services are not running' in self_check_output:
+                missing_services = [line.split(':')[1].strip() for line in self_check_output.splitlines() if 'Some services are not running' in line]
+                for svc in missing_services:
+                    print(f"Auto-fixing: Restarting service {svc}")
+                    subprocess.run(['systemctl', '--user', 'restart', svc])
+except Exception as e:
+    print(f"⚠️ Self-check or diagnosis error: {e}")
+
+# Handle interactive or daemon mode
+DAEMON_MODE = '--daemon' in sys.argv
+
+if __name__ == "__main__":
+    if DAEMON_MODE:
+        print("Running in daemon mode (no interactive input).")
+        while True:
+            user_cmd = os.getenv('CMD', 'hold 0.2302')  # Default command or from env
+            time.sleep(60)
+    else:
+        print("Running in interactive mode.")
+        while True:
+            user_cmd = input("Jarvis: ").strip()
+            try:
+                if ollama:
+                    jarvis_resp = ollama.chat(model='qwen2.5:7b', messages=[
+                        {'role': 'system', 'content': 'You are Echo Jarvis. Act on command, ramp GLM.'},
+                        {'role': 'user', 'content': f"Command: {user_cmd}. Memory: {open('echo_memory.json').read()[-1000:]}"}
+                    ])
+                    print("Jarvis: ", jarvis_resp['message']['content'])
+                else:
+                    print("Ollama not available. Command received:", user_cmd)
+            except Exception as e:
+                print(f"⚠️ Error processing command: {e}")
+
+
+
+===== FILE: core/executor.py =====
+import json
+import time
+import shlex
+import subprocess
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Executor uses a JSON LIST (capsules). Do NOT point this at NDJSON logs.
+CAPSULES_FILE = BASE_DIR / "echo_capsules.json"
+
+ALLOWED_PREFIXES = [
+    "./echo.py",
+    "./workflow_intake_auto.py",
+    "python3",
+    "python",
+    "bash open_outlier.sh",
+    "python3 outlier_scan_stub.py",
+]
+ALLOWED_EXACT = {"outlier-app", "hubstaff-app"}
+
+def load_memory():
+    if not CAPSULES_FILE.exists() or CAPSULES_FILE.stat().st_size == 0:
+        return []
+    try:
+        data = json.loads(CAPSULES_FILE.read_text())
+        return data if isinstance(data, list) else []
+    except json.JSONDecodeError:
+        return []
+
+def save_memory(memory):
+    CAPSULES_FILE.write_text(json.dumps(memory, indent=2))
+
+def find_capsule(memory, capsule_id: str):
+    for cap in memory:
+        if cap.get("capsule_id") == capsule_id:
+            return cap
+    return None
+
+def allowed_command(argv):
+    if not argv:
+        return False
+    if argv[0] in ALLOWED_EXACT:
+        return True
+    s = " ".join(argv)
+    return any(s.startswith(p) for p in ALLOWED_PREFIXES)
+
+def run_entry_point(ep: str, timeout: int = 600):
+    argv = shlex.split(ep)
+    if not allowed_command(argv):
+        raise RuntimeError(f"Blocked by allowlist: {argv}")
+    proc = subprocess.run(
+        argv,
+        cwd=str(BASE_DIR),
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        shell=False,
+    )
+    return {
+        "argv": argv,
+        "returncode": proc.returncode,
+        "stdout": proc.stdout[-4000:],
+        "stderr": proc.stderr[-4000:],
+    }
+
+def execute_capsule(capsule_id: str, timeout_per_step: int = 600):
+    memory = load_memory()
+    cap = find_capsule(memory, capsule_id)
+    if not cap:
+        raise RuntimeError(f"Capsule not found: {capsule_id}")
+
+    cap.setdefault("status", "pending")
+    cap.setdefault("attempts", 0)
+    cap.setdefault("runs", [])
+
+    if cap.get("approval_required") and not cap.get("approved"):
+        cap["status"] = "blocked"
+        cap["last_error"] = "Approval required (set approved=true to run)."
+        save_memory(memory)
+        return {"capsule_id": capsule_id, "status": cap["status"], "last_error": cap.get("last_error")}
+
+    if cap["status"] in ("done", "completed", "success", "succeeded"):
+        return {"message": "Already done", "capsule_id": capsule_id}
+
+    cap["status"] = "running"
+    cap["attempts"] += 1
+    cap["last_started_ts"] = int(time.time())
+    save_memory(memory)
+
+    eps = cap.get("entry_points") or []
+    results = []
+    try:
+        for ep in eps:
+            r = run_entry_point(ep, timeout=timeout_per_step)
+            results.append(r)
+            if r["returncode"] != 0:
+                raise RuntimeError(f"Entry point failed rc={r['returncode']}: {r['argv']}")
+
+        cap["status"] = "done"
+        cap["timestamp"] = int(time.time())
+        try:
+            prior = int(cap.get("confidence") or 0)
+        except (ValueError, TypeError):
+            prior = 0
+        cap["confidence"] = max(prior, 90)
+        cap["verified"] = bool(cap.get("verified")) or True
+        cap["last_error"] = None
+
+    except Exception as e:
+        cap["status"] = "failed"
+        cap["last_error"] = str(e)
+
+    finally:
+        cap["runs"].append({"ts": int(time.time()), "results": results})
+        save_memory(memory)
+
+    return {"capsule_id": capsule_id, "status": cap["status"], "last_error": cap.get("last_error")}
+
+
+
+===== FILE: core/self_act.py =====
+import time
+import json
+import sys
+import os
+
+# Ensure core folder is on path
+sys.path.append(os.path.dirname(__file__))
+
+from gpt_reasoner import gpt_reasoner  # import the module now visible
+
+# Load or initialize core_state
+try:
+    with open("memory/core_state.json", "r") as f:
+        core_state = json.load(f)
+except FileNotFoundError:
+    core_state = {"reasoning_history": [], "knowledge": {}, "X_flags": []}
+
+def reasoning_cycle():
+    # Loop over X_flags
+    for x_flag in core_state.get("X_flags", []):
+        result = gpt_reasoner(x_flag, core_state)
+        core_state["reasoning_history"].append(result)
+        core_state["knowledge"][x_flag] = result
+        print(f"Processed {x_flag}: {result}")
+
+    # Save state
+    with open("memory/core_state.json", "w") as f:
+        json.dump(core_state, f, indent=2)
+
+if __name__ == "__main__":
+    while True:
+        print("Echo alive")
+        reasoning_cycle()
+        time.sleep(10)

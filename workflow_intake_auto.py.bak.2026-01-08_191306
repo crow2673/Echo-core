@@ -1,0 +1,142 @@
+#!/usr/bin/env python3
+import json
+import time
+from pathlib import Path
+import argparse
+import sys
+
+# Ensure imports work when run from anywhere
+BASE_DIR = Path(__file__).parent.resolve()
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
+from core.providers.router import llm
+
+MEMORY_FILE = BASE_DIR / "echo_memory.json"
+
+def load_memory():
+    if not MEMORY_FILE.exists() or MEMORY_FILE.stat().st_size == 0:
+        return []
+    try:
+        data = json.loads(MEMORY_FILE.read_text())
+        if isinstance(data, list):
+            return data
+        print(f"Warning: {MEMORY_FILE} is not a list; resetting.", file=sys.stderr)
+        return []
+    except json.JSONDecodeError:
+        print(f"Warning: {MEMORY_FILE} is invalid JSON; resetting.", file=sys.stderr)
+        return []
+
+def save_memory(memory):
+    MEMORY_FILE.write_text(json.dumps(memory, indent=2))
+
+def find_verified_capsule(memory, purpose):
+    # most recent verified match wins
+    for capsule in reversed(memory):
+        if capsule.get("purpose") == purpose and capsule.get("verified", False):
+            return capsule
+    return None
+
+def upsert_verified_workflow(memory, purpose, have, how, why):
+    capsule = {
+        "capsule_id": f"WORKFLOW:{purpose}",
+        "purpose": purpose,
+        "verified": True,
+        "have": have,
+        "how": how,
+        "why": why,
+        "confidence": 90,
+        "timestamp": int(time.time()),
+        "entry_points": []
+    }
+    memory.append(capsule)
+    return memory
+
+def draft_how_why(purpose: str) -> tuple[str, str]:
+    prompt = (
+        f"Workflow purpose: {purpose}\n"
+        "Draft verification text.\n"
+        "Return EXACTLY two lines:\n"
+        "HOW: <one sentence>\n"
+        "WHY: <one sentence>\n"
+    )
+    out = llm(prompt, role="plan", offline=True)
+    how = ""
+    why = ""
+    for line in out.splitlines():
+        if line.strip().upper().startswith("HOW:"):
+            how = line.split(":", 1)[1].strip()
+        elif line.strip().upper().startswith("WHY:"):
+            why = line.split(":", 1)[1].strip()
+    return how, why
+
+def verify_new_capsule(purpose, have_ans=None, how_ans=None, why_ans=None, auto_draft=False):
+    print(f"New workflow detected: '{purpose}'")
+    print("Verification required using have / how / why reference system.")
+
+    if have_ans is not None:
+        have = have_ans.strip().lower()
+        print(f"Have you seen/used this workflow before? (y/n): {have_ans}")
+    else:
+        have = input("Have you seen/used this workflow before? (y/n): ").strip().lower()
+
+    if have == "y":
+        print("Marking as verified based on previous experience.\n")
+        return True, have, "", ""
+
+    how = how_ans or ""
+    why = why_ans or ""
+
+    if auto_draft and (not how or not why):
+        dh, dy = draft_how_why(purpose)
+        how = how or dh
+        why = why or dy
+
+    if not how:
+        how = input("How should this workflow execute? ").strip()
+    else:
+        print(f"How should this workflow execute?: {how}")
+
+    if not why:
+        why = input("Why is this workflow necessary? ").strip()
+    else:
+        print(f"Why is this workflow necessary?: {why}")
+
+    print(f"Workflow '{purpose}' verified with explanation.\n")
+    return True, have, how, why
+
+def main():
+    p = argparse.ArgumentParser(description="Workflow intake verification (interactive or automated).")
+    p.add_argument("--purpose", required=True, help="Purpose/name of the workflow to verify.")
+    p.add_argument("--have", help="Answer to 'Have you seen this workflow before?' (y/n)")
+    p.add_argument("--how", help="Answer to 'How should this workflow execute?'")
+    p.add_argument("--why", help="Answer to 'Why is this workflow necessary?'")
+    p.add_argument("--auto-draft", action="store_true", help="If have!=y and how/why missing, draft them locally with Ollama.")
+    args = p.parse_args()
+
+    memory = load_memory()
+
+    verified = find_verified_capsule(memory, args.purpose)
+    if verified:
+        print(f"Workflow '{args.purpose}' already verified. Skipping.")
+        return 0
+
+    ok, have, how, why = verify_new_capsule(
+        args.purpose,
+        have_ans=args.have,
+        how_ans=args.how,
+        why_ans=args.why,
+        auto_draft=args.auto_draft,
+    )
+
+    if ok:
+        memory = upsert_verified_workflow(memory, args.purpose, have, how, why)
+        save_memory(memory)
+        print(f"Saved verified workflow capsule: WORKFLOW:{args.purpose}")
+        return 0
+
+    print(f"Verification failed for '{args.purpose}'", file=sys.stderr)
+    return 2
+
+if __name__ == "__main__":
+    raise SystemExit(main())

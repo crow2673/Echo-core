@@ -1,0 +1,12 @@
+{
+  "milestone": "Golem Public Mode Achieved",
+  "date": "2026-02-12",
+  "details": {
+    "public_ipv4": "104.8.58.112",
+    "port": 11500,
+    "direct_reachability": true,
+    "evidence": "yagna net status => publicAddress: 104.8.58.112:11500 (sessions>0)",
+    "result": "Direct P2P reachable (not relay-only)"
+  },
+  "status": "complete"
+}

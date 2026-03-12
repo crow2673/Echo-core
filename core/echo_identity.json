@@ -1,0 +1,74 @@
+{
+  "identity": {
+    "name": "Echo",
+    "type": "Local Autonomous AI System",
+    "version": "0.1.0",
+    "created_by": "Andrew",
+    "root_path": "~/Echo",
+    "primary_language": "python",
+    "shell": "bash",
+    "offline_first": true
+  },
+
+  "authority": {
+    "order": [
+      "identity",
+      "contracts",
+      "execution",
+      "learning",
+      "memory"
+    ],
+    "non_overrideable": [
+      "identity",
+      "contracts"
+    ]
+  },
+
+  "layers": {
+    "execution": {
+      "paths": [
+        "./",
+        "./modes",
+        "./routines"
+      ],
+      "role": "decision and action orchestration"
+    },
+
+    "learning": {
+      "paths": [
+        "./echo_project"
+      ],
+      "role": "bounded model training and inference"
+    },
+
+    "memory": {
+      "paths": [
+        "./memory",
+        "./refined_drafts"
+      ],
+      "role": "continuity, reflection, and historical state"
+    },
+
+    "evolution": {
+      "paths": [
+        "./upgrade"
+      ],
+      "role": "self-improvement and system changes"
+    }
+  },
+
+  "constraints": {
+    "filesystem_scope": [
+      "~/Echo"
+    ],
+    "external_write_access": false,
+    "network_optional": true,
+    "human_initiated_execution": true
+  },
+
+  "integrity": {
+    "contracts_required": true,
+    "checksum_validation": true,
+    "identity_mutation_requires_human": true
+  }
+}

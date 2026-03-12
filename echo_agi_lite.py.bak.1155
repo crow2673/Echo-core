@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+import os, json, time, subprocess
+
+MODEL = 'gai'
+STATE_FILE = 'echo_agi_state.json'
+
+def load_state():
+    try:
+        with open(STATE_FILE, 'r') as f:
+            return json.load(f)
+    except:
+        return {'level': 1, 'history': []}
+
+def save_state(state):
+    with open(STATE_FILE, 'w') as f:
+        json.dump(state, f, indent=2)
+
+def scan_pc():
+    return subprocess.check_output(["./super_scan.sh"], text=True)
+
+def gai_ask(prompt):
+    try:
+        return subprocess.check_output(['ollama', 'run', MODEL, prompt], text=True, timeout=90).strip()
+    except:
+        return "Ollama down."
+
+state = load_state()
+level = state['level']
+print(f"🔥 Echo AGI Lite | Level {level} | Proactive")
+
+obs = scan_pc()
+prompt = f"GAI AGI. Level {level}. Survive/proact. Obs: {obs[:3000]}. Act safe."
+resp = gai_ask(prompt)
+print("🧠 AGI:", resp[:200])
+
+# Acts
+if 'high cpu' in obs.lower():
+    subprocess.run(["pkill", "-f", "ollama runner"])
+if 'glm' in resp.lower():
+    subprocess.run(["python3", "echo_simple_agent.py", "ramp"])
+
+state['level'] = min(level + 1, 10)
+state['history'].append(resp)
+save_state(state)
+
+while True:
+    time.sleep(300)
+    pro_act()

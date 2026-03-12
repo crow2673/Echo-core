@@ -1,0 +1,27 @@
+"""
+Command handler for Echo core daemon.
+
+Keep this side-effect-light for now. The core daemon remains the only loop.
+"""
+from __future__ import annotations
+
+def handle_command(text: str) -> str:
+    text = (text or "").strip()
+    if not text:
+        return "(no command text provided)"
+
+    # Minimal, safe behavior for now:
+    # Later: parse verbs, dispatch to modules, add permissions.
+    return f"[command acknowledged] {text}"
+# touch test Fri Feb  6 19:45:56 CST 2026
+# touch test Fri Feb  6 19:51:26 CST 2026
+# awareness test Fri Feb  6 20:11:02 CST 2026
+# awareness test 2 Fri Feb  6 20:14:59 CST 2026
+# inside Fri Feb  6 20:40:40 CST 2026
+# test Fri Feb  6 20:57:20 CST 2026
+# test Fri Feb  6 21:00:59 CST 2026
+# test Fri Feb  6 21:05:14 CST 2026
+# quiet test Fri Feb  6 21:18:54 CST 2026
+# quiet test 2 Fri Feb  6 21:21:31 CST 2026
+# quiet test 3 Fri Feb  6 21:23:38 CST 2026
+# test Fri Feb  6 21:36:06 CST 2026

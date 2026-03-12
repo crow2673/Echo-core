@@ -1,0 +1,92 @@
+{
+  "echo_launcher.py": {
+    "path": "/home/andrew/Echo/echo_launcher.py",
+    "name": "Echo Launcher",
+    "type": "python"
+  },
+  "echo_command.py": {
+    "path": "/home/andrew/Echo/echo_command.py",
+    "name": "echo_command.py",
+    "type": "python"
+  },
+  "echo_always_on.py": {
+    "path": "/home/andrew/Echo/echo_always_on.py",
+    "name": "echo_always_on.py",
+    "type": "python"
+  },
+  "echo_autonomous.py": {
+    "path": "/home/andrew/Echo/echo_autonomous.py",
+    "name": "echo_autonomous.py",
+    "type": "python"
+  },
+  "echo_gui.py": {
+    "path": "/home/andrew/Echo/echo_gui.py",
+    "name": "Echo Dashboard",
+    "type": "python"
+  },
+  "echo_autonomous_task.py": {
+    "path": "/home/andrew/Echo/echo_autonomous_task.py",
+    "name": "echo_autonomous_task.py",
+    "type": "python"
+  },
+  "echo_status.py": {
+    "path": "/home/andrew/Echo/echo_status.py",
+    "name": "Status",
+    "type": "python"
+  },
+  "echo_control_center.py": {
+    "path": "/home/andrew/Echo/echo_control_center.py",
+    "name": "Echo Control Center",
+    "type": "python"
+  },
+  "echo_audit_snapshot.py": {
+    "path": "/home/andrew/Echo/echo_audit_snapshot.py",
+    "name": "echo_audit_snapshot.py",
+    "type": "python"
+  },
+  "echo_scan.py": {
+    "path": "/home/andrew/Echo/echo_scan.py",
+    "name": "echo_scan.py",
+    "type": "python"
+  },
+  "echo_audit.py": {
+    "path": "/home/andrew/Echo/echo_audit.py",
+    "name": "echo_audit.py",
+    "type": "python"
+  },
+  "echo_modes.sh": {
+    "path": "/home/andrew/Echo/echo_modes.sh",
+    "name": "echo_modes.sh",
+    "type": "shell"
+  },
+  "echo_state_validate.sh": {
+    "path": "/home/andrew/Echo/echo_state_validate.sh",
+    "name": "echo_state_validate.sh",
+    "type": "shell"
+  },
+  "echo_doctor.sh": {
+    "path": "/home/andrew/Echo/echo_doctor.sh",
+    "name": "echo_doctor.sh",
+    "type": "shell"
+  },
+  "echo_healthcheck.sh": {
+    "path": "/home/andrew/Echo/echo_healthcheck.sh",
+    "name": "echo_healthcheck.sh",
+    "type": "shell"
+  },
+  "echo_state_get.sh": {
+    "path": "/home/andrew/Echo/echo_state_get.sh",
+    "name": "echo_state_get.sh",
+    "type": "shell"
+  },
+  "echo_state.sh": {
+    "path": "/home/andrew/Echo/echo_state.sh",
+    "name": "echo_state.sh",
+    "type": "shell"
+  },
+  "echo_panel.sh": {
+    "path": "/home/andrew/Echo/echo_panel.sh",
+    "name": "echo_panel.sh",
+    "type": "shell"
+  }
+}

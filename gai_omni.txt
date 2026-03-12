@@ -1,0 +1,18 @@
+=== GAI SUPER SCAN ===
+HW/CPU: nproc
+Model name:                              AMD Ryzen 9 5900X 12-Core Processor
+Model:                                   33
+CPU(s) scaling MHz:                      83%
+CPU max MHz:                             4954.5649
+CPU min MHz:                             567.0890
+Disk: df -h /
+Mem: free -h
+Files: ls -la /home/andrew
+9.0G	/home/andrew/Echo
+Procs: ps aux --sort=-%cpu
+Users: who
+ 08:41:17 up 0 min,  0 users,  load average: 0.32, 0.07, 0.02
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU  WHAT
+History: history 5
+Payments: yagna payment status --precise
+Golem: systemctl --user status golem-provider -l

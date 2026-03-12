@@ -13,7 +13,7 @@
 
 ## MEDIUM PRIORITY
 - [ ] Internet roadmap: RSS feed, GitHub watcher, Arxiv, Reddit lurker, dev.to community monitor
-- [ ] Second dev.to article — self-heal story (next Tuesday auto-publish)
+- [x] Second dev.to article — self-heal story written, publishes Tuesday 2026-03-17 9am CDT via systemd timer
 - [x] Old shell scripts audit — 42 archived to archive/old_scripts/, 9 active scripts remain
 - [x] Echo briefing RAM/swap accuracy — psutil fix applied
 

@@ -2007,3 +2007,7 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/gpt_reasoner.py", "mtime": 1773279759.4192543, "size": 2902, "ts": 1773279761.1243095}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/auto_act.py", "mtime": 1773279900.532566, "size": 9358, "ts": 1773279902.1184525}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/daily_briefing.py", "mtime": 1773279906.0303602, "size": 4080, "ts": 1773279906.1422472}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/disk_usage_monitor.py", "mtime": 1773280267.3075507, "size": 1699, "ts": 1773280268.76078}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/golem_stats_scraper.py", "mtime": 1773280524.3812418, "size": 3668, "ts": 1773280524.5821943}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/golem_stats_scraper.py", "mtime": 1773281010.232548, "size": 4139, "ts": 1773281011.9798803}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/auto_build_nt.py", "mtime": 1773281390.39557, "size": 3568, "ts": 1773281390.7015102}

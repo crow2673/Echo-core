@@ -1,14 +1,14 @@
 # Echo TODO — Last updated 2026-03-11
 
 ## IN QUEUE (auto_act will attempt)
-- [ ] Two-way ntfy bridge: threading + reply queue so she listens while waiting for ollama
-- [ ] Disk usage monitor script (stress_1 failed due to boot timing — retry pending)
+- [x] Two-way ntfy bridge — listener + processor threads, queue-based, never blocks
+- [x] Disk usage monitor — runs every 6h, alerts at 85%
 
 ## HIGH PRIORITY
 - [x] Crown a king — consolidate all timers/workers under echo_core_daemon.py as single orchestrator
 - [ ] Unified state/event model — one source of truth instead of split across logs/JSON/DB
-- [ ] Golem income: if no tasks in 7-14 days, benchmark top earners pricing via stats scraping
-- [ ] Internet integration: Golem stats scraper (safe, high value, low lift)
+- [ ] Golem stats scraper — written, blocked by DNS in sandbox; test manually with: python3 -m core.golem_stats_scraper
+- [ ] Golem stats scraper — needs api.stats.golem.network access, script ready at core/golem_stats_scraper.py
 - [x] auto_act double-firing bug — lockfile added
 - [x] Offsite backup — encrypted git push to crow2673/Echo-core, daily 3am timer
 

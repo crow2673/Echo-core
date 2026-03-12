@@ -472,3 +472,52 @@
 
 ## 2026-03-12 01:54 — Auto-Act Cycle
 - Evaluated 1 suggestions, acted on 1
+
+## 2026-03-11 — Session: Close the Loops
+
+### Regret Index Wired End-to-End
+- auto_act checks get_flags() before executing — flagged categories/actions are skipped
+- daily_briefing now includes regret_index.get_report() every morning
+- Honest outcome scoring: observations score 0, verified restarts score 1, failures score -1
+
+### Self-Act Generates Own Tasks
+- generate_flags() added to self_act.py — reads system state, errors, stale workers
+- Standing task rotation: summarize, TODO review, Golem check
+- Queue never runs dry — no manual X_flag injection needed
+
+### gpt_reasoner Grounded in TODO.md
+- _load_todo() injected into every reasoning prompt
+- Suggestions now reference actual priorities instead of generic ideas
+
+### ntfy Bridge Threading Fix
+- Separated listener and processor into two threads with queue.Queue()
+- Listener never blocks while Ollama thinks — no messages dropped during long inference
+
+### Disk Usage Monitor
+- core/disk_usage_monitor.py — checks /, /home every 6 hours
+- Alerts via ntfy at 85% threshold
+- echo-disk-monitor.timer active
+
+### Memory Pruning
+- core_state_reasoning.json: 301KB → 56KB (81% reduction)
+- save_state() now caps reasoning_history and knowledge at 50 entries
+- system_state cleared on save — rewritten by heartbeat anyway
+
+### Shell Script Audit
+- 51 scripts → 9 active, 42 archived to archive/old_scripts/
+- Dead code removed from active path
+
+### Second dev.to Article
+- self_heal_article_draft.md written — 672 words, authentic, technical
+- echo-devto-publish.timer set: publishes Tuesday 2026-03-17 09:00 CDT
+
+### GitHub Backup
+- tools/git_backup.sh + echo-git-backup.timer — daily 3am push to crow2673/Echo-core
+
+### Golem Stats Scraper
+- core/golem_stats_scraper.py written — queries yagna market API
+- Blocked by DNS in sandbox; runs fine on machine directly
+
+### Feedback Log Schema Fixed
+- Migrated mixed schemas to unified status/suggestion format
+- auto_act now sees all pending suggestions correctly

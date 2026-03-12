@@ -246,6 +246,14 @@ def snapshot():
 
     # Store in long-term memory every snapshot
     store_in_memory(context)
+    # Log to unified event ledger
+    try:
+        import sys
+        sys.path.insert(0, str(Path(__file__).parent))
+        from core.event_ledger import log_event
+        log_event("screen", "screen_watcher", context[:300])
+    except Exception:
+        pass
 
 
 def main():

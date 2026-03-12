@@ -6,9 +6,13 @@
 - [ ] Internet roadmap tier 1 — RSS feed + dev.to monitor, scope next session
 
 ## Architecture
-- [ ] Unified state/event model — SQLite event ledger, one source of truth
+- [x] Unified state/event model — SQLite event ledger (memory/echo_events.db)
 - [ ] auto_act action surface — only 5 action types, needs more verifiable actions
 - [ ] Stage 6: orchestrated agency — full governor with event ledger as source of truth
+
+## Immediate (Next Session)
+- [ ] Vast.ai / RunPod account — register RTX 3060, first passive income
+- [ ] ARCHITECTURE.md — deeper technical doc for contributors
 
 ## Income
 - [ ] Income closure — Golem earning path clear, dev.to publishing, no dollar yet

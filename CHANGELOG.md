@@ -524,3 +524,35 @@
 
 ## 2026-03-12 09:26 — Auto-Act Cycle
 - Evaluated 1 suggestions, acted on 0
+
+## 2026-03-12 — Foundation Hardening + Unified Event Ledger
+
+### Architecture Map
+- registry.json rebuilt — 23 services, 19 timers, 21 modules accurately mapped
+- echo_contract.json updated — 2095 memories, 16k context window
+- tools/update_registry.py — auto-updates registry weekly + on boot
+- echo-registry-update.timer active
+
+### Unified Event Ledger
+- memory/echo_events.db created — single SQLite source of truth
+- core/event_ledger.py — log_event(), query_recent(), query_summary()
+- 108 historical events imported (reasoning, feedback, regret, knowledge)
+- self_act logs every reasoning result to ledger
+- auto_act logs every success/failure to ledger
+- daily_briefing reads ledger summary each morning
+- query_ledger action added — Echo queries own history via tool use
+
+### Intelligence Upgrades
+- Voice upgraded: qwen2.5:7b direct → echo 32B via agent_loop
+- self_act autonomous loop now uses agent_loop with tools (was gpt_reasoner only)
+- Echo context window: 8k → 16k
+- self_act timeout: 120s → 240s
+- actions.json: 29 clean actions, broken paths fixed
+- New actions: read_todo, read_registry, read_income_knowledge, query_ledger
+
+### Cleanup
+- Dead JSON graveyard archived — ~4MB stale state removed from root
+- 17 autofund experiment files archived
+- echo_project/ and archive/ excluded from git
+- README rewritten — professional, accurate, complete
+- Crungus README replaced with Echo documentation

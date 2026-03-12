@@ -91,7 +91,16 @@ def execute_suggestion(suggestion):
                     capture_output=True, text=True
                 )
                 if result.returncode == 0:
-                    return True, f"restarted {svc}.service", "auto-executed"
+                    # Verify: check it's actually running now
+                    import time; time.sleep(2)
+                    verify = subprocess.run(
+                        ["systemctl", "--user", "is-active", f"{svc}.service"],
+                        capture_output=True, text=True
+                    )
+                    if verify.stdout.strip() in ("active", "activating"):
+                        return True, f"restarted {svc}.service", "verified active"
+                    else:
+                        return False, f"restarted {svc} but verify failed", verify.stdout.strip()
                 else:
                     return False, f"failed to restart {svc}", result.stderr
 
@@ -123,6 +132,8 @@ def execute_suggestion(suggestion):
         with open(BASE / "logs/golem_recommendations.log", "a") as f:
             from datetime import datetime
             f.write(f"{datetime.now()} — auto_act check: {output[:200]}\n")
+        # Observation only — not a success, score 0
+        suggestion["_score_override"] = 0
         return True, "checked Golem task queue", output[:150]
 
     # Adjust Golem pricing
@@ -131,6 +142,7 @@ def execute_suggestion(suggestion):
             ["bash", "-lc", "golemsp status 2>/dev/null | head -5"],
             capture_output=True, text=True
         )
+        suggestion["_score_override"] = 0
         return True, "checked Golem status for pricing context", result.stdout[:200]
 
     # Check and log system status
@@ -139,6 +151,7 @@ def execute_suggestion(suggestion):
             ["bash", "-lc", "systemctl --user is-active echo-core golem-provider yagna"],
             capture_output=True, text=True
         )
+        suggestion["_score_override"] = 0
         return True, "ran system health check", result.stdout.strip()
 
     # Fix/patch an existing Python file
@@ -217,7 +230,8 @@ def run():
             acted += 1
             if suggestion.get("regret_entry_id"):
                 from core.regret_index import update_outcome
-                update_outcome(suggestion["regret_entry_id"], score=1, notes=f"success: {action}")
+                score = suggestion.get("_score_override", 1)
+                update_outcome(suggestion["regret_entry_id"], score=score, notes=f"success: {action}")
         else:
             log(f"SKIPPED: {action} — {notes}")
             data = mark_suggestion(data, sid, "skipped", f"{action}: {notes}")

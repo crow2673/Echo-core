@@ -111,6 +111,7 @@ def generate_flags(core_state: dict) -> list:
         "summarize: current Echo system state in ONE paragraph",
         "review TODO.md and suggest the single highest-value next action",
         "check Golem node status and suggest pricing adjustment if needed",
+        "read memory/income_knowledge.md and reason about which income path to activate next",
     ]
     existing_knowledge = set(core_state.get("knowledge", {}).keys())
     for task in standing:

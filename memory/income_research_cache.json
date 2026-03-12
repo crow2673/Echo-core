@@ -1,0 +1,150 @@
+{
+  "last_run": "2026-03-12 02:08",
+  "findings": {
+    "Hacker News \u2014 Ask HN / Show HN": {
+      "total_fetched": 30,
+      "relevant_count": 0,
+      "items": []
+    },
+    "Dev.to \u2014 AI tag": {
+      "total_fetched": 12,
+      "relevant_count": 4,
+      "items": [
+        {
+          "title": "Beyond the Hype: A Practical Guide to Integrating AI into Your Development Workflow",
+          "link": "https://dev.to/midas126/beyond-the-hype-a-practical-guide-to-integrating-ai-into-your-development-workflow-5hli",
+          "summary": "The AI Assistant is Here. Now What?\n\n\nAnother day, another AI headline. From GitHub Copilot winners to new model releases, the noise is deafening. It's easy to feel like you're either a prompt engineering guru or being left behind. But for the working developer, the real question isn't \"What is AI?\""
+        },
+        {
+          "title": "2026 AI Trends: Why \"Agentic Workflows\" are Replacing Simple RAG",
+          "link": "https://dev.to/bitpixelcoders/2026-ai-trends-why-agentic-workflows-are-replacing-simple-rag-46h2",
+          "summary": "Let\u2019s be honest: in 2025, we were all obsessed with RAG (Retrieval-Augmented Generation). It was the \"gold standard\" for keeping LLMs grounded. But as we move deeper into 2026, the cracks are showing. RAG is passive. It waits for a question.\n\nAt BitPixel Coders, we\u2019re seeing a massive shift toward A"
+        },
+        {
+          "title": "Why Production AI Agents Are Hard & How Amazon Bedrock AgentCore Makes Them Production Ready",
+          "link": "https://dev.to/sreeni5018/why-production-ai-agents-are-hard-how-amazon-bedrock-agentcore-makes-them-production-ready-1fpn",
+          "summary": "Introduction\n\n\nOver the past couple of years, I have architected and delivered a significant number of agentic AI applications across enterprise environments. Many of these deployments ran on Azure infrastructure using Azure Web Apps for lightweight agent endpoints and <strong"
+        },
+        {
+          "title": "The Future of API Monetization: Exploring Monetzly's Impact on Developers",
+          "link": "https://dev.to/monetzly_llm/the-future-of-api-monetization-exploring-monetzlys-impact-on-developers-3ppe",
+          "summary": "Most AI apps struggle with monetization\u2014many developers default to one of two traditional models: subscriptions or ads. But what if there\u2019s a way to do both without sacrificing user experience? \n\nI recently discovered a unique approach that flips the script on how we think about revenue. By allowing"
+        }
+      ]
+    },
+    "Dev.to \u2014 Productivity tag": {
+      "total_fetched": 12,
+      "relevant_count": 3,
+      "items": [
+        {
+          "title": "Beyond the Hype: A Practical Guide to Integrating AI into Your Development Workflow",
+          "link": "https://dev.to/midas126/beyond-the-hype-a-practical-guide-to-integrating-ai-into-your-development-workflow-5hli",
+          "summary": "The AI Assistant is Here. Now What?\n\n\nAnother day, another AI headline. From GitHub Copilot winners to new model releases, the noise is deafening. It's easy to feel like you're either a prompt engineering guru or being left behind. But for the working developer, the real question isn't \"What is AI?\""
+        },
+        {
+          "title": "2026 AI Trends: Why \"Agentic Workflows\" are Replacing Simple RAG",
+          "link": "https://dev.to/bitpixelcoders/2026-ai-trends-why-agentic-workflows-are-replacing-simple-rag-46h2",
+          "summary": "Let\u2019s be honest: in 2025, we were all obsessed with RAG (Retrieval-Augmented Generation). It was the \"gold standard\" for keeping LLMs grounded. But as we move deeper into 2026, the cracks are showing. RAG is passive. It waits for a question.\n\nAt BitPixel Coders, we\u2019re seeing a massive shift toward A"
+        },
+        {
+          "title": "How Digital Signature Platforms Are Transforming Document Workflows",
+          "link": "https://dev.to/shagun_kaurr_c666620730f5/how-digital-signature-platforms-are-transforming-document-workflows-4kk8",
+          "summary": "In modern digital workflows, handling documents efficiently has become a critical challenge for businesses and developers alike. From signing contracts to approving agreements, traditional paperwork slows down processes and creates unnecessary friction.\n\nThis is where digital signature platf"
+        }
+      ]
+    },
+    "Reddit \u2014 r/selfhosted": {
+      "total_fetched": 25,
+      "relevant_count": 2,
+      "items": [
+        {
+          "title": "I turned my old Galaxy S10 into a self-hosted server running Ubuntu 24.04 LTS with Jellyfin, Samba, and Tailscale - no Docker, no chroot, no proot - fully integrated at the system level with pure init, auto-running the entire container at device boot if needed!",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1rqr8yq/i_turned_my_old_galaxy_s10_into_a_selfhosted/",
+          "summary": ""
+        },
+        {
+          "title": "Any project management software with no limitations for self-hosted version?",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1rr7lws/any_project_management_software_with_no/",
+          "summary": ""
+        }
+      ]
+    },
+    "Reddit \u2014 r/LocalLLaMA": {
+      "total_fetched": 25,
+      "relevant_count": 2,
+      "items": [
+        {
+          "title": "I'm currently working on a pure sample generator for traditional music production. I'm getting high fidelity, tempo synced, musical outputs, with high timbre control. It will be optimized for sub 7 Gigs of VRAM for local inference. It will be released entirely free for all to use.",
+          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1rrhafn/im_currently_working_on_a_pure_sample_generator/",
+          "summary": ""
+        },
+        {
+          "title": "Two local models beat one bigger local model for long-running agents",
+          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1rrh2n4/two_local_models_beat_one_bigger_local_model_for/",
+          "summary": ""
+        }
+      ]
+    },
+    "Reddit \u2014 r/SideProject": {
+      "total_fetched": 25,
+      "relevant_count": 0,
+      "items": []
+    },
+    "Golem Network Blog": {
+      "total_fetched": 15,
+      "relevant_count": 12,
+      "items": [
+        {
+          "title": "Golem Ecosystem Fund: One Year In - Highlights, Allocations, and What\u2019s Next",
+          "link": "https://blog.golem.network/golem-ecosystem-fund-one-year-in-highlights-allocations-and-whats-next/",
+          "summary": "GEF has supported Golem, Ethereum, and Web3 for over a year! We've learned and are evolving the Fund. New goals, tracks, and focus areas are coming soon. Get ready!"
+        },
+        {
+          "title": "Introducing golem-js 3.5 release",
+          "link": "https://blog.golem.network/introducing-golem-js-3-5-release/",
+          "summary": "Dive into the recent features and updates from the flag SDK component designed for JavaScript and TypeScript developers!"
+        },
+        {
+          "title": "Golem Network ETH Solo Staking Tests: Summary",
+          "link": "https://blog.golem.network/eth-staking-tests-summary/",
+          "summary": "As stated in our June blog post, Golem Network has decided to stake its ETH to support the future growth and development of the project. With the initial milestones successfully achieved, we want to summarize the process and outline the forthcoming steps.Objectives of the Stakin"
+        },
+        {
+          "title": "Golem-Workers MVP Is Live: Call for Beta Testers",
+          "link": "https://blog.golem.network/golem-workers-mvp-is-live/",
+          "summary": "We are happy to announce that the MVP of Golem-Workers is now ready! You can access the repository here:&#x1F4C1;<a href=\"https://github.com/golemfactory/golem-workers?ref=blog.golem.network\" rel=\"noreferrer"
+        },
+        {
+          "title": "Yagna v.0.16.0: Introducing Deposits",
+          "link": "https://blog.golem.network/yagna-v-0-16-0/",
+          "summary": "We have just released Yagna v0.16.0! Here is a quick summary of the changes from v0.15:A New Payment Method: DepositsNew roles in the Ecosystem: Deposits differentiate between End-users who use and pay for services on Golem, and Requestors (also known as Service Owners) who operate"
+        },
+        {
+          "title": "Golem Network AI/GPU Roadmap Update",
+          "link": "https://blog.golem.network/ai-gpu-roadmap-update/",
+          "summary": "We are excited to announce an updated version that reflects a tactical shift designed to foster Golem Network development and maximize benefits for the AI market."
+        },
+        {
+          "title": "AI/GPU Roadmap Spotlight: Golem-Workers",
+          "link": "https://blog.golem.network/golem-workers/",
+          "summary": "Golem Workers is an API providing direct and high-level access to GPU and CPU resources on the Golem Network. Unlike services focused solely on specific tasks such as AI model deployment and inference, Golem Workers offers greater flexibility, catering to a variety of computational needs."
+        },
+        {
+          "title": "AI/GPU Roadmap Spotlight: Modelserve",
+          "link": "https://blog.golem.network/modelserve/",
+          "summary": "Modelserve is a service designed to run AI model inferences at scale, affordably."
+        },
+        {
+          "title": "Introducing golem-js 3.0",
+          "link": "https://blog.golem.network/golem-js-3-0/",
+          "summary": "We\u2019re excited to announce the official release of golem-js 3.0! The final stable version is now available with major updates, new features, and crucial improvements."
+        },
+        {
+          "title": "Golem ETH Staking Tests",
+          "link": "https://blog.golem.network/golem-eth-staking-tests/",
+          "summary": "Golem Network has moved a non-trivial but small portion of its reserves to initiate ETH staking tests to support our project's future growth and development."
+        }
+      ]
+    }
+  }
+}

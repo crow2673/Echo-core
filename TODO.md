@@ -8,14 +8,13 @@
 - [x] Crown a king — consolidate all timers/workers under echo_core_daemon.py as single orchestrator
 - [ ] Unified state/event model — one source of truth instead of split across logs/JSON/DB
 - [ ] Golem stats scraper — written, blocked by DNS in sandbox; test manually with: python3 -m core.golem_stats_scraper
-- [ ] Golem stats scraper — needs api.stats.golem.network access, script ready at core/golem_stats_scraper.py
 - [x] auto_act double-firing bug — lockfile added
 - [x] Offsite backup — encrypted git push to crow2673/Echo-core, daily 3am timer
 
 ## MEDIUM PRIORITY
 - [ ] Internet roadmap: RSS feed, GitHub watcher, Arxiv, Reddit lurker, dev.to community monitor
 - [ ] Second dev.to article — self-heal story (next Tuesday auto-publish)
-- [ ] Old shell scripts audit — 40+ scripts from Dec/Jan, half likely dead
+- [x] Old shell scripts audit — 42 archived to archive/old_scripts/, 9 active scripts remain
 - [x] Echo briefing RAM/swap accuracy — psutil fix applied
 
 ## LOW PRIORITY / FUTURE

@@ -1,4 +1,4 @@
-# Echo TODO
+# Echo TODO — Last updated 2026-03-12
 
 ## In Progress / Waiting
 - [ ] Golem new node penalty — wait 7-14 days, then benchmark pricing with: python3 -m core.golem_stats_scraper
@@ -22,7 +22,7 @@
 - [ ] Speculative execution / tool-use caching to reduce 32b latency
 - [ ] Internet roadmap tier 2 — Arxiv, Reddit lurker, GitHub watcher
 
-## Completed This Session (2026-03-11)
+## Completed
 - [x] Regret loop closed — flags block bad patterns, briefing reports it
 - [x] TODO wired into gpt_reasoner — suggestions grounded in real priorities
 - [x] ntfy bridge threading — listener + processor threads, never blocks
@@ -36,3 +36,13 @@
 - [x] Honest outcome scoring — observations score 0, verified actions score 1
 - [x] Feedback log schema unified
 - [x] Old shell scripts audit — 42 archived
+- [x] Crown a king — echo_core_daemon.py as single orchestrator
+- [x] auto_act double-firing bug — lockfile added
+- [x] Offsite backup — git push to crow2673/Echo-core, daily 3am timer
+- [x] Second dev.to article — self-heal story, publishes Tuesday 2026-03-17 9am CDT
+- [x] Wire regret_index into auto_act — score=1 success, score=-1 failure
+- [x] self_coder fix_file() method
+- [x] ntfy two-way phone bridge — echo-ntfy-bridge.service
+- [x] Watchdog auto-heal on boot
+- [x] Weather integration
+- [x] Dev.to analytics

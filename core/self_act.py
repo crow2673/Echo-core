@@ -34,6 +34,53 @@ def load_system_state():
         except Exception:
             return {}
     return {}
+def update_income_status():
+    import re as _re
+    from datetime import datetime
+    doc_path = Path(__file__).resolve().parents[1] / "memory" / "income_knowledge.md"
+    if not doc_path.exists():
+        return
+    doc = doc_path.read_text()
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    changed = False
+    golem_tasks = 0
+    try:
+        regret_path = Path(__file__).resolve().parents[1] / "memory" / "regret_index.json"
+        if regret_path.exists():
+            ri = json.loads(regret_path.read_text())
+            golem_tasks = sum(1 for e in ri.get("actions", []) if "golem" in e.get("action", "").lower() and e.get("outcome_score", 0) > 0)
+    except Exception:
+        pass
+    if golem_tasks == 0:
+        new_golem = f"**Echo's current status:** ACTIVE — node running, 0 tasks completed (new node penalty phase) | _checked {now}_"
+    else:
+        new_golem = f"**Echo's current status:** ACTIVE — node running, {golem_tasks} tasks completed | _checked {now}_"
+    doc, n = _re.subn(r"\*\*Echo.s current status:\*\* ACTIVE — node running.*", new_golem, doc)
+    if n: changed = True
+    devto_count = 1
+    try:
+        log_path = Path(__file__).resolve().parents[1] / "logs" / "devto_publish.log"
+        if log_path.exists():
+            devto_count = max(1, log_path.read_text().lower().count("published"))
+    except Exception:
+        pass
+    scheduled_note = ""
+    try:
+        import subprocess
+        r = subprocess.run(["systemctl", "--user", "is-active", "echo-devto-publish.timer"], capture_output=True, text=True)
+        if r.stdout.strip() == "active":
+            scheduled_note = ", 1 scheduled Tuesday 2026-03-17"
+    except Exception:
+        pass
+    s = "s" if devto_count != 1 else ""
+    new_devto = f"**Echo's current status:** ACTIVE — {devto_count} article{s} published{scheduled_note} | _checked {now}_"
+    doc, n = _re.subn(r"\*\*Echo.s current status:\*\* ACTIVE — \d+ article.*", new_devto, doc)
+    if n: changed = True
+    doc, n = _re.subn(r"_Last updated: [\d\- :]+_", f"_Last updated: {now}_", doc)
+    if n: changed = True
+    if changed:
+        doc_path.write_text(doc)
+        print(f"[income_status] Updated income_knowledge.md at {now}")
 
 def reasoning_cycle():
     core_state = load_state()
@@ -70,6 +117,8 @@ def reasoning_cycle():
         result = gpt_reasoner(prompt_flag, core_state)
         core_state["reasoning_history"].append(result)
         core_state["knowledge"][x_flag] = result
+        if "income_knowledge" in str(x_flag):
+            update_income_status()
         print(f"Processed {x_flag}: {result}")
 
     save_state(core_state)

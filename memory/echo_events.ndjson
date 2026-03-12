@@ -2020,3 +2020,7 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/auto_act.py", "mtime": 1773298453.984779, "size": 10118, "ts": 1773298476.7061732}
 {"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/income_researcher.py", "mtime": 1773299296.9946597, "size": 13419, "ts": 1773299298.7668412}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773299724.9831755, "size": 4658, "ts": 1773299726.0809464}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773300197.008347, "size": 6981, "ts": 1773300197.920995}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773300205.7866783, "size": 9283, "ts": 1773300206.0050218}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773300268.4518862, "size": 6958, "ts": 1773300268.521369}
+{"type":"external_signal","source":"echo_test","message":"Andrew test stimulus","timestamp":"2026-03-12T02:51:54-05:00"}

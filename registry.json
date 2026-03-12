@@ -1,22 +1,174 @@
 {
+  "generated_at": "2026-03-12T09:42:38.201725",
   "orchestrator": "echo_core_daemon.py",
-  "memory_store": "core/memory_store.py",
-  "workers": {
+  "memory": {
+    "primary": "echo_semantic_memory.sqlite",
+    "capsule_queue": "echo_memory.json",
+    "store": "core/memory_store.py",
+    "total_memories": 2095
+  },
+  "model": {
+    "name": "echo",
+    "base": "qwen2.5:32b",
+    "context": 16384,
+    "temperature": 0.8
+  },
+  "identity": {
+    "contract": "echo_contract.json",
+    "modelfile": "Echo.Modelfile",
+    "soul": "core/identity.py"
+  },
+  "active_services": [
+    "echo-analytics.service",
+    "echo-auto-act.service",
+    "echo-backup.service",
+    "echo-core-state-autofix.service",
+    "echo-core-state-writer.service",
+    "echo-core-state.service",
+    "echo-core.service",
+    "echo-daily-briefing.service",
+    "echo-devto-publish.service",
+    "echo-disk-monitor.service",
+    "echo-git-backup.service",
+    "echo-golem-monitor.service",
+    "echo-heartbeat.service",
+    "echo-income-injector.service",
+    "echo-income-research.service",
+    "echo-ntfy-bridge.service",
+    "echo-publish-weekly.service",
+    "echo-pulse.service",
+    "echo-reachability-watch.service",
+    "\u25cf",
+    "echo-screen-watcher.service",
+    "echo-self-act-worker.service",
+    "echo-wake.service",
+    "echo-watchdog.service"
+  ],
+  "active_timers": [
+    "echo-analytics.timer",
+    "echo-auto-act.timer",
+    "echo-backup.timer",
+    "echo-core-state-autofix.timer",
+    "echo-core-state-writer.timer",
+    "echo-core-state.timer",
+    "echo-daily-briefing.timer",
+    "echo-devto-publish.timer",
+    "echo-disk-monitor.timer",
+    "echo-git-backup.timer",
+    "echo-golem-monitor.timer",
+    "echo-heartbeat.timer",
+    "echo-income-injector.timer",
+    "echo-income-research.timer",
+    "echo-publish-weekly.timer",
+    "echo-pulse.timer",
+    "echo-reachability-watch.timer",
+    "echo-registry-update.timer",
+    "echo-self-act-worker.timer",
+    "echo-watchdog.timer"
+  ],
+  "core_modules": {
+    "agent_loop": {
+      "path": "core/agent_loop.py",
+      "purpose": "multi-step tool use loop"
+    },
+    "self_act": {
+      "path": "core/self_act.py",
+      "purpose": "autonomous reasoning cycle every 5min"
+    },
+    "auto_act": {
+      "path": "core/auto_act.py",
+      "purpose": "autonomous execution every 30min"
+    },
+    "self_coder": {
+      "path": "core/self_coder.py",
+      "purpose": "self-editing and code generation"
+    },
+    "self_awareness": {
+      "path": "core/self_awareness.py",
+      "purpose": "real-time system state injection"
+    },
+    "gpt_reasoner": {
+      "path": "core/gpt_reasoner.py",
+      "purpose": "fallback one-shot reasoner"
+    },
+    "regret_index": {
+      "path": "core/regret_index.py",
+      "purpose": "outcome scoring and pattern blocking"
+    },
+    "income_researcher": {
+      "path": "core/income_researcher.py",
+      "purpose": "weekly web scrape for income paths"
+    },
+    "daily_briefing": {
+      "path": "core/daily_briefing.py",
+      "purpose": "morning briefing via voice"
+    },
     "command_handler": {
       "path": "core/command_handler.py",
-      "entry": "handle_command",
-      "enabled": true,
-      "schedule": "on_capsule:command"
+      "purpose": "command dispatch on capsule"
     },
-    "file_watcher": {
-      "path": "core/file_watcher_worker.py",
-      "entry": "tick",
-      "enabled": true,
-      "schedule": "interval:2s"
+    "memory_sessions": {
+      "path": "core/memory_sessions.py",
+      "purpose": "session continuity"
+    },
+    "feedback_loop": {
+      "path": "core/feedback_loop.py",
+      "purpose": "feedback logging"
+    },
+    "notifier": {
+      "path": "core/notifier.py",
+      "purpose": "ntfy push notifications"
+    },
+    "weather": {
+      "path": "core/weather.py",
+      "purpose": "weather injection into briefing"
+    },
+    "devto_analytics": {
+      "path": "core/devto_analytics.py",
+      "purpose": "article performance tracking"
+    },
+    "golem_stats_scraper": {
+      "path": "core/golem_stats_scraper.py",
+      "purpose": "Golem pricing benchmark"
+    },
+    "disk_usage_monitor": {
+      "path": "core/disk_usage_monitor.py",
+      "purpose": "disk alert at 85%"
+    },
+    "income_task_injector": {
+      "path": "core/income_task_injector.py",
+      "purpose": "income reasoning injection"
+    },
+    "log_rotator": {
+      "path": "core/log_rotator.py",
+      "purpose": "log management"
+    },
+    "resource_tracker": {
+      "path": "core/resource_tracker.py",
+      "purpose": "CPU/RAM/GPU tracking"
+    },
+    "task_prioritizer": {
+      "path": "core/task_prioritizer.py",
+      "purpose": "task priority ranking"
     }
   },
-  "legacy_loops": [
-    "app/file_watcher.py"
-  ],
-  "notes": "Single-loop architecture: only echo_core_daemon.py may run while True."
+  "input_channels": {
+    "voice": "echo_wake.py + echo_voice.py",
+    "text": "echo_command.py",
+    "phone": "core/auto_build_nt.py (ntfy bridge)",
+    "screen": "echo_screen_watcher.py (situational awareness)"
+  },
+  "state_files": {
+    "reasoning": "memory/core_state_reasoning.json",
+    "system": "memory/core_state_system.json",
+    "feedback": "memory/feedback_log.json",
+    "regret": "memory/regret_index.json",
+    "golem_earnings": "memory/last_golem_earnings.json",
+    "devto": "memory/devto_analytics.json",
+    "income_knowledge": "memory/income_knowledge.md",
+    "events_cursor": "memory/events_cursor.json"
+  },
+  "tools_available": 27,
+  "tools_registry": "docs/actions.json",
+  "notes": "Single-loop architecture. Only echo_core_daemon.py runs while True. All workers are systemd oneshot timers."
 }

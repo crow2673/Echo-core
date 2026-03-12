@@ -183,23 +183,14 @@ def process_one_capsule(wakeup_context: str, session_exchanges: list) -> bool:
         try:
             if cap_type == "message":
                 system_prompt = build_system_prompt(text, wakeup_context)
-                if cap.get("from") == "andrew_voice":
-                    response = call_ollama(
-                        prompt=text,
-                        model="qwen2.5:7b",
-                        timeout=60.0,
-                        system_prompt=system_prompt,
-                    )
-                    model_used = "qwen2.5:7b"
-                else:
-                    response = agent_loop(
+                response = agent_loop(
                         prompt=text,
                         system_prompt=system_prompt,
                         call_ollama_fn=call_ollama,
                         model="echo",
                         timeout=360.0,
                     )
-                    model_used = "echo"
+                model_used = "echo"
 
                 # Store exchange in semantic memory
                 try:

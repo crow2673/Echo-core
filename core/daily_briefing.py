@@ -42,6 +42,12 @@ def queue_briefing():
     except:
         regret_summary = "unavailable"
     try:
+        from core.event_ledger import query_summary
+        ls = query_summary()
+        ledger_summary = f"Total events: {ls['total_events']}, wins: {ls['wins']}, losses: {ls['losses']}, by type: {ls['by_type']}"
+    except:
+        ledger_summary = "unavailable"
+    try:
         changelog_lines = (BASE / "CHANGELOG.md").read_text().strip().splitlines()
         changelog_snippet = "\n".join(changelog_lines[-30:])
     except:
@@ -56,7 +62,7 @@ def queue_briefing():
         f"Weather today: {weather_line}. "
         f"REAL SYSTEM STATS RIGHT NOW — CPU: {cpu}%, RAM: {ram_used}, {swap_line}, GPU: {gpu}. "
         f"1) Current system and service status using the real stats above. "
-        f"2) Golem node earnings and task status. Regret index report: {regret_summary}. "
+        f"2) Golem node earnings and task status. Regret index report: {regret_summary}. Event ledger: {ledger_summary}. "
         f"3) What we were building last session and where we left off — recent CHANGELOG: {changelog_snippet}. "
         f"Current TODO list: {todo}. 4) Given the TODO list, what is the single most important thing to work on today. "
         f"Keep it concise and spoken — this will be read aloud. Do not offer to continue or ask follow up questions. End with a complete thought."

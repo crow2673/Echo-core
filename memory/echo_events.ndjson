@@ -2024,3 +2024,33 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773300205.7866783, "size": 9283, "ts": 1773300206.0050218}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773300268.4518862, "size": 6958, "ts": 1773300268.521369}
 {"type":"external_signal","source":"echo_test","message":"Andrew test stimulus","timestamp":"2026-03-12T02:51:54-05:00"}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_continuous.py", "ts": 1773322389.582976}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_harness.py", "ts": 1773322389.5837624}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_continuous_full.py", "ts": 1773322389.583807}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_dynamic_prioritized.py", "ts": 1773322389.5838315}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund.py", "ts": 1773322389.5838501}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_live_api_blueprint.py", "ts": 1773322389.5838673}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_income.py", "ts": 1773322389.583883}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_hybrid.py", "ts": 1773322389.5838988}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_pruned.py", "ts": 1773322389.5839143}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_dynamic.py", "ts": 1773322389.5839298}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_test_harness.py", "ts": 1773322389.5839453}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_api_blueprint.py", "ts": 1773322389.5839603}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_live_income.py", "ts": 1773322389.5839758}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_live_xp.py", "ts": 1773322389.5839906}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_autonomous.py", "ts": 1773322389.5840058}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_blueprint.py", "ts": 1773322389.584021}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_act_autofund_live_api.py", "ts": 1773322389.5840406}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/echo_core_daemon.py", "mtime": 1773322572.4251485, "size": 10853, "ts": 1773322572.9924042}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773322680.0183501, "size": 7752, "ts": 1773322681.9879181}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773322711.1081648, "size": 7845, "ts": 1773322712.1889114}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773323346.4940276, "size": 7845, "ts": 1773323347.2319064}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773323805.5562918, "size": 7976, "ts": 1773323807.3572245}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/registry.json", "mtime": 1773326448.5016737, "size": 5149, "ts": 1773326448.9556189}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773326483.222411, "size": 8058, "ts": 1773326483.2744317}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/registry.json", "mtime": 1773326558.2046015, "size": 5197, "ts": 1773326559.8657515}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/event_ledger.py", "mtime": 1773326759.760653, "size": 3361, "ts": 1773326760.5184753}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773326820.9060307, "size": 8274, "ts": 1773326820.9662604}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/auto_act.py", "mtime": 1773326879.3783724, "size": 10567, "ts": 1773326879.4341955}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773326920.7751086, "size": 8354, "ts": 1773326921.7418044}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/daily_briefing.py", "mtime": 1773326980.924665, "size": 4386, "ts": 1773326982.2037923}

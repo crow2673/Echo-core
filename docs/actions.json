@@ -86,7 +86,7 @@
       "cmd": [
         "bash",
         "-lc",
-        "~/Echo/daily_summary.sh"
+        "tail -20 ~/Echo/CHANGELOG.md && echo '---' && cat ~/Echo/TODO.md | head -30"
       ],
       "safe": true
     },
@@ -96,7 +96,7 @@
       "cmd": [
         "bash",
         "-lc",
-        "~/Echo/backup_echo.sh"
+        "~/Echo/tools/git_backup.sh"
       ],
       "safe": false
     },
@@ -251,21 +251,50 @@
       "cmd": [
         "bash",
         "-lc",
-        "cd ~/Echo && python3 -c \"import sys; sys.path.insert(0, str(__import__(\"pathlib\").Path.home() / \"Echo\")); from core.self_coder import SelfCoder; sc = SelfCoder(); sc.fix_file(\"\", \"\")\" 2>&1"
+        "cd ~/Echo && python3 -c \"import sys; sys.path.insert(0, '/home/andrew/Echo'); from core.self_coder import fix_file; fix_file('$ECHO_FILE', '$ECHO_FIX')\""
       ],
       "safe": false,
       "note": "Set ECHO_FILE (relative path) and ECHO_FIX (description of what to fix)"
     },
     {
-      "id": "fix_python_file",
-      "label": "Fix/patch a Python file using self_coder",
+      "id": "read_income_knowledge",
+      "label": "Read Echo income knowledge base",
       "cmd": [
         "bash",
         "-lc",
-        "cd ~/Echo && python3 -c \"import sys; sys.path.insert(0, '/home/andrew/Echo'); from core.self_coder import fix_file; fix_file('$ECHO_FILE', '$ECHO_FIX')\""
+        "cat /home/andrew/Echo/memory/income_knowledge.md"
       ],
-      "safe": false,
-      "note": "Set ECHO_FILE (relative path) and ECHO_FIX (description of what to fix)"
+      "safe": true
+    },
+    {
+      "id": "read_todo",
+      "label": "Read Echo TODO list",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cat /home/andrew/Echo/TODO.md"
+      ],
+      "safe": true
+    },
+    {
+      "id": "read_registry",
+      "label": "Read Echo architecture registry",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cat /home/andrew/Echo/registry.json"
+      ],
+      "safe": true
+    },
+    {
+      "id": "query_ledger",
+      "label": "Query Echo event ledger (recent events across all sources)",
+      "cmd": [
+        "bash",
+        "-lc",
+        "python3 -c \"import sqlite3; conn = sqlite3.connect('/home/andrew/Echo/memory/echo_events.db'); rows = conn.execute('SELECT ts, event_type, source, summary, outcome_score FROM events ORDER BY id DESC LIMIT 20').fetchall(); [print(f\\\"{r[0][:16]} [{r[1]}] {r[2]}: {r[3][:80]} score={r[4]}\\\") for r in rows]; conn.close()\""
+      ],
+      "safe": true
     }
   ]
 }

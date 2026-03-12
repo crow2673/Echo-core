@@ -7,6 +7,9 @@ from pathlib import Path
 
 # Package-relative import (requires running as: python3 -m core.self_act)
 from .gpt_reasoner import gpt_reasoner
+from .event_ledger import log_event
+from .agent_loop import agent_loop
+from .providers.router import call_ollama as _call_ollama
 
 BASE = Path(__file__).resolve().parents[1]         # ~/Echo
 MEM  = BASE / "memory"
@@ -114,11 +117,34 @@ def reasoning_cycle():
                 "Use ONLY these facts (no guessing): " + json.dumps(facts, default=str)
             )
 
-        result = gpt_reasoner(prompt_flag, core_state)
+        # Use agent_loop for tool-capable reasoning; fall back to gpt_reasoner if it fails
+        try:
+            system_prompt = (
+                "You are Echo. You are running an autonomous background reasoning cycle.\n"
+                "Complete the task below using your tools if needed.\n"
+                "Be concrete and specific. State what you found or did — not what you would do.\n"
+                "If you check a tool, summarize what it returned.\n"
+                "Do not restart services unless specifically asked to investigate a failure."
+            )
+            result = agent_loop(
+                prompt=str(prompt_flag),
+                system_prompt=system_prompt,
+                call_ollama_fn=_call_ollama,
+                model="echo",
+                timeout=240.0,
+                max_iterations=3,
+                auto_approve_safe=True,
+            )
+        except Exception as _e:
+            result = gpt_reasoner(prompt_flag, core_state)
         core_state["reasoning_history"].append(result)
         core_state["knowledge"][x_flag] = result
         if "income_knowledge" in str(x_flag):
             update_income_status()
+        try:
+            log_event("reasoning", "self_act", str(x_flag)[:200], data=result if isinstance(result, dict) else str(result))
+        except Exception:
+            pass
         print(f"Processed {x_flag}: {result}")
 
     save_state(core_state)
@@ -161,6 +187,8 @@ def generate_flags(core_state: dict) -> list:
         "review TODO.md and suggest the single highest-value next action",
         "check Golem node status and suggest pricing adjustment if needed",
         "read memory/income_knowledge.md and reason about which income path to activate next",
+        "read registry.json and verify all listed services are actually running",
+        "query_ledger: summarize recent wins and losses from the event ledger",
     ]
     existing_knowledge = set(core_state.get("knowledge", {}).keys())
     for task in standing:

@@ -20,6 +20,10 @@ import sys
 from pathlib import Path
 from datetime import datetime
 import sys, os; sys.path.insert(0, os.path.expanduser("~/Echo/core")); from regret_index import log_action, get_flags
+try:
+    sys.path.insert(0, os.path.expanduser("~/Echo")); from core.event_ledger import log_event
+except Exception:
+    log_event = None
 
 BASE = Path.home() / "Echo"
 FEEDBACK_LOG = BASE / "memory/feedback_log.json"
@@ -232,12 +236,18 @@ def run():
                 from core.regret_index import update_outcome
                 score = suggestion.get("_score_override", 1)
                 update_outcome(suggestion["regret_entry_id"], score=score, notes=f"success: {action}")
+            if log_event:
+                try: log_event("action", "auto_act", f"SUCCESS: {action}", score=float(score))
+                except Exception: pass
         else:
             log(f"SKIPPED: {action} — {notes}")
             data = mark_suggestion(data, sid, "skipped", f"{action}: {notes}")
             if suggestion.get("regret_entry_id"):
                 from core.regret_index import update_outcome
                 update_outcome(suggestion["regret_entry_id"], score=-1, notes=f"failed: {action}")
+            if log_event:
+                try: log_event("action", "auto_act", f"FAILED: {action}", score=-1.0)
+                except Exception: pass
 
     FEEDBACK_LOG.write_text(json.dumps(data, indent=2))
     log(f"cycle complete — acted on {acted}/{len(pending[:3])} suggestions")

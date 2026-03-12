@@ -54,3 +54,5 @@ backup_echo_memory.json
 voice_models/
 bundles_all_no_images/
 bundles_raw/
+echo_project/
+archive/

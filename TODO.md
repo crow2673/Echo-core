@@ -2,8 +2,8 @@
 
 ## In Progress / Waiting
 - [ ] Golem new node penalty — wait 7-14 days, then benchmark pricing with: python3 -m core.golem_stats_scraper
-- [ ] Regret index — needs volume, run for a week before patterns emerge
-- [ ] Internet roadmap tier 1 — RSS feed + dev.to monitor, scope next session
+- [x] Regret index — retroactively scored, governor auto-scores new entries DONE 2026-03-13
+- [x] Internet roadmap tier 1 — RSS feed + dev.to monitor DONE 2026-03-13
 
 ## Architecture
 - [x] Unified state/event model — SQLite event ledger (memory/echo_events.db)

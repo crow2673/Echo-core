@@ -56,3 +56,8 @@ bundles_all_no_images/
 bundles_raw/
 echo_project/
 archive/
+etc/
+var/
+install
+send_mach_info.py
+vastai_install_logs.tar.gz

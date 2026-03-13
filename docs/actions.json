@@ -383,6 +383,17 @@
         "income",
         "gpu"
       ]
+    },
+    {
+      "id": "article_pipeline",
+      "description": "Run article pipeline \u2014 write, self-review, notify Andrew for approval",
+      "command": "python3 -m core.article_pipeline",
+      "safe": true,
+      "tags": [
+        "content",
+        "devto",
+        "income"
+      ]
     }
   ]
 }

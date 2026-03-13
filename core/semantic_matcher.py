@@ -75,6 +75,13 @@ ACTION_EXAMPLES = {
         "queue article draft",
         "write about trending topic",
     ],
+    "article_pipeline": [
+        "run article pipeline",
+        "write and review article",
+        "pending review article",
+        "draft ready for approval",
+        "autonomous article",
+    ],
     "golem_diagnostic": [
         "run golem diagnostic",
         "golem task matcher",

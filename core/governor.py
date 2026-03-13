@@ -14,6 +14,11 @@ BASE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BASE))
 
 from core.event_ledger import log_event, query_recent
+try:
+    from core.semantic_matcher import match as semantic_match
+    SEMANTIC = True
+except Exception:
+    SEMANTIC = False
 
 ACTIONS_PATH = BASE / "docs/actions.json"
 LOG = BASE / "logs/governor.log"
@@ -156,7 +161,17 @@ def run():
     acted = 0
     for event in recent:
         summary = event.get("summary", "")
-        action, env_vars = match_action(summary, actions)
+        if SEMANTIC:
+            action, env_vars, score = semantic_match(summary, actions)
+            if action:
+                log(f"semantic match: '{summary[:50]}' → {action['id']} (score={score:.3f})")
+            else:
+                # Fallback to keyword matching
+                action, env_vars = match_action(summary, actions)
+                if action:
+                    log(f"keyword match: '{summary[:50]}' → {action['id']}")
+        else:
+            action, env_vars = match_action(summary, actions)
 
         if not action:
             continue

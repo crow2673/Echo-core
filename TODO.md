@@ -1,4 +1,4 @@
-# Echo TODO — Last updated 2026-03-12
+# Echo TODO — Last updated 2026-03-13
 
 ## In Progress / Waiting
 - [ ] Golem new node penalty — wait 7-14 days, then benchmark pricing with: python3 -m core.golem_stats_scraper
@@ -8,7 +8,7 @@
 ## Architecture
 - [x] Unified state/event model — SQLite event ledger (memory/echo_events.db)
 - [x] auto_act action surface — 29→36 actions: notify_phone, append_todo, golem_pricing, devto_publish, create_draft, golem_diagnostic
-- [ ] Stage 6: orchestrated agency — full governor with event ledger as source of truth
+- [x] Stage 6: orchestrated agency — governor.py live, reason→act→score loop closed
 
 ## Immediate (Next Session)
 - [x] Vast.ai host registered — machine 57470, RTX 3060, $0.10/hr, Arkansas US, live

@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-03-13T17:36:51.838437+00:00",
-  "updated_at_local": "2026-03-13T12:36:51.961632-05:00",
+  "updated_at": "2026-03-13T17:37:52.188347+00:00",
+  "updated_at_local": "2026-03-13T12:37:52.237797-05:00",
   "core": {
     "service": "echo-core.service",
     "status": "active",
@@ -37,7 +37,7 @@
       "expected_interval_seconds": 86400,
       "last_exit_local": "2026-03-13T00:05:04-05:00",
       "next_expected_run_local": "2026-03-14T00:05:00-05:00",
-      "age_seconds": 45108,
+      "age_seconds": 45168,
       "stale": false
     },
     "reachability": {
@@ -54,7 +54,7 @@
       "expected_interval_seconds": 300,
       "last_exit_local": "2026-03-13T12:35:03-05:00",
       "next_expected_run_local": "2026-03-13T12:40:02-05:00",
-      "age_seconds": 109,
+      "age_seconds": 169,
       "stale": false
     },
     "golem_monitor": {
@@ -71,23 +71,23 @@
       "expected_interval_seconds": 86400,
       "last_exit_local": "2026-03-13T11:00:00-05:00",
       "next_expected_run_local": "2026-03-14T11:00:00-05:00",
-      "age_seconds": 5812,
+      "age_seconds": 5872,
       "stale": false
     },
     "heartbeat": {
       "service": "echo-heartbeat.service",
       "meta": {
         "Result": "success",
-        "ExecMainStartTimestamp": "Fri 2026-03-13 12:36:23 CDT",
-        "ExecMainExitTimestamp": "Fri 2026-03-13 12:36:23 CDT",
+        "ExecMainStartTimestamp": "Fri 2026-03-13 12:37:23 CDT",
+        "ExecMainExitTimestamp": "Fri 2026-03-13 12:37:23 CDT",
         "ExecMainCode": "1",
         "ExecMainStatus": "0",
-        "InactiveExitTimestamp": "Fri 2026-03-13 12:36:23 CDT"
+        "InactiveExitTimestamp": "Fri 2026-03-13 12:37:23 CDT"
       },
       "health": "ok",
       "expected_interval_seconds": 60,
-      "last_exit_local": "2026-03-13T12:36:23-05:00",
-      "next_expected_run_local": "2026-03-13T12:37:23-05:00",
+      "last_exit_local": "2026-03-13T12:37:23-05:00",
+      "next_expected_run_local": "2026-03-13T12:38:23-05:00",
       "age_seconds": 29,
       "stale": false
     },
@@ -105,7 +105,7 @@
       "expected_interval_seconds": 300,
       "last_exit_local": "2026-03-13T12:36:23-05:00",
       "next_expected_run_local": "2026-03-13T12:41:23-05:00",
-      "age_seconds": 29,
+      "age_seconds": 90,
       "stale": false
     },
     "auto_act": {
@@ -122,7 +122,7 @@
       "expected_interval_seconds": 1800,
       "last_exit_local": "2026-03-13T12:29:38-05:00",
       "next_expected_run_local": "2026-03-13T12:59:38-05:00",
-      "age_seconds": 434,
+      "age_seconds": 495,
       "stale": false
     },
     "ntfy_bridge": {
@@ -138,7 +138,7 @@
       "health": "ok",
       "last_exit_local": "2026-03-11T21:09:55-05:00",
       "next_expected_run_local": null,
-      "age_seconds": 142017
+      "age_seconds": 142078
     },
     "git_backup": {
       "service": "echo-git-backup.service",
@@ -154,7 +154,7 @@
       "expected_interval_seconds": 86400,
       "last_exit_local": "2026-03-13T03:00:03-05:00",
       "next_expected_run_local": "2026-03-14T03:00:00-05:00",
-      "age_seconds": 34609,
+      "age_seconds": 34670,
       "stale": false
     },
     "disk_monitor": {
@@ -171,12 +171,12 @@
       "expected_interval_seconds": 21600,
       "last_exit_local": "2026-03-13T08:51:59-05:00",
       "next_expected_run_local": "2026-03-13T14:51:59-05:00",
-      "age_seconds": 13493,
+      "age_seconds": 13554,
       "stale": false
     }
   },
   "last": {
-    "pulse_line": "{\"ts\": \"2026-03-13T17:36:23.389796+00:00\", \"type\": \"heartbeat\", \"source\": \"echo-heartbeat.service\", \"ts_local\": \"2026-03-13T12:36:23.389814-05:00\", \"core\": \"active\", \"self_act_timer\": \"active\", \"reachability_timer\": \"active\"}",
+    "pulse_line": "{\"ts\": \"2026-03-13T17:37:23.650315+00:00\", \"type\": \"heartbeat\", \"source\": \"echo-heartbeat.service\", \"ts_local\": \"2026-03-13T12:37:23.650336-05:00\", \"core\": \"active\", \"self_act_timer\": \"active\", \"reachability_timer\": \"active\"}",
     "command": {
       "capsule_id": "COMMAND:20260307_124906",
       "type": "command",

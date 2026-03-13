@@ -83,7 +83,7 @@ She backs up to GitHub every night at 3am. She monitors her own disk. She benchm
 
 ## What's Next
 
-The regret index currently records outcomes but doesn't yet surface *why* something failed — just that it did. The next step is richer outcome notes so the pattern engine has more signal.
+The regret index records outcomes and surfaces patterns. Since writing this, I've closed the loop further — a governor process now reads the reasoning ledger, matches it to concrete actions, executes them, and scores the results back into the same ledger. Reason → act → score, autonomously.
 
 Also: she's running as a Golem network provider. Zero tasks so far — new node penalty. But the offers are published, the wallet is funded with gas, and she's listening.
 

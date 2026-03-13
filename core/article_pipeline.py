@@ -34,7 +34,7 @@ def load_json(path, default):
     except Exception:
         return default
 
-def call_ollama(prompt, system_prompt, timeout=180):
+def call_ollama(prompt, system_prompt, timeout=600):
     """Call echo model via ollama API."""
     try:
         payload = json.dumps({
@@ -109,6 +109,7 @@ def run_single(draft_item):
     best_draft = None
     best_score = 0.0
     current_prompt = prompt
+    issues = []
 
     for attempt in range(1, 3):  # max 2 attempts
         log(f"  attempt {attempt}/2: writing draft...")

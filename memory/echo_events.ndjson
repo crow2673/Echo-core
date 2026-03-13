@@ -2059,3 +2059,5 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773366640.6949584, "size": 8454, "ts": 1773366642.485873}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/vast_monitor.py", "mtime": 1773367270.0551553, "size": 1669, "ts": 1773367271.6266706}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/vast_monitor.py", "mtime": 1773367645.7610743, "size": 1962, "ts": 1773367646.4105957}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/golem_pricing.py", "mtime": 1773370766.8307922, "size": 3545, "ts": 1773370768.52603}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/golem_pricing.py", "mtime": 1773370814.9019384, "size": 3545, "ts": 1773370816.2565494}

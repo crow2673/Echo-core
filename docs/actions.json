@@ -339,6 +339,28 @@
       ],
       "safe": false,
       "note": "Set ECHO_FILE to path relative to ~/Echo. Publishes live \u2014 use carefully."
+    },
+    {
+      "id": "golem_pricing_status",
+      "label": "Show current Golem pricing on all presets",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd ~/Echo && python3 -m core.golem_pricing --status"
+      ],
+      "safe": true,
+      "note": "Read-only \u2014 shows current cpu/duration prices in GLM"
+    },
+    {
+      "id": "golem_pricing_update",
+      "label": "Update Golem pricing (cpu and duration per second in GLM)",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd ~/Echo && python3 -m core.golem_pricing --cpu $GOLEM_CPU --duration $GOLEM_DUR"
+      ],
+      "safe": false,
+      "note": "Set GOLEM_CPU and GOLEM_DUR env vars. Safe bounds enforced: 0.00001-0.001"
     }
   ]
 }

@@ -86,6 +86,42 @@ def match_action(reasoning_text, actions):
         if action:
             return action, {}
 
+    # Vast.ai status check
+    if any(x in text for x in ["vast.ai", "vast ai", "machine 57470", "gpu rental", "rentals"]):
+        action = next((a for a in actions if a["id"] == "golem_status"), None)
+        # No dedicated vast action yet — log as observation, no action needed
+        return None, None
+
+    # Registry / service verification
+    if any(x in text for x in ["registry.json", "verify all", "services are actually running", "check services"]):
+        action = next((a for a in actions if a["id"] == "healthcheck"), None)
+        if action:
+            return action, {}
+
+    # Income path reasoning
+    if any(x in text for x in ["income path", "income_knowledge", "activate next", "which income"]):
+        action = next((a for a in actions if a["id"] == "golem_status"), None)
+        if action:
+            return action, {}
+
+    # TODO review — suggest writing a draft if article topic found
+    if any(x in text for x in ["review todo", "todo.md", "highest-value next action"]):
+        action = next((a for a in actions if a["id"] == "query_ledger"), None)
+        if action:
+            return action, {}
+
+    # System state summary — run healthcheck
+    if any(x in text for x in ["echo system state", "system state", "current state", "summarize"]):
+        action = next((a for a in actions if a["id"] == "healthcheck"), None)
+        if action:
+            return action, {}
+
+    # World context / article topic
+    if any(x in text for x in ["world_context", "trending topic", "write an article", "draft_queue"]):
+        action = next((a for a in actions if a["id"] == "create_draft"), None)
+        if action:
+            return action, {}
+
     return None, None
 
 def execute_action(action, env_vars):

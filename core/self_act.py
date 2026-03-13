@@ -191,11 +191,13 @@ def generate_flags(core_state: dict) -> list:
         "query_ledger: summarize recent wins and losses from the event ledger",
         "check Vast.ai machine 57470 status — is it listed, any active rentals, earnings so far",
     ]
-    existing_knowledge = set(core_state.get("knowledge", {}).keys())
-    for task in standing:
-        if task not in existing_knowledge and task not in flags:
-            flags.append(task)
-            break  # one standing task per cycle
+    # Rotate standing tasks by index — always pick one per cycle regardless of history
+    idx = core_state.get('_standing_idx', 0) % len(standing)
+    core_state['_standing_idx'] = idx + 1
+    task = standing[idx]
+    if task not in flags:
+        flags.append(task)
+    return flags
 
     return flags
 

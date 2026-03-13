@@ -2063,3 +2063,5 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/golem_pricing.py", "mtime": 1773370814.9019384, "size": 3545, "ts": 1773370816.2565494}
 {"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/draft_writer.py", "mtime": 1773371158.8789837, "size": 3276, "ts": 1773371158.970795}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/draft_writer.py", "mtime": 1773371283.7644193, "size": 3405, "ts": 1773371283.9284227}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/governor.py", "mtime": 1773382039.579954, "size": 4738, "ts": 1773382109.3220165}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1773384245.915607, "size": 8501, "ts": 1773384246.7828844}

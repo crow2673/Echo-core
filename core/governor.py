@@ -144,6 +144,12 @@ def run():
         )
         acted += 1
 
+    # Score any unscored regret entries
+    try:
+        from core.regret_scorer import run as score_regrets
+        score_regrets()
+    except Exception as e:
+        log(f"regret_scorer error: {e}")
     log(f"governor cycle done — acted on {acted}/{len(recent)} reasoning events")
 
 if __name__ == "__main__":

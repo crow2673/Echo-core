@@ -190,6 +190,7 @@ def generate_flags(core_state: dict) -> list:
         "read registry.json and verify all listed services are actually running",
         "query_ledger: summarize recent wins and losses from the event ledger",
         "check Vast.ai machine 57470 status — is it listed, any active rentals, earnings so far",
+        "read memory/world_context.md and identify one trending topic Echo should write an article about — add to content/draft_queue.json if promising",
     ]
     # Rotate standing tasks by index — always pick one per cycle regardless of history
     idx = core_state.get('_standing_idx', 0) % len(standing)
@@ -199,7 +200,6 @@ def generate_flags(core_state: dict) -> list:
         flags.append(task)
     return flags
 
-    return flags
 
 
 if __name__ == "__main__":

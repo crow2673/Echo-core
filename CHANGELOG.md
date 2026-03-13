@@ -1,3 +1,21 @@
+### Session 2026-03-12 Evening
+- Vast.ai machine 57470 registered and live — RTX 3060, $0.10/hr, Arkansas US, unverified
+- Vast.ai API key fixed — crow2673 account with machine_read permission
+- vast_monitor.py fixed — table parser, daily noon timer, ledger logging
+- Ethernet enp7s0 up — 192.168.1.145, WiFi stays primary for Vast.ai public IP
+- Hardening audit — disabled echo-backup.timer (duplicate) and echo-income-injector.timer (superseded by self_act)
+- Action surface expanded: 29 → 36 actions
+  - notify_phone — send ntfy to Andrew's phone
+  - append_todo — Echo can add items to TODO.md
+  - golem_diagnostic — run task matcher
+  - devto_publish — publish markdown to dev.to
+  - golem_pricing_status / golem_pricing_update — Echo can adjust Golem prices
+  - create_draft — Echo writes and queues dev.to article drafts autonomously
+- core/golem_pricing.py — Golem pricing wrapper with safe bounds, all presets dropped
+- core/draft_writer.py — article draft creator, queues to content/draft_queue.json
+- Golem prices dropped: cpu 0.00015→0.00010, duration 0.00005→0.00003
+- Repo cleaned — system files removed from git history
+- Professional README + ARCHITECTURE.md committed
 # Echo Changelog
 
 ## 2026-03-07 — Major Build Day

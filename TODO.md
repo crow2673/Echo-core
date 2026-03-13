@@ -7,12 +7,12 @@
 
 ## Architecture
 - [x] Unified state/event model — SQLite event ledger (memory/echo_events.db)
-- [ ] auto_act action surface — only 5 action types, needs more verifiable actions
+- [x] auto_act action surface — 29→36 actions: notify_phone, append_todo, golem_pricing, devto_publish, create_draft, golem_diagnostic
 - [ ] Stage 6: orchestrated agency — full governor with event ledger as source of truth
 
 ## Immediate (Next Session)
-- [ ] Vast.ai / RunPod account — register RTX 3060, first passive income
-- [ ] ARCHITECTURE.md — deeper technical doc for contributors
+- [x] Vast.ai host registered — machine 57470, RTX 3060, $0.10/hr, Arkansas US, live
+- [x] ARCHITECTURE.md — 234 lines, technical reference complete
 
 ## Income
 - [ ] Income closure — Golem earning path clear, dev.to publishing, no dollar yet
@@ -27,6 +27,11 @@
 - [ ] Internet roadmap tier 2 — Arxiv, Reddit lurker, GitHub watcher
 
 ## Completed
+- [x] Hardening audit — 2 redundant timers removed (echo-backup, echo-income-injector)
+- [x] Golem pricing control — core/golem_pricing.py, all presets dropped to attract tasks
+- [x] Draft writer — core/draft_writer.py, Echo can write and queue dev.to articles autonomously
+- [x] Ethernet up — enp7s0 192.168.1.145, WiFi stays primary for Vast.ai public IP
+- [x] Vast.ai API key fixed — crow2673 account, machine_read permission, vast_monitor working
 - [x] Regret loop closed — flags block bad patterns, briefing reports it
 - [x] TODO wired into gpt_reasoner — suggestions grounded in real priorities
 - [x] ntfy bridge threading — listener + processor threads, never blocks

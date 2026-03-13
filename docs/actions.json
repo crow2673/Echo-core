@@ -361,6 +361,17 @@
       ],
       "safe": false,
       "note": "Set GOLEM_CPU and GOLEM_DUR env vars. Safe bounds enforced: 0.00001-0.001"
+    },
+    {
+      "id": "create_draft",
+      "label": "Write and queue a dev.to article draft",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd ~/Echo && python3 -m core.draft_writer --title \"$ECHO_TITLE\" --outline \"$ECHO_OUTLINE\""
+      ],
+      "safe": true,
+      "note": "Set ECHO_TITLE and ECHO_OUTLINE. Writes markdown to content/, queues in draft_queue.json"
     }
   ]
 }

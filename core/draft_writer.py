@@ -1,0 +1,104 @@
+#!/usr/bin/env python3
+"""
+Echo draft writer — creates a queued dev.to article draft.
+Echo calls this when she has a good article idea during reasoning.
+
+Usage:
+    python3 -m core.draft_writer --title "My Article Title" --outline "key points"
+    python3 -m core.draft_writer --list
+"""
+import sys, argparse, json
+from pathlib import Path
+from datetime import datetime
+
+BASE = Path(__file__).resolve().parents[1]
+CONTENT = BASE / "content"
+QUEUE_FILE = BASE / "content/draft_queue.json"
+
+def log_event(summary):
+    try:
+        from core.event_ledger import log_event as _log
+        _log("knowledge", "draft_writer", summary, score=1.0)
+    except Exception:
+        pass
+
+def list_drafts():
+    queue = json.loads(QUEUE_FILE.read_text()) if QUEUE_FILE.exists() else []
+    if not queue:
+        print("No drafts queued.")
+        return
+    for i, d in enumerate(queue):
+        print(f"  {i+1}. [{d['status']}] {d['title']} — {d['file']}")
+
+def create_draft(title, outline=""):
+    CONTENT.mkdir(exist_ok=True)
+    slug = title.lower().replace(" ", "_")[:40]
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"draft_{ts}_{slug}.md"
+    filepath = CONTENT / filename
+
+    # Ask Echo's 32b model to write the article
+    try:
+        from core.providers.router import call_ollama
+        prompt = f"""Write a technical dev.to article for an audience of developers.
+
+Title: {title}
+{f'Key points to cover: {outline}' if outline else ''}
+
+Context: This is from Andrew, an independent builder creating Echo — a local, offline-first AI assistant 
+running on Ubuntu with Ollama. Write in first person from Andrew's perspective. 
+Authentic, direct, no fluff. Show real code where relevant.
+
+Format: Start with # {title}, then write 400-600 words in markdown.
+Tags will be: ai, linux, python, buildinpublic"""
+
+        print(f"[draft_writer] Generating draft: {title}")
+        body = call_ollama(prompt, model="echo", timeout=120.0, system_prompt="You are Echo, Andrew's AI assistant. Write authentic, direct technical articles in first person.")
+        if not body or len(body) < 100:
+            raise ValueError("Model returned empty or too-short response")
+    except Exception as e:
+        print(f"[draft_writer] Model failed ({e}), writing skeleton instead")
+        body = f"""# {title}
+
+{outline if outline else '<!-- Add content here -->'}
+
+## What I Built
+
+## Why It Matters
+
+## The Code
+
+## What's Next
+"""
+
+    filepath.write_text(body)
+    print(f"[draft_writer] Written: {filepath}")
+
+    # Add to queue
+    queue = json.loads(QUEUE_FILE.read_text()) if QUEUE_FILE.exists() else []
+    queue.append({
+        "title": title,
+        "file": filename,
+        "created": datetime.now().isoformat(),
+        "status": "queued",
+        "outline": outline,
+    })
+    QUEUE_FILE.write_text(json.dumps(queue, indent=2) + "\n")
+    print(f"[draft_writer] Queued. Total drafts: {len(queue)}")
+
+    log_event(f"draft created: '{title}' → {filename}")
+    return filename
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--title", type=str)
+    parser.add_argument("--outline", type=str, default="")
+    parser.add_argument("--list", action="store_true")
+    args = parser.parse_args()
+
+    if args.list:
+        list_drafts()
+    elif args.title:
+        create_draft(args.title, args.outline)
+    else:
+        parser.print_help()

@@ -16,6 +16,7 @@
 
 ## Income
 - [ ] Income closure — Golem earning path clear, dev.to publishing, no dollar yet
+- [ ] Autonomous article pipeline — Echo writes, self-reviews, adjusts, then queues for human approval before publish
 - [ ] Echo Shell / setup wizard — END GOAL, prove income first
 
 ## Hardware
@@ -24,9 +25,15 @@
 
 ## Long Horizon
 - [ ] Speculative execution / tool-use caching to reduce 32b latency
-- [ ] Internet roadmap tier 2 — Arxiv, Reddit lurker, GitHub watcher
+- [x] Internet roadmap tier 2 — Arxiv + GitHub watcher DONE 2026-03-13
 
 ## Completed
+- [x] Semantic governor matching — all-MiniLM-L6-v2, 8/8 standing tasks, keyword fallback DONE 2026-03-13
+- [x] Regret scorer — 22 backfilled, auto-scores on every governor cycle DONE 2026-03-13
+- [x] Dev.to performance tracker — trend detection, topic extraction, draft queue injection DONE 2026-03-13
+- [x] Vast.ai dedicated action — vast_status action #37, semantic matcher updated DONE 2026-03-13
+- [x] RSS tier 2 — Arxiv AI/ML + GitHub topics, 7 sources 31 items daily DONE 2026-03-13
+
 - [x] Hardening audit — 2 redundant timers removed (echo-backup, echo-income-injector)
 - [x] Golem pricing control — core/golem_pricing.py, all presets dropped to attract tasks
 - [x] Draft writer — core/draft_writer.py, Echo can write and queue dev.to articles autonomously

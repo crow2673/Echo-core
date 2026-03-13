@@ -215,12 +215,20 @@ test_code(file_path)             # syntax check result
 | `registry.json` | Live architecture map (auto-updated) |
 | `TODO.md` | Current priorities |
 | `CHANGELOG.md` | Session history |
-| `docs/actions.json` | 29 registered tool actions |
+| `docs/actions.json` | 37 registered tool actions |
 | `core/agent_loop.py` | Multi-step tool use |
 | `core/self_act.py` | Autonomous reasoning |
 | `core/auto_act.py` | Autonomous execution |
 | `core/self_coder.py` | Self-editing |
 | `core/event_ledger.py` | Unified event log |
+| `core/rss_monitor.py` | 7-source RSS/API world context feed |
+| `core/semantic_matcher.py` | Embedding-based action matching |
+| `core/regret_scorer.py` | Retroactive + live outcome scoring |
+| `core/devto_performance_tracker.py` | Article trend detection + draft injection |
+| `core/governor.py` | Stage 6 reason→act→score loop |
+| `core/vast_monitor.py` | Vast.ai earnings monitor |
+| `core/golem_pricing.py` | Golem pricing control (safe bounds) |
+| `core/draft_writer.py` | Autonomous article draft writer |
 | `core/regret_index.py` | Outcome scoring |
 | `echo_memory_sqlite.py` | Semantic memory engine |
 | `echo_semantic_memory.sqlite` | 2,095+ memories |
@@ -229,6 +237,6 @@ test_code(file_path)             # syntax check result
 
 ---
 
-*Last updated: 2026-03-12*  
+*Last updated: 2026-03-13*  
 *Echo version: qwen2.5:32b Q4_K_M, 16k context*  
-*Memories: 2,095 | Events: 108+ | Services: 24 | Timers: 20*
+*Memories: 2,095+ | Events: 391+ | Services: 24 | Timers: 21*

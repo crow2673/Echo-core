@@ -295,6 +295,50 @@
         "python3 -c \"import sqlite3; conn = sqlite3.connect('/home/andrew/Echo/memory/echo_events.db'); rows = conn.execute('SELECT ts, event_type, source, summary, outcome_score FROM events ORDER BY id DESC LIMIT 20').fetchall(); [print(f\\\"{r[0][:16]} [{r[1]}] {r[2]}: {r[3][:80]} score={r[4]}\\\") for r in rows]; conn.close()\""
       ],
       "safe": true
+    },
+    {
+      "id": "notify_phone",
+      "label": "Send a notification to Andrew's phone via ntfy",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd ~/Echo && python3 -c \"from core.notifier import notify; notify('$ECHO_TITLE', '$ECHO_MSG')\""
+      ],
+      "safe": true,
+      "note": "Set ECHO_TITLE and ECHO_MSG env vars"
+    },
+    {
+      "id": "append_todo",
+      "label": "Append a task to TODO.md",
+      "cmd": [
+        "bash",
+        "-lc",
+        "echo \"- [ ] $ECHO_NOTE\" >> ~/Echo/TODO.md && echo 'added to TODO'"
+      ],
+      "safe": true,
+      "note": "Set ECHO_NOTE env var"
+    },
+    {
+      "id": "golem_diagnostic",
+      "label": "Run Golem task matcher diagnostic",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd ~/Echo && python3 -m core.golem_task_matcher 2>&1 | tail -20"
+      ],
+      "safe": true,
+      "note": "Checks why Golem has 0 tasks and logs recommendations"
+    },
+    {
+      "id": "devto_publish",
+      "label": "Publish a markdown file to dev.to",
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd ~/Echo && python3 echo_devto_publisher.py --file \"$ECHO_FILE\" 2>&1 | tail -20"
+      ],
+      "safe": false,
+      "note": "Set ECHO_FILE to path relative to ~/Echo. Publishes live \u2014 use carefully."
     }
   ]
 }

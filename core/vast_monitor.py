@@ -21,26 +21,32 @@ def log(msg):
 def check_vast():
     try:
         result = subprocess.run(
-            ["vastai", "show", "machines", "--raw"],
+            ["vastai", "show", "machines"],
             capture_output=True, text=True, timeout=30
         )
         if result.returncode != 0:
             log(f"CLI error: {result.stderr.strip()}")
             return
-        data = json.loads(result.stdout)
-        for m in data:
-            mid = m.get("id")
-            listed = m.get("listed", False)
-            earnings = m.get("total_flops_hr", 0)
-            reliability = m.get("reliability2", 0)
-            running = m.get("num_running", 0)
-            log(f"machine {mid}: listed={listed} running={running} reliability={reliability:.1%} earnings_hr={earnings}")
+        lines = result.stdout.strip().splitlines()
+        if len(lines) < 2:
+            log("no machines found")
+            return
+        for line in lines[1:]:  # skip header
+            parts = line.split()
+            if not parts: continue
+            mid = parts[0]
+            reliability = parts[6] if len(parts) > 6 else "?"
+            verified = parts[7] if len(parts) > 7 else "?"
+            price = parts[10] if len(parts) > 10 else "?"
+            occup = parts[-1] if parts else "?"
+            renting = occup not in ("x_", "x", "")
+            log(f"machine {mid}: verified={verified} reliability={reliability} price={price}/hr renting={renting} occupancy={occup}")
             try:
                 import sys; sys.path.insert(0, str(BASE))
                 from core.event_ledger import log_event
                 log_event("income", "vast_monitor",
-                    f"machine {mid}: listed={listed} running={running} reliability={reliability:.1%}",
-                    score=1.0 if running > 0 else 0.0)
+                    f"machine {mid}: verified={verified} reliability={reliability} price={price}/hr renting={renting}",
+                    score=1.0 if renting else 0.0)
             except Exception:
                 pass
     except Exception as e:

@@ -117,5 +117,12 @@ def run():
             fb_log.write_text(json.dumps(fb_data, indent=2))
             log(f"feedback injected: best article was '{best['title']}'")
 
+    # Run performance tracker after analytics
+    try:
+        from core.devto_performance_tracker import run as track
+        track()
+    except Exception as e:
+        log(f"performance tracker error: {e}")
+
 if __name__ == "__main__":
     run()

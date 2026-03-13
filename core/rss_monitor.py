@@ -114,6 +114,42 @@ def fetch_golem_blog():
 def fetch_ollama_releases():
     return parse_rss(fetch("https://github.com/ollama/ollama/releases.atom"), limit=3)
 
+def fetch_arxiv():
+    """Arxiv cs.AI and cs.LG recent papers via RSS"""
+    items = []
+    for feed in ["cs.AI", "cs.LG"]:
+        raw = fetch(f"https://rss.arxiv.org/rss/{feed}", timeout=20)
+        parsed = parse_rss(raw, limit=3)
+        items.extend(parsed)
+    return items[:5]
+
+def fetch_github_topics():
+    """GitHub trending repos via search API (no auth, public)"""
+    items = []
+    queries = ["local+llm", "ollama", "golem+network"]
+    for q in queries:
+        try:
+            url = f"https://api.github.com/search/repositories?q={q}&sort=stars&order=desc&per_page=2"
+            req = urllib.request.Request(url, headers={"User-Agent": "Echo/1.0", "Accept": "application/vnd.github+json"})
+            with urllib.request.urlopen(req, timeout=15) as r:
+                data = json.loads(r.read())
+            for repo in data.get("items", [])[:2]:
+                title = repo["full_name"]
+                link = repo["html_url"]
+                stars = repo.get("stargazers_count", 0)
+                desc = repo.get("description", "")[:100] or "no description"
+                items.append((title, link, f"{stars} stars — {desc}"))
+        except Exception as e:
+            log(f"github search failed for {q}: {e}")
+    # Deduplicate by URL
+    seen = set()
+    unique = []
+    for item in items:
+        if item[1] not in seen:
+            seen.add(item[1])
+            unique.append(item)
+    return unique[:5]
+
 def run():
     log("rss_monitor started")
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -125,6 +161,8 @@ def run():
         ("r/LocalLLaMA Hot", fetch_reddit_localllama),
         ("Golem Blog", fetch_golem_blog),
         ("Ollama Releases", fetch_ollama_releases),
+        ("Arxiv AI/ML", fetch_arxiv),
+        ("GitHub Topics", fetch_github_topics),
     ]
 
     total = 0

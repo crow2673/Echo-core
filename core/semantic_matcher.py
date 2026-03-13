@@ -81,7 +81,7 @@ ACTION_EXAMPLES = {
         "why is golem not getting tasks",
         "debug golem provider",
     ],
-    "golem_earnings_check": [
+    "vast_status": [
         "check vast.ai status",
         "vast machine 57470",
         "gpu rental status",

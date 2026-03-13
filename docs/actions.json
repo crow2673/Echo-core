@@ -372,6 +372,17 @@
       ],
       "safe": true,
       "note": "Set ECHO_TITLE and ECHO_OUTLINE. Writes markdown to content/, queues in draft_queue.json"
+    },
+    {
+      "id": "vast_status",
+      "description": "Check Vast.ai machine 57470 status \u2014 listings, rentals, earnings",
+      "command": "python3 -m core.vast_monitor",
+      "safe": true,
+      "tags": [
+        "vast",
+        "income",
+        "gpu"
+      ]
     }
   ]
 }

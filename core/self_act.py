@@ -189,6 +189,7 @@ def generate_flags(core_state: dict) -> list:
         "read memory/income_knowledge.md and reason about which income path to activate next",
         "read registry.json and verify all listed services are actually running",
         "query_ledger: summarize recent wins and losses from the event ledger",
+        "check Vast.ai machine 57470 status — is it listed, any active rentals, earnings so far",
     ]
     existing_knowledge = set(core_state.get("knowledge", {}).keys())
     for task in standing:

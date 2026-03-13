@@ -1,0 +1,1 @@
+deb [signed-by=/usr/share/keyrings/golem-archive-keyring.gpg] https://apt-repo.golem.network/ all main

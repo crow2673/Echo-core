@@ -49,7 +49,16 @@ def log_event(
             "VALUES (?,?,?,?,?,?,?)",
             (ts, event_type, source, summary[:500], data_str, score, tags)
         )
-        return cur.lastrowid
+        row_id = cur.lastrowid
+
+    # Mirror to Notion asynchronously — never block the ledger
+    try:
+        from core.notion_bridge import log_event_to_notion
+        log_event_to_notion(event_type, source, summary, score)
+    except Exception:
+        pass
+
+    return row_id
 
 
 def query_recent(

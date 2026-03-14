@@ -193,6 +193,24 @@ def run():
         except Exception:
             pass
 
+        # Update standing task scores
+        try:
+            import json as _json
+            from pathlib import Path as _Path
+            _sf = _Path("/home/andrew/Echo/memory/standing_tasks.json")
+            _data = _json.loads(_sf.read_text())
+            for _t in _data["tasks"]:
+                if _t["id"] == action["id"] or action["id"] in _t["task"]:
+                    if success:
+                        _t["wins"] = _t.get("wins", 0) + 1
+                        _t["weight"] = min(2.0, _t.get("weight", 1.0) + 0.05)
+                    else:
+                        _t["losses"] = _t.get("losses", 0) + 1
+                        _t["weight"] = max(0.1, _t.get("weight", 1.0) - 0.05)
+            _sf.write_text(_json.dumps(_data, indent=2))
+        except Exception:
+            pass
+
         log_event(
             "feedback",
             "governor",

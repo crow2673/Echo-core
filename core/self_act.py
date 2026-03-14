@@ -181,21 +181,26 @@ def generate_flags(core_state: dict) -> list:
             if flag not in core_state.get("knowledge", {}):
                 flags.append(flag)
 
-    # Always have at least one standing task
-    standing = [
-        "summarize: current Echo system state in ONE paragraph",
-        "review TODO.md and suggest the single highest-value next action",
-        "check Golem node status and suggest pricing adjustment if needed",
-        "read memory/income_knowledge.md and reason about which income path to activate next",
-        "read registry.json and verify all listed services are actually running",
-        "query_ledger: summarize recent wins and losses from the event ledger",
-        "check Vast.ai machine 57470 status — is it listed, any active rentals, earnings so far",
-        "read memory/world_context.md and identify one trending topic Echo should write an article about — add to content/draft_queue.json if promising",
-    ]
-    # Rotate standing tasks by index — always pick one per cycle regardless of history
-    idx = core_state.get('_standing_idx', 0) % len(standing)
-    core_state['_standing_idx'] = idx + 1
-    task = standing[idx]
+    # Load standing tasks from file — adaptive, not hardcoded
+    standing_file = BASE / "memory/standing_tasks.json"
+    try:
+        import json as _json
+        standing_data = _json.loads(standing_file.read_text())
+        tasks = standing_data.get("tasks", [])
+        # Weight-based selection — higher weight = more frequent
+        import random as _random
+        weights = [max(t.get("weight", 1.0), 0.1) for t in tasks]
+        total = sum(weights)
+        normalized = [w/total for w in weights]
+        idx = core_state.get('_standing_idx', 0) % len(tasks)
+        core_state['_standing_idx'] = idx + 1
+        task = tasks[idx]["task"]
+        # Update cycle count
+        standing_data["total_cycles"] = standing_data.get("total_cycles", 0) + 1
+        standing_file.write_text(_json.dumps(standing_data, indent=2))
+    except Exception as e:
+        # Fallback to basic task if file missing
+        task = "summarize: current Echo system state in ONE paragraph"
     if task not in flags:
         flags.append(task)
     return flags

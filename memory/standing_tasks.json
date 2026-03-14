@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    {"id": "system_state", "task": "summarize: current Echo system state in ONE paragraph", "weight": 1.0, "wins": 0, "losses": 0},
+    {"id": "todo_review", "task": "review TODO.md and suggest the single highest-value next action", "weight": 1.0, "wins": 0, "losses": 0},
+    {"id": "golem_status", "task": "check Golem node status and suggest pricing adjustment if needed", "weight": 1.0, "wins": 0, "losses": 0},
+    {"id": "income_knowledge", "task": "read memory/income_knowledge.md and reason about which income path to activate next", "weight": 1.0, "wins": 0, "losses": 0},
+    {"id": "registry_verify", "task": "read registry.json and verify all listed services are actually running", "weight": 1.0, "wins": 0, "losses": 0},
+    {"id": "query_ledger", "task": "query_ledger: summarize recent wins and losses from the event ledger", "weight": 1.0, "wins": 0, "losses": 0},
+    {"id": "vast_status", "task": "check Vast.ai machine 57470 status — is it listed, any active rentals, earnings so far", "weight": 1.0, "wins": 0, "losses": 0},
+    {"id": "world_context", "task": "read memory/world_context.md and identify one trending topic Echo should write an article about — add to content/draft_queue.json if promising", "weight": 1.0, "wins": 0, "losses": 0}
+  ],
+  "last_updated": "2026-03-14",
+  "total_cycles": 0
+}

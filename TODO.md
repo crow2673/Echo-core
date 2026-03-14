@@ -66,7 +66,7 @@
 ## Technical Debt (Harden & Clean)
 - [x] Clean root directory — archived 116MB logs + 66 bak files DONE 2026-03-14 in ~/Echo/ root need archiving (daemon.log 2MB, jarvis.log 100MB, echo_agi_lite.log 2MB, autonomous.log 500KB)
 - [x] Notion bridge timeout — retry logic with backoff added DONE 2026-03-14 hitting Notion API, needs retry logic with backoff in core/notion_bridge.py
-- [ ] Article pipeline timeout — draft_writer times out because governor is competing for Ollama, needs queue-aware scheduling
+- [x] Article pipeline timeout — ollama idle check added, skips if busy DONE 2026-03-14 because governor is competing for Ollama, needs queue-aware scheduling
 - [x] actions.json schema — all 38 actions use cmd field consistently DONE 2026-03-14 caused silent failures, audit all 38 actions for consistency
 - [ ] Root directory .bak files — echo_core_daemon.py has 9 backup versions in root, need archiving to checkpoints/
 - [ ] Governor keyword fallback — keyword match still exists alongside semantic match, dead code that could cause confusion

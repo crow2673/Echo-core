@@ -34,6 +34,20 @@ def load_json(path, default):
     except Exception:
         return default
 
+def is_ollama_idle():
+    """Check if Ollama has no active runners — safe to start long inference."""
+    try:
+        req = urllib.request.Request(
+            "http://localhost:11434/api/ps",
+            headers={"Content-Type": "application/json"}
+        )
+        with urllib.request.urlopen(req, timeout=5) as r:
+            result = json.loads(r.read())
+            models = result.get("models", [])
+            return len(models) == 0  # idle if no active models
+    except Exception:
+        return True  # assume idle if can't check
+
 def call_ollama(prompt, system_prompt, timeout=600):
     """Call echo model via ollama API."""
     try:
@@ -101,6 +115,11 @@ def run_single(draft_item):
 
     log(f"pipeline started: {draft_id}")
     log(f"  topic: {topic[:80]}")
+
+    # Check if Ollama is idle — skip if busy to avoid timeout
+    if not is_ollama_idle():
+        log(f"  ollama busy — skipping this cycle, will retry next run")
+        return False
 
     # Import reviewer
     sys.path.insert(0, str(BASE))

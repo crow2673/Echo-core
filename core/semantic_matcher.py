@@ -27,6 +27,9 @@ ACTION_EXAMPLES = {
         "golem uptime check",
         "is golem online",
         "golem service status",
+        "golem node suggest",
+        "check golem and suggest",
+        "golem status check suggest pricing",
     ],
     "golem_pricing_update": [
         "lower golem price",

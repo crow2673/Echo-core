@@ -44,9 +44,20 @@ def is_ollama_idle():
         with urllib.request.urlopen(req, timeout=5) as r:
             result = json.loads(r.read())
             models = result.get("models", [])
-            return len(models) == 0  # idle if no active models
+            return len(models) == 0
     except Exception:
-        return True  # assume idle if can't check
+        return True
+
+def wait_for_ollama_idle(max_wait=300):
+    """Wait up to max_wait seconds for Ollama to become idle."""
+    import time
+    for i in range(max_wait // 10):
+        if is_ollama_idle():
+            return True
+        if i == 0:
+            log("  waiting for Ollama to free up...")
+        time.sleep(10)
+    return False
 
 def call_ollama(prompt, system_prompt, timeout=600):
     """Call echo model via ollama API."""
@@ -73,7 +84,11 @@ def call_ollama(prompt, system_prompt, timeout=600):
 def write_draft(topic, prompt, issues=None):
     """Write article draft, optionally with revision guidance."""
     system = """You are a developer writing a technical article for dev.to.
-Write in first person ('I', 'my', 'we'). Never refer to yourself as 'Andrew'.
+Your setup: Ryzen 9 5900X, RTX 3060 12GB, 32GB RAM, Ubuntu Linux, Mena Arkansas.
+You run qwen2.5:32b via Ollama locally — no Docker, no cloud, no API costs.
+Write in first person ('I', 'my'). Never refer to yourself as 'Andrew'.
+Be specific and honest — mention your actual hardware and real experiences.
+Never recommend Docker for Ollama — just use: curl -fsSL https://ollama.com/install.sh | sh
 Include practical code examples or step-by-step instructions.
 Structure: catchy intro, problem/context, solution with code, conclusion.
 Target length: 600-1000 words. No duplicate headings. End with a complete conclusion."""
@@ -116,10 +131,11 @@ def run_single(draft_item):
     log(f"pipeline started: {draft_id}")
     log(f"  topic: {topic[:80]}")
 
-    # Check if Ollama is idle — skip if busy to avoid timeout
-    if not is_ollama_idle():
-        log(f"  ollama busy — skipping this cycle, will retry next run")
+    # Wait for Ollama to be idle — up to 5 minutes
+    if not wait_for_ollama_idle(max_wait=300):
+        log(f"  ollama busy after 5min wait — skipping")
         return False
+    log(f"  ollama idle — starting draft")
 
     # Import reviewer
     sys.path.insert(0, str(BASE))

@@ -68,7 +68,7 @@
 - [x] Notion bridge timeout — retry logic with backoff added DONE 2026-03-14 hitting Notion API, needs retry logic with backoff in core/notion_bridge.py
 - [x] Article pipeline timeout — ollama idle check added, skips if busy DONE 2026-03-14 because governor is competing for Ollama, needs queue-aware scheduling
 - [x] actions.json schema — all 38 actions use cmd field consistently DONE 2026-03-14 caused silent failures, audit all 38 actions for consistency
-- [ ] Root directory .bak files — echo_core_daemon.py has 9 backup versions in root, need archiving to checkpoints/
+- [x] Root directory .bak files — all 66 archived DONE 2026-03-14 in root, need archiving to checkpoints/
 - [ ] Governor keyword fallback — keyword match still exists alongside semantic match, dead code that could cause confusion
-- [ ] Memory file cleanup — echo_memory.backup.ndjson (4.3MB) and echo_memory.legacy.ndjson (9.6MB) in root, should move to archive
+- [x] Memory file cleanup — trading bot ndjson archived DONE 2026-03-14 (4.3MB) and echo_memory.legacy.ndjson (9.6MB) in root, should move to archive
 - [x] Notion bridge async — background thread, never blocks Echo DONE 2026-03-14 on each API call, should run in background thread to never slow Echo down

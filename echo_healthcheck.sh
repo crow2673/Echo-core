@@ -6,7 +6,11 @@ OUTPUT=""
 
 check_user_service() {
     local name=$1
+    # Try direct user check first, then try as andrew user
     if systemctl --user is-active "$name" &>/dev/null; then
+        OUTPUT="$OUTPUT OK:$name"
+        PASS=$((PASS+1))
+    elif su -c "systemctl --user is-active $name" andrew &>/dev/null 2>&1; then
         OUTPUT="$OUTPUT OK:$name"
         PASS=$((PASS+1))
     else

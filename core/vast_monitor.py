@@ -47,11 +47,23 @@ def check_vast():
                 log_event("income", "vast_monitor",
                     f"machine {mid}: verified={verified} reliability={reliability} price={price}/hr renting={renting}",
                     score=1.0 if renting else 0.0)
-                # Mirror to Notion Income Tracker
+                # Mirror to Notion Income Tracker — only on status change
                 from core.notion_bridge import log_income_to_notion
+                from pathlib import Path as _Path
+                import json as _json
                 status = "active" if renting else "pending"
-                log_income_to_notion("Vast.ai GPU", status,
-                    f"Machine {mid}: reliability={reliability} price={price}/hr renting={renting}")
+                _state_file = _Path("/home/andrew/Echo/memory/vast_last_status.json")
+                _last = {}
+                try:
+                    _last = _json.loads(_state_file.read_text())
+                except Exception:
+                    pass
+                _key = f"{mid}_status"
+                if _last.get(_key) != status:
+                    log_income_to_notion("Vast.ai GPU", status,
+                        f"Machine {mid}: reliability={reliability} price={price}/hr renting={renting}")
+                    _last[_key] = status
+                    _state_file.write_text(_json.dumps(_last))
             except Exception:
                 pass
     except Exception as e:

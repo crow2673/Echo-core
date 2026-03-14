@@ -2096,3 +2096,7 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/daily_briefing.py", "mtime": 1773469519.4604113, "size": 4386, "ts": 1773469520.7833364}
 {"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/notion_briefing.py", "mtime": 1773469654.2662346, "size": 4515, "ts": 1773469655.9462152}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/governor.py", "mtime": 1773472698.386575, "size": 7443, "ts": 1773472698.6358237}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_bridge.py", "mtime": 1773506871.6222327, "size": 6506, "ts": 1773506873.625776}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/governor.py", "mtime": 1773507176.3289042, "size": 7385, "ts": 1773507178.235896}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_bridge.py", "mtime": 1773507227.402073, "size": 6758, "ts": 1773507228.6848366}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/article_pipeline.py", "mtime": 1773507698.8800848, "size": 7201, "ts": 1773507700.6751592}

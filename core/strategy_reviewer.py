@@ -280,6 +280,27 @@ def run():
     except Exception:
         pass
 
+    # Rebalance standing task weights based on income progress
+    try:
+        import json as _json
+        from pathlib import Path as _Path
+        _sf = _Path("/home/andrew/Echo/memory/standing_tasks.json")
+        _data = _json.loads(_sf.read_text())
+        _today = datetime.now().strftime("%Y-%m-%d")
+
+        # If no income yet — boost income-critical tasks
+        if data["wins"] > 0 and data["income"] == []:
+            for _t in _data["tasks"]:
+                if _t["id"] in ["golem_status", "income_knowledge", "world_context"]:
+                    _t["weight"] = min(2.0, _t["weight"] + 0.2)
+                    log(f"rebalanced {_t['id']} weight → {_t['weight']:.2f} (no income yet)")
+
+        _data["last_updated"] = _today
+        _sf.write_text(_json.dumps(_data, indent=2))
+        log("standing tasks rebalanced")
+    except Exception as e:
+        log(f"rebalance failed: {e}")
+
     log("strategy_reviewer done")
 
 if __name__ == "__main__":

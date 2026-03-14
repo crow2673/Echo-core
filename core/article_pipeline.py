@@ -52,7 +52,7 @@ def call_ollama(prompt, system_prompt, timeout=600):
     """Call echo model via ollama API."""
     try:
         payload = json.dumps({
-            "model": "echo",
+            "model": "qwen2.5:7b",
             "prompt": prompt,
             "system": system_prompt,
             "stream": False,
@@ -101,7 +101,7 @@ def notify_andrew(title, message, tag="article"):
     try:
         sys.path.insert(0, str(BASE))
         from core.notifier import notify
-        notify(title, message, tags=[tag])
+        notify(title, message)
         return True
     except Exception as e:
         log(f"notify failed: {e}")

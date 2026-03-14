@@ -69,6 +69,6 @@
 - [x] Article pipeline timeout — ollama idle check added, skips if busy DONE 2026-03-14 because governor is competing for Ollama, needs queue-aware scheduling
 - [x] actions.json schema — all 38 actions use cmd field consistently DONE 2026-03-14 caused silent failures, audit all 38 actions for consistency
 - [x] Root directory .bak files — all 66 archived DONE 2026-03-14 in root, need archiving to checkpoints/
-- [ ] Governor keyword fallback — keyword match still exists alongside semantic match, dead code that could cause confusion
+- [x] Governor keyword fallback — kept as safety net, fixed dead vast_status branch DONE 2026-03-14
 - [x] Memory file cleanup — trading bot ndjson archived DONE 2026-03-14 (4.3MB) and echo_memory.legacy.ndjson (9.6MB) in root, should move to archive
 - [x] Notion bridge async — background thread, never blocks Echo DONE 2026-03-14 on each API call, should run in background thread to never slow Echo down

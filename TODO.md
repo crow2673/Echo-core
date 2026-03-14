@@ -6,7 +6,7 @@
 ## Income
 - [ ] Income closure — Golem earning path clear, dev.to publishing, no dollar yet
 - [ ] Autonomous article pipeline — Echo writes, self-reviews, adjusts, then queues for human approval before publish
-- [ ] Memory promotion layer — usage + validation signals to rank what's worth keeping (from Daniel Nwaneri exchange)
+- [x] Memory promotion layer — retrieval count + outcome score + recency decay DONE 2026-03-14 to rank what's worth keeping (from Daniel Nwaneri exchange)
 - [ ] Echo Shell / setup wizard — END GOAL, prove income first
 
 ## Hardware

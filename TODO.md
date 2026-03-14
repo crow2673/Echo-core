@@ -5,6 +5,8 @@
 
 - [ ] Video demo for Notion challenge — 2-3 min screen recording, upload YouTube unlisted, embed in article (deadline March 29)
 
+- [ ] Video demo for Notion challenge — 2-3 min screen recording, upload YouTube unlisted, embed in article (deadline March 29)
+
 ## Income
 - [ ] Income closure — Golem earning path clear, dev.to publishing, no dollar yet
 - [ ] Autonomous article pipeline — Echo writes, self-reviews, adjusts, then queues for human approval before publish

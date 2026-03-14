@@ -206,8 +206,9 @@ def run():
                         _t["weight"] = min(2.0, _t.get("weight", 1.0) + 0.05)
                     else:
                         _t["losses"] = _t.get("losses", 0) + 1
-                        _min = _t.get("min_weight", 0.1)
-                        _t["weight"] = max(_min, _t.get("weight", 1.0) - 0.05)
+                        if not _t.get("failure_immune", False):
+                            _min = _t.get("min_weight", 0.1)
+                            _t["weight"] = max(_min, _t.get("weight", 1.0) - 0.05)
             _sf.write_text(_json.dumps(_data, indent=2))
         except Exception:
             pass

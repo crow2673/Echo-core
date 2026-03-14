@@ -186,6 +186,12 @@ def run():
 
         score = 1.0 if success else -1.0
         log(f"  result: {'OK' if success else 'FAIL'} — {output[:100]}")
+        # Mirror to Notion Actions database
+        try:
+            from core.notion_bridge import log_action_to_notion
+            log_action_to_notion(action['id'], success, output[:300])
+        except Exception:
+            pass
 
         log_event(
             "feedback",

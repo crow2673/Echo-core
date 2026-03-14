@@ -6,7 +6,8 @@
       "weight": 1.0,
       "wins": 0,
       "losses": 0,
-      "min_weight": 0.1
+      "min_weight": 0.1,
+      "max_weight": 1.2
     },
     {
       "id": "todo_review",
@@ -14,7 +15,8 @@
       "weight": 1.0,
       "wins": 0,
       "losses": 0,
-      "min_weight": 0.1
+      "min_weight": 0.1,
+      "max_weight": 2.0
     },
     {
       "id": "golem_status",
@@ -22,7 +24,8 @@
       "weight": 1.0,
       "wins": 0,
       "losses": 0,
-      "min_weight": 0.9
+      "min_weight": 0.9,
+      "max_weight": 2.0
     },
     {
       "id": "income_knowledge",
@@ -30,7 +33,8 @@
       "weight": 1.0,
       "wins": 0,
       "losses": 0,
-      "min_weight": 0.9
+      "min_weight": 0.9,
+      "max_weight": 2.0
     },
     {
       "id": "registry_verify",
@@ -38,23 +42,26 @@
       "weight": 1.0,
       "wins": 0,
       "losses": 0,
-      "min_weight": 0.1
+      "min_weight": 0.1,
+      "max_weight": 2.0
     },
     {
       "id": "query_ledger",
       "task": "query_ledger: summarize recent wins and losses from the event ledger",
-      "weight": 1.2000000000000002,
-      "wins": 4,
+      "weight": 1.2,
+      "wins": 5,
       "losses": 0,
-      "min_weight": 0.1
+      "min_weight": 0.1,
+      "max_weight": 1.2
     },
     {
       "id": "vast_status",
       "task": "check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far",
-      "weight": 1.0,
-      "wins": 0,
+      "weight": 1.05,
+      "wins": 1,
       "losses": 0,
-      "min_weight": 0.7
+      "min_weight": 0.7,
+      "max_weight": 2.0
     },
     {
       "id": "world_context",
@@ -62,9 +69,10 @@
       "weight": 1.0,
       "wins": 0,
       "losses": 0,
-      "min_weight": 0.8
+      "min_weight": 0.8,
+      "max_weight": 2.0
     }
   ],
   "last_updated": "2026-03-14",
-  "total_cycles": 2
+  "total_cycles": 3
 }

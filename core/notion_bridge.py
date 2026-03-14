@@ -35,26 +35,32 @@ def _load_config():
         pass
     return config
 
-def _api_call(endpoint, payload, token):
-    """Make a Notion API call."""
-    try:
-        data = json.dumps(payload).encode()
-        req = urllib.request.Request(
-            f"https://api.notion.com/v1/{endpoint}",
-            data=data,
-            headers={
-                "Authorization": f"Bearer {token}",
-                "Content-Type": "application/json",
-                "Notion-Version": "2022-06-28"
-            }
-        )
-        with urllib.request.urlopen(req, timeout=10) as r:
-            return json.loads(r.read()), None
-    except urllib.error.HTTPError as e:
-        body = e.read().decode()
-        return None, f"HTTP {e.code}: {body[:200]}"
-    except Exception as e:
-        return None, str(e)
+def _api_call(endpoint, payload, token, retries=3):
+    """Make a Notion API call with retry and backoff."""
+    import time
+    last_err = None
+    for attempt in range(retries):
+        try:
+            data = json.dumps(payload).encode()
+            req = urllib.request.Request(
+                f"https://api.notion.com/v1/{endpoint}",
+                data=data,
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "Content-Type": "application/json",
+                    "Notion-Version": "2022-06-28"
+                }
+            )
+            with urllib.request.urlopen(req, timeout=15) as r:
+                return json.loads(r.read()), None
+        except urllib.error.HTTPError as e:
+            body = e.read().decode()
+            return None, f"HTTP {e.code}: {body[:200]}"
+        except Exception as e:
+            last_err = str(e)
+            if attempt < retries - 1:
+                time.sleep(2 ** attempt)  # 1s, 2s backoff
+    return None, f"failed after {retries} attempts: {last_err}"
 
 def _now_iso():
     return datetime.now(timezone.utc).isoformat()

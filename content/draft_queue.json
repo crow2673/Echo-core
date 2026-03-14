@@ -6,8 +6,8 @@
     "prompt": "Write about the practical experience of running a local LLM (qwen2.5:32b via ollama) on a Linux workstation. Cover: hardware requirements, what works well, latency trade-offs, and why local AI matters for privacy and cost. Target: developers curious about local AI.",
     "priority": "high",
     "created_at": "2026-03-13T14:29:48.738993",
-    "status": "queued",
-    "updated": "2026-03-13T14:43:36.442833"
+    "status": "failed",
+    "updated": "2026-03-14T10:20:01.863428"
   },
   {
     "title": "AI automation topic from world context",

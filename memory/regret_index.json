@@ -275,6 +275,18 @@
       "context": "auto_act",
       "timestamp": "2026-03-13T09:29:28.393111",
       "updated": "2026-03-13T09:29:28.394146"
+    },
+    {
+      "entry_id": "analytics_20260314_20260314_090338",
+      "action_id": "analytics_20260314",
+      "category": "auto_act",
+      "description": "Best performing article: 'Build an AI\u2011Ready Linux Workstation Under $800 in ' with 203 views. Write more content on similar topics to drive traffic.",
+      "score": -1,
+      "outcome_known": true,
+      "outcome_notes": "failed: no executable action matched",
+      "context": "auto_act",
+      "timestamp": "2026-03-14T09:03:38.400424",
+      "updated": "2026-03-14T09:03:38.400916"
     }
   ],
   "last_audit": null

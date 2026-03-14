@@ -93,9 +93,9 @@ def match_action(reasoning_text, actions):
 
     # Vast.ai status check
     if any(x in text for x in ["vast.ai", "vast ai", "machine 57470", "gpu rental", "rentals"]):
-        action = next((a for a in actions if a["id"] == "golem_status"), None)
-        # No dedicated vast action yet — log as observation, no action needed
-        return None, None
+        action = next((a for a in actions if a["id"] == "vast_status"), None)
+        if action:
+            return action, {}
 
     # Registry / service verification
     if any(x in text for x in ["registry.json", "verify all", "services are actually running", "check services"]):

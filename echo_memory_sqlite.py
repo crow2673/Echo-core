@@ -25,13 +25,27 @@ class EchoMemory:
         self.db = sqlite3.connect(str(db_path))
         self.db.execute("""
             CREATE TABLE IF NOT EXISTS memories (
-                id        INTEGER PRIMARY KEY AUTOINCREMENT,
-                text      TEXT NOT NULL,
-                embedding BLOB NOT NULL,
-                metadata  TEXT,
-                created_at TEXT
+                id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                text            TEXT NOT NULL,
+                embedding       BLOB NOT NULL,
+                metadata        TEXT,
+                created_at      TEXT,
+                retrieval_count INTEGER DEFAULT 0,
+                promotion_score REAL DEFAULT 0.5,
+                last_retrieved  TEXT
             )
         """)
+        # Migrate existing db — add columns if missing
+        for col, defval in [
+            ("retrieval_count", "0"),
+            ("promotion_score", "0.5"),
+            ("last_retrieved", "NULL"),
+        ]:
+            try:
+                self.db.execute(f"ALTER TABLE memories ADD COLUMN {col} {'INTEGER' if col == 'retrieval_count' else 'REAL' if col == 'promotion_score' else 'TEXT'} DEFAULT {defval}")
+                self.db.commit()
+            except Exception:
+                pass  # column already exists
         self.db.execute("""
             CREATE TABLE IF NOT EXISTS sessions (
                 id            INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -66,23 +80,87 @@ class EchoMemory:
     def search(self, query: str, k: int = 5) -> list[tuple[str, dict, float]]:
         """
         Returns list of (text, metadata, score) sorted by relevance descending.
+        Blends cosine similarity (70%) with promotion score (30%).
+        Updates retrieval_count and last_retrieved for returned memories.
         """
         q_vec = self._embed(query)
         rows = self.db.execute(
-            "SELECT text, embedding, metadata FROM memories"
+            "SELECT id, text, embedding, metadata, promotion_score FROM memories"
         ).fetchall()
 
         scored = []
-        for text, emb_blob, meta_json in rows:
+        for row_id, text, emb_blob, meta_json, promo_score in rows:
             emb = np.frombuffer(emb_blob, dtype=np.float32)
             denom = np.linalg.norm(q_vec) * np.linalg.norm(emb)
             if denom == 0:
                 continue
-            score = float(np.dot(q_vec, emb) / denom)
-            scored.append((score, text, json.loads(meta_json)))
+            cosine = float(np.dot(q_vec, emb) / denom)
+            promo = float(promo_score or 0.5)
+            # Blend: 70% similarity, 30% promotion with recency decay
+            # Recency decay: memories not retrieved in 30+ days score lower
+            import math
+            decay = 1.0
+            try:
+                row_created = row[4] if len(row) > 4 else None
+                # Use last_retrieved if available, else created_at
+                last_used = None
+                if len(row) > 6 and row[6]:
+                    last_used = row[6]
+                elif len(row) > 3 and row[3]:
+                    meta = json.loads(row[3] or "{}")
+                    last_used = meta.get("created_at")
+                if last_used:
+                    try:
+                        last_dt = datetime.fromisoformat(last_used.replace("Z", "+00:00"))
+                        days_old = (datetime.now(timezone.utc) - last_dt).days
+                        decay = math.exp(-days_old / 60)  # half-life ~42 days
+                    except Exception:
+                        decay = 1.0
+            except Exception:
+                decay = 1.0
+            blended = (cosine * 0.7) + (promo * decay * 0.3)
+            scored.append((blended, row_id, text, json.loads(meta_json)))
 
         scored.sort(reverse=True, key=lambda x: x[0])
-        return [(t, m, s) for s, t, m in scored[:k]]
+        top = scored[:k]
+
+        # Update retrieval stats for returned memories
+        now = datetime.now(timezone.utc).isoformat()
+        for _, row_id, _, _ in top:
+            self.db.execute(
+                "UPDATE memories SET retrieval_count = retrieval_count + 1, last_retrieved = ? WHERE id = ?",
+                (now, row_id)
+            )
+        self.db.commit()
+
+        return [(t, m, s) for s, _, t, m in top]
+
+    def promote(self, memory_id: int, delta: float = 0.1):
+        """Increase promotion score — called when a memory informed a successful action."""
+        self.db.execute(
+            "UPDATE memories SET promotion_score = MIN(1.0, promotion_score + ?) WHERE id = ?",
+            (delta, memory_id)
+        )
+        self.db.commit()
+
+    def demote(self, memory_id: int, delta: float = 0.1):
+        """Decrease promotion score — called when a memory informed a failed action."""
+        self.db.execute(
+            "UPDATE memories SET promotion_score = MAX(0.0, promotion_score - ?) WHERE id = ?",
+            (delta, memory_id)
+        )
+        self.db.commit()
+
+    def prune_low_value(self, threshold: float = 0.1, min_age_days: int = 30):
+        """Remove memories that are never retrieved and have low promotion scores."""
+        from datetime import timedelta
+        cutoff = (datetime.now(timezone.utc) - timedelta(days=min_age_days)).isoformat()
+        cur = self.db.execute(
+            "DELETE FROM memories WHERE promotion_score < ? AND (last_retrieved IS NULL OR last_retrieved < ?) AND retrieval_count = 0",
+            (threshold, cutoff)
+        )
+        self.db.commit()
+        return cur.rowcount
 
     def store_exchange(self, user_text: str, reply_text: str, capsule_id: str = ""):
         """Store a full user↔Echo exchange as a single memory entry."""

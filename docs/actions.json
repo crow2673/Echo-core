@@ -368,7 +368,7 @@
       "cmd": [
         "bash",
         "-lc",
-        "cd ~/Echo && python3 -m core.draft_writer --title \"$ECHO_TITLE\" --outline \"$ECHO_OUTLINE\""
+        "cd /home/andrew/Echo && python3 -m core.draft_writer --title \"${ECHO_TITLE:-AI automation topic from world context}\" --outline \"${ECHO_OUTLINE:-Write about recent trends in local AI and automation}\""
       ],
       "safe": true,
       "note": "Set ECHO_TITLE and ECHO_OUTLINE. Writes markdown to content/, queues in draft_queue.json"
@@ -382,6 +382,11 @@
         "vast",
         "income",
         "gpu"
+      ],
+      "cmd": [
+        "bash",
+        "-lc",
+        "cd /home/andrew/Echo && python3 -m core.vast_monitor"
       ]
     },
     {

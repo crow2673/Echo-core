@@ -53,8 +53,20 @@ def log_event(
 
     # Mirror to Notion asynchronously — never block the ledger
     try:
-        from core.notion_bridge import log_event_to_notion
+        from core.notion_bridge import log_event_to_notion, log_income_to_notion
         log_event_to_notion(event_type, source, summary, score)
+        # Also log income events to Income Tracker database
+        if event_type == "income":
+            stream_map = {
+                "golem": "Golem Network",
+                "vast": "Vast.ai GPU",
+                "devto": "Dev.to Content",
+                "dev.to": "Dev.to Content",
+                "income_researcher": "Income Research",
+            }
+            stream = next((v for k, v in stream_map.items() if k in source.lower()), source)
+            status = "active" if (score or 0) > 0 else "pending"
+            log_income_to_notion(stream, status, summary[:300])
     except Exception:
         pass
 

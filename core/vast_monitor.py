@@ -47,6 +47,11 @@ def check_vast():
                 log_event("income", "vast_monitor",
                     f"machine {mid}: verified={verified} reliability={reliability} price={price}/hr renting={renting}",
                     score=1.0 if renting else 0.0)
+                # Mirror to Notion Income Tracker
+                from core.notion_bridge import log_income_to_notion
+                status = "active" if renting else "pending"
+                log_income_to_notion("Vast.ai GPU", status,
+                    f"Machine {mid}: reliability={reliability} price={price}/hr renting={renting}")
             except Exception:
                 pass
     except Exception as e:

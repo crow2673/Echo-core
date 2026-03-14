@@ -1,14 +1,70 @@
 {
   "tasks": [
-    {"id": "system_state", "task": "summarize: current Echo system state in ONE paragraph", "weight": 1.0, "wins": 0, "losses": 0},
-    {"id": "todo_review", "task": "review TODO.md and suggest the single highest-value next action", "weight": 1.0, "wins": 0, "losses": 0},
-    {"id": "golem_status", "task": "check Golem node status and suggest pricing adjustment if needed", "weight": 1.0, "wins": 0, "losses": 0},
-    {"id": "income_knowledge", "task": "read memory/income_knowledge.md and reason about which income path to activate next", "weight": 1.0, "wins": 0, "losses": 0},
-    {"id": "registry_verify", "task": "read registry.json and verify all listed services are actually running", "weight": 1.0, "wins": 0, "losses": 0},
-    {"id": "query_ledger", "task": "query_ledger: summarize recent wins and losses from the event ledger", "weight": 1.0, "wins": 0, "losses": 0},
-    {"id": "vast_status", "task": "check Vast.ai machine 57470 status — is it listed, any active rentals, earnings so far", "weight": 1.0, "wins": 0, "losses": 0},
-    {"id": "world_context", "task": "read memory/world_context.md and identify one trending topic Echo should write an article about — add to content/draft_queue.json if promising", "weight": 1.0, "wins": 0, "losses": 0}
+    {
+      "id": "system_state",
+      "task": "summarize: current Echo system state in ONE paragraph",
+      "weight": 1.0,
+      "wins": 0,
+      "losses": 0,
+      "min_weight": 0.1
+    },
+    {
+      "id": "todo_review",
+      "task": "review TODO.md and suggest the single highest-value next action",
+      "weight": 1.0,
+      "wins": 0,
+      "losses": 0,
+      "min_weight": 0.1
+    },
+    {
+      "id": "golem_status",
+      "task": "check Golem node status and suggest pricing adjustment if needed",
+      "weight": 1.0,
+      "wins": 0,
+      "losses": 0,
+      "min_weight": 0.9
+    },
+    {
+      "id": "income_knowledge",
+      "task": "read memory/income_knowledge.md and reason about which income path to activate next",
+      "weight": 1.0,
+      "wins": 0,
+      "losses": 0,
+      "min_weight": 0.9
+    },
+    {
+      "id": "registry_verify",
+      "task": "read registry.json and verify all listed services are actually running",
+      "weight": 1.0,
+      "wins": 0,
+      "losses": 0,
+      "min_weight": 0.1
+    },
+    {
+      "id": "query_ledger",
+      "task": "query_ledger: summarize recent wins and losses from the event ledger",
+      "weight": 1.2000000000000002,
+      "wins": 4,
+      "losses": 0,
+      "min_weight": 0.1
+    },
+    {
+      "id": "vast_status",
+      "task": "check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far",
+      "weight": 1.0,
+      "wins": 0,
+      "losses": 0,
+      "min_weight": 0.7
+    },
+    {
+      "id": "world_context",
+      "task": "read memory/world_context.md and identify one trending topic Echo should write an article about \u2014 add to content/draft_queue.json if promising",
+      "weight": 1.0,
+      "wins": 0,
+      "losses": 0,
+      "min_weight": 0.8
+    }
   ],
   "last_updated": "2026-03-14",
-  "total_cycles": 0
+  "total_cycles": 2
 }

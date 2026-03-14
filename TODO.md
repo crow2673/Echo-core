@@ -62,3 +62,13 @@
 - [x] Watchdog auto-heal on boot
 - [x] Weather integration
 - [x] Dev.to analytics
+
+## Technical Debt (Harden & Clean)
+- [ ] Clean root directory — dozens of .bak, .log, and legacy files in ~/Echo/ root need archiving (daemon.log 2MB, jarvis.log 100MB, echo_agi_lite.log 2MB, autonomous.log 500KB)
+- [ ] Notion bridge timeout — 3 timeouts in 24hrs hitting Notion API, needs retry logic with backoff in core/notion_bridge.py
+- [ ] Article pipeline timeout — draft_writer times out because governor is competing for Ollama, needs queue-aware scheduling
+- [ ] actions.json schema — mixed use of 'cmd' and 'command' fields caused silent failures, audit all 38 actions for consistency
+- [ ] Root directory .bak files — echo_core_daemon.py has 9 backup versions in root, need archiving to checkpoints/
+- [ ] Governor keyword fallback — keyword match still exists alongside semantic match, dead code that could cause confusion
+- [ ] Memory file cleanup — echo_memory.backup.ndjson (4.3MB) and echo_memory.legacy.ndjson (9.6MB) in root, should move to archive
+- [ ] Notion bridge async — currently blocks briefly on each API call, should run in background thread to never slow Echo down

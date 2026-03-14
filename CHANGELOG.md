@@ -586,3 +586,66 @@
 
 ## 2026-03-13 09:29 — Auto-Act Cycle
 - Evaluated 1 suggestions, acted on 0
+
+## 2026-03-13 — Notion MCP Integration + Challenge Submission
+### Notion Bridge
+- core/notion_bridge.py — mirrors Echo's event ledger to Notion in real time
+- Three databases created: Echo Events, Echo Actions, Income Tracker
+- log_event() now auto-mirrors to Notion on every call
+- Governor wired — every action execution logs to Echo Actions
+- Income events auto-route to Income Tracker by source
+- Vast.ai monitor wired to Income Tracker
+
+### Notion Daily Briefing
+- core/notion_briefing.py — writes daily summary page to Echo Dashboard
+- Covers: system health, event ledger stats, income status, open tasks
+- echo-notion-briefing.timer — fires daily at 8:05am
+- First page created: Echo Daily Briefing — 2026-03-14
+
+### RSS Tier 2
+- rss_monitor.py expanded: Arxiv AI/ML + GitHub topics added
+- 7 sources total, 31 items daily
+- GitHub topics use search API (no auth), deduplicated
+
+### Semantic Governor Matching
+- core/semantic_matcher.py — all-MiniLM-L6-v2 embeddings replace keyword matching
+- 8/8 standing tasks matched correctly
+- Keyword fallback retained for safety
+- Fixed: golem_status was matching golem_pricing_update (score 0.814 → correct)
+
+### Regret Scorer
+- core/regret_scorer.py — retroactively scored 22 entries
+- Governor now runs regret_scorer on every cycle
+- 0 unscored entries going forward
+
+### Dev.to Performance Tracker
+- core/devto_performance_tracker.py — trend detection, topic extraction
+- Feeds promising topics into draft_queue.json automatically
+- Runs after devto_analytics daily at 9am
+
+### Article Pipeline
+- core/article_pipeline.py — write → self-review → notify loop
+- core/article_reviewer.py — 9-point quality checklist
+- Human approval required before publish
+- echo-article-pipeline.timer — daily 10am
+- Timeout increased to 600s for 32b model
+
+### Healthcheck Script
+- echo_healthcheck.sh — 8-point system health check
+- Checks: echo-core, echo-ntfy-bridge, timers, ollama, golem, disk
+- 8/8 passing as of 2026-03-14 02:00
+
+### Actions Fixed
+- vast_status: added cmd field (was using wrong 'command' field)
+- create_draft: added full path, default env vars
+- golem_status semantic match corrected
+
+### Challenge Submission
+- dev.to article published: "I Gave My Local AI a Public Brain: Echo + Notion MCP"
+- Notion dashboard made public
+- GitHub repo made public: github.com/crow2673/Echo-core
+- Submission live for Notion MCP Challenge ($1,500 prizes, deadline March 29)
+
+## 2026-03-14 — Technical Debt Documented
+- TODO.md: Technical Debt section added with 8 specific tasks
+- CHANGELOG.md updated to current state

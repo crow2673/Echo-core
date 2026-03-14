@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "id": "test_pipeline_001",
+    "source": "manual_test",
+    "topic": "Running a local AI assistant on Linux: what I learned after 30 days",
+    "prompt": "Write about the practical experience of running a local LLM (qwen2.5:32b via ollama) on a Linux workstation. Cover: hardware requirements, what works well, latency trade-offs, and why local AI matters for privacy and cost. Target: developers curious about local AI.",
+    "priority": "high",
+    "created_at": "2026-03-13T14:29:48.738993",
+    "status": "queued",
+    "updated": "2026-03-13T14:43:36.442833"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260314_020847_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-14T02:10:47.739001",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  }
+]

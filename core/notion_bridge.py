@@ -66,10 +66,17 @@ def _now_iso():
     return datetime.now(timezone.utc).isoformat()
 
 def log_event_to_notion(event_type, source, summary, score=None):
-    """
-    Mirror an event to the Echo Events Notion database.
-    Called after every event_ledger.log_event().
-    """
+    """Mirror event to Notion in background thread — never blocks Echo."""
+    import threading
+    threading.Thread(
+        target=_do_log_event,
+        args=(event_type, source, summary, score),
+        daemon=True
+    ).start()
+    return True
+
+def _do_log_event(event_type, source, summary, score=None):
+    """Actual Notion write — runs in background thread."""
     config = _load_config()
     token = config.get("NOTION_TOKEN")
     db_id = config.get("NOTION_DB_EVENTS")

@@ -71,4 +71,4 @@
 - [ ] Root directory .bak files — echo_core_daemon.py has 9 backup versions in root, need archiving to checkpoints/
 - [ ] Governor keyword fallback — keyword match still exists alongside semantic match, dead code that could cause confusion
 - [ ] Memory file cleanup — echo_memory.backup.ndjson (4.3MB) and echo_memory.legacy.ndjson (9.6MB) in root, should move to archive
-- [ ] Notion bridge async — currently blocks briefly on each API call, should run in background thread to never slow Echo down
+- [x] Notion bridge async — background thread, never blocks Echo DONE 2026-03-14 on each API call, should run in background thread to never slow Echo down

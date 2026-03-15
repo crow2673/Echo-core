@@ -6,13 +6,37 @@
     "prompt": "Write about the practical experience of running a local LLM (qwen2.5:32b via ollama) on a Linux workstation. Cover: hardware requirements, what works well, latency trade-offs, and why local AI matters for privacy and cost. Target: developers curious about local AI.",
     "priority": "high",
     "created_at": "2026-03-13T14:29:48.738993",
-    "status": "failed",
-    "updated": "2026-03-14T10:20:01.863428"
+    "status": "pending_review",
+    "updated": "2026-03-14T18:46:31.274464"
   },
   {
     "title": "AI automation topic from world context",
     "file": "draft_20260314_020847_ai_automation_topic_from_world_context.md",
     "created": "2026-03-14T02:10:47.739001",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation",
+    "updated": "2026-03-14T18:29:09.306971"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260314_132946_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-14T13:30:26.255384",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation",
+    "updated": "2026-03-14T18:29:09.306977"
+  },
+  {
+    "title": "test",
+    "file": "draft_20260314_165702_test.md",
+    "created": "2026-03-14T16:59:02.742287",
+    "status": "queued",
+    "outline": "test outline",
+    "updated": "2026-03-14T18:29:09.306979"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260314_213040_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-14T21:31:24.144561",
     "status": "queued",
     "outline": "Write about recent trends in local AI and automation"
   }

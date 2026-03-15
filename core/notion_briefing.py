@@ -86,10 +86,14 @@ def run():
         todo_text = "unavailable"
 
     try:
-        healthcheck = __import__("subprocess").run(
-            ["bash", str(BASE / "echo_healthcheck.sh")],
-            capture_output=True, text=True, timeout=30
-        ).stdout.strip()
+        import subprocess as _sp, os as _os
+        _script = str(BASE / "echo_healthcheck.sh")
+        # Try direct first, fall back to su for system service context
+        _r = _sp.run(["bash", _script], capture_output=True, text=True, timeout=30)
+        if "FAIL" in _r.stdout and _os.getuid() == 0:
+            _r = _sp.run(["su", "-c", f"bash {_script}", "andrew"],
+                capture_output=True, text=True, timeout=30)
+        healthcheck = _r.stdout.strip()
     except Exception:
         healthcheck = "unavailable"
 

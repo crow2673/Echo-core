@@ -21,8 +21,8 @@
     {
       "id": "golem_status",
       "task": "check Golem node status and suggest pricing adjustment if needed",
-      "weight": 1.8500000000000008,
-      "wins": 17,
+      "weight": 1.9500000000000008,
+      "wins": 19,
       "losses": 0,
       "min_weight": 0.9,
       "max_weight": 2.0
@@ -49,7 +49,7 @@
       "id": "query_ledger",
       "task": "query_ledger: summarize recent wins and losses from the event ledger",
       "weight": 2.0,
-      "wins": 38,
+      "wins": 41,
       "losses": 0,
       "min_weight": 0.1,
       "max_weight": 1.2
@@ -57,11 +57,13 @@
     {
       "id": "vast_status",
       "task": "check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far",
-      "weight": 1.9000000000000008,
-      "wins": 18,
+      "weight": 0.0,
+      "wins": 20,
       "losses": 0,
-      "min_weight": 0.7,
-      "max_weight": 2.0
+      "min_weight": 0.0,
+      "max_weight": 2.0,
+      "disabled": true,
+      "note": "Disabled 2026-03-15 \u2014 upload speed 0.6 Mbps fails 10 Mbps minimum requirement"
     },
     {
       "id": "world_context",
@@ -75,6 +77,6 @@
       "note": "create_draft failures are Ollama timeouts, not task failures"
     }
   ],
-  "last_updated": "2026-03-14",
-  "total_cycles": 110
+  "last_updated": "2026-03-15",
+  "total_cycles": 171
 }

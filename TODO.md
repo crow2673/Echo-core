@@ -61,3 +61,10 @@
 - [x] Watchdog auto-heal on boot
 - [x] Weather integration
 - [x] Dev.to analytics
+
+## From Notion AI Review (2026-03-15)
+- [ ] One-number outcome metric — single dashboard number: dollars earned, posts published. Judges and buyers need ROI at a glance
+- [ ] Close the outcome loop — plan → do → verify → report. Echo acts but doesn't verify real-world results yet
+- [ ] Remove Vast.ai from standing tasks — confirmed fails 10 Mbps minimum, wasted cycles
+- [ ] Fix healthcheck in notion_briefing.py — shows 4 failed when all 8 pass (system context issue)
+- [ ] Remove duplicate video demo task from TODO.md

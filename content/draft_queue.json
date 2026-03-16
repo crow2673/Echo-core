@@ -39,5 +39,15 @@
     "created": "2026-03-14T21:31:24.144561",
     "status": "queued",
     "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "id": "perf_tracker_2026-03-15",
+    "source": "devto_performance_tracker",
+    "topic": "Follow-up on trending topics: gave, local, public",
+    "prompt": "Write a dev.to article that builds on the success of 'Build an AI\u2011Ready Linux Workstation Under $800 in '. Focus on topics: gave, local, public. Target audience: developers interested in local AI and automation.",
+    "priority": "high",
+    "created_at": "2026-03-15T09:00:15.975473",
+    "status": "failed",
+    "updated": "2026-03-15T10:05:01.162200"
   }
 ]

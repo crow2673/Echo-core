@@ -4,17 +4,17 @@
     "views": 5,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-15",
+    "date": "2026-03-16",
     "view_delta": 0,
     "reaction_delta": 0
   },
   "3161893": {
     "title": "CUDA vs ROCm on Linux: what matters for local AI h",
-    "views": 13,
+    "views": 23,
     "reactions": 0,
-    "trend": "STABLE",
-    "date": "2026-03-15",
-    "view_delta": 0,
+    "trend": "GROWING",
+    "date": "2026-03-16",
+    "view_delta": 10,
     "reaction_delta": 0
   },
   "3102654": {
@@ -22,7 +22,7 @@
     "views": 87,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-15",
+    "date": "2026-03-16",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -31,8 +31,8 @@
     "views": 116,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-03-15",
-    "view_delta": 1,
+    "date": "2026-03-16",
+    "view_delta": 0,
     "reaction_delta": 0
   },
   "3102366": {
@@ -40,7 +40,7 @@
     "views": 3,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-15",
+    "date": "2026-03-16",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -49,17 +49,17 @@
     "views": 204,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-15",
-    "view_delta": 1,
+    "date": "2026-03-16",
+    "view_delta": 0,
     "reaction_delta": 0
   },
   "3350257": {
     "title": "I Gave My Local AI a Public Brain: Echo + Notion M",
-    "views": 35,
+    "views": 37,
     "reactions": 4,
-    "trend": "GROWING",
-    "date": "2026-03-15",
-    "view_delta": 20,
-    "reaction_delta": 3
+    "trend": "STABLE",
+    "date": "2026-03-16",
+    "view_delta": 2,
+    "reaction_delta": 0
   }
 }

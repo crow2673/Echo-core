@@ -13,32 +13,33 @@
     "title": "AI automation topic from world context",
     "file": "draft_20260314_020847_ai_automation_topic_from_world_context.md",
     "created": "2026-03-14T02:10:47.739001",
-    "status": "queued",
+    "status": "failed",
     "outline": "Write about recent trends in local AI and automation",
-    "updated": "2026-03-14T18:29:09.306971"
+    "updated": "2026-03-17T10:05:01.939892"
   },
   {
     "title": "AI automation topic from world context",
     "file": "draft_20260314_132946_ai_automation_topic_from_world_context.md",
     "created": "2026-03-14T13:30:26.255384",
-    "status": "queued",
+    "status": "failed",
     "outline": "Write about recent trends in local AI and automation",
-    "updated": "2026-03-14T18:29:09.306977"
+    "updated": "2026-03-17T10:05:01.939907"
   },
   {
     "title": "test",
     "file": "draft_20260314_165702_test.md",
     "created": "2026-03-14T16:59:02.742287",
-    "status": "queued",
+    "status": "failed",
     "outline": "test outline",
-    "updated": "2026-03-14T18:29:09.306979"
+    "updated": "2026-03-17T10:05:01.939910"
   },
   {
     "title": "AI automation topic from world context",
     "file": "draft_20260314_213040_ai_automation_topic_from_world_context.md",
     "created": "2026-03-14T21:31:24.144561",
-    "status": "queued",
-    "outline": "Write about recent trends in local AI and automation"
+    "status": "failed",
+    "outline": "Write about recent trends in local AI and automation",
+    "updated": "2026-03-17T10:05:01.939913"
   },
   {
     "id": "perf_tracker_2026-03-15",
@@ -59,5 +60,144 @@
     "created_at": "2026-03-16T09:00:04.875851",
     "status": "failed",
     "updated": "2026-03-16T10:05:00.459608"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_081622_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T08:16:24.263604",
+    "status": "failed",
+    "outline": "Write about recent trends in local AI and automation",
+    "updated": "2026-03-17T10:05:01.939916"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_082122_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T08:21:24.460818",
+    "status": "failed",
+    "outline": "Write about recent trends in local AI and automation",
+    "updated": "2026-03-17T10:05:01.939918"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_085630_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T08:56:31.818674",
+    "status": "failed",
+    "outline": "Write about recent trends in local AI and automation",
+    "updated": "2026-03-17T10:05:01.939921"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_090130_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T09:01:31.945280",
+    "status": "failed",
+    "outline": "Write about recent trends in local AI and automation",
+    "updated": "2026-03-17T10:05:01.939923"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_093646_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T09:36:48.375250",
+    "status": "failed",
+    "outline": "Write about recent trends in local AI and automation",
+    "updated": "2026-03-17T10:05:01.939925"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_094139_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T09:41:40.948705",
+    "status": "failed",
+    "outline": "Write about recent trends in local AI and automation",
+    "updated": "2026-03-17T10:05:01.939927"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_101645_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T10:16:47.623600",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_102149_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T10:21:51.293938",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_105654_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T10:56:55.704471",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_110201_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T11:02:03.287281",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_113701_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T11:37:03.102586",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_114205_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T11:42:07.032483",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_121710_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T12:17:12.652106",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_122209_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T12:22:11.144795",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_125752_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T12:57:53.509289",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_133723_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T13:37:25.094284",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_134224_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T13:42:26.452182",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_141728_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T14:17:30.176291",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
+  },
+  {
+    "title": "AI automation topic from world context",
+    "file": "draft_20260317_142231_ai_automation_topic_from_world_context.md",
+    "created": "2026-03-17T14:22:33.014515",
+    "status": "queued",
+    "outline": "Write about recent trends in local AI and automation"
   }
 ]

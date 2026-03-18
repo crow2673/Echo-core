@@ -384,5 +384,15 @@
     "confidence": 0.85,
     "acted_at": "2026-03-16T09:08:59.489506",
     "action_notes": "no executable action matched: best performing article: 'build an ai\u2011ready linux workstation under $800 in ' with 204 views. write "
+  },
+  {
+    "id": "analytics_20260317",
+    "suggestion": "Best performing article: 'Build an AI\u2011Ready Linux Workstation Under $800 in ' with 205 views. Write more content on similar topics to drive traffic.",
+    "status": "skipped",
+    "created_at": "2026-03-17T09:00:04.981027",
+    "source": "devto_analytics",
+    "confidence": 0.85,
+    "acted_at": "2026-03-17T09:09:03.854068",
+    "action_notes": "no executable action matched: best performing article: 'build an ai\u2011ready linux workstation under $800 in ' with 205 views. write "
   }
 ]

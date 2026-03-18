@@ -1,41 +1,41 @@
 # Echo World Context
-_Updated: 2026-03-16 06:00_
+_Updated: 2026-03-17 06:00_
 
 ## Dev.to Trending
-- **Congrats to the GitHub Copilot CLI Challenge Winners!** — 172 reactions, 4min read
-  https://dev.to/devteam/congrats-to-the-github-copilot-cli-challenge-winners-2240
-- **Revamped RSS Feed Imports** — 51 reactions, 2min read
-  https://dev.to/devteam/revamped-rss-feed-imports-3j1e
-- **The Enablers Who Helped Me Code Forward** — 43 reactions, 4min read
-  https://dev.to/ujja/the-enablers-who-helped-me-code-forward-cai
-- **I Was One Day Away From Quitting — And Then My Career Took An Unexpected Turn** — 62 reactions, 4min read
+- **Two React Design Choices Developers Don’t Like—But Can’t Avoid** — 56 reactions, 9min read
+  https://dev.to/playfulprogramming/two-react-design-choices-developers-dont-like-but-cant-avoid-d6g
+- **I Was One Day Away From Quitting — And Then My Career Took An Unexpected Turn** — 74 reactions, 4min read
   https://dev.to/dev-in-progress/i-was-one-day-away-from-quitting-and-then-my-career-took-an-unexpected-turn-o1k
-- **When AI Writes the Code… Who Takes Responsibility?** — 75 reactions, 4min read
+- **When AI Writes the Code… Who Takes Responsibility?** — 76 reactions, 4min read
   https://dev.to/subhrangsu90/when-ai-writes-the-code-who-takes-responsibility-19fc
+- **What Quitting My Job Taught Me About Tech** — 71 reactions, 7min read
+  https://dev.to/konark_13/what-quitting-my-job-taught-me-about-tech-3no0
+- **90% of Code Will Be AI-Generated — So What the Hell Do We Actually Do?** — 72 reactions, 7min read
+  https://dev.to/harsh2644/90-of-code-will-be-ai-generated-so-what-the-hell-do-we-actually-do-2kg3
 
 ## Hacker News Top
-- **Canada's bill C-22 mandates mass metadata surveillance** — 735 points
-  https://www.michaelgeist.ca/2026/03/a-tale-of-two-bills-lawful-access-returns-with-changes-to-warrantless-access-but-dangerous-backdoor-surveillance-risks-remains/
-- **Ask HN: What is it like being in a CS major program these days?** — 26 points
-  https://news.ycombinator.com/item?id=47397190
-- **How I write software with LLMs** — 232 points
-  https://www.stavros.io/posts/how-i-write-software-with-llms/
-- **The 49MB web page** — 586 points
-  https://thatshubham.com/blog/news-audit
-- **Chrome DevTools MCP (2025)** — 488 points
-  https://developer.chrome.com/blog/chrome-devtools-mcp-debug-your-browser-session
+- **Kagi Small Web** — 102 points
+  https://kagi.com/smallweb/
+- **Kagi Translate now supports LinkedIn Speak as an output language** — 617 points
+  https://translate.kagi.com/?from=en&to=LinkedIn+speak
+- **Leanstral: Open-source agent for trustworthy coding and formal proof engineering** — 574 points
+  https://mistral.ai/news/leanstral
+- **The unlikely story of Teardown Multiplayer** — 100 points
+  https://blog.voxagon.se/2026/03/13/teardown-multiplayer.html
+- **Building a Shell** — 13 points
+  https://healeycodes.com/building-a-shell
 
 ## r/LocalLLaMA Hot
-- **Announcing LocalLlama discord server &amp; bot!** — 128 upvotes
+- **Announcing LocalLlama discord server &amp; bot!** — 131 upvotes
   https://reddit.com/r/LocalLLaMA/comments/1mpk2va/announcing_localllama_discord_server_bot/
-- **Qwen3.5-9B-Claude-4.6-Opus-Uncensored-Distilled-GGUF** — 1011 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1runlpf/qwen359bclaude46opusuncensoreddistilledgguf/
-- **Qwen 3.5 122b - a10b is kind of shocking** — 164 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1ruz555/qwen_35_122b_a10b_is_kind_of_shocking/
-- **The timeline gets weirder** — 122 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1rv0epr/the_timeline_gets_weirder/
-- **OmniCoder-9B best vibe coding model for 8 GB Card** — 50 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1rv24kk/omnicoder9b_best_vibe_coding_model_for_8_gb_card/
+- **Mistral Small 4:119B-2603** — 517 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1rvlfbh/mistral_small_4119b2603/
+- **I was hyped for Nemotron 3 4B and it completely disappointed me compared to Qwen 3.5 4B** — 82 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1rvw9j8/i_was_hyped_for_nemotron_3_4b_and_it_completely/
+- **1Covenant/Covenant-72B: Largest model so far to be trained on decentralized permissionless GPU nodes** — 61 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1rvw659/1covenantcovenant72b_largest_model_so_far_to_be/
+- **Mistral 4 Family Spotted** — 379 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1rvfypu/mistral_4_family_spotted/
 
 ## Golem Blog
 - **Golem Ecosystem Fund: One Year In - Highlights, Allocations, and What’s Next** — GEF has supported Golem, Ethereum, and Web3 for over a year! We've learned and are evolving the Fund. New goals, tracks, and focus areas are coming soon. Get ready!
@@ -46,38 +46,38 @@ _Updated: 2026-03-16 06:00_
   https://blog.golem.network/eth-staking-tests-summary/
 
 ## Ollama Releases
-- **v0.18.0** — 
-  https://github.com/ollama/ollama/releases/tag/v0.18.0
-- **v0.18.0-rc2** — 
-  https://github.com/ollama/ollama/releases/tag/v0.18.0-rc2
-- **v0.18.0-rc1** — 
-  https://github.com/ollama/ollama/releases/tag/v0.18.0-rc1
+- **v0.18.1** — 
+  https://github.com/ollama/ollama/releases/tag/v0.18.1
+- **v0.18.1-rc1** — 
+  https://github.com/ollama/ollama/releases/tag/v0.18.1-rc1
+- **v0.18.1-rc0: cmd/launch: skip --install-daemon when systemd is unavailable (#14883)** — 
+  https://github.com/ollama/ollama/releases/tag/v0.18.1-rc0
 
 ## Arxiv AI/ML
-- **Context-Enriched Natural Language Descriptions of Vessel Trajectories** — arXiv:2603.12287v1 Announce Type: new 
-Abstract: We address the problem of transforming raw vessel trajectory data collected from AIS into structured and semantically enriched representations interpre
-  https://arxiv.org/abs/2603.12287
-- **Efficient Reasoning with Balanced Thinking** — arXiv:2603.12372v1 Announce Type: new 
-Abstract: Large Reasoning Models (LRMs) have shown remarkable reasoning capabilities, yet they often suffer from overthinking, expending redundant computational 
-  https://arxiv.org/abs/2603.12372
-- **Generating Expressive and Customizable Evals for Timeseries Data Analysis Agents with AgentFuel** — arXiv:2603.12483v1 Announce Type: new 
-Abstract: Across many domains (e.g., IoT, observability, telecommunications, cybersecurity), there is an emerging adoption of conversational data analysis agents
-  https://arxiv.org/abs/2603.12483
-- **No More DeLuLu: Physics-Inspired Kernel Networks for Geometrically-Grounded Neural Computation** — arXiv:2603.12276v1 Announce Type: new 
-Abstract: We introduce the yat-product, a kernel operator combining quadratic alignment with inverse-square proximity. We prove it is a Mercer kernel, analytic, 
-  https://arxiv.org/abs/2603.12276
-- **From Garbage to Gold: A Data-Architectural Theory of Predictive Robustness** — arXiv:2603.12288v1 Announce Type: new 
-Abstract: Tabular machine learning presents a paradox: modern models achieve state-of-the-art performance using high-dimensional (high-D), collinear, error-prone
-  https://arxiv.org/abs/2603.12288
+- **Human Attribution of Causality to AI Across Agency, Misuse, and Misalignment** — arXiv:2603.13236v1 Announce Type: new 
+Abstract: AI-related incidents are becoming increasingly frequent and severe, ranging from safety failures to misuse by malicious actors. In such complex situati
+  https://arxiv.org/abs/2603.13236
+- **A Dual-Path Generative Framework for Zero-Day Fraud Detection in Banking Systems** — arXiv:2603.13237v1 Announce Type: new 
+Abstract: High-frequency banking environments face a critical trade-off between low-latency fraud detection and the regulatory explainability demanded by GDPR. T
+  https://arxiv.org/abs/2603.13237
+- **Benchmarking Zero-Shot Reasoning Approaches for Error Detection in Solidity Smart Contracts** — arXiv:2603.13239v1 Announce Type: new 
+Abstract: Smart contracts play a central role in blockchain systems by encoding financial and operational logic. Still, their susceptibility to subtle security f
+  https://arxiv.org/abs/2603.13239
+- **Translational Gaps in Graph Transformers for Longitudinal EHR Prediction: A Critical Appraisal of GT-BEHRT** — arXiv:2603.13231v1 Announce Type: new 
+Abstract: Transformer-based models have improved predictive modeling on longitudinal electronic health records through large-scale self-supervised pretraining. H
+  https://arxiv.org/abs/2603.13231
+- **RFX-Fuse: Breiman and Cutler's Unified ML Engine + Native Explainable Similarity** — arXiv:2603.13234v1 Announce Type: new 
+Abstract: Breiman and Cutler's original Random Forest was designed as a unified ML engine -- not merely an ensemble predictor. Their implementation included clas
+  https://arxiv.org/abs/2603.13234
 
 ## GitHub Topics
-- **nomic-ai/gpt4all** — 77226 stars — GPT4All: Run Local LLMs on Any Device. Open-source and available for commercial use.
+- **nomic-ai/gpt4all** — 77224 stars — GPT4All: Run Local LLMs on Any Device. Open-source and available for commercial use.
   https://github.com/nomic-ai/gpt4all
-- **oobabooga/text-generation-webui** — 46263 stars — The original local LLM interface. Text, vision, tool-calling, training, and more. 100% offline.
+- **oobabooga/text-generation-webui** — 46278 stars — The original local LLM interface. Text, vision, tool-calling, training, and more. 100% offline.
   https://github.com/oobabooga/text-generation-webui
-- **ollama/ollama** — 165250 stars — Get up and running with Kimi-K2.5, GLM-5, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.
+- **ollama/ollama** — 165342 stars — Get up and running with Kimi-K2.5, GLM-5, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.
   https://github.com/ollama/ollama
-- **open-webui/open-webui** — 127397 stars — User-friendly AI Interface (Supports Ollama, OpenAI API, ...)
+- **open-webui/open-webui** — 127516 stars — User-friendly AI Interface (Supports Ollama, OpenAI API, ...)
   https://github.com/open-webui/open-webui
 - **anshuman73/DeML-Golem** — 44 stars — Proof Of Concept of DEcentralised Machine Learning on top of the Golem (https://golem.network/) arch
   https://github.com/anshuman73/DeML-Golem

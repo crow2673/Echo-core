@@ -4,7 +4,7 @@
     "views": 5,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-16",
+    "date": "2026-03-17",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -12,9 +12,9 @@
     "title": "CUDA vs ROCm on Linux: what matters for local AI h",
     "views": 23,
     "reactions": 0,
-    "trend": "GROWING",
-    "date": "2026-03-16",
-    "view_delta": 10,
+    "trend": "STABLE",
+    "date": "2026-03-17",
+    "view_delta": 0,
     "reaction_delta": 0
   },
   "3102654": {
@@ -22,7 +22,7 @@
     "views": 87,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-16",
+    "date": "2026-03-17",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -31,7 +31,7 @@
     "views": 116,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-03-16",
+    "date": "2026-03-17",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -40,17 +40,17 @@
     "views": 3,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-16",
+    "date": "2026-03-17",
     "view_delta": 0,
     "reaction_delta": 0
   },
   "3102340": {
     "title": "Build an AI\u2011Ready Linux Workstation Under $800 in ",
-    "views": 204,
+    "views": 205,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-16",
-    "view_delta": 0,
+    "date": "2026-03-17",
+    "view_delta": 1,
     "reaction_delta": 0
   },
   "3350257": {
@@ -58,8 +58,8 @@
     "views": 37,
     "reactions": 4,
     "trend": "STABLE",
-    "date": "2026-03-16",
-    "view_delta": 2,
+    "date": "2026-03-17",
+    "view_delta": 0,
     "reaction_delta": 0
   }
 }

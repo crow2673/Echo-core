@@ -4,7 +4,7 @@
     "views": 5,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-17",
+    "date": "2026-03-18",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -13,7 +13,7 @@
     "views": 23,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-17",
+    "date": "2026-03-18",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -22,7 +22,7 @@
     "views": 87,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-17",
+    "date": "2026-03-18",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -31,7 +31,7 @@
     "views": 116,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-03-17",
+    "date": "2026-03-18",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -40,7 +40,7 @@
     "views": 3,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-17",
+    "date": "2026-03-18",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -49,17 +49,35 @@
     "views": 205,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-17",
-    "view_delta": 1,
+    "date": "2026-03-18",
+    "view_delta": 0,
     "reaction_delta": 0
   },
   "3350257": {
     "title": "I Gave My Local AI a Public Brain: Echo + Notion M",
-    "views": 37,
+    "views": 152,
     "reactions": 4,
-    "trend": "STABLE",
-    "date": "2026-03-17",
-    "view_delta": 0,
+    "trend": "GROWING",
+    "date": "2026-03-18",
+    "view_delta": 115,
     "reaction_delta": 0
+  },
+  "3363557": {
+    "title": "I've Been Building an AI Since Before I Knew What ",
+    "views": 1,
+    "reactions": 1,
+    "trend": "NEW",
+    "date": "2026-03-18",
+    "view_delta": 1,
+    "reaction_delta": 1
+  },
+  "3363367": {
+    "title": "She Started Fixing Herself: Building a Self-Healin",
+    "views": 2,
+    "reactions": 1,
+    "trend": "NEW",
+    "date": "2026-03-18",
+    "view_delta": 2,
+    "reaction_delta": 1
   }
 }

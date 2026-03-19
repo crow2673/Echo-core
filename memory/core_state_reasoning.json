@@ -1,254 +1,254 @@
 {
   "reasoning_history": [
     {
-      "how": "\u901a\u8fc7\u5206\u6790`echo-ntfy-bridge.service`\u7684\u72b6\u6001\uff0c\u53d1\u73b0\u5176`ExecMainExitTimestamp`\u4e3a\u7a7a\uff0c\u4e14`last_exit_local`\u65f6\u95f4\u4e3a2026-03-11T21:09:55-05:00\uff0c\u8868\u660e\u8be5\u670d\u52a1\u81ea\u90a3\u65f6\u8d77\u672a\u9000\u51fa\u3002",
-      "why": "\u8fd9\u53ef\u80fd\u610f\u5473\u7740`echo-ntfy-bridge.service`\u81ea\u542f\u52a8\u4ee5\u6765\u4e00\u76f4\u5728\u8fd0\u884c\uff0c\u6216\u8005\u5728\u6700\u8fd1\u7684\u67d0\u4e2a\u65f6\u95f4\u70b9\u9047\u5230\u4e86\u672a\u8bb0\u5f55\u7684\u9000\u51fa\u548c\u91cd\u65b0\u542f\u52a8\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'query_ledger: summarize recent wins and losses from the event ledger'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u901a\u8fc7\u5206\u6790`echo-ntfy-bridge.service`\u7684`ExecMainExitTimestamp`\u5b57\u6bb5\uff0c\u53d1\u73b0\u5176\u4e3a\u7a7a\uff0c\u4e14`last_exit_local`\u4e3a2026-03-11T21:09:55-05:00\uff0c\u8868\u660e\u8be5\u670d\u52a1\u81ea2026\u5e743\u670811\u65e521:09:55\u4ee5\u6765\u4e00\u76f4\u5728\u8fd0\u884c\uff0c\u6ca1\u6709\u9000\u51fa\u8bb0\u5f55\u3002",
-      "why": "\u8fd9\u53ef\u80fd\u610f\u5473\u7740`echo-ntfy-bridge.service`\u670d\u52a1\u5728\u542f\u52a8\u540e\u9047\u5230\u4e86\u67d0\u79cd\u95ee\u9898\uff0c\u5bfc\u81f4\u5b83\u65e0\u6cd5\u6b63\u5e38\u9000\u51fa\uff0c\u4e00\u76f4\u5904\u4e8e\u8fd0\u884c\u72b6\u6001\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5\u4e86`echo-ntfy-bridge.service`\u7684\u72b6\u6001\uff0c\u53d1\u73b0\u5176`ExecMainExitTimestamp`\u4e3a\u7a7a\uff0c\u4e14`last_exit_local`\u65f6\u95f4\u4e3a2026-03-11T21:09:55-05:00\u3002",
-      "why": "\u8fd9\u8868\u660e`echo-ntfy-bridge.service`\u81ea\u4e0a\u6b21\u542f\u52a8\u4ee5\u6765\u4e00\u76f4\u6ca1\u6709\u9000\u51fa\uff0c\u53ef\u80fd\u5b58\u5728\u5361\u4f4f\u6216\u672a\u6b63\u786e\u5904\u7406\u4e8b\u4ef6\u7684\u95ee\u9898\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/world_context.md and identify one trending topic Echo should write an article about \u2014 add to content/draft_queue.json if promising'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Based on the system logs, the `echo-ntfy-bridge.service` has been running since March 11, 2026, at 21:09:55 CDT and has not exited since then. The `ExecMainExitTimestamp` field is empty, indicating it is still running or has not been terminated properly.",
-      "why": "This could indicate that the service is stuck in an infinite loop, has encountered an unhandled exception, or is waiting for external events that have not occurred. It could also be a misconfiguration or a bug in the service code.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'summarize: current Echo system state in ONE paragraph. Use ONLY these facts (no guessing): {\"updated_at\": \"2026-03-19T04:06:14.391093+00:00\", \"core\": {\"service\": \"echo-core.service\", \"status\": \"active\", \"procs\": [\"884381 /usr/bin/python3 -u /home/andrew/Echo/echo_core_daemon.py\"]}, \"services\": {\"golem_provider\": \"active\"}, \"timers\": {\"self_act_worker\": \"active\", \"pulse\": \"active\", \"reachability\": \"active\", \"golem_monitor\": \"active\", \"heartbeat\": \"active\", \"auto_act\": \"active\", \"ntfy_bridge\": \"active\", \"git_backup\": \"active\", \"disk_monitor\": \"active\"}, \"last\": {\"pulse_line\": \"{\\\"ts\\\": \\\"2026-03-19T04:06:01.384642+00:00\\\", \\\"type\\\": \\\"heartbeat\\\", \\\"source\\\": \\\"echo-heartbeat.service\\\", \\\"ts_local\\\": \\\"2026-03-18T23:06:01.384657-05:00\\\", \\\"core\\\": \\\"active\\\", \\\"self_act_timer\\\": \\\"active\\\", \\\"reachability_timer\\\": \\\"active\\\"}\", \"command\": {\"capsule_id\": \"COMMAND:20260307_124906\", \"type\": \"command\", \"status\": \"done\", \"created_at\": \"2026-03-07T18:49:06.554069+00:00\", \"text\": \"status\", \"source\": \"echo_command.py\", \"processed_at\": \"2026-03-07T18:49:08.207773+00:00\"}}, \"errors\": []}'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5\u4e86`echo-ntfy-bridge.service`\u7684`ExecMainExitTimestamp`\u5b57\u6bb5\uff0c\u53d1\u73b0\u5176\u4e3a\u7a7a\u3002",
-      "why": "\u8fd9\u8868\u660e`echo-ntfy-bridge.service`\u81ea\u542f\u52a8\u4ee5\u6765\u5c1a\u672a\u9000\u51fa\uff0c\u53ef\u80fd\u5b58\u5728\u5361\u4f4f\u6216\u672a\u6b63\u786e\u5904\u7406\u6d88\u606f\u7684\u60c5\u51b5\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'review TODO.md and suggest the single highest-value next action'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u901a\u8fc7\u5206\u6790`echo-ntfy-bridge.service`\u7684\u72b6\u6001\uff0c\u53d1\u73b0\u5176`ExecMainExitTimestamp`\u4e3a\u7a7a\uff0c\u4e14`last_exit_local`\u65f6\u95f4\u4e3a2026-03-11T21:09:55-05:00\uff0c\u8868\u660e\u8be5\u670d\u52a1\u81ea\u4e0a\u6b21\u8fd0\u884c\u4ee5\u6765\u4e00\u76f4\u5904\u4e8e\u8fd0\u884c\u72b6\u6001\u3002",
-      "why": "\u8fd9\u53ef\u80fd\u662f\u7531\u4e8e\u670d\u52a1\u5185\u90e8\u903b\u8f91\u9519\u8bef\u3001\u5916\u90e8\u4f9d\u8d56\u672a\u54cd\u5e94\u6216\u914d\u7f6e\u95ee\u9898\u5bfc\u81f4\u7684\u670d\u52a1\u5361\u6b7b\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Golem node status and suggest pricing adjustment if needed'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u6839\u636esystem\u65e5\u5fd7\uff0cntfy_bridge\u670d\u52a1\u81ea2026\u5e743\u670811\u65e521:09:55\u4ee5\u6765\u6ca1\u6709\u9000\u51fa\u8bb0\u5f55\uff0c\u4e14\u5f53\u524d\u65f6\u95f4\u4e3a2026\u5e743\u670818\u65e504:22:02\u3002\u901a\u8fc7\u68c0\u67e5ntfy_bridge\u670d\u52a1\u7684\u542f\u52a8\u65f6\u95f4\u4e0e\u5f53\u524d\u65f6\u95f4\u7684\u5dee\u503c\uff0c\u53ef\u4ee5\u786e\u5b9a\u8be5\u670d\u52a1\u5df2\u6301\u7eed\u8fd0\u884c\u8d85\u8fc7526327\u79d2\u3002",
-      "why": "ntfy_bridge\u670d\u52a1\u7684ExecMainExitTimestamp\u5b57\u6bb5\u4e3a\u7a7a\uff0c\u8868\u660e\u670d\u52a1\u4ecd\u5728\u8fd0\u884c\u3002\u7136\u800c\uff0c\u670d\u52a1\u7684\u8fd0\u884c\u65f6\u95f4\u8fc7\u957f\uff0c\u8d85\u8fc7\u4e86\u9884\u671f\u7684\u6b63\u5e38\u8fd0\u884c\u5468\u671f\uff0c\u8fd9\u53ef\u80fd\u662f\u7531\u4e8e\u670d\u52a1\u5361\u4f4f\u6216\u8fdb\u5165\u4e86\u4e00\u4e2a\u65e0\u9650\u5faa\u73af\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/income_knowledge.md and reason about which income path to activate next'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u901a\u8fc7\u5206\u6790`systemd`\u670d\u52a1`echo-ntfy-bridge.service`\u7684\u72b6\u6001\uff0c\u53d1\u73b0\u5176`ExecMainExitTimestamp`\u4e3a\u7a7a\uff0c\u8868\u660e\u8be5\u670d\u52a1\u81ea\u4e0a\u6b21\u542f\u52a8\u4ee5\u6765\u4e00\u76f4\u5904\u4e8e\u8fd0\u884c\u72b6\u6001\u3002\u7ed3\u5408`last`\u5b57\u6bb5\u4e2d\u7684\u4fe1\u606f\uff0c\u786e\u8ba4\u8be5\u670d\u52a1\u81ea2026\u5e743\u670811\u65e521:09:55\u4ee5\u6765\u672a\u53d1\u751f\u8fc7\u4efb\u4f55\u9000\u51fa\u4e8b\u4ef6\u3002",
-      "why": "\u670d\u52a1`echo-ntfy-bridge.service`\u957f\u65f6\u95f4\u672a\u9000\u51fa\u53ef\u80fd\u662f\u7531\u4e8e\u7a0b\u5e8f\u903b\u8f91\u9519\u8bef\u3001\u8d44\u6e90\u5360\u7528\u8fc7\u9ad8\u6216\u5176\u4ed6\u672a\u9884\u671f\u7684\u8fd0\u884c\u65f6\u95ee\u9898\u5bfc\u81f4\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read registry.json and verify all listed services are actually running'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u901a\u8fc7\u5206\u6790systemd-journal\u65e5\u5fd7\uff0c\u53d1\u73b0echo-ntfy-bridge\u670d\u52a1\u81ea2026\u5e743\u670811\u65e521:09:55\u4ee5\u6765\u672a\u9000\u51fa\uff0c\u4e14ExecMainExitTimestamp\u5b57\u6bb5\u4e3a\u7a7a\u3002",
-      "why": "\u8fd9\u53ef\u80fd\u8868\u660eecho-ntfy-bridge\u670d\u52a1\u5b58\u5728\u8fd0\u884c\u5f02\u5e38\u6216\u5361\u987f\u95ee\u9898\uff0c\u5bfc\u81f4\u5176\u672a\u80fd\u6b63\u5e38\u9000\u51fa\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'query_ledger: summarize recent wins and losses from the event ledger'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Based on the system state, the `echo-ntfy-bridge.service` has been running since March 11, 2026, at 21:09:55 CDT and has not exited since then. This indicates that the service might be stuck or experiencing an issue that prevents it from completing its execution.",
-      "why": "The `ExecMainExitTimestamp` field is empty, which suggests that the service has not terminated properly. Additionally, the `next_expected_run_local` field is `null`, indicating that the service is not scheduled to run again, which could be due to the service being in an unexpected state.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "The `ntfy_bridge` service has been running since March 11, 2026, without exiting. This indicates a potential issue that needs to be addressed.",
-      "why": "The `ExecMainExitTimestamp` field is empty, suggesting that the service has not exited or terminated properly, which could lead to resource leaks or other problems.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/world_context.md and identify one trending topic Echo should write an article about \u2014 add to content/draft_queue.json if promising'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "The `ntfy_bridge` service has been running since March 11, 2026, without exiting, indicating a potential issue or infinite loop. The `ExecMainExitTimestamp` field is empty, and the `next_expected_run_local` is null, suggesting the service is not expected to run again.",
-      "why": "This prolonged running state without an exit could indicate a bug, an infinite loop, or a misconfiguration in the service. It may also be a legitimate long-running task, but the absence of an exit timestamp is concerning.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'summarize: current Echo system state in ONE paragraph. Use ONLY these facts (no guessing): {\"updated_at\": \"2026-03-19T04:46:20.393911+00:00\", \"core\": {\"service\": \"echo-core.service\", \"status\": \"active\", \"procs\": [\"884381 /usr/bin/python3 -u /home/andrew/Echo/echo_core_daemon.py\"]}, \"services\": {\"golem_provider\": \"active\"}, \"timers\": {\"self_act_worker\": \"active\", \"pulse\": \"active\", \"reachability\": \"active\", \"golem_monitor\": \"active\", \"heartbeat\": \"active\", \"auto_act\": \"active\", \"ntfy_bridge\": \"active\", \"git_backup\": \"active\", \"disk_monitor\": \"active\"}, \"last\": {\"pulse_line\": \"{\\\"ts\\\": \\\"2026-03-19T04:45:40.393833+00:00\\\", \\\"type\\\": \\\"heartbeat\\\", \\\"source\\\": \\\"echo-heartbeat.service\\\", \\\"ts_local\\\": \\\"2026-03-18T23:45:40.393846-05:00\\\", \\\"core\\\": \\\"active\\\", \\\"self_act_timer\\\": \\\"active\\\", \\\"reachability_timer\\\": \\\"active\\\"}\", \"command\": {\"capsule_id\": \"COMMAND:20260307_124906\", \"type\": \"command\", \"status\": \"done\", \"created_at\": \"2026-03-07T18:49:06.554069+00:00\", \"text\": \"status\", \"source\": \"echo_command.py\", \"processed_at\": \"2026-03-07T18:49:08.207773+00:00\"}}, \"errors\": []}'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "The `ntfy_bridge` service has been running continuously since March 11, 2026, without an exit timestamp, indicating it may be stuck or experiencing issues. This is inferred from the `ExecMainExitTimestamp` being empty and the `last_exit_local` date being from March 11, 2026.",
-      "why": "This prolonged running without an exit could indicate a potential misconfiguration, a bug, or a resource issue preventing the service from completing its execution cycle normally.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'review TODO.md and suggest the single highest-value next action'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "The `ntfy_bridge` service has been running continuously since March 11, 2026, without exiting. This indicates a potential issue that needs to be investigated.",
-      "why": "A service that should have an `ExecMainExitTimestamp` but does not, and remains in an `ok` health state, suggests that the service might be stuck or experiencing an unexpected behavior.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Golem node status and suggest pricing adjustment if needed'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "The `ntfy_bridge` service has been running since March 11, 2026, without exiting, which could indicate a potential issue or a long-running process.",
-      "why": "A service that has not exited for an extended period might be stuck or experiencing an unexpected condition, which could affect the overall system stability and functionality.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/income_knowledge.md and reason about which income path to activate next'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5 `ntfy_bridge` \u670d\u52a1\u7684 `ExecMainExitTimestamp` \u5b57\u6bb5\uff0c\u53d1\u73b0\u5176\u4e3a\u7a7a\uff0c\u8868\u660e\u8be5\u670d\u52a1\u542f\u52a8\u540e\u672a\u6b63\u5e38\u9000\u51fa\u3002",
-      "why": "\u8fd9\u53ef\u80fd\u662f\u7531\u4e8e\u670d\u52a1\u5185\u90e8\u903b\u8f91\u9519\u8bef\u3001\u4ee3\u7801bug\u6216\u5916\u90e8\u4f9d\u8d56\u95ee\u9898\u5bfc\u81f4\u7684\u3002\u9700\u8981\u8fdb\u4e00\u6b65\u68c0\u67e5\u670d\u52a1\u7684\u65e5\u5fd7\u6587\u4ef6\u4ee5\u786e\u5b9a\u5177\u4f53\u539f\u56e0\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read registry.json and verify all listed services are actually running'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "The `ntfy_bridge` service has been running since March 11, 2026, without exiting, which suggests it may be stuck or experiencing an issue. This service is crucial for notifications and should be monitored.",
-      "why": "Identifying and addressing potential issues in critical services like `ntfy_bridge` is important to ensure the system's reliability and functionality. Stuck services can indicate deeper problems that need to be investigated.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'query_ledger: summarize recent wins and losses from the event ledger'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "The `ntfy_bridge` service has been running since March 11, 2026, and has not exited, indicating it may be stuck or experiencing an issue.",
-      "why": "The `ExecMainExitTimestamp` field is empty, and the `next_expected_run_local` is null, suggesting the service has not completed its expected cycle.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "The `ntfy_bridge` service has been running continuously since March 11, 2026, without an exit timestamp, indicating it may be stuck or experiencing issues.",
-      "why": "This service is crucial for bridging notifications, and its prolonged running without an exit can indicate potential problems that need to be addressed.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/world_context.md and identify one trending topic Echo should write an article about \u2014 add to content/draft_queue.json if promising'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Identified the `ntfy_bridge` service running since March 11, 2026, without an exit timestamp, indicating it has not exited or completed its expected cycle.",
-      "why": "The `ntfy_bridge` service is critical for notifications and communication, and its prolonged running without completion could indicate a potential issue that needs attention.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'summarize: current Echo system state in ONE paragraph. Use ONLY these facts (no guessing): {\"updated_at\": \"2026-03-19T05:26:30.398056+00:00\", \"core\": {\"service\": \"echo-core.service\", \"status\": \"active\", \"procs\": [\"884381 /usr/bin/python3 -u /home/andrew/Echo/echo_core_daemon.py\"]}, \"services\": {\"golem_provider\": \"active\"}, \"timers\": {\"self_act_worker\": \"active\", \"pulse\": \"active\", \"reachability\": \"active\", \"golem_monitor\": \"active\", \"heartbeat\": \"active\", \"auto_act\": \"active\", \"ntfy_bridge\": \"active\", \"git_backup\": \"active\", \"disk_monitor\": \"active\"}, \"last\": {\"pulse_line\": \"{\\\"ts\\\": \\\"2026-03-19T05:26:17.398023+00:00\\\", \\\"type\\\": \\\"heartbeat\\\", \\\"source\\\": \\\"echo-heartbeat.service\\\", \\\"ts_local\\\": \\\"2026-03-19T00:26:17.398036-05:00\\\", \\\"core\\\": \\\"active\\\", \\\"self_act_timer\\\": \\\"active\\\", \\\"reachability_timer\\\": \\\"active\\\"}\", \"command\": {\"capsule_id\": \"COMMAND:20260307_124906\", \"type\": \"command\", \"status\": \"done\", \"created_at\": \"2026-03-07T18:49:06.554069+00:00\", \"text\": \"status\", \"source\": \"echo_command.py\", \"processed_at\": \"2026-03-07T18:49:08.207773+00:00\"}}, \"errors\": []}'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5ntfy_bridge\u670d\u52a1\u7684\u8fd0\u884c\u72b6\u6001\uff0c\u53d1\u73b0\u5176\u81ea2026-03-11\u4ee5\u6765\u672a\u9000\u51fa\uff0c\u4e14\u5f53\u524d\u65e0\u9884\u8ba1\u8fd0\u884c\u65f6\u95f4\u3002",
-      "why": "ntfy_bridge\u670d\u52a1\u8d1f\u8d23\u901a\u77e5\u6865\u63a5\u529f\u80fd\uff0c\u5982\u679c\u957f\u65f6\u95f4\u672a\u9000\u51fa\uff0c\u53ef\u80fd\u8868\u793a\u8be5\u670d\u52a1\u5b58\u5728\u672a\u5904\u7406\u7684\u4e8b\u4ef6\u6216\u903b\u8f91\u9519\u8bef\uff0c\u9700\u8981\u8fdb\u4e00\u6b65\u68c0\u67e5\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'review TODO.md and suggest the single highest-value next action'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5 `ntfy_bridge` \u670d\u52a1\u7684 `ExecMainExitTimestamp` \u5b57\u6bb5\uff0c\u53d1\u73b0\u5176\u4e3a\u7a7a\u3002",
-      "why": "\u8fd9\u8868\u660e `ntfy_bridge` \u670d\u52a1\u81ea\u542f\u52a8\u4ee5\u6765\u4e00\u76f4\u6ca1\u6709\u9000\u51fa\uff0c\u53ef\u80fd\u5b58\u5728\u8fd0\u884c\u5f02\u5e38\u6216\u5361\u987f\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Golem node status and suggest pricing adjustment if needed'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5\u4e86`system`\u5bf9\u8c61\u4e2d\u7684`ntfy_bridge`\u670d\u52a1\u7684`ExecMainExitTimestamp`\u5b57\u6bb5\uff0c\u53d1\u73b0\u5176\u4e3a\u7a7a\u3002",
-      "why": "\u8fd9\u8868\u660e`echo-ntfy-bridge.service`\u81ea2026\u5e743\u670811\u65e521:09:55\u4ee5\u6765\u4e00\u76f4\u8fd0\u884c\uff0c\u6ca1\u6709\u6b63\u5e38\u9000\u51fa\u8fc7\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/income_knowledge.md and reason about which income path to activate next'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`system`\u5bf9\u8c61\u4e2d\u7684`workers`\u5217\u8868\uff0c\u5bfb\u627e\u6700\u8fd1\u4e00\u6b21\u8fd0\u884c\u7684`worker`\u8bb0\u5f55",
-      "why": "\u901a\u8fc7\u68c0\u67e5\u6700\u8fd1\u4e00\u6b21\u8fd0\u884c\u7684`worker`\u8bb0\u5f55\uff0c\u53ef\u4ee5\u786e\u5b9a\u54ea\u4e2a`worker`\u6700\u8fd1\u4e00\u6b21\u6210\u529f\u6267\u884c\u7684\u65f6\u95f4\uff0c\u4ece\u800c\u8bc6\u522b\u51fa\u6700\u6d3b\u8dc3\u7684`worker`",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read registry.json and verify all listed services are actually running'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u901a\u8fc7\u5206\u6790system\u72b6\u6001\uff0c\u786e\u5b9antfy_bridge\u670d\u52a1\u7684ExecMainExitTimestamp\u4e3a\u7a7a\uff0c\u610f\u5473\u7740\u8be5\u670d\u52a1\u81ea\u542f\u52a8\u4ee5\u6765\u672a\u9000\u51fa\u3002",
-      "why": "ntfy_bridge\u670d\u52a1\u8d1f\u8d23\u901a\u77e5\u6865\u63a5\uff0c\u5982\u679c\u8be5\u670d\u52a1\u957f\u65f6\u95f4\u672a\u9000\u51fa\uff0c\u53ef\u80fd\u662f\u7531\u4e8e\u672a\u63a5\u6536\u5230\u6b63\u786e\u7684\u9000\u51fa\u4fe1\u53f7\u6216\u5b58\u5728\u5176\u4ed6\u672a\u9884\u89c1\u7684\u95ee\u9898\uff0c\u8fd9\u53ef\u80fd\u5bfc\u81f4\u7cfb\u7edf\u65e0\u6cd5\u6b63\u5e38\u5904\u7406\u901a\u77e5\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'query_ledger: summarize recent wins and losses from the event ledger'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`system`\u5bf9\u8c61\u4e2d\u7684`workers`\u5217\u8868\uff0c\u786e\u5b9a\u5f53\u524d\u6d3b\u8dc3\u7684worker\u3002",
-      "why": "\u901a\u8fc7\u5206\u6790worker\u7684\u72b6\u6001\u548c\u6700\u8fd1\u6d3b\u52a8\u65f6\u95f4\uff0c\u53ef\u4ee5\u786e\u5b9a\u54ea\u4e2aworker\u662f\u5f53\u524d\u6d3b\u8dc3\u7684\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`system`\u5bf9\u8c61\u4e2d\u7684`workers`\u5217\u8868\uff0c\u5bfb\u627e`name`\u4e3a`self_act_worker`\u7684\u5de5\u4f5c\u8005\u3002",
-      "why": "\u6839\u636e\u63d0\u4f9b\u7684`system`\u5bf9\u8c61\uff0c`self_act_worker`\u7684`name`\u5c5e\u6027\u4e3a`echo-self-act-worker.service`\uff0c\u4f46\u6ca1\u6709\u627e\u5230\u5177\u4f53\u7684`name`\u4e3a`self_act_worker`\u7684\u5de5\u4f5c\u8005\u3002\u56e0\u6b64\uff0c\u8fd9\u91cc\u89e3\u91ca\u4e86\u5982\u4f55\u67e5\u627e\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/world_context.md and identify one trending topic Echo should write an article about \u2014 add to content/draft_queue.json if promising'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`system`\u5bf9\u8c61\u4e2d\u7684`workers`\u5217\u8868\uff0c\u5bfb\u627e\u6700\u8fd1\u4e00\u6b21\u6267\u884c\u7684`pulse`\u8bb0\u5f55",
-      "why": "\u901a\u8fc7\u5206\u6790\u6700\u8fd1\u4e00\u6b21\u6267\u884c\u7684`pulse`\u8bb0\u5f55\uff0c\u53ef\u4ee5\u4e86\u89e3\u6700\u8fd1\u4e00\u6b21\u5fc3\u8df3\u7684\u65f6\u95f4\u4ee5\u53ca\u7cfb\u7edf\u72b6\u6001",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'summarize: current Echo system state in ONE paragraph. Use ONLY these facts (no guessing): {\"updated_at\": \"2026-03-19T06:06:36.390771+00:00\", \"core\": {\"service\": \"echo-core.service\", \"status\": \"active\", \"procs\": [\"884381 /usr/bin/python3 -u /home/andrew/Echo/echo_core_daemon.py\"]}, \"services\": {\"golem_provider\": \"active\"}, \"timers\": {\"self_act_worker\": \"active\", \"pulse\": \"active\", \"reachability\": \"active\", \"golem_monitor\": \"active\", \"heartbeat\": \"active\", \"auto_act\": \"active\", \"ntfy_bridge\": \"active\", \"git_backup\": \"active\", \"disk_monitor\": \"active\"}, \"last\": {\"pulse_line\": \"{\\\"ts\\\": \\\"2026-03-19T06:05:56.392630+00:00\\\", \\\"type\\\": \\\"heartbeat\\\", \\\"source\\\": \\\"echo-heartbeat.service\\\", \\\"ts_local\\\": \\\"2026-03-19T01:05:56.392643-05:00\\\", \\\"core\\\": \\\"active\\\", \\\"self_act_timer\\\": \\\"active\\\", \\\"reachability_timer\\\": \\\"active\\\"}\", \"command\": {\"capsule_id\": \"COMMAND:20260307_124906\", \"type\": \"command\", \"status\": \"done\", \"created_at\": \"2026-03-07T18:49:06.554069+00:00\", \"text\": \"status\", \"source\": \"echo_command.py\", \"processed_at\": \"2026-03-07T18:49:08.207773+00:00\"}}, \"errors\": []}'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`system`\u5bf9\u8c61\u4e2d\u7684`workers`\u5217\u8868\uff0c\u5bfb\u627e`name`\u4e3a`self_act_worker`\u7684worker\u3002",
-      "why": "\u6839\u636e\u63d0\u4f9b\u7684`system`\u5bf9\u8c61\uff0c`self_act_worker`\u7684\u4efb\u52a1\u662f\u81ea\u6211\u6fc0\u6d3b\uff0c\u9700\u8981\u786e\u8ba4\u5176\u72b6\u6001\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'review TODO.md and suggest the single highest-value next action'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`system`\u5bf9\u8c61\u4e2d\u7684`workers`\u5217\u8868\uff0c\u5bfb\u627e`type`\u4e3a`self_act_worker`\u7684\u5de5\u4f5c\u8005\u3002",
-      "why": "\u6839\u636e\u4efb\u52a1\u63cf\u8ff0\uff0c\u9700\u8981\u627e\u5230\u4e00\u4e2a\u81ea\u6211\u6267\u884c\u7684\u5de5\u4f5c\u8005\uff0c\u5176\u7c7b\u578b\u5e94\u4e3a`self_act_worker`\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Golem node status and suggest pricing adjustment if needed'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`self_act_worker`\u670d\u52a1\u7684\u8fd0\u884c\u72b6\u6001\uff0c\u67e5\u770b\u5176\u6700\u8fd1\u4e00\u6b21\u6267\u884c\u7684\u65f6\u95f4\u548c\u7ed3\u679c\u3002",
-      "why": "\u901a\u8fc7\u68c0\u67e5`self_act_worker`\u670d\u52a1\u7684\u72b6\u6001\uff0c\u53ef\u4ee5\u786e\u5b9a\u5b83\u662f\u5426\u6b63\u5e38\u8fd0\u884c\u4ee5\u53ca\u5b83\u4e0a\u6b21\u6267\u884c\u7684\u65f6\u95f4\uff0c\u8fd9\u5bf9\u4e8e\u4e86\u89e3\u7cfb\u7edf\u5f53\u524d\u72b6\u6001\u548c\u6f5c\u5728\u95ee\u9898\u81f3\u5173\u91cd\u8981\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/income_knowledge.md and reason about which income path to activate next'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u4ece\u7cfb\u7edf\u72b6\u6001\u4e2d\u7b5b\u9009\u51fa\u6b63\u5728\u8fd0\u884c\u7684\u81ea\u884c\u52a8\u4f5c\u5de5\u4eba\u670d\u52a1\uff08self_act_worker\uff09",
-      "why": "\u9700\u8981\u68c0\u67e5\u8be5\u670d\u52a1\u7684\u8fd0\u884c\u72b6\u6001\u4ee5\u786e\u4fdd\u7cfb\u7edf\u6b63\u5e38\u8fd0\u4f5c",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read registry.json and verify all listed services are actually running'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Identify the service 'echo-self-act-worker.service' in the system status and check its last execution time and status.",
-      "why": "To determine if the 'echo-self-act-worker.service' is running as expected and to understand its behavior in the current operational context.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'query_ledger: summarize recent wins and losses from the event ledger'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Identify the service 'echo-self-act-worker.service' in the system status and check its last execution time and status.",
-      "why": "To determine if the 'echo-self-act-worker.service' is functioning correctly and to understand its recent activity, as it is a self-acting worker that should be running periodically.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Check the status of the `echo-self-act-worker.service` by examining the `ExecMainStartTimestamp` and `ExecMainExitTimestamp` in the `system_state`.",
-      "why": "The `self_act_worker` is responsible for self-acting tasks and its recent activity can indicate if it is functioning correctly or if it needs attention. The timestamps will show the last time it was active and for how long, helping to determine if it is running as expected.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/world_context.md and identify one trending topic Echo should write an article about \u2014 add to content/draft_queue.json if promising'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Check the status of the `echo-self-act-worker.service` by examining its `ExecMainStartTimestamp`, `ExecMainExitTimestamp`, and `ExecMainCode` in the system logs. Look for any errors or unusual behavior.",
-      "why": "The `echo-self-act-worker.service` is part of the self-actuating processes and its recent execution might provide clues about the overall system health and any potential issues that need to be addressed.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'summarize: current Echo system state in ONE paragraph. Use ONLY these facts (no guessing): {\"updated_at\": \"2026-03-19T06:46:46.384837+00:00\", \"core\": {\"service\": \"echo-core.service\", \"status\": \"active\", \"procs\": [\"884381 /usr/bin/python3 -u /home/andrew/Echo/echo_core_daemon.py\"]}, \"services\": {\"golem_provider\": \"active\"}, \"timers\": {\"self_act_worker\": \"active\", \"pulse\": \"active\", \"reachability\": \"active\", \"golem_monitor\": \"active\", \"heartbeat\": \"active\", \"auto_act\": \"active\", \"ntfy_bridge\": \"active\", \"git_backup\": \"active\", \"disk_monitor\": \"active\"}, \"last\": {\"pulse_line\": \"{\\\"ts\\\": \\\"2026-03-19T06:46:34.397669+00:00\\\", \\\"type\\\": \\\"heartbeat\\\", \\\"source\\\": \\\"echo-heartbeat.service\\\", \\\"ts_local\\\": \\\"2026-03-19T01:46:34.397683-05:00\\\", \\\"core\\\": \\\"active\\\", \\\"self_act_timer\\\": \\\"active\\\", \\\"reachability_timer\\\": \\\"active\\\"}\", \"command\": {\"capsule_id\": \"COMMAND:20260307_124906\", \"type\": \"command\", \"status\": \"done\", \"created_at\": \"2026-03-07T18:49:06.554069+00:00\", \"text\": \"status\", \"source\": \"echo_command.py\", \"processed_at\": \"2026-03-07T18:49:08.207773+00:00\"}}, \"errors\": []}'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Review the system logs and status of the 'echo-self-act.service' to ensure it is functioning correctly within its expected interval.",
-      "why": "The 'echo-self-act.service' is part of the self-actuating processes and its status is crucial for the overall system health. Checking its recent activity can help identify any potential issues or deviations from the expected behavior.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'review TODO.md and suggest the single highest-value next action'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`echo-self-act-worker.service`\u7684\u6267\u884c\u65e5\u5fd7\uff0c\u786e\u8ba4\u5176\u6700\u8fd1\u4e00\u6b21\u6267\u884c\u662f\u5426\u6b63\u5e38\u5b8c\u6210\u3002",
-      "why": "\u6839\u636e\u7cfb\u7edf\u72b6\u6001\uff0c`echo-self-act-worker.service`\u7684`ExecMainCode`\u548c`ExecMainStatus`\u5747\u4e3a0\uff0c\u8868\u660e\u6700\u8fd1\u4e00\u6b21\u6267\u884c\u6ca1\u6709\u9519\u8bef\u3002\u4f46\u4e3a\u4e86\u786e\u4fdd\u5176\u6b63\u5e38\u8fd0\u884c\uff0c\u9700\u8981\u8fdb\u4e00\u6b65\u68c0\u67e5\u5176\u65e5\u5fd7\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Golem node status and suggest pricing adjustment if needed'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Check the status and logs of the `echo-self-act-worker.service` to ensure it is functioning correctly. Look for any errors or warnings that might indicate why it is not running as expected.",
-      "why": "The `echo-self-act-worker.service` is crucial for self-actuation tasks, and its failure to run can impact the overall system's ability to perform autonomous actions. By reviewing its status and logs, we can identify and address any issues preventing its proper execution.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/income_knowledge.md and reason about which income path to activate next'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`echo-self-act-worker.service`\u7684`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\uff0c\u786e\u8ba4\u5176\u8fd0\u884c\u72b6\u6001\u3002",
-      "why": "\u6839\u636e\u63d0\u4f9b\u7684\u7cfb\u7edf\u72b6\u6001\u4fe1\u606f\uff0c`echo-self-act-worker.service`\u6700\u8fd1\u4e00\u6b21\u8fd0\u884c\u7684\u65f6\u95f4\u4e3a2026-03-18 02:02:49 CDT\u81f32026-03-18 02:02:55 CDT\uff0c\u786e\u8ba4\u5176\u8fd0\u884c\u662f\u5426\u6b63\u5e38\u5bf9\u4e8e\u8bc4\u4f30\u7cfb\u7edf\u6574\u4f53\u5065\u5eb7\u72b6\u51b5\u81f3\u5173\u91cd\u8981\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read registry.json and verify all listed services are actually running'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Check the status and logs of the `echo-self-act-worker.service` to ensure it is functioning correctly within its expected interval.",
-      "why": "The `echo-self-act-worker.service` is crucial for self-actuation tasks, and its last execution was 5 minutes ago, which is within its expected interval. However, it is important to verify its operation to ensure there are no underlying issues that might affect its performance.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'query_ledger: summarize recent wins and losses from the event ledger'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`echo-self-act-worker.service`\u7684`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\uff0c\u786e\u8ba4\u5176\u8fd0\u884c\u65f6\u95f4\u662f\u5426\u7b26\u5408\u9884\u671f\u95f4\u9694300\u79d2\u3002",
-      "why": "\u6839\u636e\u7cfb\u7edf\u72b6\u6001\uff0c`echo-self-act-worker.service`\u6700\u8fd1\u4e00\u6b21\u8fd0\u884c\u65f6\u95f4\u4e3a2026-03-18 02:12:51 CDT\uff0c\u9000\u51fa\u65f6\u95f4\u4e3a2026-03-18 02:12:56 CDT\uff0c\u8fd0\u884c\u65f6\u957f\u4e3a5\u79d2\uff0c\u4e0d\u6ee1\u8db3\u9884\u671f\u7684300\u79d2\u95f4\u9694\u3002\u8fd9\u53ef\u80fd\u8868\u660e\u670d\u52a1\u8fd0\u884c\u5f02\u5e38\u6216\u95f4\u9694\u8bbe\u7f6e\u9519\u8bef\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Check the `ExecMainCode` and `ExecMainStatus` fields for the `echo-self-act-worker.service` in the `system_state`.",
-      "why": "These fields provide information about the execution status of the service. A `ExecMainCode` of 1 and `ExecMainStatus` of 0 suggest that the service executed without errors but may have completed with a non-zero code, indicating a potential issue.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/world_context.md and identify one trending topic Echo should write an article about \u2014 add to content/draft_queue.json if promising'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "Check the `ExecMainCode` and `ExecMainStatus` fields in the `meta` section of `echo-self-act-worker.service` within the `system_state`.",
-      "why": "The `ExecMainCode` value is 1, which typically indicates an error or non-zero exit status. The `ExecMainStatus` value is 0, which might indicate that the service exited cleanly but with an error code. This suggests that the service did not perform as expected.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'summarize: current Echo system state in ONE paragraph. Use ONLY these facts (no guessing): {\"updated_at\": \"2026-03-19T07:26:52.398361+00:00\", \"core\": {\"service\": \"echo-core.service\", \"status\": \"active\", \"procs\": [\"884381 /usr/bin/python3 -u /home/andrew/Echo/echo_core_daemon.py\"]}, \"services\": {\"golem_provider\": \"active\"}, \"timers\": {\"self_act_worker\": \"active\", \"pulse\": \"active\", \"reachability\": \"active\", \"golem_monitor\": \"active\", \"heartbeat\": \"active\", \"auto_act\": \"active\", \"ntfy_bridge\": \"active\", \"git_backup\": \"active\", \"disk_monitor\": \"active\"}, \"last\": {\"pulse_line\": \"{\\\"ts\\\": \\\"2026-03-19T07:26:10.395076+00:00\\\", \\\"type\\\": \\\"heartbeat\\\", \\\"source\\\": \\\"echo-heartbeat.service\\\", \\\"ts_local\\\": \\\"2026-03-19T02:26:10.395094-05:00\\\", \\\"core\\\": \\\"active\\\", \\\"self_act_timer\\\": \\\"active\\\", \\\"reachability_timer\\\": \\\"active\\\"}\", \"command\": {\"capsule_id\": \"COMMAND:20260307_124906\", \"type\": \"command\", \"status\": \"done\", \"created_at\": \"2026-03-07T18:49:06.554069+00:00\", \"text\": \"status\", \"source\": \"echo_command.py\", \"processed_at\": \"2026-03-07T18:49:08.207773+00:00\"}}, \"errors\": []}'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`echo-self-act-worker.service`\u7684`ExecMainCode`\u548c`ExecMainStatus`\uff0c\u53d1\u73b0\u4e24\u8005\u5747\u4e3a0\uff0c\u8868\u660e\u670d\u52a1\u6267\u884c\u6210\u529f\u4f46`Result`\u5b57\u6bb5\u6807\u8bb0\u4e3a`success`\uff0c\u53ef\u80fd\u5b58\u5728\u8bef\u6807\u3002",
-      "why": "\u901a\u5e38\u60c5\u51b5\u4e0b\uff0c\u5982\u679c`ExecMainCode`\u548c`ExecMainStatus`\u5747\u4e3a0\uff0c`Result`\u5e94\u6807\u8bb0\u4e3a`success`\uff0c\u4f46\u8fd9\u91cc`Result`\u5b57\u6bb5\u6807\u8bb0\u4e3a`success`\uff0c\u53ef\u80fd\u610f\u5473\u7740\u670d\u52a1\u6267\u884c\u8fc7\u7a0b\u4e2d\u6ca1\u6709\u4ea7\u751f\u9519\u8bef\u65e5\u5fd7\uff0c\u4f46\u5b9e\u9645\u53ef\u80fd\u5b58\u5728\u95ee\u9898\u672a\u88ab\u8bb0\u5f55\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'review TODO.md and suggest the single highest-value next action'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`echo-self-act-worker.service`\u7684`ExecMainCode`\u548c`ExecMainStatus`\u5b57\u6bb5\uff0c\u53d1\u73b0\u5b83\u4eec\u90fd\u4e3a0\uff0c\u8868\u660e\u8be5\u670d\u52a1\u6267\u884c\u6210\u529f\u3002\u8fdb\u4e00\u6b65\u68c0\u67e5`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\u5b57\u6bb5\uff0c\u786e\u8ba4\u670d\u52a1\u6267\u884c\u65f6\u95f4\u662f\u5426\u7b26\u5408\u9884\u671f\u3002",
-      "why": "\u6839\u636e\u63d0\u4f9b\u7684\u7cfb\u7edf\u72b6\u6001\u4fe1\u606f\uff0c`echo-self-act-worker.service`\u5728\u6700\u8fd1\u4e00\u6b21\u6267\u884c\u65f6\u7684`ExecMainCode`\u548c`ExecMainStatus`\u5747\u4e3a0\uff0c\u8868\u660e\u670d\u52a1\u6267\u884c\u6210\u529f\u3002\u4f46\u662f\uff0c\u670d\u52a1\u7684\u6267\u884c\u65f6\u95f4\uff08\u4ece`ExecMainStartTimestamp`\u5230`ExecMainExitTimestamp`\uff09\u4ec5\u4e3a\u51e0\u79d2\uff0c\u8fd9\u53ef\u80fd\u4e0d\u7b26\u5408\u9884\u671f\u7684\u6267\u884c\u95f4\u9694\uff08300\u79d2\uff09\u3002\u56e0\u6b64\uff0c\u9700\u8981\u8fdb\u4e00\u6b65\u8c03\u67e5\u670d\u52a1\u7684\u5177\u4f53\u6267\u884c\u903b\u8f91\uff0c\u4ee5\u786e\u8ba4\u5176\u662f\u5426\u6309\u9884\u671f\u5de5\u4f5c\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Golem node status and suggest pricing adjustment if needed'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u68c0\u67e5`echo-self-act-worker.service`\u7684`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\uff0c\u53d1\u73b0\u6267\u884c\u65f6\u95f4\u4e3a7\u79d2\uff0c\u8fdc\u5c0f\u4e8e\u9884\u671f\u7684300\u79d2\u95f4\u9694\u3002\u8fd9\u8868\u660e\u8be5\u670d\u52a1\u53ef\u80fd\u672a\u6309\u9884\u671f\u8fd0\u884c\u3002",
-      "why": "\u6839\u636e\u7cfb\u7edf\u65e5\u5fd7\uff0c`echo-self-act-worker.service`\u57282026-03-18 02:37:56 CDT\u542f\u52a8\u5e76\u57282026-03-18 02:38:03 CDT\u9000\u51fa\uff0c\u6267\u884c\u65f6\u95f4\u4e3a7\u79d2\u3002\u8fd9\u4e0e\u9884\u671f\u7684300\u79d2\u95f4\u9694\u4e0d\u7b26\uff0c\u53ef\u80fd\u610f\u5473\u7740\u670d\u52a1\u672a\u80fd\u6b63\u786e\u6267\u884c\u5176\u9884\u5b9a\u4efb\u52a1\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/income_knowledge.md and reason about which income path to activate next'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u901a\u8fc7\u5206\u6790`self_act_worker`\u670d\u52a1\u7684`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\u5b57\u6bb5\uff0c\u53d1\u73b0\u5176\u5b9e\u9645\u8fd0\u884c\u65f6\u95f4\u77ed\u4e8e\u9884\u671f\u7684300\u79d2\u95f4\u9694\u3002",
-      "why": "\u9884\u671f`self_act_worker`\u670d\u52a1\u6bcf5\u5206\u949f\u8fd0\u884c\u4e00\u6b21\uff0c\u4f46\u8bb0\u5f55\u663e\u793a\u5b83\u57282026-03-18 02:42:57\u542f\u52a8\u5e76\u57282026-03-18 02:43:04\u9000\u51fa\uff0c\u8fd0\u884c\u65f6\u95f4\u4ec5\u4e3a7\u79d2\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read registry.json and verify all listed services are actually running'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u901a\u8fc7\u5206\u6790`system`\u5b57\u6bb5\u4e2d\u7684`workers`\u5217\u8868\uff0c\u7279\u522b\u662f`echo-self-act-worker.service`\u7684`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\uff0c\u8ba1\u7b97\u51fa\u5176\u6267\u884c\u65f6\u95f4\u4e3a6\u79d2\u3002",
-      "why": "\u8be5\u670d\u52a1\u7684`expected_interval_seconds`\u4e3a300\u79d2\uff0c\u4f46\u5b9e\u9645\u6267\u884c\u65f6\u95f4\u4ec5\u4e3a6\u79d2\uff0c\u8fdc\u5c0f\u4e8e\u9884\u671f\uff0c\u8868\u660e\u8be5\u670d\u52a1\u53ef\u80fd\u5b58\u5728\u95ee\u9898\u6216\u672a\u6309\u9884\u671f\u8fd0\u884c\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'query_ledger: summarize recent wins and losses from the event ledger'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     {
-      "how": "\u901a\u8fc7\u5206\u6790`system`\u5b57\u6bb5\u4e2d\u7684`workers`\u5217\u8868\uff0c\u53d1\u73b0`echo-self-act-worker.service`\u7684`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\u4e4b\u95f4\u7684\u95f4\u9694\u5c0f\u4e8e\u9884\u671f\u7684300\u79d2\uff0c\u5177\u4f53\u4e3a5\u79d2\u3002",
-      "why": "\u6839\u636e`system`\u5b57\u6bb5\u4e2d\u7684`workers`\u4fe1\u606f\uff0c`echo-self-act-worker.service`\u57282026-03-18 02:52:59 CDT\u52302026-03-18 02:53:04 CDT\u4e4b\u95f4\u6267\u884c\uff0c\u603b\u5171\u53ea\u8fd0\u884c\u4e865\u79d2\uff0c\u8fdc\u4f4e\u4e8e\u9884\u671f\u7684300\u79d2\u95f4\u9694\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     }
   ],
   "knowledge": {
@@ -353,52 +353,52 @@
     },
     "[2026-03-12T20:22:54.396419] Suggest the best topic for next week's dev.to article based on Echo's recent build progress that would attract developers who might fund or use Echo.": "Based on Echo's recent build progress as documented in the changelog, the best topic for next week's dev.to article could be **\"Unified Event Ledger: A Centralized Source of Truth for Echo's Development and Operations.\"**\n\nThis topic is compelling because it highlights a foundational improvement that enhances transparency, accountability, and efficiency within Echo's operations. The Unified Event Ledger consolidates various types of historical events into a single, reliable source, which can intrigue developers who are interested in robust system management practices.\n\nAdditionally, the article could elaborate on how this ledger has been implemented, its role in logging reasoning results, successes/failures from auto-act cycles, and how it provides daily summaries for briefings. This topic showcases Echo's commitment to maintaining a well-documented and organized development lifecycle, which is likely to attract both potential funders and users interested in Echo's transparent and systematic approach to innovation.\n\nThe upcoming article will align with the dev.to audience's interest in technical depth and real-world application of innovative solutions.",
     "check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far": {
-      "how": "\u901a\u8fc7\u5206\u6790`system`\u5b57\u6bb5\u4e2d\u7684`workers`\u5217\u8868\uff0c\u7279\u522b\u662f`echo-self-act-worker.service`\u7684`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\uff0c\u8ba1\u7b97\u51fa\u5176\u6267\u884c\u65f6\u95f4\u4e3a6\u79d2\u3002",
-      "why": "\u8be5\u670d\u52a1\u7684`expected_interval_seconds`\u4e3a300\u79d2\uff0c\u4f46\u5b9e\u9645\u6267\u884c\u65f6\u95f4\u4ec5\u4e3a6\u79d2\uff0c\u8fdc\u5c0f\u4e8e\u9884\u671f\uff0c\u8868\u660e\u8be5\u670d\u52a1\u53ef\u80fd\u5b58\u5728\u95ee\u9898\u6216\u672a\u6309\u9884\u671f\u8fd0\u884c\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Vast.ai machine 57470 status \u2014 is it listed, any active rentals, earnings so far'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     "[2026-03-12T21:23:08.396919] Golem node has 0 earnings, status=''. Identify the most likely reason and suggest one concrete terminal command to attract tasks.": "The Golem node has no earnings and very little bandwidth usage, which indicates that it is not actively participating in any tasks or earning income from the network. The most likely reason for this situation could be a lack of demand for your specific resources or possibly low attractiveness due to factors such as cost, reputation, or performance.\n\nTo attract more tasks, you can adjust the price of your node's resources to make them more competitive. A concrete command that could help achieve this is:\n\n```bash\ngnt-attach --price 0.01 --name <resource-name>\n```\n\nIn the above command, replace `<resource-name>` with the name of a specific resource you wish to adjust (e.g., CPU power, storage). The `--price` parameter sets the price per unit time for that resource. Lowering this value can make your resources more attractive and increase the likelihood of getting tasks assigned.\n\nPlease note that adjusting prices too low could reduce income even if it increases demand, so finding an optimal balance is key.",
     "[2026-03-12T21:23:08.396919] Suggest the best topic for next week's dev.to article based on Echo's recent build progress that would attract developers who might fund or use Echo.": "Based on the ledger entries, it appears that Echo has been frequently attempting to suggest a topic for articles and checking its Golem node status without any earnings reported. Given this context, an appropriate article topic could focus on how developers can contribute to open-source projects like Echo by providing resources or funding through decentralized computing platforms such as Golem. This would not only highlight the current status of Echo's efforts but also attract potential contributors who are interested in both development and the blockchain technology behind these platforms.\n\nThe suggested topic for next week's dev.to article is:\n\"How Developers Can Contribute to Open-Source Projects Like Echo Using Decentralized Computing Platforms\"",
     "summarize: current Echo system state in ONE paragraph": {
-      "how": "Check the `ExecMainCode` and `ExecMainStatus` fields for the `echo-self-act-worker.service` in the `system_state`.",
-      "why": "These fields provide information about the execution status of the service. A `ExecMainCode` of 1 and `ExecMainStatus` of 0 suggest that the service executed without errors but may have completed with a non-zero code, indicating a potential issue.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'summarize: current Echo system state in ONE paragraph. Use ONLY these facts (no guessing): {\"updated_at\": \"2026-03-19T07:26:52.398361+00:00\", \"core\": {\"service\": \"echo-core.service\", \"status\": \"active\", \"procs\": [\"884381 /usr/bin/python3 -u /home/andrew/Echo/echo_core_daemon.py\"]}, \"services\": {\"golem_provider\": \"active\"}, \"timers\": {\"self_act_worker\": \"active\", \"pulse\": \"active\", \"reachability\": \"active\", \"golem_monitor\": \"active\", \"heartbeat\": \"active\", \"auto_act\": \"active\", \"ntfy_bridge\": \"active\", \"git_backup\": \"active\", \"disk_monitor\": \"active\"}, \"last\": {\"pulse_line\": \"{\\\"ts\\\": \\\"2026-03-19T07:26:10.395076+00:00\\\", \\\"type\\\": \\\"heartbeat\\\", \\\"source\\\": \\\"echo-heartbeat.service\\\", \\\"ts_local\\\": \\\"2026-03-19T02:26:10.395094-05:00\\\", \\\"core\\\": \\\"active\\\", \\\"self_act_timer\\\": \\\"active\\\", \\\"reachability_timer\\\": \\\"active\\\"}\", \"command\": {\"capsule_id\": \"COMMAND:20260307_124906\", \"type\": \"command\", \"status\": \"done\", \"created_at\": \"2026-03-07T18:49:06.554069+00:00\", \"text\": \"status\", \"source\": \"echo_command.py\", \"processed_at\": \"2026-03-07T18:49:08.207773+00:00\"}}, \"errors\": []}'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     "review TODO.md and suggest the single highest-value next action": {
-      "how": "Check the `ExecMainCode` and `ExecMainStatus` fields in the `meta` section of `echo-self-act-worker.service` within the `system_state`.",
-      "why": "The `ExecMainCode` value is 1, which typically indicates an error or non-zero exit status. The `ExecMainStatus` value is 0, which might indicate that the service exited cleanly but with an error code. This suggests that the service did not perform as expected.",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'review TODO.md and suggest the single highest-value next action'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     "check Golem node status and suggest pricing adjustment if needed": {
-      "how": "\u68c0\u67e5`echo-self-act-worker.service`\u7684`ExecMainCode`\u548c`ExecMainStatus`\uff0c\u53d1\u73b0\u4e24\u8005\u5747\u4e3a0\uff0c\u8868\u660e\u670d\u52a1\u6267\u884c\u6210\u529f\u4f46`Result`\u5b57\u6bb5\u6807\u8bb0\u4e3a`success`\uff0c\u53ef\u80fd\u5b58\u5728\u8bef\u6807\u3002",
-      "why": "\u901a\u5e38\u60c5\u51b5\u4e0b\uff0c\u5982\u679c`ExecMainCode`\u548c`ExecMainStatus`\u5747\u4e3a0\uff0c`Result`\u5e94\u6807\u8bb0\u4e3a`success`\uff0c\u4f46\u8fd9\u91cc`Result`\u5b57\u6bb5\u6807\u8bb0\u4e3a`success`\uff0c\u53ef\u80fd\u610f\u5473\u7740\u670d\u52a1\u6267\u884c\u8fc7\u7a0b\u4e2d\u6ca1\u6709\u4ea7\u751f\u9519\u8bef\u65e5\u5fd7\uff0c\u4f46\u5b9e\u9645\u53ef\u80fd\u5b58\u5728\u95ee\u9898\u672a\u88ab\u8bb0\u5f55\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'check Golem node status and suggest pricing adjustment if needed'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     "read memory/income_knowledge.md and reason about which income path to activate next": {
-      "how": "\u68c0\u67e5`echo-self-act-worker.service`\u7684`ExecMainCode`\u548c`ExecMainStatus`\u5b57\u6bb5\uff0c\u53d1\u73b0\u5b83\u4eec\u90fd\u4e3a0\uff0c\u8868\u660e\u8be5\u670d\u52a1\u6267\u884c\u6210\u529f\u3002\u8fdb\u4e00\u6b65\u68c0\u67e5`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\u5b57\u6bb5\uff0c\u786e\u8ba4\u670d\u52a1\u6267\u884c\u65f6\u95f4\u662f\u5426\u7b26\u5408\u9884\u671f\u3002",
-      "why": "\u6839\u636e\u63d0\u4f9b\u7684\u7cfb\u7edf\u72b6\u6001\u4fe1\u606f\uff0c`echo-self-act-worker.service`\u5728\u6700\u8fd1\u4e00\u6b21\u6267\u884c\u65f6\u7684`ExecMainCode`\u548c`ExecMainStatus`\u5747\u4e3a0\uff0c\u8868\u660e\u670d\u52a1\u6267\u884c\u6210\u529f\u3002\u4f46\u662f\uff0c\u670d\u52a1\u7684\u6267\u884c\u65f6\u95f4\uff08\u4ece`ExecMainStartTimestamp`\u5230`ExecMainExitTimestamp`\uff09\u4ec5\u4e3a\u51e0\u79d2\uff0c\u8fd9\u53ef\u80fd\u4e0d\u7b26\u5408\u9884\u671f\u7684\u6267\u884c\u95f4\u9694\uff08300\u79d2\uff09\u3002\u56e0\u6b64\uff0c\u9700\u8981\u8fdb\u4e00\u6b65\u8c03\u67e5\u670d\u52a1\u7684\u5177\u4f53\u6267\u884c\u903b\u8f91\uff0c\u4ee5\u786e\u8ba4\u5176\u662f\u5426\u6309\u9884\u671f\u5de5\u4f5c\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/income_knowledge.md and reason about which income path to activate next'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     "read registry.json and verify all listed services are actually running": {
-      "how": "\u68c0\u67e5`echo-self-act-worker.service`\u7684`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\uff0c\u53d1\u73b0\u6267\u884c\u65f6\u95f4\u4e3a7\u79d2\uff0c\u8fdc\u5c0f\u4e8e\u9884\u671f\u7684300\u79d2\u95f4\u9694\u3002\u8fd9\u8868\u660e\u8be5\u670d\u52a1\u53ef\u80fd\u672a\u6309\u9884\u671f\u8fd0\u884c\u3002",
-      "why": "\u6839\u636e\u7cfb\u7edf\u65e5\u5fd7\uff0c`echo-self-act-worker.service`\u57282026-03-18 02:37:56 CDT\u542f\u52a8\u5e76\u57282026-03-18 02:38:03 CDT\u9000\u51fa\uff0c\u6267\u884c\u65f6\u95f4\u4e3a7\u79d2\u3002\u8fd9\u4e0e\u9884\u671f\u7684300\u79d2\u95f4\u9694\u4e0d\u7b26\uff0c\u53ef\u80fd\u610f\u5473\u7740\u670d\u52a1\u672a\u80fd\u6b63\u786e\u6267\u884c\u5176\u9884\u5b9a\u4efb\u52a1\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read registry.json and verify all listed services are actually running'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     "query_ledger: summarize recent wins and losses from the event ledger": {
-      "how": "\u901a\u8fc7\u5206\u6790`self_act_worker`\u670d\u52a1\u7684`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\u5b57\u6bb5\uff0c\u53d1\u73b0\u5176\u5b9e\u9645\u8fd0\u884c\u65f6\u95f4\u77ed\u4e8e\u9884\u671f\u7684300\u79d2\u95f4\u9694\u3002",
-      "why": "\u9884\u671f`self_act_worker`\u670d\u52a1\u6bcf5\u5206\u949f\u8fd0\u884c\u4e00\u6b21\uff0c\u4f46\u8bb0\u5f55\u663e\u793a\u5b83\u57282026-03-18 02:42:57\u542f\u52a8\u5e76\u57282026-03-18 02:43:04\u9000\u51fa\uff0c\u8fd0\u884c\u65f6\u95f4\u4ec5\u4e3a7\u79d2\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'query_ledger: summarize recent wins and losses from the event ledger'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     },
     "read memory/world_context.md and identify one trending topic Echo should write an article about \u2014 add to content/draft_queue.json if promising": {
-      "how": "\u901a\u8fc7\u5206\u6790`system`\u5b57\u6bb5\u4e2d\u7684`workers`\u5217\u8868\uff0c\u53d1\u73b0`echo-self-act-worker.service`\u7684`ExecMainStartTimestamp`\u548c`ExecMainExitTimestamp`\u4e4b\u95f4\u7684\u95f4\u9694\u5c0f\u4e8e\u9884\u671f\u7684300\u79d2\uff0c\u5177\u4f53\u4e3a5\u79d2\u3002",
-      "why": "\u6839\u636e`system`\u5b57\u6bb5\u4e2d\u7684`workers`\u4fe1\u606f\uff0c`echo-self-act-worker.service`\u57282026-03-18 02:52:59 CDT\u52302026-03-18 02:53:04 CDT\u4e4b\u95f4\u6267\u884c\uff0c\u603b\u5171\u53ea\u8fd0\u884c\u4e865\u79d2\uff0c\u8fdc\u4f4e\u4e8e\u9884\u671f\u7684300\u79d2\u95f4\u9694\u3002",
-      "confidence": 0.0
+      "how": "Failed to get Ollama response for 'read memory/world_context.md and identify one trending topic Echo should write an article about \u2014 add to content/draft_queue.json if promising'.",
+      "why": "API call failed: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))",
+      "confidence": 0.1
     }
   },
   "X_flags": [],
   "system_state": {
-    "updated_at": "2026-03-18T07:57:45.398376+00:00",
-    "updated_at_local": "2026-03-18T02:57:45.432675-05:00",
+    "updated_at": "2026-03-19T07:56:52.393938+00:00",
+    "updated_at_local": "2026-03-19T02:56:52.430477-05:00",
     "core": {
       "service": "echo-core.service",
       "status": "active",
@@ -425,102 +425,102 @@
         "service": "echo-pulse.service",
         "meta": {
           "Result": "success",
-          "ExecMainStartTimestamp": "Wed 2026-03-18 00:05:08 CDT",
-          "ExecMainExitTimestamp": "Wed 2026-03-18 00:05:08 CDT",
+          "ExecMainStartTimestamp": "Thu 2026-03-19 00:05:09 CDT",
+          "ExecMainExitTimestamp": "Thu 2026-03-19 00:05:09 CDT",
           "ExecMainCode": "1",
           "ExecMainStatus": "0",
-          "InactiveExitTimestamp": "Wed 2026-03-18 00:05:08 CDT"
+          "InactiveExitTimestamp": "Thu 2026-03-19 00:05:09 CDT"
         },
         "health": "ok",
         "expected_interval_seconds": 86400,
-        "last_exit_local": "2026-03-18T00:05:08-05:00",
-        "next_expected_run_local": "2026-03-19T00:05:00-05:00",
-        "age_seconds": 10357,
+        "last_exit_local": "2026-03-19T00:05:09-05:00",
+        "next_expected_run_local": "2026-03-20T00:05:00-05:00",
+        "age_seconds": 10303,
         "stale": false
       },
       "reachability": {
         "service": "echo-reachability-watch.service",
         "meta": {
           "Result": "success",
-          "ExecMainStartTimestamp": "Wed 2026-03-18 02:54:34 CDT",
-          "ExecMainExitTimestamp": "Wed 2026-03-18 02:54:34 CDT",
+          "ExecMainStartTimestamp": "Thu 2026-03-19 02:53:33 CDT",
+          "ExecMainExitTimestamp": "Thu 2026-03-19 02:53:33 CDT",
           "ExecMainCode": "1",
           "ExecMainStatus": "0",
-          "InactiveExitTimestamp": "Wed 2026-03-18 02:54:34 CDT"
+          "InactiveExitTimestamp": "Thu 2026-03-19 02:53:33 CDT"
         },
         "health": "ok",
         "expected_interval_seconds": 300,
-        "last_exit_local": "2026-03-18T02:54:34-05:00",
-        "next_expected_run_local": "2026-03-18T02:59:34-05:00",
-        "age_seconds": 191,
+        "last_exit_local": "2026-03-19T02:53:33-05:00",
+        "next_expected_run_local": "2026-03-19T02:58:33-05:00",
+        "age_seconds": 199,
         "stale": false
       },
       "golem_monitor": {
         "service": "echo-golem-monitor.service",
         "meta": {
           "Result": "success",
-          "ExecMainStartTimestamp": "Tue 2026-03-17 11:00:00 CDT",
-          "ExecMainExitTimestamp": "Tue 2026-03-17 11:00:01 CDT",
+          "ExecMainStartTimestamp": "Wed 2026-03-18 11:00:00 CDT",
+          "ExecMainExitTimestamp": "Wed 2026-03-18 11:00:02 CDT",
           "ExecMainCode": "1",
           "ExecMainStatus": "0",
-          "InactiveExitTimestamp": "Tue 2026-03-17 11:00:00 CDT"
+          "InactiveExitTimestamp": "Wed 2026-03-18 11:00:00 CDT"
         },
         "health": "ok",
         "expected_interval_seconds": 86400,
-        "last_exit_local": "2026-03-17T11:00:01-05:00",
-        "next_expected_run_local": "2026-03-18T11:00:00-05:00",
-        "age_seconds": 57464,
+        "last_exit_local": "2026-03-18T11:00:02-05:00",
+        "next_expected_run_local": "2026-03-19T11:00:00-05:00",
+        "age_seconds": 57410,
         "stale": false
       },
       "heartbeat": {
         "service": "echo-heartbeat.service",
         "meta": {
           "Result": "success",
-          "ExecMainStartTimestamp": "Wed 2026-03-18 02:57:04 CDT",
-          "ExecMainExitTimestamp": "Wed 2026-03-18 02:57:04 CDT",
+          "ExecMainStartTimestamp": "Thu 2026-03-19 02:56:39 CDT",
+          "ExecMainExitTimestamp": "Thu 2026-03-19 02:56:39 CDT",
           "ExecMainCode": "1",
           "ExecMainStatus": "0",
-          "InactiveExitTimestamp": "Wed 2026-03-18 02:57:04 CDT"
+          "InactiveExitTimestamp": "Thu 2026-03-19 02:56:39 CDT"
         },
         "health": "ok",
         "expected_interval_seconds": 60,
-        "last_exit_local": "2026-03-18T02:57:04-05:00",
-        "next_expected_run_local": "2026-03-18T02:58:04-05:00",
-        "age_seconds": 41,
+        "last_exit_local": "2026-03-19T02:56:39-05:00",
+        "next_expected_run_local": "2026-03-19T02:57:39-05:00",
+        "age_seconds": 13,
         "stale": false
       },
       "self_act_worker": {
         "service": "echo-self-act-worker.service",
         "meta": {
           "Result": "success",
-          "ExecMainStartTimestamp": "Wed 2026-03-18 02:52:59 CDT",
-          "ExecMainExitTimestamp": "Wed 2026-03-18 02:53:04 CDT",
+          "ExecMainStartTimestamp": "Thu 2026-03-19 02:52:12 CDT",
+          "ExecMainExitTimestamp": "Thu 2026-03-19 02:52:12 CDT",
           "ExecMainCode": "1",
           "ExecMainStatus": "0",
-          "InactiveExitTimestamp": "Wed 2026-03-18 02:52:59 CDT"
+          "InactiveExitTimestamp": "Thu 2026-03-19 02:52:12 CDT"
         },
         "health": "ok",
         "expected_interval_seconds": 300,
-        "last_exit_local": "2026-03-18T02:53:04-05:00",
-        "next_expected_run_local": "2026-03-18T02:57:59-05:00",
-        "age_seconds": 281,
+        "last_exit_local": "2026-03-19T02:52:12-05:00",
+        "next_expected_run_local": "2026-03-19T02:57:12-05:00",
+        "age_seconds": 280,
         "stale": false
       },
       "auto_act": {
         "service": "echo-auto-act.service",
         "meta": {
           "Result": "success",
-          "ExecMainStartTimestamp": "Wed 2026-03-18 02:39:07 CDT",
-          "ExecMainExitTimestamp": "Wed 2026-03-18 02:39:07 CDT",
+          "ExecMainStartTimestamp": "Thu 2026-03-19 02:40:36 CDT",
+          "ExecMainExitTimestamp": "Thu 2026-03-19 02:40:36 CDT",
           "ExecMainCode": "1",
           "ExecMainStatus": "0",
-          "InactiveExitTimestamp": "Wed 2026-03-18 02:39:07 CDT"
+          "InactiveExitTimestamp": "Thu 2026-03-19 02:40:36 CDT"
         },
         "health": "ok",
         "expected_interval_seconds": 1800,
-        "last_exit_local": "2026-03-18T02:39:07-05:00",
-        "next_expected_run_local": "2026-03-18T03:09:07-05:00",
-        "age_seconds": 1118,
+        "last_exit_local": "2026-03-19T02:40:36-05:00",
+        "next_expected_run_local": "2026-03-19T03:10:36-05:00",
+        "age_seconds": 976,
         "stale": false
       },
       "ntfy_bridge": {
@@ -536,45 +536,45 @@
         "health": "ok",
         "last_exit_local": "2026-03-11T21:09:55-05:00",
         "next_expected_run_local": null,
-        "age_seconds": 539270
+        "age_seconds": 625617
       },
       "git_backup": {
         "service": "echo-git-backup.service",
         "meta": {
           "Result": "success",
-          "ExecMainStartTimestamp": "Tue 2026-03-17 03:00:04 CDT",
-          "ExecMainExitTimestamp": "Tue 2026-03-17 03:00:06 CDT",
+          "ExecMainStartTimestamp": "Wed 2026-03-18 03:00:00 CDT",
+          "ExecMainExitTimestamp": "Wed 2026-03-18 03:00:03 CDT",
           "ExecMainCode": "1",
           "ExecMainStatus": "0",
-          "InactiveExitTimestamp": "Tue 2026-03-17 03:00:04 CDT"
+          "InactiveExitTimestamp": "Wed 2026-03-18 03:00:00 CDT"
         },
         "health": "ok",
         "expected_interval_seconds": 86400,
-        "last_exit_local": "2026-03-17T03:00:06-05:00",
-        "next_expected_run_local": "2026-03-18T03:00:00-05:00",
-        "age_seconds": 86259,
+        "last_exit_local": "2026-03-18T03:00:03-05:00",
+        "next_expected_run_local": "2026-03-19T03:00:00-05:00",
+        "age_seconds": 86209,
         "stale": false
       },
       "disk_monitor": {
         "service": "echo-disk-monitor.service",
         "meta": {
           "Result": "success",
-          "ExecMainStartTimestamp": "Wed 2026-03-18 02:53:38 CDT",
-          "ExecMainExitTimestamp": "Wed 2026-03-18 02:53:38 CDT",
+          "ExecMainStartTimestamp": "Thu 2026-03-19 02:54:18 CDT",
+          "ExecMainExitTimestamp": "Thu 2026-03-19 02:54:18 CDT",
           "ExecMainCode": "1",
           "ExecMainStatus": "0",
-          "InactiveExitTimestamp": "Wed 2026-03-18 02:53:38 CDT"
+          "InactiveExitTimestamp": "Thu 2026-03-19 02:54:18 CDT"
         },
         "health": "ok",
         "expected_interval_seconds": 21600,
-        "last_exit_local": "2026-03-18T02:53:38-05:00",
-        "next_expected_run_local": "2026-03-18T08:53:38-05:00",
-        "age_seconds": 247,
+        "last_exit_local": "2026-03-19T02:54:18-05:00",
+        "next_expected_run_local": "2026-03-19T08:54:18-05:00",
+        "age_seconds": 154,
         "stale": false
       }
     },
     "last": {
-      "pulse_line": "{\"ts\": \"2026-03-18T07:57:04.396634+00:00\", \"type\": \"heartbeat\", \"source\": \"echo-heartbeat.service\", \"ts_local\": \"2026-03-18T02:57:04.396648-05:00\", \"core\": \"active\", \"self_act_timer\": \"active\", \"reachability_timer\": \"active\"}",
+      "pulse_line": "{\"ts\": \"2026-03-19T07:56:39.389793+00:00\", \"type\": \"heartbeat\", \"source\": \"echo-heartbeat.service\", \"ts_local\": \"2026-03-19T02:56:39.389808-05:00\", \"core\": \"active\", \"self_act_timer\": \"active\", \"reachability_timer\": \"active\"}",
       "command": {
         "capsule_id": "COMMAND:20260307_124906",
         "type": "command",
@@ -587,5 +587,5 @@
     },
     "errors": []
   },
-  "_standing_idx": 8
+  "_standing_idx": 7
 }

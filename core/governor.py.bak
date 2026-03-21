@@ -181,25 +181,6 @@ def run():
             log(f"skipped unsafe action: {action['id']}")
             continue
 
-        # Don't act on disabled actions
-        if action.get("disabled", False):
-            log(f"skipped disabled action: {action['id']}")
-            continue
-
-        # Cooldown check — prevent flood (e.g. create_draft max once per 24h)
-        cooldown_hours = action.get("cooldown_hours", 0)
-        if cooldown_hours > 0:
-            from core.event_ledger import query_recent
-            from datetime import timedelta
-            recent_same = [
-                e for e in query_recent(limit=50, source="governor")
-                if action["id"] in e.get("summary", "")
-                and (datetime.now() - datetime.fromisoformat(e["ts"])) < timedelta(hours=cooldown_hours)
-            ]
-            if recent_same:
-                log(f"cooldown: {action['id']} fired {len(recent_same)}x in last {cooldown_hours}h, skipping")
-                continue
-
         log(f"matched: '{summary[:60]}' → {action['id']}")
         success, output = execute_action(action, env_vars)
 
@@ -247,13 +228,6 @@ def run():
     except Exception as e:
         log(f"regret_scorer error: {e}")
     log(f"governor cycle done — acted on {acted}/{len(recent)} reasoning events")
-
-    # Check Notion Build Queue for tasks from Claude/ChatGPT
-    try:
-        from core.notion_task_reader import run as check_build_queue
-        check_build_queue()
-    except Exception as e:
-        log(f"notion_task_reader error: {e}")
 
 if __name__ == "__main__":
     run()

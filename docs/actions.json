@@ -371,7 +371,8 @@
         "cd /home/andrew/Echo && python3 -m core.draft_writer --title \"${ECHO_TITLE:-AI automation topic from world context}\" --outline \"${ECHO_OUTLINE:-Write about recent trends in local AI and automation}\""
       ],
       "safe": true,
-      "note": "Set ECHO_TITLE and ECHO_OUTLINE. Writes markdown to content/, queues in draft_queue.json"
+      "note": "Max once per 24 hours \u2014 prevents flood from world_context task",
+      "cooldown_hours": 24
     },
     {
       "id": "vast_status",
@@ -386,7 +387,9 @@
         "bash",
         "-lc",
         "cd /home/andrew/Echo && python3 -m core.vast_monitor"
-      ]
+      ],
+      "disabled": true,
+      "note": "Disabled 2026-03-15 \u2014 upload speed 0.6 Mbps fails 10 Mbps minimum"
     },
     {
       "id": "article_pipeline",

@@ -2,12 +2,12 @@
   {
     "id": 3363557,
     "title": "I've Been Building an AI Since Before I Knew What ",
-    "views": 1,
+    "views": 4,
     "reactions": 1,
     "comments": 0,
     "published": "2026-03-17",
     "url": "https://dev.to/crow/ive-been-building-an-ai-since-before-i-knew-what-i-was-building-3714",
-    "checked_at": "2026-03-19T09:00:08.952736"
+    "checked_at": "2026-03-20T09:00:13.917406"
   },
   {
     "id": 3363367,
@@ -17,17 +17,17 @@
     "comments": 0,
     "published": "2026-03-17",
     "url": "https://dev.to/crow/she-started-fixing-herself-building-a-self-healing-ai-agent-on-linux-4ob8",
-    "checked_at": "2026-03-19T09:00:08.952875"
+    "checked_at": "2026-03-20T09:00:13.917543"
   },
   {
     "id": 3350257,
     "title": "I Gave My Local AI a Public Brain: Echo + Notion M",
-    "views": 156,
+    "views": 207,
     "reactions": 4,
     "comments": 1,
     "published": "2026-03-14",
     "url": "https://dev.to/crow/i-gave-my-local-ai-a-public-brain-echo-notion-mcp-ci1",
-    "checked_at": "2026-03-19T09:00:08.952946"
+    "checked_at": "2026-03-20T09:00:13.917597"
   },
   {
     "id": 3335373,
@@ -37,7 +37,7 @@
     "comments": 0,
     "published": "2026-03-10",
     "url": "https://dev.to/crow/ive-been-building-an-ai-since-before-i-knew-what-i-was-building-3feg",
-    "checked_at": "2026-03-19T09:00:08.953007"
+    "checked_at": "2026-03-20T09:00:13.917644"
   },
   {
     "id": 3161893,
@@ -47,7 +47,7 @@
     "comments": 0,
     "published": "2026-01-10",
     "url": "https://dev.to/crow/cuda-vs-rocm-on-linux-what-matters-for-local-ai-hobbyists-mim",
-    "checked_at": "2026-03-19T09:00:08.953068"
+    "checked_at": "2026-03-20T09:00:13.917688"
   },
   {
     "id": 3102654,
@@ -57,7 +57,7 @@
     "comments": 0,
     "published": "2025-12-12",
     "url": "https://dev.to/crow/basic-linux-commands-every-ai-tinkerer-should-know-5gpn",
-    "checked_at": "2026-03-19T09:00:08.953121"
+    "checked_at": "2026-03-20T09:00:13.917726"
   },
   {
     "id": 3102620,
@@ -67,7 +67,7 @@
     "comments": 2,
     "published": "2025-12-12",
     "url": "https://dev.to/crow/automating-backups-for-your-ai-projects-on-linux-1mp1",
-    "checked_at": "2026-03-19T09:00:08.953178"
+    "checked_at": "2026-03-20T09:00:13.917760"
   },
   {
     "id": 3102366,
@@ -77,16 +77,16 @@
     "comments": 0,
     "published": "2025-12-12",
     "url": "https://dev.to/crow/earn-from-your-spare-gpu-step-by-step-guide-to-setting-up-golem-on-a-linux-workstation-5fc2",
-    "checked_at": "2026-03-19T09:00:08.953231"
+    "checked_at": "2026-03-20T09:00:13.917793"
   },
   {
     "id": 3102340,
     "title": "Build an AI\u2011Ready Linux Workstation Under $800 in ",
-    "views": 207,
+    "views": 248,
     "reactions": 0,
     "comments": 0,
     "published": "2025-12-12",
     "url": "https://dev.to/crow/build-an-ai-ready-linux-workstation-under-800-in-2024-step-by-step-guide-28ph",
-    "checked_at": "2026-03-19T09:00:08.953291"
+    "checked_at": "2026-03-20T09:00:13.917830"
   }
 ]

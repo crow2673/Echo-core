@@ -4,7 +4,7 @@
     "views": 5,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-19",
+    "date": "2026-03-20",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -13,7 +13,7 @@
     "views": 23,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-19",
+    "date": "2026-03-20",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -22,7 +22,7 @@
     "views": 87,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-19",
+    "date": "2026-03-20",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -31,7 +31,7 @@
     "views": 116,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-03-19",
+    "date": "2026-03-20",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -40,35 +40,35 @@
     "views": 3,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-19",
+    "date": "2026-03-20",
     "view_delta": 0,
     "reaction_delta": 0
   },
   "3102340": {
     "title": "Build an AI\u2011Ready Linux Workstation Under $800 in ",
-    "views": 207,
+    "views": 248,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-19",
-    "view_delta": 2,
+    "date": "2026-03-20",
+    "view_delta": 41,
     "reaction_delta": 0
   },
   "3350257": {
     "title": "I Gave My Local AI a Public Brain: Echo + Notion M",
-    "views": 156,
+    "views": 207,
     "reactions": 4,
-    "trend": "STABLE",
-    "date": "2026-03-19",
-    "view_delta": 4,
+    "trend": "GROWING",
+    "date": "2026-03-20",
+    "view_delta": 51,
     "reaction_delta": 0
   },
   "3363557": {
     "title": "I've Been Building an AI Since Before I Knew What ",
-    "views": 1,
+    "views": 4,
     "reactions": 1,
-    "trend": "STABLE",
-    "date": "2026-03-19",
-    "view_delta": 0,
+    "trend": "GROWING",
+    "date": "2026-03-20",
+    "view_delta": 3,
     "reaction_delta": 0
   },
   "3363367": {
@@ -76,7 +76,7 @@
     "views": 2,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-03-19",
+    "date": "2026-03-20",
     "view_delta": 0,
     "reaction_delta": 0
   }

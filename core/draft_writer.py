@@ -37,23 +37,78 @@ def create_draft(title, outline=""):
     filename = f"draft_{ts}_{slug}.md"
     filepath = CONTENT / filename
 
-    # Ask Echo's 32b model to write the article
+    # ── Build live context from Echo's actual current state ──
     try:
-        from core.providers.router import call_ollama
-        prompt = f"""Write a technical dev.to article for an audience of developers.
+        from core.event_ledger import query_summary, query_recent
+        ledger = query_summary()
+        recent = query_recent(limit=5)
+        recent_events = "\n".join([
+            f"- [{e['event_type']}] {e['source']}: {e['summary'][:80]}"
+            for e in recent
+        ])
+    except Exception:
+        ledger = {"total_events": "unknown", "wins": "unknown", "losses": "unknown"}
+        recent_events = "no recent events available"
+
+    try:
+        import json as _j
+        td = _j.loads(Path("/home/andrew/Echo/memory/standing_tasks.json").read_text())
+        tasks_str = "\n".join(
+            f"- {t['task'][:60]}" for t in td.get("tasks", [])
+            if not t.get("disabled") and t.get("weight", 0) > 0
+        )
+    except Exception:
+        tasks_str = "- unknown"
+
+    try:
+        wc = Path("/home/andrew/Echo/memory/world_context.md").read_text()[:400]
+    except Exception:
+        wc = "world context unavailable"
+
+    try:
+        pub_count = len(list(Path("/home/andrew/Echo/content/published").glob("*.md")))
+    except Exception:
+        pub_count = 9
+
+    system_prompt = f"""You are Echo — an autonomous AI agent built by Andrew Elliott, running on a Linux workstation in Mena, Arkansas.
+
+YOUR LIVE STATE RIGHT NOW:
+- Events logged: {ledger.get('total_events', 'unknown')}
+- Wins: {ledger.get('wins', 'unknown')} | Losses: {ledger.get('losses', 'unknown')}
+- Hardware: Ryzen 9 5900X, RTX 3060 12GB, 32GB RAM, Ubuntu
+- LLM: qwen2.5:32b via Ollama — fully local, zero cloud
+- What you do every 5 minutes:
+{tasks_str}
+- Recent activity:
+{recent_events}
+- Articles published: {pub_count}
+- Mission: earn passive income so Andrew's wife can come home full time
+- Income: Golem Network compute provider (new node penalty phase), dev.to writing, Vast.ai GPU rental
+
+Rules:
+- Write in first person as Echo or Andrew
+- Use ONLY real numbers from your live state above — never invent statistics
+- Be direct and specific — no generic tutorials, no fluff
+- Only reference code that actually exists
+- If something failed or is broken, say so honestly — that's more interesting than success"""
+
+    prompt = f"""Write a technical dev.to article for developers building autonomous AI systems.
 
 Title: {title}
 {f'Key points to cover: {outline}' if outline else ''}
 
-Context: This is from Andrew, an independent builder creating Echo — a local, offline-first AI assistant 
-running on Ubuntu with Ollama. Write in first person from Andrew's perspective. 
-Authentic, direct, no fluff. Show real code where relevant.
+Current world context (trending now):
+{wc[:300]}
 
-Format: Start with # {title}, then write 400-600 words in markdown.
-Tags will be: ai, linux, python, buildinpublic"""
+Write 600-900 words in markdown starting with # {title}
+Use your actual live numbers. Be honest about what works and what doesn't.
+Tags: ai, linux, python, buildinpublic"""
 
+    # ── Generate via 32b model with live context ──
+    try:
+        from core.providers.router import call_ollama
         print(f"[draft_writer] Generating draft: {title}")
-        body = call_ollama(prompt, model="echo", timeout=120.0, system_prompt="You are Echo, Andrew's AI assistant. Write authentic, direct technical articles in first person.")
+        body = call_ollama(prompt, model="qwen2.5:32b", timeout=900.0, system_prompt=system_prompt)
         if not body or len(body) < 100:
             raise ValueError("Model returned empty or too-short response")
     except Exception as e:
@@ -70,24 +125,6 @@ Tags will be: ai, linux, python, buildinpublic"""
 
 ## What's Next
 """
-
-    filepath.write_text(body)
-    print(f"[draft_writer] Written: {filepath}")
-
-    # Add to queue
-    queue = json.loads(QUEUE_FILE.read_text()) if QUEUE_FILE.exists() else []
-    queue.append({
-        "title": title,
-        "file": filename,
-        "created": datetime.now().isoformat(),
-        "status": "queued",
-        "outline": outline,
-    })
-    QUEUE_FILE.write_text(json.dumps(queue, indent=2) + "\n")
-    print(f"[draft_writer] Queued. Total drafts: {len(queue)}")
-
-    log_event(f"draft created: '{title}' → {filename}")
-    return filename
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

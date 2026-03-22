@@ -1478,5 +1478,15 @@
     "created": "2026-03-20T16:44:52.648166",
     "status": "queued",
     "outline": "real failures: ollama crashing at boot, 182 junk drafts generated overnight, Golem new node penalty, RAM pressure from Chrome eating 7GB swap, what Echo learned from each failure and how she fixed herself"
+  },
+  {
+    "id": "perf_tracker_2026-03-21",
+    "source": "devto_performance_tracker",
+    "topic": "Follow-up on trending topics: she, started, fixing",
+    "prompt": "Write a dev.to article that builds on the success of 'I Gave My Local AI a Public Brain: Echo + Notion M'. Focus on topics: she, started, fixing. Target audience: developers interested in local AI and automation.",
+    "priority": "high",
+    "created_at": "2026-03-21T09:00:13.954182",
+    "status": "failed",
+    "updated": "2026-03-21T10:05:00.462479"
   }
 ]

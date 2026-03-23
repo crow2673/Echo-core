@@ -2,12 +2,12 @@
   "flagged_categories": [
     {
       "category": "auto_act",
-      "rolling_avg": -0.471,
-      "sample_size": 17,
-      "reason": "Category 'auto_act' averaging -0.47 over last 17 actions. Pattern of poor outcomes detected."
+      "rolling_avg": -0.5,
+      "sample_size": 18,
+      "reason": "Category 'auto_act' averaging -0.50 over last 18 actions. Pattern of poor outcomes detected."
     }
   ],
   "flagged_actions": [],
-  "last_updated": "2026-03-21T09:22:18.408254",
+  "last_updated": "2026-03-22T09:26:39.405918",
   "healthy": false
 }

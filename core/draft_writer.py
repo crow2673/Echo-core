@@ -107,6 +107,17 @@ Tags: ai, linux, python, buildinpublic"""
     # ── Generate via 32b model with live context ──
     try:
         from core.providers.router import call_ollama
+        import urllib.request, json as _json
+        # Warm up the model before generating — prevents cold load timeout
+        try:
+            warm = _json.dumps({"model":"qwen2.5:32b","prompt":"ready","stream":False}).encode()
+            req = urllib.request.Request("http://localhost:11434/api/generate",
+                data=warm, headers={"Content-Type":"application/json"})
+            with urllib.request.urlopen(req, timeout=300) as r:
+                _json.loads(r.read())
+            print(f"[draft_writer] Model warm, generating draft: {title}")
+        except Exception as we:
+            print(f"[draft_writer] Warmup note: {we}")
         print(f"[draft_writer] Generating draft: {title}")
         body = call_ollama(prompt, model="qwen2.5:32b", timeout=900.0, system_prompt=system_prompt)
         if not body or len(body) < 100:

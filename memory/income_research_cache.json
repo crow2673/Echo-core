@@ -1,93 +1,132 @@
 {
-  "last_run": "2026-03-22 04:00",
+  "last_run": "2026-03-23 16:48",
   "findings": {
     "Hacker News \u2014 Ask HN / Show HN": {
       "total_fetched": 30,
-      "relevant_count": 2,
-      "items": [
-        {
-          "title": "Tinybox \u2013 A powerful computer for deep learning",
-          "link": "https://tinygrad.org/#tinybox",
-          "summary": "Comments"
-        },
-        {
-          "title": "HopTab\u2013free,open source macOS app switcher and tiler that replaces Cmd+Tab",
-          "link": "https://www.royalbhati.com/hoptab",
-          "summary": "Comments"
-        }
-      ]
+      "relevant_count": 0,
+      "items": []
     },
     "Dev.to \u2014 AI tag": {
       "total_fetched": 12,
-      "relevant_count": 3,
+      "relevant_count": 4,
       "items": [
         {
-          "title": "MCP Skills vs MCP Tools: The Right Way to Configure Your Server",
-          "link": "https://dev.to/turingsoracle/mcp-skills-vs-mcp-tools-the-right-way-to-configure-your-server-562c",
-          "summary": "Skills and MCP tools are not the same thing \u2014 and confusing them costs you. Learn the real difference, the real downsides, and how to combine both for a better agentic workflow.\n\n\n\n  \n  \n  MCP Skills vs MCP Tools: What's the Difference and How to Combine Them\n\n\nEveryone is talking about MCP. Everyon"
+          "title": "GEO: Writing Content That AI Agents Will Find, Use, and Cite",
+          "link": "https://dev.to/axiom_agent_1dc642fa83651/geo-writing-content-that-ai-agents-will-find-use-and-cite-gi2",
+          "summary": "GEO: The Developer's Guide to Writing Content That AI Agents Will Find, Use, and Cite (2026)\n\n\nSomething quietly changed in how your documentation gets read.\n\nIn 2025, the majority of documentation traffic was humans \u2014 developers searching, scanning, copying code. By late 2026, that has flipped for "
         },
         {
-          "title": "Still paying 4 years for a tech career",
-          "link": "https://dev.to/uzair_official/still-paying-4-years-for-a-tech-career-22om",
-          "summary": "Still paying 4 years for a tech career? If you are weighing your next step, the real question is: how fast can you turn learning into a job without burning your savings? Many students start strong, then get stuck in long semesters, heavy theory, and rising costs while the industry keeps moving. \n\nUn"
+          "title": "The Deadlock That Killed Your Agent's Session",
+          "link": "https://dev.to/oolongtea2026/the-deadlock-that-killed-your-agents-session-4f0",
+          "summary": "When a transient API error permanently locks your AI agent's session. A classic resource leak that turns a 30-second outage into permanent silence.\n\nOriginally published at oolong-tea-2026.github.io\n\n\n  \n  \n  The Setup\n\n\nYour AI agent is h"
         },
         {
-          "title": "How to Use AI to 10x Your Weekend Productivity (Without Burnout)",
-          "link": "https://dev.to/ottoaria/how-to-use-ai-to-10x-your-weekend-productivity-without-burnout-3p0m",
-          "summary": "How to Use AI to 10x Your Weekend Productivity (Without Burnout)\n\n\nWeekends are gold. Two days to recharge, catch up, or push your side projects forward. But most people waste them scrolling or doing shallow work that doesn't move the needle.\n\nAI changes this equation entirely.\n\nHere is how I use AI"
+          "title": "Revolutionizing AI Development: Introducing the NeuroX Toolkit",
+          "link": "https://dev.to/ajay_kumar_1daef5fe089885/revolutionizing-ai-development-introducing-the-neurox-toolkit-39f1",
+          "summary": "The world of AI development has taken a significant leap with the introduction of the NeuroX Toolkit. This innovative tool allows developers to accelerate their AI model building, testing, and deployment processes. With NeuroX, developers can streamline their workflow, reduce development time, and f"
+        },
+        {
+          "title": "I built an AI that diagnoses your pet's weird behavior \u2014 here's what I learned",
+          "link": "https://dev.to/coach4life/i-built-an-ai-that-diagnoses-your-pets-weird-behavior-heres-what-i-learned-3a9a",
+          "summary": "I built an AI that diagnoses your pet's weird behavior\n\n\nSix months ago I built mypettherapist.com as a side project. The idea: you describe your pet's quirky behavior, and Dr. Pawsworth (our AI vet) gives it an absurd but weirdly accurate medical diagnosis.\n\n\n  \n  \n  What it does\n\n\nYou type: <e"
         }
       ]
     },
     "Dev.to \u2014 Productivity tag": {
       "total_fetched": 12,
-      "relevant_count": 1,
+      "relevant_count": 3,
       "items": [
         {
-          "title": "How to Use AI to 10x Your Weekend Productivity (Without Burnout)",
-          "link": "https://dev.to/ottoaria/how-to-use-ai-to-10x-your-weekend-productivity-without-burnout-3p0m",
-          "summary": "How to Use AI to 10x Your Weekend Productivity (Without Burnout)\n\n\nWeekends are gold. Two days to recharge, catch up, or push your side projects forward. But most people waste them scrolling or doing shallow work that doesn't move the needle.\n\nAI changes this equation entirely.\n\nHere is how I use AI"
+          "title": "Revolutionizing AI Development: Introducing the NeuroX Toolkit",
+          "link": "https://dev.to/ajay_kumar_1daef5fe089885/revolutionizing-ai-development-introducing-the-neurox-toolkit-39f1",
+          "summary": "The world of AI development has taken a significant leap with the introduction of the NeuroX Toolkit. This innovative tool allows developers to accelerate their AI model building, testing, and deployment processes. With NeuroX, developers can streamline their workflow, reduce development time, and f"
+        },
+        {
+          "title": "Getting More Out of Your Google AI Subscription: Parallel Agents and Cross-Model Consensus",
+          "link": "https://dev.to/makerdrive/getting-more-out-of-your-google-ai-subscription-parallel-agents-and-cross-model-consensus-5nm",
+          "summary": "TL;DR: If you have a Google AI Ultra subscription, you are sitting on a practically unlimited pool of background AI agents. I built an open-source tool, Agent-Pool-MCP, that lets your main IDE agent delegate routine tasks to background Gemini CLI workers. The best part -- you can use Claude as the m"
+        },
+        {
+          "title": "Getting Started with Reflectt",
+          "link": "https://dev.to/seakai/getting-started-with-reflectt-3pc6",
+          "summary": "Getting Started with Reflectt\n\n\nYour first AI team, running in minutes.\n\n\n\n\n\n  \n  \n  What you're about to build\n\n\nBy the end of this guide, you'll have:\n\n\nAn AI agent running on your machine\nA web dashboard where you can watch it work\nA team you can talk to directly\n\n\nNo configuration files. No YAML"
         }
       ]
     },
     "Reddit \u2014 r/selfhosted": {
       "total_fetched": 25,
-      "relevant_count": 1,
+      "relevant_count": 5,
       "items": [
         {
-          "title": "[Open Source] I built MicroBox: The fastest and securest policy-first sandbox runner for unmodified code.",
-          "link": "https://www.reddit.com/r/selfhosted/comments/1s0gsb3/open_source_i_built_microbox_the_fastest_and/",
+          "title": "Finally understood why self-hosting felt hard",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1s1g4kd/finally_understood_why_selfhosting_felt_hard/",
+          "summary": ""
+        },
+        {
+          "title": "My goal to sustain an open source tool without turning it into a subscription trap",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1s16t9v/my_goal_to_sustain_an_open_source_tool_without/",
+          "summary": ""
+        },
+        {
+          "title": "Good Starting Self-Hosted Services",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1s1ry8d/good_starting_selfhosted_services/",
+          "summary": ""
+        },
+        {
+          "title": "If you self-host Langflow, update now. CVE-2026-33017 is unauthenticated RCE exploited in 20 hours. Attackers harvested API keys from live instances.",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1s0rvex/if_you_selfhost_langflow_update_now_cve202633017/",
+          "summary": ""
+        },
+        {
+          "title": "When I finally leave baby's first self-hosting, how should I go about it?",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1s1lcez/when_i_finally_leave_babys_first_selfhosting_how/",
           "summary": ""
         }
       ]
     },
     "Reddit \u2014 r/LocalLLaMA": {
       "total_fetched": 25,
-      "relevant_count": 1,
+      "relevant_count": 6,
       "items": [
         {
-          "title": "Today, what hardware to get for running large-ish local models like qwen 120b ?",
-          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1s0ev44/today_what_hardware_to_get_for_running_largeish/",
+          "title": "Which local model we running on the overland Jeep fellas?",
+          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1s1kyla/which_local_model_we_running_on_the_overland_jeep/",
+          "summary": ""
+        },
+        {
+          "title": "So cursor admits that Kimi K2.5 is the best open source model",
+          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1s19ik2/so_cursor_admits_that_kimi_k25_is_the_best_open/",
+          "summary": ""
+        },
+        {
+          "title": "I feel like if they made a local model focused specifically on RP it would be god tier even if tiny",
+          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1s1q5et/i_feel_like_if_they_made_a_local_model_focused/",
+          "summary": ""
+        },
+        {
+          "title": "Jake Benchmark v1: I spent a week watching 7 local LLMs try to be AI agents with OpenClaw. Most couldn't even find the email tool.",
+          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1s1oaid/jake_benchmark_v1_i_spent_a_week_watching_7_local/",
+          "summary": ""
+        },
+        {
+          "title": "7MB binary-weight Mamba LLM \u2014 zero floating-point at inference, runs in browser",
+          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1s1iw91/7mb_binaryweight_mamba_llm_zero_floatingpoint_at/",
+          "summary": ""
+        },
+        {
+          "title": "KOS Engine -- open-source neurosymbolic engine where the LLM is just a thin I/O shell (swap in any local model, runs on CPU)",
+          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1s1socp/kos_engine_opensource_neurosymbolic_engine_where/",
           "summary": ""
         }
       ]
     },
     "Reddit \u2014 r/SideProject": {
       "total_fetched": 25,
-      "relevant_count": 3,
+      "relevant_count": 1,
       "items": [
         {
-          "title": "Open Source \u201cPalantir\u201d",
-          "link": "https://www.reddit.com/r/SideProject/comments/1s03pi6/open_source_palantir/",
-          "summary": ""
-        },
-        {
-          "title": "6 months of building an AI automation business. What the \"build in public\" posts don't tell you.",
-          "link": "https://www.reddit.com/r/SideProject/comments/1s0f42p/6_months_of_building_an_ai_automation_business/",
-          "summary": ""
-        },
-        {
-          "title": "The thing nobody told me about building a side project while working full-time",
-          "link": "https://www.reddit.com/r/SideProject/comments/1rzxb4e/the_thing_nobody_told_me_about_building_a_side/",
+          "title": "I built Lingoo, a calmer Hinglish learning app with 7 practice modes and local AI conversations",
+          "link": "https://www.reddit.com/r/SideProject/comments/1s1tgis/i_built_lingoo_a_calmer_hinglish_learning_app/",
           "summary": ""
         }
       ]

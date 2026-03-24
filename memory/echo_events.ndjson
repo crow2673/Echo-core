@@ -2133,3 +2133,5 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/draft_writer.py", "mtime": 1774043688.1897612, "size": 4847, "ts": 1774043689.2679489}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/draft_writer.py", "mtime": 1774044668.4422133, "size": 4847, "ts": 1774044669.1901836}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/draft_writer.py", "mtime": 1774047398.1258717, "size": 4854, "ts": 1774047399.2890122}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/registry.json", "mtime": 1774302471.087101, "size": 5195, "ts": 1774302471.2146842}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/draft_writer.py", "mtime": 1774304506.3872993, "size": 5502, "ts": 1774304506.391298}

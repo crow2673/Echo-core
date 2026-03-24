@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-03-12T09:42:38.201725",
+  "generated_at": "2026-03-23T16:47:51.084483",
   "orchestrator": "echo_core_daemon.py",
   "memory": {
     "primary": "echo_semantic_memory.sqlite",
     "capsule_queue": "echo_memory.json",
     "store": "core/memory_store.py",
-    "total_memories": 2095
+    "total_memories": 2097
   },
   "model": {
     "name": "echo",
@@ -21,7 +21,6 @@
   "active_services": [
     "echo-analytics.service",
     "echo-auto-act.service",
-    "echo-backup.service",
     "echo-core-state-autofix.service",
     "echo-core-state-writer.service",
     "echo-core-state.service",
@@ -31,8 +30,8 @@
     "echo-disk-monitor.service",
     "echo-git-backup.service",
     "echo-golem-monitor.service",
+    "echo-governor.service",
     "echo-heartbeat.service",
-    "echo-income-injector.service",
     "echo-income-research.service",
     "echo-ntfy-bridge.service",
     "echo-publish-weekly.service",
@@ -41,13 +40,13 @@
     "\u25cf",
     "echo-screen-watcher.service",
     "echo-self-act-worker.service",
+    "echo-vast-monitor.service",
     "echo-wake.service",
     "echo-watchdog.service"
   ],
   "active_timers": [
     "echo-analytics.timer",
     "echo-auto-act.timer",
-    "echo-backup.timer",
     "echo-core-state-autofix.timer",
     "echo-core-state-writer.timer",
     "echo-core-state.timer",
@@ -56,14 +55,15 @@
     "echo-disk-monitor.timer",
     "echo-git-backup.timer",
     "echo-golem-monitor.timer",
+    "echo-governor.timer",
     "echo-heartbeat.timer",
-    "echo-income-injector.timer",
     "echo-income-research.timer",
     "echo-publish-weekly.timer",
     "echo-pulse.timer",
     "echo-reachability-watch.timer",
     "echo-registry-update.timer",
     "echo-self-act-worker.timer",
+    "echo-vast-monitor.timer",
     "echo-watchdog.timer"
   ],
   "core_modules": {

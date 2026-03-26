@@ -68,3 +68,10 @@
 - [ ] Remove Vast.ai from standing tasks — confirmed fails 10 Mbps minimum, wasted cycles
 - [ ] Fix healthcheck in notion_briefing.py — shows 4 failed when all 8 pass (system context issue)
 - [ ] Remove duplicate video demo task from TODO.md
+
+## TRADING (new)
+- [ ] Fix crypto symbols — BTCUSD not BTC/USD for Alpaca
+- [ ] Wire trade outcomes into regret index scoring
+- [ ] Add exit logic — take profit at +3%, stop loss at -1.5%
+- [ ] Fix vastai CLI — urllib3 and python-dateutil broken by alpaca install
+- [ ] Paper trade for 30 days before any real money consideration

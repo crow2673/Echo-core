@@ -1,41 +1,41 @@
 # Echo World Context
-_Updated: 2026-03-24 06:00_
+_Updated: 2026-03-25 06:00_
 
 ## Dev.to Trending
-- **The Email That Nearly Stopped Me From Becoming a Developer** — 177 reactions, 5min read
-  https://dev.to/sylwia-lask/the-email-that-nearly-stopped-me-from-becoming-a-developer-3n77
-- **Congrats to the Winners of Our First DEV Weekend Challenge!** — 75 reactions, 2min read
+- **Get Started on Dev.to! A Beginner's Guide to Engage with the Community! 💡** — 117 reactions, 6min read
+  https://dev.to/francistrdev/get-started-on-devto-a-beginners-guide-to-engage-with-the-community-4ach
+- **Congrats to the Winners of Our First DEV Weekend Challenge!** — 76 reactions, 2min read
   https://dev.to/devteam/congrats-to-the-winners-of-our-first-dev-weekend-challenge-1gml
-- **AI Is Creating a New Kind of Tech Debt — And Nobody Is Talking About It** — 124 reactions, 9min read
+- **Building a Weather Station Using an Old Raspberry Pi** — 42 reactions, 3min read
+  https://dev.to/nandofm/building-a-weather-station-using-an-old-raspberry-pi-5333
+- **AI Is Creating a New Kind of Tech Debt — And Nobody Is Talking About It** — 132 reactions, 9min read
   https://dev.to/harsh2644/ai-is-creating-a-new-kind-of-tech-debt-and-nobody-is-talking-about-it-3pm6
-- **Top 7 Featured DEV Posts of the Week** — 63 reactions, 3min read
-  https://dev.to/devteam/top-7-featured-dev-posts-of-the-week-5pn
 - **Congrats to the "Built with Google Gemini: Writing Challenge" Winners!** — 70 reactions, 3min read
   https://dev.to/devteam/congrats-to-the-built-with-google-gemini-writing-challenge-winners-5ej6
 
 ## Hacker News Top
-- **Microsoft's "Fix" for Windows 11: Flowers After the Beating** — 90 points
-  https://www.sambent.com/microsofts-plan-to-fix-windows-11-is-gaslighting/
-- **Opera: Rewind The Web to 1996 (Opera at 30)** — 51 points
-  https://www.web-rewind.com
-- **Box of Secrets: Discreetly modding an apartment intercom to work with Apple Home** — 151 points
-  https://www.jackhogan.me/blog/box-of-secrets/
-- **Log File Viewer for the Terminal** — 145 points
-  https://lnav.org/
-- **Show HN: ProofShot – Give AI coding agents eyes to verify the UI they build** — 44 points
-  https://proofshot.argil.io/
+- **I tried to prove I'm not AI. My aunt wasn't convinced** — 20 points
+  https://www.bbc.com/future/article/20260324-i-tried-to-prove-im-not-an-ai-deepfake
+- **Meta told to pay $375M for misleading users over child safety** — 48 points
+  https://www.bbc.com/news/articles/cql75dn07n2o
+- **TurboQuant: Redefining AI efficiency with extreme compression** — 186 points
+  https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/
+- **VitruvianOS – Desktop Linux Inspired by the BeOS** — 159 points
+  https://v-os.dev
+- **Goodbye to Sora** — 748 points
+  https://twitter.com/soraofficialapp/status/2036532795984715896
 
 ## r/LocalLLaMA Hot
-- **Announcing LocalLlama discord server &amp; bot!** — 141 upvotes
+- **AMA with Reka AI - Ask us anything!** — 27 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1s2ik85/ama_with_reka_ai_ask_us_anything/
+- **Announcing LocalLlama discord server &amp; bot!** — 142 upvotes
   https://reddit.com/r/LocalLLaMA/comments/1mpk2va/announcing_localllama_discord_server_bot/
-- **RYS II - Repeated layers with Qwen3.5 27B and some hints at a 'Universal Language'** — 409 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1s1t5ot/rys_ii_repeated_layers_with_qwen35_27b_and_some/
-- **FlashAttention-4: 1613 TFLOPs/s, 2.7x faster than Triton, written in Python. What it means for inference.** — 160 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1s1yw23/flashattention4_1613_tflopss_27x_faster_than/
-- **China's open-source dominance threatens US AI lead, US advisory body warns** — 475 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1s1kmch/chinas_opensource_dominance_threatens_us_ai_lead/
-- **Are we currently in a "Golden Time" for low VRAM/1 GPU users with Qwen 27b?** — 93 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1s1z17h/are_we_currently_in_a_golden_time_for_low_vram1/
+- **Throwback to my proudest impulse buy ever, which has let me enjoy this hobby 10x more** — 500 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1s2x0w9/throwback_to_my_proudest_impulse_buy_ever_which/
+- **Prices finally coming down? 🥺🙏** — 686 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1s2q4o8/prices_finally_coming_down/
+- **Best model that can beat Claude opus that runs on 32MB of vram?** — 720 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1s2i7pw/best_model_that_can_beat_claude_opus_that_runs_on/
 
 ## Golem Blog
 - **Golem Ecosystem Fund: One Year In - Highlights, Allocations, and What’s Next** — GEF has supported Golem, Ethereum, and Web3 for over a year! We've learned and are evolving the Fund. New goals, tracks, and focus areas are coming soon. Get ready!
@@ -46,38 +46,38 @@ _Updated: 2026-03-24 06:00_
   https://blog.golem.network/eth-staking-tests-summary/
 
 ## Ollama Releases
+- **v0.18.3** — 
+  https://github.com/ollama/ollama/releases/tag/v0.18.3-rc1
+- **v0.18.3-rc0: mlx: add mxfp4/mxfp8/nvfp4 importing (#15015)** — 
+  https://github.com/ollama/ollama/releases/tag/v0.18.3-rc0
 - **v0.18.2** — 
   https://github.com/ollama/ollama/releases/tag/v0.18.2
-- **v0.18.2-rc1: launch: fix openclaw not picking up newly selected model (#14943)** — 
-  https://github.com/ollama/ollama/releases/tag/v0.18.2-rc1
-- **v0.18.2-rc0** — 
-  https://github.com/ollama/ollama/releases/tag/v0.18.2-rc0
 
 ## Arxiv AI/ML
-- **AgenticGEO: A Self-Evolving Agentic System for Generative Engine Optimization** — arXiv:2603.20213v1 Announce Type: new 
-Abstract: Generative search engines represent a transition from traditional ranking-based retrieval to Large Language Model (LLM)-based synthesis, transforming o
-  https://arxiv.org/abs/2603.20213
-- **ProMAS: Proactive Error Forecasting for Multi-Agent Systems Using Markov Transition Dynamics** — arXiv:2603.20260v1 Announce Type: new 
-Abstract: The integration of Large Language Models into Multi-Agent Systems (MAS) has enabled the so-lution of complex, long-horizon tasks through collaborative 
-  https://arxiv.org/abs/2603.20260
-- **Domain-Specialized Tree of Thought through Plug-and-Play Predictors** — arXiv:2603.20267v1 Announce Type: new 
-Abstract: While Large Language Models (LLMs) have advanced complex reasoning, prominent methods like the Tree of Thoughts (ToT) framework face a critical trade-o
-  https://arxiv.org/abs/2603.20267
-- **JointFM-0.1: A Foundation Model for Multi-Target Joint Distributional Prediction** — arXiv:2603.20266v1 Announce Type: new 
-Abstract: Despite the rapid advancements in Artificial Intelligence (AI), Stochastic Differential Equations (SDEs) remain the gold-standard formalism for modelin
-  https://arxiv.org/abs/2603.20266
-- **MARLIN: Multi-Agent Reinforcement Learning for Incremental DAG Discovery** — arXiv:2603.20295v1 Announce Type: new 
-Abstract: Uncovering causal structures from observational data is crucial for understanding complex systems and making informed decisions. While reinforcement le
-  https://arxiv.org/abs/2603.20295
+- **Memory Bear AI Memory Science Engine for Multimodal Affective Intelligence: A Technical Report** — arXiv:2603.22306v1 Announce Type: new 
+Abstract: Affective judgment in real interaction is rarely a purely local prediction problem. Emotional meaning often depends on prior trajectory, accumulated co
+  https://arxiv.org/abs/2603.22306
+- **The Efficiency Attenuation Phenomenon: A Computational Challenge to the Language of Thought Hypothesis** — arXiv:2603.22312v1 Announce Type: new 
+Abstract: This paper computationally investigates whether thought requires a language-like format, as posited by the Language of Thought (LoT) hypothesis. We int
+  https://arxiv.org/abs/2603.22312
+- **Dynamic Fusion-Aware Graph Convolutional Neural Network for Multimodal Emotion Recognition in Conversations** — arXiv:2603.22345v1 Announce Type: new 
+Abstract: Multimodal emotion recognition in conversations (MERC) aims to identify and understand the emotions expressed by speakers during utterance interaction 
+  https://arxiv.org/abs/2603.22345
+- **Beyond Hard Constraints: Budget-Conditioned Reachability For Safe Offline Reinforcement Learning** — arXiv:2603.22292v1 Announce Type: new 
+Abstract: Sequential decision making using Markov Decision Process underpins many realworld applications. Both model-based and model free methods have achieved s
+  https://arxiv.org/abs/2603.22292
+- **Efficient Embedding-based Synthetic Data Generation for Complex Reasoning Tasks** — arXiv:2603.22294v1 Announce Type: new 
+Abstract: Synthetic Data Generation (SDG), leveraging Large Language Models (LLMs), has recently been recognized and broadly adopted as an effective approach to 
+  https://arxiv.org/abs/2603.22294
 
 ## GitHub Topics
-- **nomic-ai/gpt4all** — 77239 stars — GPT4All: Run Local LLMs on Any Device. Open-source and available for commercial use.
+- **nomic-ai/gpt4all** — 77240 stars — GPT4All: Run Local LLMs on Any Device. Open-source and available for commercial use.
   https://github.com/nomic-ai/gpt4all
-- **oobabooga/text-generation-webui** — 46351 stars — The original local LLM interface. Text, vision, tool-calling, training, and more. 100% offline.
+- **oobabooga/text-generation-webui** — 46357 stars — The original local LLM interface. Text, vision, tool-calling, training, and more. 100% offline.
   https://github.com/oobabooga/text-generation-webui
-- **ollama/ollama** — 165999 stars — Get up and running with Kimi-K2.5, GLM-5, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.
+- **ollama/ollama** — 166111 stars — Get up and running with Kimi-K2.5, GLM-5, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.
   https://github.com/ollama/ollama
-- **open-webui/open-webui** — 128466 stars — User-friendly AI Interface (Supports Ollama, OpenAI API, ...)
+- **open-webui/open-webui** — 128602 stars — User-friendly AI Interface (Supports Ollama, OpenAI API, ...)
   https://github.com/open-webui/open-webui
 - **anshuman73/DeML-Golem** — 44 stars — Proof Of Concept of DEcentralised Machine Learning on top of the Golem (https://golem.network/) arch
   https://github.com/anshuman73/DeML-Golem

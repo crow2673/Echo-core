@@ -4,7 +4,7 @@
     "views": 5,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-24",
+    "date": "2026-03-25",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -13,7 +13,7 @@
     "views": 23,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-24",
+    "date": "2026-03-25",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -22,7 +22,7 @@
     "views": 97,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-24",
+    "date": "2026-03-25",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -31,7 +31,7 @@
     "views": 116,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-03-24",
+    "date": "2026-03-25",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -40,26 +40,26 @@
     "views": 3,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-24",
+    "date": "2026-03-25",
     "view_delta": 0,
     "reaction_delta": 0
   },
   "3102340": {
     "title": "Build an AI\u2011Ready Linux Workstation Under $800 in ",
-    "views": 248,
+    "views": 258,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-03-24",
-    "view_delta": 0,
+    "date": "2026-03-25",
+    "view_delta": 10,
     "reaction_delta": 0
   },
   "3350257": {
     "title": "I Gave My Local AI a Public Brain: Echo + Notion M",
-    "views": 265,
+    "views": 277,
     "reactions": 4,
     "trend": "STABLE",
-    "date": "2026-03-24",
-    "view_delta": 7,
+    "date": "2026-03-25",
+    "view_delta": 12,
     "reaction_delta": 0
   },
   "3363557": {
@@ -76,8 +76,17 @@
     "views": 12,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-03-24",
+    "date": "2026-03-25",
     "view_delta": 0,
+    "reaction_delta": 0
+  },
+  "3395372": {
+    "title": "PENDING REVIEW",
+    "views": 1,
+    "reactions": 0,
+    "trend": "NEW",
+    "date": "2026-03-25",
+    "view_delta": 1,
     "reaction_delta": 0
   }
 }

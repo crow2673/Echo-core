@@ -1,0 +1,437 @@
+[
+  {
+    "source": "seed",
+    "title": "Moving Average Crossover",
+    "summary": "Buy when 50-day MA crosses above 200-day MA (golden cross). Sell when 50-day crosses below 200-day (death cross). Simple trend following. Works best in trending markets, fails in sideways markets."
+  },
+  {
+    "source": "seed",
+    "title": "RSI Mean Reversion",
+    "summary": "Buy when RSI drops below 30 (oversold). Sell when RSI rises above 70 (overbought). Works best in ranging markets. Fails in strong trends."
+  },
+  {
+    "source": "seed",
+    "title": "Bollinger Band Squeeze",
+    "summary": "When bands narrow (low volatility), a breakout is coming. Buy on breakout above upper band, sell on breakdown below lower band. Good for volatile assets."
+  },
+  {
+    "source": "seed",
+    "title": "MACD Crossover",
+    "summary": "Buy when MACD line crosses above signal line. Sell when MACD crosses below signal line. Momentum indicator. Lags price but filters noise."
+  },
+  {
+    "source": "seed",
+    "title": "Volume Price Trend",
+    "summary": "High volume on up days, low volume on down days = bullish. High volume on down days = bearish. Volume confirms price moves."
+  },
+  {
+    "source": "seed",
+    "title": "Opening Range Breakout",
+    "summary": "First 30 minutes sets the range. Buy breakout above range high, sell breakdown below range low. Day trading strategy, close all positions by end of day."
+  },
+  {
+    "source": "seed",
+    "title": "Momentum / Relative Strength",
+    "summary": "Buy top performing assets from last 3-12 months. Sell bottom performers. Rebalance monthly. Strong academic backing. Works across stocks, crypto, commodities."
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Finally created my own algo (using AI) and this was the first ten days trading on real money (cent) account",
+    "score": 1135,
+    "url": "https://reddit.com/r/algotrading/comments/1lgrb1f/finally_created_my_own_algo_using_ai_and_this_was/",
+    "summary": "I've been playing with different algos for a couple of years - blown a lot of accounts due to them opening too many layered trades. So I decided to make my own. It took quite a long time to get it right (I used Claude AI in the end, ChatGPT just kept giving me code that didn't function as I wanted) but I've been running it on XAUUSD for ten days and I am very happy with the result. Will keep forward testing it and share further results in the future.",
+    "scraped_at": "2026-03-25T23:55:49.166154"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "\"PM me for code\" posts should be banned. Put up the code to everyone or STFU. These are all scams.",
+    "score": 888,
+    "url": "https://reddit.com/r/algotrading/comments/1mabc5l/pm_me_for_code_posts_should_be_banned_put_up_the/",
+    "summary": "",
+    "scraped_at": "2026-03-25T23:55:49.166169"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "This is what happens when you DO NOT include Fees in your backtests",
+    "score": 818,
+    "url": "https://reddit.com/r/algotrading/comments/1kmfpx5/this_is_what_happens_when_you_do_not_include_fees/",
+    "summary": "Fees truly are an edge killer...  \n  \nIf you backtest a strategy with misleading or inaccurate fees, you're in for big disappointment when going live.\n\n",
+    "scraped_at": "2026-03-25T23:55:49.166171"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Stop paying for Polymarket data. PMXT just open-sourced the orderbooks.",
+    "score": 710,
+    "url": "https://reddit.com/r/algotrading/comments/1rdhw2n/stop_paying_for_polymarket_data_pmxt_just/",
+    "summary": "We are officially dropping free orderbook data for polymarket today.\n\nThis is part 1/3 of our data dumps. It\u2019s small, orderbooks only. We need to stress-test our pipelines before we release the full historical data, trade-level data, and other exchanges. We\u2019re doing this because charging devs for raw market data is basically a scam at this point.\n\nGrab the data:[https://archive.pmxt.dev/Polymarket](https://archive.pmxt.dev/Polymarket). It's powered entirely by pmxt. \n\nStar the pmxt library: [htt",
+    "scraped_at": "2026-03-25T23:55:49.166173"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "6 year algo trading model delivering the goods",
+    "score": 709,
+    "url": "https://reddit.com/r/algotrading/comments/1oob9kv/6_year_algo_trading_model_delivering_the_goods/",
+    "summary": "I trade only GBPUSD using the broker with the highest spreads (Fusion markets). \n\nThe strategy is to detect bounces off support and resistance points and quickly capitalise on the reverse bump. Quick trades, closed within avg 2 mins. I trade at leverage having qualified for a pro level account (500:1), so always use stop losses and take profits.\n\nBehind the scenes I built an algo model from the ground up using VSC, with trend reversal + sufficient price movement within 3 mins as the target varia",
+    "scraped_at": "2026-03-25T23:55:49.166174"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Most Sane Algo Trader",
+    "score": 612,
+    "url": "https://reddit.com/r/algotrading/comments/1jrjwzy/most_sane_algo_trader/",
+    "summary": "",
+    "scraped_at": "2026-03-25T23:55:49.166175"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Meta Labeling for Algorithmic Trading: How to Amplify a Real Edge",
+    "score": 612,
+    "url": "https://reddit.com/r/algotrading/comments/1lnm48w/meta_labeling_for_algorithmic_trading_how_to/",
+    "summary": "I\u2019ve commented briefly on some other posts mentioning this approach, and there usually seems to be some interest so I figured it would be good to make a full post. \n\nThere is a lot of misunderstanding and misconceptions about how to use machine learning for algo trading, and unrealistic expectations for what it\u2019s capable of. \n\nI see many people asking about using machine learning to predict price, find a strategy, etc. However, this is almost always bound to fail - machine learning is NOT good a",
+    "scraped_at": "2026-03-25T23:55:49.166177"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "My life's pride and joy is completed.",
+    "score": 598,
+    "url": "https://reddit.com/r/algotrading/comments/1osz7u6/my_lifes_pride_and_joy_is_completed/",
+    "summary": "5 years of 100% non lookahead returns. (Data removed, picks locked in, returns calculated)  \n600 Unique tickers chosen from Russell1000. Average of 15 per rebalance.  \n35% CAGR and 18.5% max DD. (Sp in this period was 25%)  \nI have never been more proud of myself.",
+    "scraped_at": "2026-03-25T23:55:49.166178"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Dead Internet Theory in r/algotrading",
+    "score": 590,
+    "url": "https://reddit.com/r/algotrading/comments/1q67z33/dead_internet_theory_in_ralgotrading/",
+    "summary": "im calling this out because the discussion quality here is being degraded by what i am 99% sure is a bot farming engagement.\n\nif you saw the recent post about Small experiment: \"[Small experiment: filtering low-expectancy trades flipped a strategy\u2019s PnL in 24h](https://www.reddit.com/r/algotrading/comments/1q5jvlf/small_experiment_filtering_lowexpectancy_trades/)\" you might have noticed the strategy itself was nonsense, hindsight bias and overfitting to a tiny sample. but the bigger red flag isn",
+    "scraped_at": "2026-03-25T23:55:49.166179"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Profitable Trading is often Boring Trading",
+    "score": 546,
+    "url": "https://reddit.com/r/algotrading/comments/1lj8kpv/profitable_trading_is_often_boring_trading/",
+    "summary": "I've been developing and running strategies for years now, always trying to improve them and add filter, etc... often resulting in overfitting. (you can read my previous posts on this sub)\n\nAnyway, came to realize my most boring strategy on 2h timeframe is on the long run one of the best performing. It's boring, kinda frustrating sometimes because you're feeling like you miss a lot of opportunities, but results are here. \n\nActually made only 7 trades this year so far, 100% Win rate and +74.77% P",
+    "scraped_at": "2026-03-25T23:55:49.166182"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "List of the Most Basic Algorithmic Trading Strategies",
+    "score": 543,
+    "url": "https://reddit.com/r/algotrading/comments/1naoem2/list_of_the_most_basic_algorithmic_trading/",
+    "summary": "I am currently compiling a list of the most basic strategies used in algorithmic trading.\n\n* Trend Following (+Momentum)\n   * MA Cross\n   * EMA Cross\n   * MACD ([ingpawat](https://www.reddit.com/user/ingpawat/))\n   * RSI / LRSI ([Mike\\_Trdw](https://www.reddit.com/user/Mike_Trdw/))\n   * New Low or High\n   * ATR ([Away-Box793](https://www.reddit.com/user/Away-Box793/))\n   * VWAP\n* Seasonal\n   * Sell in May and Stay away\n* Mean Reversion ([Mike\\_Trdw](https://www.reddit.com/user/Mike_Trdw/))\n   * ",
+    "scraped_at": "2026-03-25T23:55:49.166184"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "I ADMIT IT. I OVERFIT. I HAVE SELECTION BIAS.",
+    "score": 520,
+    "url": "https://reddit.com/r/algotrading/comments/1rbxa35/i_admit_it_i_overfit_i_have_selection_bias/",
+    "summary": "",
+    "scraped_at": "2026-03-25T23:55:49.166185"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Randomness beats 85% of Retail Traders",
+    "score": 468,
+    "url": "https://reddit.com/r/algotrading/comments/1ltww0d/randomness_beats_85_of_retail_traders/",
+    "summary": "I created and tested trading strategies based on randomness on EURUSD (4h chart).\n\n**Rules used:**\n\n* Every 4h candle, generate an integer between 1 and 100 (included). \n* If the integer is 20 or above, do nothing.  \n* If the integer is below 20, then generate another integer between 1 and 100 (included). \n* If that second integer is below 50, BUY. If it is 50 or above, SELL. \n* Stop loss at 3 ATR (risk 1% of current capital). Take profit at 1R. \n\nOn most of my tests, the results were slightly p",
+    "scraped_at": "2026-03-25T23:55:49.166188"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "2025 was my best year \u2014 and here\u2019s what I did differently.",
+    "score": 454,
+    "url": "https://reddit.com/r/algotrading/comments/1q25jpe/2025_was_my_best_year_and_heres_what_i_did/",
+    "summary": "I abandoned every negative risk-reward (RR) approach: scalps, reversals, and average price/grid (yes, I built those too \u2014 no, I\u2019m not proud). Instead, I focused exclusively on breakout strategies with a 2:1 RR.\n\nI also stopped trading too many pairs. In 2025, I traded only two: XAUUSD and USDJPY. In previous years, I traded as many as 32 different pairs \u2014 and today I see how harmful that was.\n\nThe book that influenced me the most was Antifragile, by Nassim Taleb. I believe being on the side of v",
+    "scraped_at": "2026-03-25T23:55:49.166189"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "The Signal I Use to Detect Hidden Instability in Markets ( Source Code Included )",
+    "score": 436,
+    "url": "https://reddit.com/r/algotrading/comments/1phv4zz/the_signal_i_use_to_detect_hidden_instability_in/",
+    "summary": "Most traders think a market is \u201cstable\u201d when price looks smooth. In reality, stability has nothing to do with how price looks it\u2019s a volatility pattern, not a price pattern.\n\nHere\u2019s the simple mechanism my algos use to detect when the market is shifting from stable \u2192 unstable long before most traders notice.\n\n**The Core Idea: Compare Fast Volatility vs. Slow Volatility**\n\nI calculate two ATRs:\n\n* ATR^((short)) \u2192 fast volatility (current reactions)\n* ATR^((long)) \u2192 baseline volatility (normal beh",
+    "scraped_at": "2026-03-25T23:55:49.166190"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "I backtested a 400K views YouTube trading strategy (the results were BRUTAL)",
+    "score": 401,
+    "url": "https://reddit.com/r/algotrading/comments/1r92wxr/i_backtested_a_400k_views_youtube_trading/",
+    "summary": "I often stumble upon those super popular YouTube videos testing a trading strategy in just 100 trades. They usually show insane equity curves and clean stats (second image).\n\n**So I decided to actually test one.**\n\nThis one had almost 400,000 views.  \nThe YouTuber showed 100 trades, 56% win rate, RR of 1.5 and around +40% return (see 2nd image).\n\nOn paper? That\u2019s a huge edge! The strategy involves a Triple Supertrend, Stochastic RSI, and a 200-period EMA on the EUR/USD 1-hour chart.\n\nNow, as I s",
+    "scraped_at": "2026-03-25T23:55:49.166191"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Compilation on the 47 best books to learn to build algo trading systems for personal use",
+    "score": 388,
+    "url": "https://reddit.com/r/algotrading/comments/1q9s71s/compilation_on_the_47_best_books_to_learn_to/",
+    "summary": "I've spent a lot of time researching for the best books to learn algo trading mostly focused on personal use (not to get an algo trading job) and I wanted to share it with you guys in case it would help anyone. With the research I did I tried to organize each category in a logical reading order but of course that is quite subjective.\n\nIts definitely a lot of books and I doubt anyone will read all of them, but maybe it can help you pick a few from each category to learn something new.\n\n**If you h",
+    "scraped_at": "2026-03-25T23:55:49.166195"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Ah, that sweet moment of bliss before you realise you've coded in epic look-ahead bias...",
+    "score": 388,
+    "url": "https://reddit.com/r/algotrading/comments/1q46b8v/ah_that_sweet_moment_of_bliss_before_you_realise/",
+    "summary": "At least I know what it is right away now (not my first rodeo)",
+    "scraped_at": "2026-03-25T23:55:49.166196"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "So you're telling me something could work for 10 years straight it just... breaks? :D",
+    "score": 374,
+    "url": "https://reddit.com/r/algotrading/comments/1pa4nrw/so_youre_telling_me_something_could_work_for_10/",
+    "summary": "",
+    "scraped_at": "2026-03-25T23:55:49.166197"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "I built a bot to automate 'risk-free' arbitrage between Kalshi and Polymarket. Here is the source code.",
+    "score": 370,
+    "url": "https://reddit.com/r/algotrading/comments/1qebxud/i_built_a_bot_to_automate_riskfree_arbitrage/",
+    "summary": "The strategy is simple: Synthetic Arbitrage. When the implied probability of an event (like a Fed Rate Cut) diverges between Kalshi and Polymarket, my bot automatically buys \"YES\" on one and \"NO\" on the other. The combined cost is $0.95, the payout is a guaranteed $1.00. It is a mathematical guarantee, but only if you hold to maturity.\n\n**I don't hold.** Holding funds for 3 months to make 2% kills your IRR. Instead, my bot actively trades the convergence. As seen in the chart, we enter when the ",
+    "scraped_at": "2026-03-25T23:55:49.166198"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "After about 4 years of exploration and 1.5 year of persistent effort, I think we finally have a \"system\"",
+    "score": 346,
+    "url": "https://reddit.com/r/algotrading/comments/1qklj4o/after_about_4_years_of_exploration_and_15_year_of/",
+    "summary": "I would say that about 80% of the first 12 months of working on this had little involvement from LLMs. We got something working, paper-traded it from Mar 2025 to July 2025, then live traded from Aug 2025 to Dec 2025. Made some big mistakes while experimenting (two accidental sells with huge losses) and ended up with an OK return of 4.5% on 5 months (but still behind just market BAH by 4.5%).\n\nAlong the way we kept working on better TSL, better stop-losses, better keep-outs, regime detection, etc",
+    "scraped_at": "2026-03-25T23:55:49.166199"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Finally having good results with my scalping alog",
+    "score": 346,
+    "url": "https://reddit.com/r/algotrading/comments/1r5al3o/finally_having_good_results_with_my_scalping_alog/",
+    "summary": "I've been developing successful swing trading algos, but I always struggled to find a profitable scalping strategy I can automate that works more than 1-2 weeks\n\nMarket is changing everyday and while a swing trading algo avoid the noise, my scalping algos failed.\n\nI've been working on this one for few months, and have been running it for 3 weeks so far, with 3 negative days. Results match the backtest (slippage included) so I'm pretty happy of it. Can't wait to close the first month of live trad",
+    "scraped_at": "2026-03-25T23:55:49.166200"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "After 6 years, its finally learning something!",
+    "score": 338,
+    "url": "https://reddit.com/r/algotrading/comments/1o0yych/after_6_years_its_finally_learning_something/",
+    "summary": "",
+    "scraped_at": "2026-03-25T23:55:49.166201"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "This is how you algo trade, right?",
+    "score": 329,
+    "url": "https://reddit.com/r/algotrading/comments/1phybk5/this_is_how_you_algo_trade_right/",
+    "summary": "I\u2019ve been cultivating algo trading bots through neuroevolution. I finally got around to writing a script to visualize their thought process \u2014 it\u2019s both beautiful and terrifying. ",
+    "scraped_at": "2026-03-25T23:55:49.166202"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Built my own trading bot in Python \u2013 sharing tutorial + source code",
+    "score": 317,
+    "url": "https://reddit.com/r/algotrading/comments/1ksqq04/built_my_own_trading_bot_in_python_sharing/",
+    "summary": "I\u2019ve built a trading bot in Python and have had it running on a virtual machine with a demo account for the last couple of months.\n\nI struggled to find useful references to help me and it took way longer to figure things out than I expected. So I've made a tutorial video showing how to build a simplified version of it that has all the main functionality like:\n\n* Fetching live data from API (I used OANDA but have no affiliation to them)\n* Calculating indicators (Kept it simple with EMAs and ATR f",
+    "scraped_at": "2026-03-25T23:55:49.166203"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "NSCC Filing Today. THIS. IS. ACTUALLY. INSANE.",
+    "score": 14287,
+    "url": "https://reddit.com/r/GME/comments/mg4o2q/nscc_filing_today_this_is_actually_insane/",
+    "summary": "\n\n# NSCC-2021-004 ----&gt; Filed [THIS](https://www.sec.gov/rules/sro/nscc/2021/34-91428.pdf), TODAY.\n\nAPES PLEASE, I know these legal documents look like some squiggly letters and number headings that no one wants to fuck with, **but apes, APES**, this is actually, to date, the single most convincing piece of evidence I have seen, the most comprehensive, the most powerful, the craziest fucking shit so far (IMO)\n\nu/Shooting4daMoon posted the link to the actual govt filing earlier, and I read it.",
+    "scraped_at": "2026-03-25T23:55:50.154783"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Goldman Sachs is being investigated for the SVB Bank collapse. They're executing 2008 again, I'll show you.",
+    "score": 12482,
+    "url": "https://reddit.com/r/Superstonk/comments/137rsld/goldman_sachs_is_being_investigated_for_the_svb/",
+    "summary": "It came out [Goldman Sachs is being investigated for the SVB collapse today](https://www.ft.com/content/4b4eb2ae-6858-4ea9-9151-b68d336b72e0)\n\nAfter a hiatus from this sub, I wanted to bring up how this is starting to appear like 2008 again.\n\n\n [Goldman Sachs, Deutsche Bank and Bear Stearns created](https://www.deepcapture.com/2010/04/goldman-sachs-john-paulson-and-the-hedge-funds-that-pumped-and-dumped-our-economy/) self destructing CDOs to crash the market in 2008\n\n&gt; In a civil suit filed F",
+    "scraped_at": "2026-03-25T23:55:50.154798"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "The crimes of Citadel, Goldman Sachs and friends",
+    "score": 5202,
+    "url": "https://reddit.com/r/Superstonk/comments/t6j39c/the_crimes_of_citadel_goldman_sachs_and_friends/",
+    "summary": "This is *a lot* to read, but I was asked to compile it into one. Especially now with the DoJ talking about this, let's see what we can find shall we?\n\n\n\n\nThe only guy to go to jail for 2008, [was running from this](https://www.deepcapture.com/2009/01/strange-occurrences-and-a-story-about-naked-short-selling/) and turned himself in (this story includes Jim Cramer) \n\n&gt; Evidence suggests that Bernard Madoff, the \u201cprominent\u201d Wall Street operator and former chairman of the NASDAQ stock market, had",
+    "scraped_at": "2026-03-25T23:55:50.154801"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "I believe MOASS is an unstoppable force (gamma ramp) meeting an immovable object (DRS'd shares).",
+    "score": 4008,
+    "url": "https://reddit.com/r/Superstonk/comments/15nbrgq/i_believe_moass_is_an_unstoppable_force_gamma/",
+    "summary": "Before I go any further, this is not a post encouraging anyone to mess with 0DTE options or options in general. Rather, this is a recap of a tool being leveraged to suppress volatility and the implications of it being out of control  to the broader market.\n\nSources for this post:\n\n1. [https://www.marketwatch.com/story/trading-in-risky-0dte-stock-options-hits-record-and-could-a-stock-market-selloff-traders-say-41a35495](https://www.marketwatch.com/story/trading-in-risky-0dte-stock-options-hits-re",
+    "scraped_at": "2026-03-25T23:55:50.154802"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "How to CONSISTENTLY Outperform the S&amp;P500 using Theta Gang Strategy. A Comprehensive Guide to Wheeling ETFs.",
+    "score": 3903,
+    "url": "https://reddit.com/r/wallstreetbets/comments/iz68r4/how_to_consistently_outperform_the_sp500_using/",
+    "summary": "# Introduction\n\nThis will be long, but it will also be concise, and is filled with information. Do yourself a favor and read it thoroughly. Don't complain that I got something wrong if you only skimmed the post.\n\nI've been studying options for years, and have read great books such as OAASI cover to cover. In other words, I know some shit. My goal here is to impart a simple strategy that can significantly outperform a \"buy and hold\" strategy on any major index, both so you can make tendies SAFELY",
+    "scraped_at": "2026-03-25T23:55:50.154803"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Broker Dealers &amp; Mutual Funds/ETFs Have A LOT of GME Securities Lending Counterparty Exposure - Let's Explore Some Numbers (Funds 4 - 7 Added) - Why Are Funds Holding Shares of Exchanges? \ud83d\udd78\ufe0f\u23f0\u260e\ufe0f\ud83d\udca5",
+    "score": 3026,
+    "url": "https://reddit.com/r/Superstonk/comments/u69qad/broker_dealers_mutual_fundsetfs_have_a_lot_of_gme/",
+    "summary": "**EDIT:** I'm not sure what's going on but I'm not going to delete the post. A lot of people can't see any of the content, some people can't see any of the pictures, and two or three people told me they can see the entire post. I will repost this later tonight and see if we have better luck.\n\n**\\*Obligatory,** none of this information is financial advice and is the result of my studies. All investors must do their own due diligence, come to their own conclusions, and make their own financial dec",
+    "scraped_at": "2026-03-25T23:55:50.154805"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "After 2 years of Daytrading. 7 months full time. Here's my advice",
+    "score": 2696,
+    "url": "https://reddit.com/r/Daytrading/comments/fw82ow/after_2_years_of_daytrading_7_months_full_time/",
+    "summary": "Cleaning house because I'm bored due to obvious reasons. I\u2019ve been seeing lots of questions about people wanting to learn trading. Have received an influx of messages asking how to get started/go full time.\n\nI\u2019ve been asked what strategy/books/courses/indicators etc. there is that are good. I\u2019ve read over 50+ books (ebooks and hard cover) on day trading:\n\n[Every book I've read to learn day trading and everything that relates to starting\\/running a business. My business's operating agreement\\/The",
+    "scraped_at": "2026-03-25T23:55:50.154807"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "MOASS Prediction: October 24, 2023 (a Tuesday).",
+    "score": 2582,
+    "url": "https://reddit.com/r/Superstonk/comments/15m2732/moass_prediction_october_24_2023_a_tuesday/",
+    "summary": "&amp;#x200B;\n\n[https:\\/\\/www.reddit.com\\/r\\/Superstonk\\/comments\\/15lrofk\\/nscc\\_approves\\_enhancements\\_to\\_the\\_gap\\_risk\\/ ](https://preview.redd.it/7lkhxh4vozgb1.png?width=596&amp;format=png&amp;auto=webp&amp;s=65fd3e21d9070884d3e5e2edc04b22318ce23d1d)\n\n* Today, the NSCC approved Enhancements to the Gap Risk Measure &amp; the VaR Charge.\n* VaR tinkers with the mechanics that would have defaulted Robinhood &amp; Others 1/28/21.\n   * The NSCC, previously saved them by sacrificing retail, in al",
+    "scraped_at": "2026-03-25T23:55:50.154808"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Musical Chairs Theory: the Other Side of $GME",
+    "score": 2504,
+    "url": "https://reddit.com/r/Superstonk/comments/14nfhqo/musical_chairs_theory_the_other_side_of_gme/",
+    "summary": "Apes, **I\u2019ve had a revelation.**  It fits in nicely with \u201cThe Sun Never Sets on Citadel, part 5\u201d which is still in the works (over a year later, lol) \u2013 along with a couple other major ones I\u2019m writing.\n\nMy approach focuses on strategy and a larger picture. This DD is a decent entry point for anyone who\u2019s a [little confused but got the spirit.](https://cdn.fansshare.com/photo/willsmith/bb-ea-will-smith-fresh-prince-fresh-prince-of-bel-air-meme-aint-even-mad-will-smith-1365252853.jpg)\n\nThis one ta",
+    "scraped_at": "2026-03-25T23:55:50.154809"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Every 2nd resume",
+    "score": 2160,
+    "url": "https://reddit.com/r/quantfinance/comments/1nmqf1g/every_2nd_resume/",
+    "summary": "",
+    "scraped_at": "2026-03-25T23:55:50.154810"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Broker Dealers &amp; Mutual Funds/ETFs Have A LOT of GME Securities Lending Counterparty Exposure - Let's Explore Some Numbers (Funds 4 - 7 Added) - Why Are Funds Holding Shares of Exchanges? \ud83d\udd78\ufe0f\u23f0\u260e\ufe0f\ud83d\udca5",
+    "score": 2014,
+    "url": "https://reddit.com/r/Superstonk/comments/u6sdsn/broker_dealers_mutual_fundsetfs_have_a_lot_of_gme/",
+    "summary": "Reposting from this morning. Not really sure what was going on with the post, but here we go, again.\n\n**\\*Obligatory,** none of this information is financial advice and is the result of my studies. All investors must do their own due diligence, come to their own conclusions, and make their own financial decisions.\n\n**Update to Original Post:**\n\n* Added onto the TL;DR\n* I've added onto and clarified AIG's 2008 securities lending losses within this post to include information that funds, and borro",
+    "scraped_at": "2026-03-25T23:55:50.154812"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "This setup helped me quit my 9-5",
+    "score": 1953,
+    "url": "https://reddit.com/r/Daytrading/comments/1o2o1f4/this_setup_helped_me_quit_my_95/",
+    "summary": "\nAfter years of testing every indicator, watching countless videos, and blowing more accounts than I can count, I finally found the one setup that changed everything for me:\n\nThe 5-Minute Opening Range Breakout (ORB) refined and backtested to fit my style.\n\nThis isn\u2019t some plug-and-play system I copied online.\nI built, broke, rebuilt, and refined it through hundreds of backtests and live trades until the edge became undeniable.\n\nThe Core Idea\n\nThe strategy revolves around the first 5 minutes of ",
+    "scraped_at": "2026-03-25T23:55:50.154813"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "From $4,000 to $1,000,000: A 1% Daily Compounding Experiment",
+    "score": 1791,
+    "url": "https://reddit.com/r/Daytrading/comments/1qsnkh5/from_4000_to_1000000_a_1_daily_compounding/",
+    "summary": "My goal is straightforward but intentionally ambitious: **maintain an average daily compound rate of 1%**, scaling an initial $4,000 to $1,000,000 over the next 18 months.\n\nThere\u2019s no single \u201cbig trade\u201d behind this approach. No manual intervention. No emotional decision-making. What sits underneath is a fully automated trading system that took **over a year of programming, development, and rigorous testing** before being allowed to run freely.\n\n# A Year of Restraint Before a Real Run\n\nFor more t",
+    "scraped_at": "2026-03-25T23:55:50.154815"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "I used OpenAI\u2019s brand new O3-mini model to create a trading strategy. It\u2019s DESTROYING the market",
+    "score": 1646,
+    "url": "https://reddit.com/r/TheRaceTo10Million/comments/1iexw2w/i_used_openais_brand_new_o3mini_model_to_create_a/",
+    "summary": "**You can copy this strategy for yourself in a single click**\n\n[Pic: The OpenAI o3-mini model backtest from 12/31/2022 to 12/31/2023](https://miro.medium.com/v2/resize:fit:1400/1*3FP_VKbIpyXh7OzvhguEBg.png)\n\nWhen I first tried the new o3\u2011mini model, I was beyond impressed. Unlike other reasoning models, like DeepSeek R1 or OpenAI\u2019s o1, o3\u2011mini was reliable, lightning fast, and most importantly extremely accurate.\n\nAnd it cost less than GPT\u20114o.\n\nSo, like with other models, I sought to see how I c",
+    "scraped_at": "2026-03-25T23:55:50.154816"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Backtesting YouTube Finfluencer Stock Picks vs. S&amp;P 500 (Risky Inverse strategy beat the market) [OC]",
+    "score": 1650,
+    "url": "https://reddit.com/r/dataisbeautiful/comments/1m3okpb/backtesting_youtube_finfluencer_stock_picks_vs_sp/",
+    "summary": "Portfolio value on a $100 investment: The Inverse YouTuber strategy outperforms QQQ and S&amp;P 500, while all other strategies underperform.\n\n**Data Source:** Hundreds of recommendation videos by YouTube financial influencers (2018\u20132024).  \n**Tools Used:** Matplotlib, manual annotation, backtesting scripts.  \n**Original Source Article:** [https://papers.ssrn.com/sol3/papers.cfm?abstract\\_id=5315526](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5315526)",
+    "scraped_at": "2026-03-25T23:55:50.154817"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "I fed 48 years of Buffett's shareholder letters to Anthropic's latest model Opus 4.6 and had it pick stocks blind",
+    "score": 1639,
+    "url": "https://reddit.com/r/ValueInvesting/comments/1r994rg/i_fed_48_years_of_buffetts_shareholder_letters_to/",
+    "summary": "Hi everyone, \n\nSome of you might remember my last post here where I experimented using AI to detect [when CEOs are being deceptive in earnings calls](https://www.reddit.com/r/ValueInvesting/comments/1qqksjt/used_ai_to_detect_if_ceos_are_being_deceptive_in/). I didn't think this community would be so welcoming and receptive to experiments like these (which I love doing). So here I am with yet another experiment that I thought this community would find interesting :-)!\n\nI recently got curious abou",
+    "scraped_at": "2026-03-25T23:55:50.154819"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Has anyone tried a strategy where they do the exact opposite of everything Cramer says",
+    "score": 1584,
+    "url": "https://reddit.com/r/stocks/comments/r8ozpi/has_anyone_tried_a_strategy_where_they_do_the/",
+    "summary": "So, I was just reading the Intelligent Investor (updated 2004 version) and there's a paragraph about how \"In February 2000, hedge-fund manager James J. Cramer\" was basically pumping and hyping internet stocks and that putting $10000 into his picks would have left you with $597 by the end of 2002. (Truly impressive even for me having lost 52% on CD Projekt)\n\nNow there's memes about him saying he wants as much DIDI shares as possible and I'm sure there are many other examples. (I'm not suggesting ",
+    "scraped_at": "2026-03-25T23:55:50.154820"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "My 1 Year Anniversary of Full Time Day Trading. 3 Years In The Business. What I Wish I Could Tell Myself Years Ago.",
+    "score": 1583,
+    "url": "https://reddit.com/r/Daytrading/comments/j3zlqi/my_1_year_anniversary_of_full_time_day_trading_3/",
+    "summary": "Part 1: [https://www.reddit.com/r/Daytrading/comments/fw82ow/after\\_2\\_years\\_of\\_daytrading\\_7\\_months\\_full\\_time/](https://www.reddit.com/r/Daytrading/comments/fw82ow/after_2_years_of_daytrading_7_months_full_time/)\n\n&amp;#x200B;\n\nPart 3: [https://www.reddit.com/r/Daytrading/comments/mh0nfp/part\\_3\\_my\\_full\\_time\\_trading\\_career\\_1\\_year\\_since\\_i/](https://www.reddit.com/r/Daytrading/comments/mh0nfp/part_3_my_full_time_trading_career_1_year_since_i/)\n\n&amp;#x200B;\n\nThis industry has a lack",
+    "scraped_at": "2026-03-25T23:55:50.154821"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "[Serious] Investieren 1x1 mit GhostSierra117",
+    "score": 1546,
+    "url": "https://reddit.com/r/Finanzen/comments/1dy4vtd/serious_investieren_1x1_mit_ghostsierra117/",
+    "summary": "Dieser Anf\u00e4ngerleitfaden soll **allen** Leuten, die sich bisher null mit ihren Finanzen besch\u00e4ftigt haben eine ersten Anlaufstelle geben um in das Thema reinzukommen.\n\nDas Ziel ist es soviel wie n\u00f6tig, aber so wenig wie m\u00f6glich zu erkl\u00e4ren. Sind wir ehrlich: Finanzen sind ein richtig beschissenes und \u00f6des Thema, aber leider allgegenw\u00e4rtig.\n\nIch habe als ehemals Armutsbetroffener eine recht gute Idee \u00fcber die H\u00fcrden beim Sparen. Paycheck zu Paycheck leben, B\u00fcrgergeld, alles schon mitgemacht.\n\nMit",
+    "scraped_at": "2026-03-25T23:55:50.154822"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "After 5 years of trading mistakes, this is what finally worked",
+    "score": 1378,
+    "url": "https://reddit.com/r/Daytrading/comments/1rullr6/after_5_years_of_trading_mistakes_this_is_what/",
+    "summary": "I started trading about 5 years ago and went through the same struggles everyone does when they start. Made every mistake in the book and greed got the better of me every time. \n\nHere's what actually works and what made me a profitable trader:\n\n1. Single strategy, never deviate from this. I keep trading boring.\n\n2. When my entry hits, I set up the trade and walk away from the chart. I let the trade play out. Win or lose. \n\n3. I trade one single market (NAS100), that's it. I'm not looking for ent",
+    "scraped_at": "2026-03-25T23:55:50.154823"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Exit strategy planning for getting passive income from your tendies post-MOASS",
+    "score": 1289,
+    "url": "https://reddit.com/r/GME/comments/mhetrj/exit_strategy_planning_for_getting_passive_income/",
+    "summary": "TL;DR:\n\nIf you only care about looking at a graph to see what passive income to expect from each $/share amount, scroll down to the last graph labelled **TL;DR GRAPH** and you can skip my rambling in the rest of the post.\n\n&amp;#x200B;\n\nPrologue:\n\nI am writing this bit after completing everything that follows. Depending on how much you know about investing the following will either be a brief walk-through of what dividends are and how they can be a great asset to you after the squeeze, an introd",
+    "scraped_at": "2026-03-25T23:55:50.154825"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "For trading enthusiasts: I made a highly-efficient Python library that combines NumPy, Numba and Plotly to backtest trading strategies interactively",
+    "score": 1283,
+    "url": "https://reddit.com/r/Python/comments/f99wh4/for_trading_enthusiasts_i_made_a_highlyefficient/",
+    "summary": "",
+    "scraped_at": "2026-03-25T23:55:50.154826"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Backtesting the most popular investment strategies over the last two decades!",
+    "score": 1244,
+    "url": "https://reddit.com/r/wallstreetbets/comments/synpkf/backtesting_the_most_popular_investment/",
+    "summary": "I have a confession to make. Even after all the [analyses and strategies I have created](https://www.reddit.com/user/nobjos/?sort=top), I allocate most of my investments to the S&amp;P500 while keeping some part of it for the moonshots. I have told the exact same thing to everyone who has asked me personally for investment advice.\n\nBut as explained in this [fantastic article](https://ofdollarsanddata.com/the-problem-with-most-financial-advice/) by Nick, the problem with most financial advice is ",
+    "scraped_at": "2026-03-25T23:55:50.154827"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "Used Python to build a r/wallstreetbets sentiment analyzing algo-trader (I used VADER sentiment analysis) -- 33% annual return ($16k). Source code, pictures, and results!",
+    "score": 1138,
+    "url": "https://reddit.com/r/Python/comments/nmdy7n/used_python_to_build_a_rwallstreetbets_sentiment/",
+    "summary": "[Source code](https://github.com/tstewart161/Reddit_Sentiment_Trader)\n\n[Hosted version](https://getquantbase.com) (how to actually run/invest in it). Folks the amount of y\u2019all that have messaged me asking for this is absolutely AMAZING but I can\u2019t keep up! Posting the link here for you guys\n\n&amp;#x200B;\n\nHOW I DID THIS\n\nScraped WSB sentiment, got the top + most positively mentioned stocks on WSB (for the better part of this year, that's been $GME and $AMC, recently some $SPCE and $NVDA, and abo",
+    "scraped_at": "2026-03-25T23:55:50.154828"
+  },
+  {
+    "source": "reddit_algotrading",
+    "title": "70% Win Rate Setup that I Found Hiding in Plain Sight",
+    "score": 1083,
+    "url": "https://reddit.com/r/Daytrading/comments/1rktyiu/70_win_rate_setup_that_i_found_hiding_in_plain/",
+    "summary": "I stumbled upon a mean reversion strategy that shows some potential.  \nI will get straight into it.\n\n# Entry condition\n\n    close &lt; (10 days high - 2.5 * (25 days average high - 25 days average low) and\n    ibs &lt; 0.3\n\n# Explanation of entry\n\nToday's close should be less than the highest high of last 10 bars minus 2.5 times the last 25 days average stock movement.\n\nAdditionally, IBS should be below 0.3.\n\nWhat's IBS? not irritable bowel syndrome\n\nIBS (Internal Bar Strength) = `(close - low) ",
+    "scraped_at": "2026-03-25T23:55:50.154829"
+  }
+]

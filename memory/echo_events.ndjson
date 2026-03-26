@@ -2135,3 +2135,13 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/draft_writer.py", "mtime": 1774047398.1258717, "size": 4854, "ts": 1774047399.2890122}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/registry.json", "mtime": 1774302471.087101, "size": 5195, "ts": 1774302471.2146842}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/draft_writer.py", "mtime": 1774304506.3872993, "size": 5502, "ts": 1774304506.391298}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/article_pipeline.py", "mtime": 1774495704.315941, "size": 7729, "ts": 1774495706.1018834}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/article_pipeline.py", "mtime": 1774496338.983216, "size": 8204, "ts": 1774496339.6706169}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/article_pipeline.py", "mtime": 1774497760.7812314, "size": 8205, "ts": 1774497760.8242643}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/article_pipeline.py", "mtime": 1774497768.4850714, "size": 8205, "ts": 1774497768.8976884}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/article_pipeline.py", "mtime": 1774499349.539618, "size": 8205, "ts": 1774499351.1705325}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/trader.py", "mtime": 1774500757.7017589, "size": 2391, "ts": 1774500759.438277}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/strategy_scraper.py", "mtime": 1774500948.474351, "size": 3567, "ts": 1774500949.3304958}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1774501031.7846093, "size": 5210, "ts": 1774501032.24405}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1774501262.281751, "size": 5208, "ts": 1774501262.6167245}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1774501394.792841, "size": 5220, "ts": 1774501396.0158544}

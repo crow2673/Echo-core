@@ -1,0 +1,12 @@
+[
+  {
+    "order_id": "228cad3f-422b-4de9-97d8-2194c646bd44",
+    "symbol": "SPY",
+    "qty": 7,
+    "side": "buy",
+    "price": 689.3,
+    "reason": "Price above MA20 above MA50 (uptrend)",
+    "status": "submitted",
+    "submitted_at": "2026-03-25T23:57:14.415753"
+  }
+]

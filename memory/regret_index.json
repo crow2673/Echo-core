@@ -407,6 +407,18 @@
       "context": "auto_act",
       "timestamp": "2026-03-24T09:29:37.796250",
       "updated": "2026-03-24T09:29:37.797145"
+    },
+    {
+      "entry_id": "analytics_20260325_20260325_090348",
+      "action_id": "analytics_20260325",
+      "category": "auto_act",
+      "description": "Best performing article: 'I Gave My Local AI a Public Brain: Echo + Notion M' with 277 views. Write more content on similar topics to drive traffic.",
+      "score": -1,
+      "outcome_known": true,
+      "outcome_notes": "failed: no executable action matched",
+      "context": "auto_act",
+      "timestamp": "2026-03-25T09:03:48.794730",
+      "updated": "2026-03-25T09:03:48.795151"
     }
   ],
   "last_audit": null

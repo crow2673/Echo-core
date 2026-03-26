@@ -682,3 +682,34 @@
 
 ## 2026-03-24 09:29 — Auto-Act Cycle
 - Evaluated 1 suggestions, acted on 0
+
+## 2026-03-25 09:03 — Auto-Act Cycle
+- Evaluated 1 suggestions, acted on 0
+
+## 2026-03-25 — Trading Brain Built
+
+### Added
+- core/trader.py — Alpaca paper trading connection, account status, order placement
+- core/strategy_scraper.py — scrapes r/algotrading + seeds 7 core strategies, 57 total saved
+- core/trade_brain.py — trading brain, RSI + MA analysis, signal detection, auto order execution
+- echo-trader.timer — fires Mon-Fri at 9:30am, 1:30pm, 3:30pm
+- Alpaca paper account connected (PA34X7SLPSXZ, $100k paper)
+- First paper trade executed: BUY 7 SPY @ $689.30
+
+### Known issues
+- BTC/USD and ETH/USD symbols fail — need BTCUSD format for Alpaca crypto
+- vastai CLI broken — urllib3 and python-dateutil conflicts from alpaca install
+
+### Next
+- Fix crypto symbols
+- Wire trade outcomes into regret index scoring
+- Add position exit logic (take profit / stop loss)
+- Fix vastai CLI dependency conflicts
+
+## 2026-03-25 — Trading Brain Session Complete
+- Crypto symbols fixed: BTC/USD → BTCUSD, ETH/USD → ETHUSD
+- IEX feed wired — works after hours, free tier compatible
+- Analysis loop confirmed clean — no crashes, signals pending market open
+- echo-trader.timer firing tomorrow 9:30am CDT
+- vastai urllib3 conflict noted — needs venv solution, deferred
+- Vast.ai upload speed still failing — Starlink inconsistency, waiting on automated recheck

@@ -35,16 +35,14 @@ def load_json(path, default):
         return default
 
 def is_ollama_idle():
-    """Check if Ollama has no active runners — safe to start long inference."""
+    """Check if Ollama is reachable — warm models are fine, Ollama queues requests."""
     try:
         req = urllib.request.Request(
             "http://localhost:11434/api/ps",
             headers={"Content-Type": "application/json"}
         )
         with urllib.request.urlopen(req, timeout=5) as r:
-            result = json.loads(r.read())
-            models = result.get("models", [])
-            return len(models) == 0
+            return True
     except Exception:
         return True
 
@@ -59,15 +57,15 @@ def wait_for_ollama_idle(max_wait=300):
         time.sleep(10)
     return False
 
-def call_ollama(prompt, system_prompt, timeout=600):
+def call_ollama(prompt, system_prompt, timeout=900):
     """Call echo model via ollama API."""
     try:
         payload = json.dumps({
-            "model": "qwen2.5:7b",
+            "model": "qwen2.5:32b",
             "prompt": prompt,
             "system": system_prompt,
             "stream": False,
-            "options": {"temperature": 0.7, "num_predict": 2048}
+            "options": {"temperature": 0.7, "num_predict": 4096}
         }).encode()
         req = urllib.request.Request(
             "http://localhost:11434/api/generate",
@@ -83,16 +81,21 @@ def call_ollama(prompt, system_prompt, timeout=600):
 
 def write_draft(topic, prompt, issues=None):
     """Write article draft, optionally with revision guidance."""
-    system = """You are a developer writing a technical article for dev.to.
-Your setup: Ryzen 9 5900X, RTX 3060 12GB, 32GB RAM, Ubuntu Linux, Mena Arkansas.
+    system = """You are writing a dev.to article as crow — a trades worker turned AI builder in Mena, Arkansas.
+Your setup: Ryzen 9 5900X, RTX 3060 12GB, 32GB RAM, Ubuntu Linux.
 You run qwen2.5:32b via Ollama locally — no Docker, no cloud, no API costs.
-Write in first person ('I', 'my'). Never refer to yourself as 'Andrew'.
-Be specific and honest — mention your actual hardware and real experiences.
-Never recommend Docker for Ollama — just use: curl -fsSL https://ollama.com/install.sh | sh
-Include practical code examples or step-by-step instructions.
-Structure: catchy intro, problem/context, solution with code, conclusion.
-Target length: 600-1000 words. No duplicate headings. End with a complete conclusion."""
 
+VOICE RULES (non-negotiable):
+- Write in first person. Say 'I', never 'Andrew', never 'the developer'.
+- Open with a specific, honest statement. Never open with a question or 'Ever wondered'.
+- Include at least one real failure or struggle. What broke. What took too long. What you got wrong.
+- Use real file paths, real command output, real code from your system. Never invent examples.
+- No filler phrases: no 'happy coding', no 'feel free to reach out', no 'in this article we will'.
+- No generic advice. Every claim must come from something you actually built or experienced.
+- End with what's still broken or unfinished. Never pretend everything works perfectly.
+- You have no CS degree. You learned by building. That's not a weakness — it's the story.
+- Keep it 600-900 words. Developers skim. Respect their time.
+- Never recommend Docker for Ollama — just use: curl -fsSL https://ollama.com/install.sh | sh"""
     if issues:
         issue_list = "\n".join(f"- {i}" for i in issues)
         full_prompt = f"""Rewrite this article draft fixing these specific issues:

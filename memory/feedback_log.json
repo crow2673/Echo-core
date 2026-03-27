@@ -474,5 +474,15 @@
     "confidence": 0.85,
     "acted_at": "2026-03-25T09:03:48.794916",
     "action_notes": "no executable action matched: best performing article: 'i gave my local ai a public brain: echo + notion m' with 277 views. write "
+  },
+  {
+    "id": "analytics_20260326",
+    "suggestion": "Best performing article: 'I Gave My Local AI a Public Brain: Echo + Notion M' with 278 views. Write more content on similar topics to drive traffic.",
+    "status": "skipped",
+    "created_at": "2026-03-26T09:00:05.211979",
+    "source": "devto_analytics",
+    "confidence": 0.85,
+    "acted_at": "2026-03-26T09:08:04.791975",
+    "action_notes": "no executable action matched: best performing article: 'i gave my local ai a public brain: echo + notion m' with 278 views. write "
   }
 ]

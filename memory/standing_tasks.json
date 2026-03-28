@@ -22,7 +22,7 @@
       "id": "golem_status",
       "task": "check Golem node status and suggest pricing adjustment if needed",
       "weight": 2.0,
-      "wins": 862,
+      "wins": 934,
       "losses": 0,
       "min_weight": 0.9,
       "max_weight": 2.0
@@ -49,7 +49,7 @@
       "id": "query_ledger",
       "task": "query_ledger: summarize recent wins and losses from the event ledger",
       "weight": 2.0,
-      "wins": 1727,
+      "wins": 1870,
       "losses": 0,
       "min_weight": 0.1,
       "max_weight": 1.2
@@ -78,5 +78,5 @@
     }
   ],
   "last_updated": "2026-03-22",
-  "total_cycles": 3555
+  "total_cycles": 3842
 }

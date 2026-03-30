@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-23T16:47:51.084483",
+  "generated_at": "2026-03-29T05:00:02.734634",
   "orchestrator": "echo_core_daemon.py",
   "memory": {
     "primary": "echo_semantic_memory.sqlite",
@@ -30,7 +30,7 @@
     "echo-disk-monitor.service",
     "echo-git-backup.service",
     "echo-golem-monitor.service",
-    "echo-governor.service",
+    "\u25cf",
     "echo-heartbeat.service",
     "echo-income-research.service",
     "echo-ntfy-bridge.service",
@@ -40,6 +40,7 @@
     "\u25cf",
     "echo-screen-watcher.service",
     "echo-self-act-worker.service",
+    "echo-trader.service",
     "echo-vast-monitor.service",
     "echo-wake.service",
     "echo-watchdog.service"
@@ -63,6 +64,7 @@
     "echo-reachability-watch.timer",
     "echo-registry-update.timer",
     "echo-self-act-worker.timer",
+    "echo-trader.timer",
     "echo-vast-monitor.timer",
     "echo-watchdog.timer"
   ],

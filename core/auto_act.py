@@ -176,6 +176,14 @@ def execute_suggestion(suggestion):
             return True, f"fixed and verified {file_path}", "self-fixed"
         return False, "fix failed or syntax error", ""
 
+    # Analytics insight — log and acknowledge
+    if "best performing article" in text or "article" in text and ("views" in text or "reactions" in text or "performing" in text):
+        with open(BASE / "logs/analytics_insights.log", "a") as f:
+            from datetime import datetime
+            f.write(f"{datetime.now()} — analytics insight: {suggestion.get('suggestion','')[:200]}\n")
+        suggestion["_score_override"] = 1
+        return True, "logged analytics insight", "acknowledged best performer"
+
     return False, "no executable action matched", text[:100]
 
 def mark_suggestion(data, sid, status, notes):

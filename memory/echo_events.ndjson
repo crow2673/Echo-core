@@ -2145,3 +2145,5 @@
 {"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1774501031.7846093, "size": 5210, "ts": 1774501032.24405}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1774501262.281751, "size": 5208, "ts": 1774501262.6167245}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1774501394.792841, "size": 5220, "ts": 1774501396.0158544}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/registry.json", "mtime": 1774778402.7473109, "size": 5232, "ts": 1774778403.68965}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/auto_act.py", "mtime": 1774815082.3653815, "size": 11084, "ts": 1774815083.169357}

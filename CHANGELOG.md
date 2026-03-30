@@ -722,3 +722,25 @@
 
 ## 2026-03-28 09:16 — Auto-Act Cycle
 - Evaluated 1 suggestions, acted on 0
+
+## 2026-03-29 09:20 — Auto-Act Cycle
+- Evaluated 1 suggestions, acted on 0
+
+## 2026-03-29 15:12 — Auto-Act Cycle
+- Evaluated 1 suggestions, acted on 1
+
+## 2026-03-29 — Post-Trip Audit
+
+### Fixed
+- auto_act analytics handler added — no more false -1 scores on analytics suggestions
+- Regret index reset — 20 false failures cleared, healthy again
+- publish_tuesday.sh fixed — was hardcoded to test file, now uses --from-session
+- echo-publish-weekly.service fixed — was hardcoded to origin_story.md, now uses --from-session
+- Deleted test_pipeline_001 files from content/pending_review/
+- Deleted "PENDING REVIEW" article from dev.to
+
+### Status
+- Echo ran 5 days unattended without restart
+- Trading brain fired Thu 3x — no signals (market conditions)
+- Best performing article: Echo + Notion MCP — 291 views, 4 reactions
+- SPY position open: 7 shares @ $651.45, down ~$121 at last check

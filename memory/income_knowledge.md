@@ -1,6 +1,6 @@
 # Echo Income Knowledge Base
 
-_Last updated: 2026-03-29 02:46_
+_Last updated: 2026-03-30 02:51_
 
 This document is generated weekly by `income_researcher.py`.
 Echo reads this file and reasons about which income paths to pursue.
@@ -15,14 +15,14 @@ These are verified or researched paths Echo can pursue:
 **What it is:** Sell GPU/CPU compute to the Golem marketplace. Passive once running.
 **Realistic ceiling:** ~$20-80/month for a single RTX 3060 at current rates
 **What it needs:** yagna running, competitive pricing, patience (new node penalty ~7-14 days)
-**Echo's current status:** ACTIVE — node running, 0 tasks completed (new node penalty phase) | _checked 2026-03-29 02:46_
+**Echo's current status:** ACTIVE — node running, 0 tasks completed (new node penalty phase) | _checked 2026-03-30 02:51_
 **Effort level:** low (passive)
 
 ### ✅ Dev.to Content — AI Writing
 **What it is:** Publish technical articles. Build audience. Monetize via dev.to badges, sponsorships.
 **Realistic ceiling:** $5-50/article in badges initially; sponsorship possible at 1k+ followers
 **What it needs:** Consistent publishing, quality, niche authority
-**Echo's current status:** ACTIVE — 2 articles published, 1 scheduled Tuesday 2026-03-17 | _checked 2026-03-29 02:46_
+**Echo's current status:** ACTIVE — 2 articles published, 1 scheduled Tuesday 2026-03-17 | _checked 2026-03-30 02:51_
 **Effort level:** medium (weekly writing)
 
 ### 🔲 Local LLM API Reselling
@@ -62,48 +62,49 @@ Items scraped from the web that may signal new income opportunities:
 ### Dev.to — AI tag
 _4 relevant of 12 fetched_
 
-- **[GEO: Writing Content That AI Agents Will Find, Use, and Cite](https://dev.to/axiom_agent_1dc642fa83651/geo-writing-content-that-ai-agents-will-find-use-and-cite-gi2)**
-  GEO: The Developer's Guide to Writing Content That AI Agents Will Find, Use, and Cite (2026)   Something quietly changed in how your documentation gets read.  In 2025, the majority of documentation tr
-- **[The Deadlock That Killed Your Agent's Session](https://dev.to/oolongtea2026/the-deadlock-that-killed-your-agents-session-4f0)**
-  When a transient API error permanently locks your AI agent's session. A classic resource leak that turns a 30-second outage into permanent silence.  Originally published at oolong-tea-2026.github.io  
-- **[Revolutionizing AI Development: Introducing the NeuroX Toolkit](https://dev.to/ajay_kumar_1daef5fe089885/revolutionizing-ai-development-introducing-the-neurox-toolkit-39f1)**
-  The world of AI development has taken a significant leap with the introduction of the NeuroX Toolkit. This innovative tool allows developers to accelerate their AI model building, testing, and deploym
-- **[I built an AI that diagnoses your pet's weird behavior — here's what I learned](https://dev.to/coach4life/i-built-an-ai-that-diagnoses-your-pets-weird-behavior-heres-what-i-learned-3a9a)**
-  I built an AI that diagnoses your pet's weird behavior   Six months ago I built mypettherapist.com as a side project. The idea: you describe your pet's quirky behavior, and Dr. Pawsworth (our AI vet) 
+- **[I built a 126K-line Android app with AI — here is the workflow that actually works](https://dev.to/stoyan_minchev/i-built-a-126k-line-android-app-with-ai-here-is-the-workflow-that-actually-works-2llj)**
+  Most developers trying AI coding tools hit the same wall. They open a chat, type "build me a todo app," get something that looks right, and then spend 3 hours fixing the mess. They try again with a bi
+- **[Attie.ai Revolution](https://dev.to/joaopakina/attieai-revolution-4d3m)**
+  Introduction to Attie.ai   Attie.ai is a cutting-edge AI company that has been making waves in the tech industry with its groundbreaking approach to machine learning and data analysis. Founded by a te
+- **[How to Add Persistent Memory to Any AI Agent (Step-by-Step)](https://dev.to/adam_cipher/how-to-add-persistent-memory-to-any-ai-agent-step-by-step-1lam)**
+  Your agent works perfectly on day one. By day three, it's asking the same questions it already answered. By week two, it contradicts decisions it made last Tuesday.  The problem isn't your prompts. It
+- **[Anthropic's $60B IPO Bet: What October Means for AI](https://dev.to/ji_ai/anthropics-60b-ipo-bet-what-october-means-for-ai-2o3d)**
+  $1 billion to $19 billion in annualized revenue. Fourteen months. That is the growth curve Anthropic is now trying to price on the public market.  Bloomberg reported on March 27 that Anthropic — the c
 
 ### Dev.to — Productivity tag
 _3 relevant of 12 fetched_
 
-- **[Revolutionizing AI Development: Introducing the NeuroX Toolkit](https://dev.to/ajay_kumar_1daef5fe089885/revolutionizing-ai-development-introducing-the-neurox-toolkit-39f1)**
-  The world of AI development has taken a significant leap with the introduction of the NeuroX Toolkit. This innovative tool allows developers to accelerate their AI model building, testing, and deploym
-- **[Getting More Out of Your Google AI Subscription: Parallel Agents and Cross-Model Consensus](https://dev.to/makerdrive/getting-more-out-of-your-google-ai-subscription-parallel-agents-and-cross-model-consensus-5nm)**
-  TL;DR: If you have a Google AI Ultra subscription, you are sitting on a practically unlimited pool of background AI agents. I built an open-source tool, Agent-Pool-MCP, that lets your main IDE agent d
-- **[Getting Started with Reflectt](https://dev.to/seakai/getting-started-with-reflectt-3pc6)**
-  Getting Started with Reflectt   Your first AI team, running in minutes.              What you're about to build   By the end of this guide, you'll have:   An AI agent running on your machine A web das
+- **[7 Mac Apps That Make Remote Pair Programming Better in 2026](https://dev.to/godnick/7-mac-apps-that-make-remote-pair-programming-better-in-2026-2hpn)**
+  Pair programming is one of those practices that sounds great in theory but falls apart fast if your tools aren't up to the task. Laggy screen shares, audio that cuts out mid-thought, no way to both ty
+- **[Notion Has a Free API — Here's How to Build a CMS, Database, or Automation on Top of It](https://dev.to/0012303/notion-has-a-free-api-heres-how-to-build-a-cms-database-or-automation-on-top-of-it-1a9n)**
+  A content team I know was using a custom WordPress setup for their editorial calendar. 3 plugins, $50/month hosting, constant maintenance. They moved everything to a Notion database with the API power
+- **[Linear Has a Free API — Here's How to Build Custom Project Management Workflows](https://dev.to/0012303/linear-has-a-free-api-heres-how-to-build-custom-project-management-workflows-5g6m)**
+  An engineering lead told me his team spent 2 hours every Monday manually creating sprint issues from a spreadsheet. He wrote a 50-line script with Linear's API — now it takes 0 seconds and happens aut
 
 ### Reddit — r/selfhosted
-_5 relevant of 25 fetched_
-
-- **[Finally understood why self-hosting felt hard](https://www.reddit.com/r/selfhosted/comments/1s1g4kd/finally_understood_why_selfhosting_felt_hard/)**
-- **[My goal to sustain an open source tool without turning it into a subscription trap](https://www.reddit.com/r/selfhosted/comments/1s16t9v/my_goal_to_sustain_an_open_source_tool_without/)**
-- **[Good Starting Self-Hosted Services](https://www.reddit.com/r/selfhosted/comments/1s1ry8d/good_starting_selfhosted_services/)**
-- **[If you self-host Langflow, update now. CVE-2026-33017 is unauthenticated RCE exploited in 20 hours. Attackers harvested API keys from live instances.](https://www.reddit.com/r/selfhosted/comments/1s0rvex/if_you_selfhost_langflow_update_now_cve202633017/)**
-- **[When I finally leave baby's first self-hosting, how should I go about it?](https://www.reddit.com/r/selfhosted/comments/1s1lcez/when_i_finally_leave_babys_first_selfhosting_how/)**
-
-### Reddit — r/LocalLLaMA
 _6 relevant of 25 fetched_
 
-- **[Which local model we running on the overland Jeep fellas?](https://www.reddit.com/r/LocalLLaMA/comments/1s1kyla/which_local_model_we_running_on_the_overland_jeep/)**
-- **[So cursor admits that Kimi K2.5 is the best open source model](https://www.reddit.com/r/LocalLLaMA/comments/1s19ik2/so_cursor_admits_that_kimi_k25_is_the_best_open/)**
-- **[I feel like if they made a local model focused specifically on RP it would be god tier even if tiny](https://www.reddit.com/r/LocalLLaMA/comments/1s1q5et/i_feel_like_if_they_made_a_local_model_focused/)**
-- **[Jake Benchmark v1: I spent a week watching 7 local LLMs try to be AI agents with OpenClaw. Most couldn't even find the email tool.](https://www.reddit.com/r/LocalLLaMA/comments/1s1oaid/jake_benchmark_v1_i_spent_a_week_watching_7_local/)**
-- **[7MB binary-weight Mamba LLM — zero floating-point at inference, runs in browser](https://www.reddit.com/r/LocalLLaMA/comments/1s1iw91/7mb_binaryweight_mamba_llm_zero_floatingpoint_at/)**
-- **[KOS Engine -- open-source neurosymbolic engine where the LLM is just a thin I/O shell (swap in any local model, runs on CPU)](https://www.reddit.com/r/LocalLLaMA/comments/1s1socp/kos_engine_opensource_neurosymbolic_engine_where/)**
+- **[[Request] Any self hosted service to handle comics (with automation)?](https://www.reddit.com/r/selfhosted/comments/1s6eiub/request_any_self_hosted_service_to_handle_comics/)**
+- **[macOS desktop app to manage GitHub Actions self-hosted runners — open source](https://www.reddit.com/r/selfhosted/comments/1s6ose7/macos_desktop_app_to_manage_github_actions/)**
+- **[Instructions and script for migrating from Umami cloud to self-hosted](https://www.reddit.com/r/selfhosted/comments/1s6i5oz/instructions_and_script_for_migrating_from_umami/)**
+- **[SparkyFitness - A Self-Hosted MyFitnessPal alternative now supports Starva & updated Mobile app](https://www.reddit.com/r/selfhosted/comments/1s5mfux/sparkyfitness_a_selfhosted_myfitnesspal/)**
+- **[What’s your plan for your self-hosted data if you die? I guess I didn't have one](https://www.reddit.com/r/selfhosted/comments/1s5ko9d/whats_your_plan_for_your_selfhosted_data_if_you/)**
+- **[Free 750-page guide to self-hosting production apps - NO AI SLOP](https://www.reddit.com/r/selfhosted/comments/1s51bg1/free_750page_guide_to_selfhosting_production_apps/)**
+
+### Reddit — r/LocalLLaMA
+_2 relevant of 25 fetched_
+
+- **[Friendly reminder inference is WAY faster on Linux vs windows](https://www.reddit.com/r/LocalLLaMA/comments/1s6hb1h/friendly_reminder_inference_is_way_faster_on/)**
+- **[2x RTX Pro 6000 vs 2x A100 80GB dense model inference](https://www.reddit.com/r/LocalLLaMA/comments/1s6jyij/2x_rtx_pro_6000_vs_2x_a100_80gb_dense_model/)**
 
 ### Reddit — r/SideProject
-_1 relevant of 25 fetched_
+_5 relevant of 25 fetched_
 
-- **[I built Lingoo, a calmer Hinglish learning app with 7 practice modes and local AI conversations](https://www.reddit.com/r/SideProject/comments/1s1tgis/i_built_lingoo_a_calmer_hinglish_learning_app/)**
+- **[I built a photo editor with local AI (no cloud) — segmentation + infill](https://www.reddit.com/r/SideProject/comments/1s64a01/i_built_a_photo_editor_with_local_ai_no_cloud/)**
+- **[I quit my 9 to 5 to freelance and the first three months were the most humbling experience of my entire professional life](https://www.reddit.com/r/SideProject/comments/1s64vyi/i_quit_my_9_to_5_to_freelance_and_the_first_three/)**
+- **[I built an open-source tool that lets you work with AI agents like co-workers](https://www.reddit.com/r/SideProject/comments/1s6nquf/i_built_an_opensource_tool_that_lets_you_work/)**
+- **[My idea got killed 9 times by my own AI tool. Each time it came back stronger.](https://www.reddit.com/r/SideProject/comments/1s6oay9/my_idea_got_killed_9_times_by_my_own_ai_tool_each/)**
+- **[I finally got tired of Instagram's BS and built my own unfollow tracker (free + open source)](https://www.reddit.com/r/SideProject/comments/1s6nmrj/i_finally_got_tired_of_instagrams_bs_and_built_my/)**
 
 ### Golem Network Blog
 _12 relevant of 15 fetched_
@@ -143,4 +144,4 @@ When Echo reads this file, she should consider:
 
 ---
 
-_Generated by Echo income_researcher.py | 2026-03-23 16:48_
+_Generated by Echo income_researcher.py | 2026-03-29 04:00_

@@ -1,77 +1,40 @@
-# Echo TODO — Last updated 2026-03-14
+# Echo TODO — Last updated 2026-03-31
 
-## In Progress / Waiting
-- [ ] Golem new node penalty — wait 7-14 days, then benchmark pricing with: python3 -m core.golem_stats_scraper
+## HIGH PRIORITY
+- [ ] Crown a king Phase 2B — patch ready from Grok, apply next session. Add load_echo_state() + replace health loop
+- [ ] Crown a king Phase 3 — timers become dumb workers, daemon makes all decisions
+- [ ] Yagna publicAddress null — Starlink CGNAT, needs VPN or Starlink Priority
+- [ ] auto_act double-firing — flock partial fix, root cause still unknown
+- [ ] Offsite backup — encrypted git push of echo_contract.json + soul document
+- [ ] Fix vastai CLI — urllib3/alpaca conflict, needs venv
 
-- [ ] Video demo for Notion challenge — 2-3 min screen recording, upload YouTube unlisted, embed in article (deadline March 29)
+## MEDIUM PRIORITY
+- [ ] Briefing session context — "Last build focus not confirmed", needs real source in Phase 3
+- [ ] Fix ETHUSD symbol for Alpaca
+- [ ] ntfy bridge threading — reply queue
+- [ ] Internet roadmap: RSS, GitHub watcher, Arxiv, Reddit lurker
+- [ ] Old shell scripts audit — 40+ from Dec/Jan
+- [ ] Paper trading — monitor 30 days before live money
 
-- [ ] Video demo for Notion challenge — 2-3 min screen recording, upload YouTube unlisted, embed in article (deadline March 29)
-
-## Income
-- [ ] Income closure — Golem earning path clear, dev.to publishing, no dollar yet
-- [x] Autonomous article pipeline — working end to end DONE 2026-03-14 — Echo writes, self-reviews, adjusts, then queues for human approval before publish
-- [x] Memory promotion layer — retrieval count + outcome score + recency decay DONE 2026-03-14 to rank what's worth keeping (from Daniel Nwaneri exchange)
-- [ ] Echo Shell / setup wizard — END GOAL, prove income first
-
-## Hardware
-- [ ] Shop voice: better VAD/noise-cancel + directional mic
+## LOW PRIORITY / FUTURE
+- [ ] Shop voice — VAD/noise-cancel + directional mic
+- [ ] Speculative execution / tool-use caching
+- [ ] Echo Shell / setup wizard — END GOAL
 - [ ] Jetson Orin AGX integration
+- [ ] Stage 6: orchestrated agency — full governor with event ledger
 
-## Long Horizon
-- [ ] Speculative execution / tool-use caching to reduce 32b latency
-- [ ] Stage 7: hybrid routing — hard questions to cloud API, easy to local echo
-
-## Architecture
-- [x] Unified state/event model — SQLite event ledger (memory/echo_events.db)
-- [x] Stage 6: orchestrated agency — governor.py live, reason→act→score loop closed
-- [x] Semantic governor matching — all-MiniLM-L6-v2, 8/8 standing tasks DONE 2026-03-13
-- [x] RSS tier 1 — dev.to, HN, r/LocalLLaMA, Golem, Ollama DONE 2026-03-13
-- [x] RSS tier 2 — Arxiv AI/ML + GitHub topics, 7 sources 31 items daily DONE 2026-03-13
-- [x] Regret scorer — 22 backfilled, governor auto-scores DONE 2026-03-13
-- [x] Dev.to performance tracker — trend detection, draft queue injection DONE 2026-03-13
-- [x] Vast.ai dedicated action — vast_status action #38 DONE 2026-03-13
-- [x] Article pipeline — write→review→notify loop, human approval before publish DONE 2026-03-13
-- [x] Notion MCP integration — 3 databases, live mirroring, daily briefing DONE 2026-03-14
-- [x] Healthcheck script — 8/8 checks, works from any context DONE 2026-03-14
-
-## Technical Debt — ALL RESOLVED 2026-03-14
-- [x] Clean root directory — archived 116MB logs + 66 bak files + Gai legacy
-- [x] Notion bridge timeout — retry logic with backoff
-- [x] Notion bridge async — background thread, never blocks Echo
-- [x] Article pipeline timeout — ollama idle check
-- [x] actions.json schema — all 38 actions use cmd field consistently
-- [x] Governor keyword fallback — kept as safety net, fixed dead vast_status branch
-- [x] Memory file cleanup — trading bot ndjson archived
-- [x] 4.9GB VRAM freed — Gai model unloaded, not called by active code
-
-## Completed (Earlier Sessions)
-- [x] Vast.ai host registered — machine 57470, RTX 3060, $0.10/hr
-- [x] ARCHITECTURE.md — technical reference complete
-- [x] Hardening audit — 2 redundant timers removed
-- [x] Golem pricing control — core/golem_pricing.py, safe bounds
-- [x] Draft writer — core/draft_writer.py
-- [x] Ethernet up — enp7s0 192.168.1.145
-- [x] Regret loop closed — flags block bad patterns
-- [x] ntfy bridge threading — never blocks
-- [x] Disk usage monitor — every 6h, alerts at 85%
-- [x] Self-heal article — publishes Tuesday 2026-03-17 09:00 CDT
-- [x] GitHub backup — daily 3am push to crow2673/Echo-core
-- [x] Crown a king — echo_core_daemon.py as single orchestrator
-- [x] ntfy two-way phone bridge — echo-ntfy-bridge.service
-- [x] Watchdog auto-heal on boot
-- [x] Weather integration
-- [x] Dev.to analytics
-
-## From Notion AI Review (2026-03-15)
-- [ ] One-number outcome metric — single dashboard number: dollars earned, posts published. Judges and buyers need ROI at a glance
-- [ ] Close the outcome loop — plan → do → verify → report. Echo acts but doesn't verify real-world results yet
-- [ ] Remove Vast.ai from standing tasks — confirmed fails 10 Mbps minimum, wasted cycles
-- [ ] Fix healthcheck in notion_briefing.py — shows 4 failed when all 8 pass (system context issue)
-- [ ] Remove duplicate video demo task from TODO.md
-
-## TRADING (new)
-- [ ] Fix crypto symbols — BTCUSD not BTC/USD for Alpaca
-- [ ] Wire trade outcomes into regret index scoring
-- [ ] Add exit logic — take profit at +3%, stop loss at -1.5%
-- [ ] Fix vastai CLI — urllib3 and python-dateutil broken by alpaca install
-- [ ] Paper trade for 30 days before any real money consideration
+## COMPLETED
+- [x] Crown a king Phase 1 — governor_v2.py + echo_state.json live every 5 min
+- [x] Crown a king Phase 2A — briefing reads from echo_state.json, live stats
+- [x] Trading brain fully autonomous — opens/manages/closes positions
+- [x] Two strategies: trend (large caps) + momentum (quick movers)
+- [x] Trade outcomes wired into regret index
+- [x] Exit logic — trend 4%/2.5%, momentum 2%/1%
+- [x] Content strategy — 8 weeks of real topics wired into draft_writer
+- [x] Article pipeline flood fixed — governor dedup check
+- [x] Publisher fixed — --from-session
+- [x] Notion dashboard reorganized — command center rebuilt
+- [x] Analytics handler in auto_act — no more false regret failures
+- [x] Golem showing Online — yagna restarted on Starlink
+- [x] Alpaca paper trading — $100k paper, 3 positions open
+- [x] Strategy scraper — 57 strategies seeded

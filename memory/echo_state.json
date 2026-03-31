@@ -1,0 +1,150 @@
+{
+  "timestamp": "2026-03-31T09:27:38.793602",
+  "generated_by": "governor_v2",
+  "version": "v1",
+  "valid": true,
+  "system": {
+    "cpu_pct": 1.6,
+    "ram_used_gb": 10.7,
+    "ram_total_gb": 30.3,
+    "ram_pct": 37.5,
+    "swap_used_gb": 4.0,
+    "swap_total_gb": 8.0,
+    "gpu_pct": 0,
+    "vram_used_mb": 5664,
+    "vram_total_mb": 12288
+  },
+  "timers": {
+    "echo-core-state": {
+      "status": "healthy",
+      "age_seconds": 52,
+      "expected_interval": 60
+    },
+    "echo-heartbeat": {
+      "status": "healthy",
+      "age_seconds": 52,
+      "expected_interval": 60
+    },
+    "echo-core-state-autofix": {
+      "status": "healthy",
+      "age_seconds": 32,
+      "expected_interval": 60
+    },
+    "echo-core-state-writer": {
+      "status": "healthy",
+      "age_seconds": 1,
+      "expected_interval": 30
+    },
+    "echo-auto-act": {
+      "status": "healthy",
+      "age_seconds": 1680,
+      "expected_interval": 1800
+    },
+    "echo-governor": {
+      "status": "healthy",
+      "age_seconds": 36,
+      "expected_interval": 300
+    },
+    "echo-reachability-watch": {
+      "status": "healthy",
+      "age_seconds": 36,
+      "expected_interval": 300
+    },
+    "echo-trader": {
+      "status": "stale",
+      "age_seconds": 61200,
+      "expected_interval": 14400
+    },
+    "echo-self-act-worker": {
+      "status": "healthy",
+      "age_seconds": 56,
+      "expected_interval": 300
+    },
+    "echo-watchdog": {
+      "status": "healthy",
+      "age_seconds": 36,
+      "expected_interval": 600
+    },
+    "echo-publish-weekly": {
+      "status": "unknown",
+      "age_seconds": null,
+      "expected_interval": 604800
+    },
+    "echo-disk-monitor": {
+      "status": "healthy",
+      "age_seconds": 1980,
+      "expected_interval": 21600
+    },
+    "echo-golem-monitor": {
+      "status": "stale",
+      "age_seconds": 79200,
+      "expected_interval": 3600
+    },
+    "echo-vast-monitor": {
+      "status": "stale",
+      "age_seconds": 75600,
+      "expected_interval": 3600
+    },
+    "echo-pulse": {
+      "status": "healthy",
+      "age_seconds": 32400,
+      "expected_interval": 86400
+    },
+    "echo-git-backup": {
+      "status": "healthy",
+      "age_seconds": 21600,
+      "expected_interval": 86400
+    },
+    "echo-daily-briefing": {
+      "status": "healthy",
+      "age_seconds": 1620,
+      "expected_interval": 86400
+    },
+    "echo-analytics": {
+      "status": "healthy",
+      "age_seconds": 1620,
+      "expected_interval": 86400
+    },
+    "echo-income-research": {
+      "status": "unknown",
+      "age_seconds": null,
+      "expected_interval": 604800
+    },
+    "echo-registry-update": {
+      "status": "unknown",
+      "age_seconds": null,
+      "expected_interval": 604800
+    },
+    "echo-devto-publish": {
+      "status": "healthy",
+      "age_seconds": 1620,
+      "expected_interval": 3600
+    },
+    "echo-governor-v2": {
+      "status": "healthy",
+      "age_seconds": 1,
+      "expected_interval": 3600
+    }
+  },
+  "income": {
+    "positions_open": 3,
+    "last_trade_time": "2026-03-30T13:30:10.355133",
+    "portfolio_value": null,
+    "profit_today": 0
+  },
+  "regret_index": {
+    "healthy": true,
+    "flagged_count": 0,
+    "status": "stable"
+  },
+  "golem": {
+    "status": "running",
+    "raw": ""
+  },
+  "system_health": "STALE: ['echo-trader', 'echo-golem-monitor', 'echo-vast-monitor']",
+  "last_errors": [
+    "echo-trader",
+    "echo-golem-monitor",
+    "echo-vast-monitor"
+  ]
+}

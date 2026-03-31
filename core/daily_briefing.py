@@ -25,47 +25,39 @@ def queue_briefing():
     greeting = "Good morning" if now.hour < 12 else "Good evening" if now.hour >= 18 else "Good afternoon"
     day = now.strftime("%A, %B %d")
 
-    import psutil, subprocess
-    cpu = psutil.cpu_percent(interval=1)
-    ram = psutil.virtual_memory()
-    ram_used = f"{ram.used / 1024**3:.1f}GB of {ram.total / 1024**3:.1f}GB ({ram.percent}%)"
-    swap = psutil.swap_memory()
-    swap_line = f"Swap: {swap.used / 1024**3:.1f}GB of {swap.total / 1024**3:.1f}GB used" if swap.used > 0 else "Swap: clear"
+    # Load live system state from governor_v2 — single source of truth
     try:
-        gpu = subprocess.run(["nvidia-smi", "--query-gpu=utilization.gpu,memory.used,memory.total", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
-    except:
-        gpu = "unavailable"
-
-    try:
-        from core.regret_index import get_report as regret_report
-        regret_summary = regret_report()
-    except:
-        regret_summary = "unavailable"
-    try:
-        from core.event_ledger import query_summary
-        ls = query_summary()
-        ledger_summary = f"Total events: {ls['total_events']}, wins: {ls['wins']}, losses: {ls['losses']}, by type: {ls['by_type']}"
-    except:
-        ledger_summary = "unavailable"
-    try:
-        changelog_lines = (BASE / "CHANGELOG.md").read_text().strip().splitlines()
-        changelog_snippet = "\n".join(changelog_lines[-30:])
-    except:
-        changelog_snippet = "unavailable"
-    try:
-        todo = (BASE / "TODO.md").read_text().strip()
-    except:
-        todo = "unavailable"
+        import json as _json
+        _state = _json.loads(Path.home().joinpath('Echo/memory/echo_state.json').read_text())
+        _sys = _state.get('system', {})
+        cpu = _sys.get('cpu_pct', '?')
+        ram_pct = _sys.get('ram_pct', '?')
+        ram_used_gb = _sys.get('ram_used_gb', '?')
+        ram_total_gb = _sys.get('ram_total_gb', '?')
+        swap_used = _sys.get('swap_used_gb', 0)
+        gpu_pct = _sys.get('gpu_pct', '?')
+        vram_used = _sys.get('vram_used_mb', '?')
+        system_health = _state.get('system_health', 'unknown')
+        positions_open = _state.get('income', {}).get('positions_open', 0)
+        regret_status = _state.get('regret_index', {}).get('status', 'unknown')
+        ram_used = f'{ram_used_gb}GB of {ram_total_gb}GB ({ram_pct}%)'
+        swap_line = f'Swap: {swap_used}GB used' if swap_used and float(str(swap_used)) > 0 else 'Swap: clear'
+        gpu = f'{gpu_pct}%, VRAM: {vram_used}MB'
+        session_context = 'Last build focus not confirmed from state.'
+    except Exception as _e:
+        cpu = '?'; ram_used = '?'; swap_line = 'Swap: ?'; gpu = '?'
+        system_health = 'unknown'; positions_open = 0; regret_status = 'unknown'
+        session_context = 'State file unavailable.'
     briefing_prompt = (
         f"{greeting} Andrew. Today is {day}. "
-        f"Give me a full daily briefing covering: "
-        f"Weather today: {weather_line}. "
-        f"REAL SYSTEM STATS RIGHT NOW — CPU: {cpu}%, RAM: {ram_used}, {swap_line}, GPU: {gpu}. "
+        f"Weather: {weather_line}. "
+        f"LIVE SYSTEM — CPU: {cpu}%, RAM: {ram_used}, {swap_line}, GPU: {gpu}. Health: {system_health}. "
+        f"Trading: {positions_open} positions open. Regret index: {regret_status}. "
         f"1) Current system and service status using the real stats above. "
-        f"2) Golem node earnings and task status. Regret index report: {regret_summary}. Event ledger: {ledger_summary}. "
-        f"3) What we were building last session and where we left off — recent CHANGELOG: {changelog_snippet}. "
-        f"Current TODO list: {todo}. 4) Given the TODO list, what is the single most important thing to work on today. "
-        f"Keep it concise and spoken — this will be read aloud. Do not offer to continue or ask follow up questions. End with a complete thought."
+        f"2) Golem node earnings and task status. "
+        f"3) Build context: {session_context} "
+        f"4) The single most important thing to work on today to move toward income. "
+        f"Keep it concise and spoken — read aloud. No follow-up questions. End with a complete thought."
     )
 
     result = subprocess.run(

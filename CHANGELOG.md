@@ -781,3 +781,26 @@
 - Mitigations applied: flock at shell level, PID file dedup
 - Result: duplicate log lines remain but actual execution is protected by lock
 - Status: cosmetic issue, not blocking — deferred
+
+## 2026-03-31 — Crown the King Phase 1 + 2A Complete
+
+### Added
+- core/governor_v2.py — System Truth Engine, writes echo_state.json every 5 minutes
+- echo-governor-v2.timer — active, runs every 5 min
+- memory/echo_state.json — Echo's single source of truth
+
+### Fixed
+- daily_briefing.py now reads from echo_state.json — no more stale RAM stats
+- Briefing will report real CPU/RAM/GPU/swap tomorrow at 8am
+- Session context fallback added — no more hallucinated "we were setting up Golem"
+
+### Architecture
+- Chain of command established: daemon → governor_v2 → timers
+- Phase 2B (daemon reads echo_state.json) — next session
+- Phase 3 (timers become dumb workers) — future session
+
+## 2026-03-31 — Three AI Sync Complete
+- Claude, GPT, and Grok all reviewed and aligned on Phase 2B
+- Grok produced exact patch: load_echo_state() function + health loop replacement
+- Patch is ready to apply next session — no changes to daemon yet
+- All three AIs have full Echo context and are building toward same goal

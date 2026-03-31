@@ -35,13 +35,13 @@
     },
     {
       "id": "content_005",
-      "status": "queued",
+      "status": "in_progress",
       "title": "Why my Golem node never got a task",
       "angle": "CGNAT, Starlink, the old AT&T IP it was broadcasting for weeks."
     },
     {
       "id": "content_006",
-      "status": "queued",
+      "status": "in_progress",
       "title": "I built a self-healing AI and here is what actually broke",
       "angle": "182 junk drafts overnight, RAM pressure, boot sequencing bugs, what Echo learned."
     },

@@ -21,6 +21,33 @@ from echo_memory_sqlite import get_memory, build_memory_context
 from core.agent_loop import agent_loop
 
 # Load recent changelog for current mission context
+def load_echo_state():
+    """Load single source of truth from governor_v2.
+    Retries once after 2s to handle atomic write race conditions.
+    Returns dict with valid: False on any error. Never raises.
+    """
+    import time as _time
+    from pathlib import Path as _Path
+    for attempt in range(3):
+        try:
+            p = _Path.home() / "Echo/memory/echo_state.json"
+            if not p.exists():
+                _time.sleep(2)
+                continue
+            raw = p.read_text(encoding="utf-8")
+            if not raw.strip():
+                _time.sleep(2)
+                continue
+            state = json.loads(raw)
+            if not isinstance(state, dict) or not state.get("valid", False):
+                _time.sleep(2)
+                continue
+            return state
+        except Exception as _e:
+            print(f"[state] attempt {attempt}: exception={_e}", flush=True)
+            _time.sleep(2)
+    return {"valid": False, "error": "failed_after_retries"}
+
 def _load_mission_context():
     try:
         from pathlib import Path
@@ -270,14 +297,24 @@ def main():
             try:
                 now_int = int(time.time())
                 if now_int - _last_health_log >= 60:
-                    st = read_echo_status() or {}
-                    core = st.get('core')
-                    stale = st.get('stale')
-                    it = st.get('inactive_timers')
-                    errs = st.get('errors')
-                    ok = (core == 'active' and stale == 0 and it == 0 and errs == 0)
-                    msg = f"health={'OK' if ok else 'NOT_OK'} core={core} stale={stale} inactive_timers={it} errors={errs}"
-                    print(msg, flush=True)
+                    # Phase 2B — governor_v2 is single source of truth
+                    state = load_echo_state()
+                    if state.get("valid") and isinstance(state.get("timers"), dict):
+                        system_health = state.get("system_health", "unknown")
+                        stale_timers = [
+                            k for k, v in state["timers"].items()
+                            if v.get("status") != "healthy"
+                        ]
+                        msg = f"health={system_health} stale_timers={len(stale_timers)}"
+                        if stale_timers:
+                            msg += f" — {stale_timers[:6]}"
+                        print(msg, flush=True)
+                        if isinstance(state.get("system"), dict):
+                            sys = state["system"]
+                            print(f"[daemon] cpu={sys.get('cpu_pct', 0)}% ram={sys.get('ram_pct', 0)}% "
+                                  f"gpu={sys.get('gpu_pct', 0)}% vram={sys.get('vram_used_mb', 0)}MB", flush=True)
+                    else:
+                        print("[daemon] WARNING: echo_state.json invalid/missing — skipping health check", flush=True)
                     _last_health_log = now_int
             except Exception:
                 pass

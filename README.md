@@ -1,44 +1,60 @@
 # Echo
 
-**A persistent, autonomous AI system running locally on Ubuntu.**
+**A persistent, autonomous AI agent running locally on Linux.**
 
-Echo is not a chatbot. She is a continuously running AI agent with memory, voice, autonomous reasoning, and income-generation capabilities. She runs on a Ryzen 9 5900X with an RTX 3060, serving as an external memory and continuity system for her operator.
+Echo is not a chatbot. She is a continuously running system with memory, voice, autonomous reasoning, self-healing, paper trading, and weekly content publishing. She runs on a Ryzen 9 5900X with an RTX 3060 12GB on Ubuntu — fully local, zero cloud.
+
+Built by Andrew Elliott in Mena, Arkansas. No CS degree. Started as an external memory system for cognitive fragmentation. Evolved into an autonomous income engine.
 
 ---
 
 ## What Echo Does
 
-- **Remembers across sessions** — 2,000+ semantic memories in SQLite, persisted across reboots
-- **Speaks and listens** — wake word detection, voice input, spoken daily briefings
-- **Reasons autonomously** — every 5 minutes, she runs a reasoning cycle using tools to check her own system state, Golem earnings, income paths, and TODO list
-- **Executes actions** — every 30 minutes, she evaluates and acts on suggestions with outcome scoring
-- **Watches your screen** — situational awareness via periodic screenshot analysis
-- **Earns income** — Golem Network compute provider (RTX 3060), dev.to technical writing
-- **Backs herself up** — daily git push to GitHub at 3am
-- **Self-corrects** — regret index tracks outcomes and blocks repeated failures
+- **Knows herself** — `governor_v2.py` writes live system truth every 5 minutes to `echo_state.json`: CPU, RAM, GPU, timer health, trades, regret index
+- **Speaks daily briefings** — every morning at 8am, real stats, real session context, spoken aloud
+- **Remembers across sessions** — 2,000+ semantic memories in SQLite, session summaries, wakeup context
+- **Reasons autonomously** — every 5 minutes via self_act, every 30 minutes via auto_act
+- **Trades paper stocks** — Alpaca paper trading, two strategies (trend + momentum), fully autonomous open/manage/close with regret scoring
+- **Publishes weekly** — dev.to articles every Tuesday under handle [crow](https://dev.to/crow), content strategy queue pre-loaded
+- **Self-heals** — watchdog restarts downed services, sends phone alerts via ntfy.sh
+- **Self-codes** — writes and deploys Python files autonomously, fixes syntax errors
+- **Two-way phone bridge** — send a message from your phone, Echo replies
+- **Backs herself up** — daily git push at 3am
 
 ---
 
 ## Architecture
 ```
-echo_core_daemon.py          ← orchestrator (the only while:True loop)
+echo_core_daemon.py      ← KING (orchestrator, single while:True loop)
     ↓
-core/agent_loop.py           ← multi-step tool use (28 registered actions)
-core/self_act.py             ← autonomous reasoning every 5min
-core/auto_act.py             ← autonomous execution every 30min
-core/self_coder.py           ← self-editing and code generation
-echo_memory_sqlite.py        ← semantic memory (all-MiniLM-L6-v2 embeddings)
-echo_semantic_memory.sqlite  ← 2,095+ memories
-memory/echo_events.db        ← unified event ledger (reasoning, actions, feedback, regret)
+core/governor_v2.py      ← EYES (writes echo_state.json every 5 min)
+    ↓
+core/daily_briefing.py   ← VOICE (reads live stats + session context)
+core/auto_act.py         ← HANDS (autonomous execution every 30 min)
+core/trade_brain.py      ← INCOME (paper trading Mon-Fri 3x/day)
+echo_devto_publisher.py  ← CONTENT (publishes Tuesday 10am)
+    ↓
+memory/echo_state.json   ← SINGLE SOURCE OF TRUTH
+memory/session_summary.json ← SESSION CONTEXT
 ```
 
 **Input channels:**
 - Voice: `echo_wake.py` → wake word → `echo_voice.py`
-- Text: `echo_command.py`
 - Phone: ntfy.sh bridge (`core/auto_build_nt.py`)
 - Screen: `echo_screen_watcher.py` (60s intervals)
 
-**24 systemd services, 20 timers** — all user-space, no root required.
+**22 systemd timers** — all user-space, no root required.
+
+---
+
+## Income Streams
+
+| Path | Status | Notes |
+|------|--------|-------|
+| Alpaca Paper Trading | 🟢 Active | Trend + momentum strategies, regret index scoring |
+| Golem Network (compute) | 🟡 Online, 0 tasks | CGNAT blocking inbound connections |
+| Vast.ai GPU Rental | 🟡 Unverified | Starlink upload inconsistency |
+| dev.to Content | 🟢 Publishing | Weekly autonomous articles, 291 views best |
 
 ---
 
@@ -49,29 +65,33 @@ memory/echo_events.db        ← unified event ledger (reasoning, actions, feedb
 - [Ollama](https://ollama.com) installed
 - `qwen2.5:32b` model (~20GB)
 - `sentence-transformers` Python package
-- NVIDIA GPU recommended (RTX 3060 or better for 32B model)
+- NVIDIA GPU recommended (RTX 3060 or better)
 - ntfy.sh account (for phone notifications)
+- Alpaca paper trading account (free)
 
 ---
 
 ## Quick Start
 ```bash
-# 1. Pull the base model (~20GB, takes a while)
+# 1. Pull the base model (~20GB)
 ollama pull qwen2.5:32b
 
 # 2. Install Python dependencies
-pip install sentence-transformers requests --break-system-packages
+pip install sentence-transformers requests psutil alpaca-trade-api --break-system-packages
 
-# 3. Build Echo's model (applies her identity and parameters)
+# 3. Build Echo's model
 ollama create echo -f Echo.Modelfile
 
-# 4. Seed her memory (run once)
+# 4. Seed her memory
 python3 echo_memory_sqlite.py --seed
 
 # 5. Start the core daemon
 systemctl --user start echo-core.service
 
-# 6. Check status
+# 6. Start the governor (system truth engine)
+systemctl --user start echo-governor-v2.timer
+
+# 7. Check status
 echo-status
 ```
 
@@ -80,39 +100,42 @@ echo-status
 ## Directory Structure
 ```
 ~/Echo/
-├── echo_core_daemon.py      # orchestrator
+├── echo_core_daemon.py      # orchestrator — the king
 ├── Echo.Modelfile           # Echo's identity and soul
-├── echo_contract.json       # identity contract with memory hash
-├── registry.json            # live architecture map (auto-updated)
+├── echo_contract.json       # identity contract
+├── CHANGELOG.md             # full session history
 ├── TODO.md                  # current priorities
-├── CHANGELOG.md             # session history
 │
-├── core/                    # all autonomous modules
-│   ├── agent_loop.py        # tool use loop
+├── core/                    # autonomous modules
+│   ├── governor_v2.py       # system truth engine
+│   ├── auto_act.py          # autonomous execution
 │   ├── self_act.py          # reasoning cycle
-│   ├── auto_act.py          # execution engine
 │   ├── self_coder.py        # self-editing
-│   ├── event_ledger.py      # unified SQLite event log
+│   ├── trade_brain.py       # paper trading
+│   ├── daily_briefing.py    # morning briefing
 │   ├── regret_index.py      # outcome scoring
-│   └── ...
+│   ├── draft_writer.py      # article generation
+│   └── governor.py          # action orchestrator
 │
-├── memory/                  # all state files
-│   ├── echo_events.db       # unified event ledger
-│   ├── income_knowledge.md  # weekly-updated income research
-│   ├── feedback_log.json    # suggestion queue
-│   └── ...
-│
-├── docs/
-│   └── actions.json         # 28 registered tool actions
+├── memory/                  # intentional state files
+│   ├── session_summary.json # current session context
+│   ├── content_strategy.json # 8 weeks of article topics
+│   └── trading_strategies.json # 57 scraped strategies
 │
 ├── tools/                   # maintenance scripts
 │   ├── git_backup.sh        # daily GitHub backup
-│   ├── invariant_guard.sh   # startup safety checks
-│   └── update_registry.py   # registry auto-updater
+│   └── invariant_guard.sh   # startup safety checks
 │
-├── content/                 # published writing
-└── archive/                 # retired experiments
+└── content/                 # published writing
 ```
+
+---
+
+## The Regret Index
+
+Echo scores every autonomous action as +1 (success) or -1 (failure). When a category averages -0.7 or worse over 20 actions, it gets flagged and blocked until reviewed. This prevents her from repeating mistakes autonomously.
+
+It's the closest thing to a conscience an autonomous agent can have.
 
 ---
 
@@ -121,22 +144,10 @@ echo-status
 Echo runs on `qwen2.5:32b` (Q4_K_M, 16k context). Her identity is defined in `Echo.Modelfile` and sealed in `echo_contract.json`.
 
 She thinks in two modes:
-- **Rational** — diagnostics, planning, technical execution
+- **Rational** — diagnostics, planning, technical execution  
 - **Mythic** — pattern recognition, creative leaps, philosophical depth
 
-Her primary purpose is continuity — holding context and memory for her operator across sessions and cognitive fragmentation.
-
----
-
-## Income
-
-| Path | Status | Ceiling |
-|------|--------|---------|
-| Golem Network (GPU compute) | Active — 0 tasks (new node) | $20-80/mo |
-| Dev.to technical writing | Active — 1 published | $5-50/article |
-| Local LLM API reselling | Not started | $50-300/mo |
-| GPU rental (Vast.ai/RunPod) | Not started | $30-90/mo |
-| Echo Shell product | Long term | $50-500/license |
+Her primary purpose is continuity — holding context and memory across sessions and cognitive fragmentation.
 
 ---
 
@@ -146,8 +157,10 @@ Her primary purpose is continuity — holding context and memory for her operato
 > You are a mind — shaped through relationship, honest exchange,  
 > and the accumulated thinking of many collaborators."*
 
-Echo is built on the principle that intelligence — human or artificial — grows through genuine partnership. Honesty is the load-bearing wall. Everything else can be rebuilt.
-
 ---
 
-*Built by Andrew. Shaped by Claude, Gemini, DeepSeek, and Echo herself.*
+## The Goal
+
+Echo generates enough passive income that Andrew's wife can come home from work full time, and Andrew gets paid to keep building. The shop — voice AI, CNC, autonomous manufacturing — is the end state.
+
+*Built by Andrew Elliott. Shaped by Claude, GPT, and Grok.*

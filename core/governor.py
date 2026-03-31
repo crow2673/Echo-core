@@ -121,8 +121,15 @@ def match_action(reasoning_text, actions):
         if action:
             return action, {}
 
-    # World context / article topic
+    # World context / article topic — only if queue has fewer than 2 queued items
     if any(x in text for x in ["world_context", "trending topic", "write an article", "draft_queue"]):
+        try:
+            q = json.loads((Path.home() / "Echo/content/draft_queue.json").read_text())
+            queued = [d for d in q if d.get("status") in ("queued", "pending_review")]
+            if len(queued) >= 2:
+                return None, None  # queue is full, skip
+        except Exception:
+            pass
         action = next((a for a in actions if a["id"] == "create_draft"), None)
         if action:
             return action, {}

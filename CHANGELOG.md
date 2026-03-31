@@ -744,3 +744,40 @@
 - Trading brain fired Thu 3x — no signals (market conditions)
 - Best performing article: Echo + Notion MCP — 291 views, 4 reactions
 - SPY position open: 7 shares @ $651.45, down ~$121 at last check
+
+## 2026-03-30 09:24 — Auto-Act Cycle
+- Evaluated 1 suggestions, acted on 1
+
+## 2026-03-30 — Content Pipeline + Golem Fixes
+
+### Fixed
+- article_pipeline flood fixed — governor dedup check added, queue capped at 2 pending
+- draft_queue.json cleaned — 197 junk entries removed
+- draft_writer wired to content_strategy.json — reads real topics instead of generic world_context
+- publish_tuesday.sh and echo-publish-weekly.service fixed — no more hardcoded files
+- Yagna was broadcasting old AT&T IP — restarted, now on Starlink (publicAddress null, CGNAT issue)
+
+### Added
+- memory/content_strategy.json — 8 weeks of real article topics in Andrew's voice
+- Notion content strategy page created
+- Governor dedup check — prevents draft queue flooding
+
+### Known issues
+- Yagna publicAddress null — Starlink CGNAT blocks inbound connections, no fix without VPN or Starlink Priority
+
+## 2026-03-30 — Trading Brain Full Autonomy
+
+### Updated
+- trade_brain.py fully rebuilt — two strategies running simultaneously
+- Trend strategy: SPY, QQQ, AAPL, MSFT, NVDA, AMD — 4% take profit, 2.5% stop loss
+- Momentum strategy: TSLA, PLTR, MSTR, COIN, SOFI, HOOD — 2% take profit, 1% stop loss (tight)
+- manage_existing_positions() — Echo closes positions autonomously on take profit or stop loss
+- Max 3 open positions at once — capital protected
+- Regret index scoring wired into every trade exit — learns from wins and losses
+- First autonomous cycle: closed SPY at stop loss, opened AAPL (trend) + COIN (momentum)
+
+## 2026-03-30 — auto_act double-firing investigated
+- Root cause: systemd starting two instances simultaneously — unknown trigger
+- Mitigations applied: flock at shell level, PID file dedup
+- Result: duplicate log lines remain but actual execution is protected by lock
+- Status: cosmetic issue, not blocking — deferred

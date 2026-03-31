@@ -2147,3 +2147,10 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1774501394.792841, "size": 5220, "ts": 1774501396.0158544}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/registry.json", "mtime": 1774778402.7473109, "size": 5232, "ts": 1774778403.68965}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/auto_act.py", "mtime": 1774815082.3653815, "size": 11084, "ts": 1774815083.169357}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/article_pipeline.py", "mtime": 1774890511.9220064, "size": 8205, "ts": 1774890513.0556924}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/governor.py", "mtime": 1774890855.38708, "size": 9793, "ts": 1774890856.8961668}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/draft_writer.py", "mtime": 1774892465.3212533, "size": 6287, "ts": 1774892465.679142}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/draft_writer.py", "mtime": 1774893131.6207254, "size": 6555, "ts": 1774893132.6570022}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1774894156.6928222, "size": 9439, "ts": 1774894156.9337697}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1774894530.9722254, "size": 10131, "ts": 1774894532.722859}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/auto_act.py", "mtime": 1774908926.2473738, "size": 11568, "ts": 1774908926.6382983}

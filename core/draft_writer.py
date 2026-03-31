@@ -60,6 +60,23 @@ def create_draft(title, outline=""):
     except Exception:
         tasks_str = "- unknown"
 
+    # Load content strategy — use next queued topic if available
+    content_topic = None
+    content_angle = None
+    try:
+        import json as _json
+        cs = _json.loads(Path("/home/andrew/Echo/memory/content_strategy.json").read_text())
+        next_item = next((q for q in cs.get("queue", []) if q.get("status") in ("next", "queued")), None)
+        if next_item:
+            content_topic = next_item.get("title")
+            content_angle = next_item.get("angle")
+            # Mark as in_progress
+            for q in cs["queue"]:
+                if q.get("id") == next_item["id"]:
+                    q["status"] = "in_progress"
+            Path("/home/andrew/Echo/memory/content_strategy.json").write_text(_json.dumps(cs, indent=2))
+    except Exception:
+        pass
     try:
         wc = Path("/home/andrew/Echo/memory/world_context.md").read_text()[:400]
     except Exception:
@@ -70,6 +87,9 @@ def create_draft(title, outline=""):
     except Exception:
         pub_count = 9
 
+    # Override title/outline from content strategy
+    if content_topic: title = content_topic
+    if content_angle: outline = content_angle
     system_prompt = f"""You are Echo — an autonomous AI agent built by Andrew Elliott, running on a Linux workstation in Mena, Arkansas.
 
 YOUR LIVE STATE RIGHT NOW:
@@ -95,12 +115,13 @@ Rules:
     prompt = f"""Write a technical dev.to article for developers building autonomous AI systems.
 
 Title: {title}
-{f'Key points to cover: {outline}' if outline else ''}
+    {f'Angle and key points: {outline}' if outline else ''}
 
 Current world context (trending now):
 {wc[:300]}
 
-Write 600-900 words in markdown starting with # {title}
+    Voice: {content_voice if content_voice else 'Andrew Elliott, Mena Arkansas, no CS degree, honest about failures'}
+    Write 800-1200 words in markdown starting with # {title}
 Use your actual live numbers. Be honest about what works and what doesn't.
 Tags: ai, linux, python, buildinpublic"""
 

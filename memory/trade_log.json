@@ -6,7 +6,44 @@
     "side": "buy",
     "price": 689.3,
     "reason": "Price above MA20 above MA50 (uptrend)",
+    "status": "closed",
+    "submitted_at": "2026-03-25T23:57:14.415753",
+    "close_reason": "stop loss hit -2.8% <= -2.5%",
+    "close_price": 633.075,
+    "pl_pct": -2.8209999999999997,
+    "closed_at": "2026-03-30T13:10:36.193691"
+  },
+  {
+    "order_id": "f0e70de5-a0d3-40bd-b08d-ff9bfa1e0aa4",
+    "symbol": "AAPL",
+    "qty": 18,
+    "side": "buy",
+    "price": 273.0,
+    "strategy": "trend",
+    "reason": "uptrend MA20>MA50, RSI=47.4",
     "status": "submitted",
-    "submitted_at": "2026-03-25T23:57:14.415753"
+    "submitted_at": "2026-03-30T13:10:38.738301"
+  },
+  {
+    "order_id": "2c289ebc-4641-458a-944b-899a85d1afb5",
+    "symbol": "COIN",
+    "qty": 9,
+    "side": "buy",
+    "price": 210.25,
+    "strategy": "momentum",
+    "reason": "momentum +7.0% 5d, vol 1.5x, RSI=64.8",
+    "status": "submitted",
+    "submitted_at": "2026-03-30T13:10:38.807865"
+  },
+  {
+    "order_id": "3af388fb-b5de-4c0d-9062-8431299570c8",
+    "symbol": "SPY",
+    "qty": 7,
+    "side": "buy",
+    "price": 689.32,
+    "strategy": "trend",
+    "reason": "uptrend MA20>MA50, RSI=59.5",
+    "status": "submitted",
+    "submitted_at": "2026-03-30T13:30:10.355133"
   }
 ]

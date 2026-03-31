@@ -195,12 +195,24 @@ def mark_suggestion(data, sid, status, notes):
     return data
 
 def run():
-    import fcntl
+    import fcntl, os
+    pidfile = BASE / "logs/auto_act.pid"
+    # Check if already running via PID file
+    if pidfile.exists():
+        try:
+            old_pid = int(pidfile.read_text().strip())
+            os.kill(old_pid, 0)  # check if process exists
+            log("auto_act already running, skipping")
+            return
+        except (ProcessLookupError, ValueError):
+            pass  # stale pid, continue
+    pidfile.write_text(str(os.getpid()))
     lockfile = open(BASE / "logs/auto_act.lock", "w")
     try:
         fcntl.flock(lockfile, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
         log("auto_act already running, skipping")
+        pidfile.unlink(missing_ok=True)
         return
     log("auto_act started")
     # Check regret flags — skip flagged action types

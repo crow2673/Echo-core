@@ -61,3 +61,6 @@ var/
 install
 send_mach_info.py
 vastai_install_logs.tar.gz
+
+# runtime state
+memory/echo_state.json

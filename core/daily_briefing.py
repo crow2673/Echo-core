@@ -43,7 +43,11 @@ def queue_briefing():
         ram_used = f'{ram_used_gb}GB of {ram_total_gb}GB ({ram_pct}%)'
         swap_line = f'Swap: {swap_used}GB used' if swap_used and float(str(swap_used)) > 0 else 'Swap: clear'
         gpu = f'{gpu_pct}%, VRAM: {vram_used}MB'
-        session_context = 'Last build focus not confirmed from state.'
+        _sc = _state.get('session_context', {})
+        session_context = _sc.get('session_focus', 'Last build focus not confirmed from state.')
+        next_priority = _sc.get('next_priority', '')
+        if next_priority:
+            session_context += f' Next: {next_priority}'
     except Exception as _e:
         cpu = '?'; ram_used = '?'; swap_line = 'Swap: ?'; gpu = '?'
         system_health = 'unknown'; positions_open = 0; regret_status = 'unknown'

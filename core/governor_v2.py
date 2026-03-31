@@ -171,6 +171,25 @@ def get_golem_snapshot():
     except Exception:
         return {"status": "unknown"}
 
+def get_session_context():
+    """Read session_summary.json and return as session_context dict."""
+    try:
+        p = Path.home() / "Echo/memory/session_summary.json"
+        if not p.exists():
+            return {"source": "missing", "session_focus": "No session summary found"}
+        data = json.loads(p.read_text())
+        return {
+            "source": "session_summary.json",
+            "session_focus": data.get("session_focus", "unknown"),
+            "next_priority": data.get("next_priority", "unknown"),
+            "key_decisions": data.get("key_decisions", []),
+            "status": data.get("status", "unknown"),
+            "notes": data.get("notes", ""),
+            "timestamp": data.get("timestamp", "unknown")
+        }
+    except Exception as e:
+        return {"source": "error", "error": str(e), "session_focus": "Session context unavailable"}
+
 def write_state_atomic(state):
     """Write JSON atomically — prevents partial writes."""
     tmp = STATE_FILE.with_suffix(".tmp")
@@ -182,6 +201,7 @@ def run():
 
     state = {
         "timestamp": datetime.now().isoformat(),
+        "session_context": get_session_context(),
         "generated_by": "governor_v2",
         "version": "v1",
         "valid": True,

@@ -804,3 +804,26 @@
 - Grok produced exact patch: load_echo_state() function + health loop replacement
 - Patch is ready to apply next session — no changes to daemon yet
 - All three AIs have full Echo context and are building toward same goal
+
+## 2026-03-31 — Crown the King Phase 2B Complete
+- echo_core_daemon.py health loop now reads from echo_state.json
+- load_echo_state() function added with retry logic and graceful degradation
+- Bug found and fixed: Path not imported at function definition point
+- Daemon now logs: health=OK stale_timers=0 + cpu/ram/gpu every 60s
+- Committed: 64faeca — Crown the King Phase 2B
+- All three AIs (Claude, GPT, Grok) contributed to this patch
+
+## 2026-03-31 — Crown the King Phase 2B Complete
+- echo_core_daemon.py health loop now reads from echo_state.json
+- load_echo_state() function added with retry logic and graceful degradation
+- Bug found and fixed: Path not imported at function definition point
+- Daemon now logs: health=OK stale_timers=0 + cpu/ram/gpu every 60s
+- Committed: 64faeca — Crown the King Phase 2B
+- All three AIs (Claude, GPT, Grok) contributed to this patch
+
+## 2026-03-31 — Crown the King Phase 3A Complete
+- memory/session_summary.json created — structured session context
+- governor_v2.py patched — reads session_summary.json, embeds under echo_state["session_context"]
+- daily_briefing.py patched — reads session_context.session_focus + next_priority
+- Tomorrow's 8am briefing will speak real session context for first time
+- All three AIs (Claude, GPT, Grok) contributed to Phase 3A design

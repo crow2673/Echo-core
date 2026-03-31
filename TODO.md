@@ -1,7 +1,7 @@
 # Echo TODO — Last updated 2026-03-31
 
 ## HIGH PRIORITY
-- [ ] Crown a king Phase 2B — patch ready from Grok, apply next session. Add load_echo_state() + replace health loop
+- [x] Crown a king Phase 2B — daemon reads echo_state.json, real stats flowing ✅
 - [ ] Crown a king Phase 3 — timers become dumb workers, daemon makes all decisions
 - [ ] Yagna publicAddress null — Starlink CGNAT, needs VPN or Starlink Priority
 - [ ] auto_act double-firing — flock partial fix, root cause still unknown
@@ -38,3 +38,6 @@
 - [x] Golem showing Online — yagna restarted on Starlink
 - [x] Alpaca paper trading — $100k paper, 3 positions open
 - [x] Strategy scraper — 57 strategies seeded
+- [x] Crown a king Phase 3A — session_summary.json live ✅
+- [ ] Crown a king Phase 3B — automate session_summary.json writing at session end
+- [ ] Crown a king Phase 3C — timers become dumb workers

@@ -1,5 +1,0 @@
-# Weekly Routine Reminder (paste daily from echo_panel.sh)
-# Mon/Wed: 13 → Generate, 16 → Edit/Publish 1-2
-# Tue/Thu: 14 → Workspace, promote
-# Fri: Daily Summary + python3 analyze_content.py
-# End: 15

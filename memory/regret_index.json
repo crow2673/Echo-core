@@ -251,6 +251,18 @@
       "context": "auto_act",
       "timestamp": "2026-03-30T09:24:54.795655",
       "updated": "2026-03-30T09:24:55.537534"
+    },
+    {
+      "entry_id": "trade_COIN_20260331_20260331_093007",
+      "action_id": "trade_COIN_20260331",
+      "category": "trading",
+      "description": "COIN take profit hit 5.7% >= 2.0%",
+      "score": 1,
+      "outcome_known": true,
+      "outcome_notes": "closed COIN 5.7%: take profit hit 5.7% >= 2.0%",
+      "context": "trade_brain",
+      "timestamp": "2026-03-31T09:30:07.500223",
+      "updated": "2026-03-31T09:30:07.500453"
     }
   ],
   "last_audit": null

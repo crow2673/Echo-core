@@ -64,3 +64,49 @@ vastai_install_logs.tar.gz
 
 # runtime state
 memory/echo_state.json
+
+# Junk files
+a.zip
+analyze_content.py
+bundle_all_no_images.py
+bundle_all_raw.py
+content_generator.py
+chat_integrate.py
+compact_memory.py
+check_node_status.py
+cleanup.sh
+auto_backup.sh
+backup.sh
+Gai.Modelfile
+appkey.txt
+agent_log.txt
+ai_suggestions.txt
+
+# App directory (old UI experiments)
+app/
+
+# Bundles
+bundles_all_no_images/
+bundles_raw/
+
+# Archive
+archive/
+
+# Backup project
+backup_project/
+
+# Runtime memory files (keep only intentional ones)
+memory/*.json
+memory/*.jsonl
+memory/*.ndjson
+memory/*.md
+!memory/content_strategy.json
+!memory/session_summary.json
+
+# Content drafts
+content/draft_*.md
+content/article_*.md
+content/pending_review/
+
+# Swap files
+*.swp

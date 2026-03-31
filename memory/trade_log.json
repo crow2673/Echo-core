@@ -32,8 +32,12 @@
     "price": 210.25,
     "strategy": "momentum",
     "reason": "momentum +7.0% 5d, vol 1.5x, RSI=64.8",
-    "status": "submitted",
-    "submitted_at": "2026-03-30T13:10:38.807865"
+    "status": "closed",
+    "submitted_at": "2026-03-30T13:10:38.807865",
+    "close_reason": "take profit hit 5.7% >= 2.0%",
+    "close_price": 169.4,
+    "pl_pct": 5.664000000000001,
+    "closed_at": "2026-03-31T09:30:07.499186"
   },
   {
     "order_id": "3af388fb-b5de-4c0d-9062-8431299570c8",

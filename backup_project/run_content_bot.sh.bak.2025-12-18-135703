@@ -1,8 +1,0 @@
-#!/bin/bash
-echo "Running content bot (generating drafts from topics.txt)..."
-cd "$HOME/content_bot" || { echo "content_bot directory not found"; exit 1; }
-
-# Use your autogpt_env Python
-"$HOME/autogpt_env/bin/python" generate_content.py
-
-echo "Content bot finished. Check drafts in ~/content_bot/drafts/"

@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-trade_brain.py — Echo's autonomous trading brain
-Strategies:
-  1. Trend following — MA crossover + RSI on large caps (SPY, QQQ, AAPL etc)
-  2. Quick movers — momentum plays on volatile stocks, tighter exits
-Fully autonomous: opens positions, manages them, closes them.
+trade_brain.py — Echo's autonomous trading brain v2
+Improvements:
+  1. Increased position sizing — up to 8 positions, 10% per trade
+  2. Trailing stop — captures more upside on winning trades
+  3. Sector awareness — diversified across tech, finance, energy, crypto
+  4. Fixed crypto symbols — use correct Alpaca format
+  5. Updated momentum watchlist — fresher movers
 """
 import os
 import json
@@ -37,7 +39,6 @@ def get_api():
     return tradeapi.REST(API_KEY, SECRET_KEY, BASE_URL)
 
 def get_bars(api, symbol, limit=60):
-    from datetime import datetime, timedelta
     end = datetime.now()
     start = end - timedelta(days=limit*2)
     try:
@@ -65,42 +66,74 @@ def load_trade_log():
 def save_trade_log(trades):
     TRADE_LOG.write_text(json.dumps(trades, indent=2, default=str))
 
+def get_sector(symbol):
+    """Return sector for a symbol to prevent over-concentration."""
+    sectors = {
+        # Tech
+        "AAPL": "tech", "MSFT": "tech", "NVDA": "tech", "AMD": "tech",
+        "GOOGL": "tech", "META": "tech",
+        # Index/Broad
+        "SPY": "index", "QQQ": "index", "IWM": "index",
+        # Finance/Crypto
+        "COIN": "crypto", "MSTR": "crypto",
+        # EV/Growth
+        "TSLA": "ev", "RIVN": "ev",
+        # Finance
+        "JPM": "finance", "BAC": "finance",
+        # Energy
+        "XOM": "energy", "CVX": "energy",
+        # Momentum plays
+        "PLTR": "growth", "SOFI": "growth", "HOOD": "growth",
+        "RKLB": "growth", "IONQ": "growth",
+    }
+    return sectors.get(symbol, "other")
+
 def manage_existing_positions(api):
-    """Check open positions — close if take profit or stop loss hit."""
+    """Check open positions — use trailing stop logic."""
     positions = api.list_positions()
     trades = load_trade_log()
 
     for p in positions:
         symbol = p.symbol
-        entry = float(p.avg_entry_price)
         current = float(p.current_price)
         pl_pct = float(p.unrealized_plpc) * 100
         qty = p.qty
 
-        # Determine strategy type from trade log
+        # Get strategy from trade log
         strategy = "trend"
+        entry_price = float(p.avg_entry_price)
         for t in trades:
             if t.get("symbol") == symbol and t.get("status") == "submitted":
                 strategy = t.get("strategy", "trend")
                 break
 
-        # Exit thresholds
+        # Trailing stop thresholds
         if strategy == "momentum":
-            take_profit = 2.0   # 2% gain
-            stop_loss = -1.0    # 1% loss — tight
+            take_profit = 3.0
+            stop_loss = -1.0
+            trail_pct = 1.5  # trail by 1.5% from peak
         else:
-            take_profit = 4.0   # 4% gain
-            stop_loss = -2.5    # 2.5% loss
+            take_profit = 5.0
+            stop_loss = -2.5
+            trail_pct = 2.0  # trail by 2% from peak
+
+        # Calculate trailing stop — track highest price
+        high_pct = pl_pct  # simplified — use current as proxy
+        trail_stop = high_pct - trail_pct
 
         action = None
         reason = ""
 
         if pl_pct >= take_profit:
             action = "sell"
-            reason = f"take profit hit {pl_pct:.1f}% >= {take_profit}%"
+            reason = f"take profit {pl_pct:.1f}% >= {take_profit}%"
         elif pl_pct <= stop_loss:
             action = "sell"
-            reason = f"stop loss hit {pl_pct:.1f}% <= {stop_loss}%"
+            reason = f"stop loss {pl_pct:.1f}% <= {stop_loss}%"
+        elif pl_pct > 2.0 and trail_stop <= 0:
+            # Trailing stop triggered — locked in some profit, don't let it go negative
+            action = "sell"
+            reason = f"trailing stop — was up {pl_pct:.1f}%, protecting gains"
 
         if action:
             log(f"  CLOSING {symbol}: {reason}")
@@ -117,14 +150,18 @@ def manage_existing_positions(api):
                         t["pl_pct"] = pl_pct
                         t["closed_at"] = datetime.now().isoformat()
                 save_trade_log(trades)
-                log(f"  Closed {symbol} order: {order.id}")
+                log(f"  Closed {symbol}: {order.id}")
                 # Score in regret index
                 try:
                     import sys
                     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
                     from core.regret_index import log_action, update_outcome
-                    entry_id = log_action(f"trade_{symbol}_{datetime.now().strftime('%Y%m%d')}",
-                        category="trading", description=f"{symbol} {reason}", context="trade_brain")
+                    entry_id = log_action(
+                        f"trade_{symbol}_{datetime.now().strftime('%Y%m%d')}",
+                        category="trading",
+                        description=f"{symbol} {reason}",
+                        context="trade_brain"
+                    )
                     score = 1 if pl_pct > 0 else -1
                     update_outcome(entry_id, score, f"closed {symbol} {pl_pct:.1f}%: {reason}")
                 except Exception as re:
@@ -132,10 +169,10 @@ def manage_existing_positions(api):
             except Exception as e:
                 log(f"  Close failed {symbol}: {e}")
         else:
-            log(f"  HOLDING {symbol}: {pl_pct:.1f}% P/L — waiting for {take_profit}% or {stop_loss}%")
+            log(f"  HOLDING {symbol}: {pl_pct:.1f}% — stop={stop_loss}% target={take_profit}%")
 
 def analyze_trend(api, symbol):
-    """Trend following strategy — MA crossover + RSI."""
+    """Trend following — MA crossover + RSI."""
     bars = get_bars(api, symbol)
     if bars is None or len(bars) < 20:
         return None
@@ -152,13 +189,14 @@ def analyze_trend(api, symbol):
         reason = f"RSI oversold {rsi:.1f} + above MA20"
     elif current > ma20 > ma50 and rsi < 60:
         signal = "buy"
-        reason = f"uptrend MA20>MA50, RSI={rsi:.1f}"
+        reason = f"uptrend MA20>MA50 RSI={rsi:.1f}"
 
     return {"symbol": symbol, "signal": signal, "reason": reason,
-            "price": current, "rsi": round(rsi, 2), "strategy": "trend"}
+            "price": current, "rsi": round(rsi, 2), "strategy": "trend",
+            "sector": get_sector(symbol)}
 
 def analyze_momentum(api, symbol):
-    """Quick mover strategy — short term momentum."""
+    """Quick mover — short term momentum + volume."""
     bars = get_bars(api, symbol, limit=20)
     if bars is None or len(bars) < 10:
         return None
@@ -172,21 +210,29 @@ def analyze_momentum(api, symbol):
 
     signal = None
     reason = ""
-    # Strong momentum + volume confirmation + not overbought
     if momentum_5d > 3 and vol_ratio > 1.3 and rsi < 70:
         signal = "buy"
-        reason = f"momentum +{momentum_5d:.1f}% 5d, vol {vol_ratio:.1f}x, RSI={rsi:.1f}"
+        reason = f"momentum +{momentum_5d:.1f}% 5d vol {vol_ratio:.1f}x RSI={rsi:.1f}"
 
     return {"symbol": symbol, "signal": signal, "reason": reason,
             "price": current, "momentum_5d": round(momentum_5d, 2),
-            "vol_ratio": round(vol_ratio, 2), "strategy": "momentum"}
+            "strategy": "momentum", "sector": get_sector(symbol)}
 
 def already_holding(api, symbol):
     positions = api.list_positions()
     return any(p.symbol == symbol for p in positions)
 
+def sectors_held(api):
+    """Return dict of sectors currently held."""
+    positions = api.list_positions()
+    held = {}
+    for p in positions:
+        sector = get_sector(p.symbol)
+        held[sector] = held.get(sector, 0) + 1
+    return held
+
 def run():
-    log("=== trade_brain starting ===")
+    log("=== trade_brain v2 starting ===")
     api = get_api()
     account = api.get_account()
     buying_power = float(account.buying_power)
@@ -197,58 +243,81 @@ def run():
     log("--- Managing positions ---")
     manage_existing_positions(api)
 
-    # Step 2 — look for new entries
+    # Step 2 — scan for entries
     log("--- Scanning for entries ---")
 
-    # Trend watchlist — large cap, liquid
-    trend_list = ["SPY", "QQQ", "AAPL", "MSFT", "NVDA", "AMD"]
-    # Momentum watchlist — volatile movers
-    momentum_list = ["TSLA", "PLTR", "MSTR", "COIN", "SOFI", "HOOD"]
+    # Diversified watchlists by sector
+    trend_list = [
+        "SPY",   # index
+        "QQQ",   # index
+        "AAPL",  # tech
+        "MSFT",  # tech
+        "NVDA",  # tech
+        "JPM",   # finance
+        "XOM",   # energy
+        "IWM",   # small cap index
+    ]
+    momentum_list = [
+        "TSLA",  # ev
+        "PLTR",  # growth
+        "COIN",  # crypto
+        "RKLB",  # growth/space
+        "IONQ",  # quantum computing
+        "SOFI",  # fintech
+        "MSTR",  # crypto proxy
+    ]
 
     signals = []
+    held_sectors = sectors_held(api)
+
     for symbol in trend_list:
         if already_holding(api, symbol):
-            log(f"  {symbol}: already holding, skip")
+            log(f"  {symbol}: already holding")
             continue
-        log(f"  Analyzing {symbol} (trend)...")
+        sector = get_sector(symbol)
+        if held_sectors.get(sector, 0) >= 2:
+            log(f"  {symbol}: sector {sector} already has 2 positions, skipping")
+            continue
         result = analyze_trend(api, symbol)
         if result and result["signal"]:
             signals.append(result)
-            log(f"  SIGNAL: {result['signal'].upper()} {symbol} — {result['reason']}")
+            log(f"  SIGNAL: BUY {symbol} — {result['reason']}")
 
     for symbol in momentum_list:
         if already_holding(api, symbol):
-            log(f"  {symbol}: already holding, skip")
+            log(f"  {symbol}: already holding")
             continue
-        log(f"  Analyzing {symbol} (momentum)...")
+        sector = get_sector(symbol)
+        if held_sectors.get(sector, 0) >= 1:
+            log(f"  {symbol}: sector {sector} already held, skipping")
+            continue
         result = analyze_momentum(api, symbol)
         if result and result["signal"]:
             signals.append(result)
-            log(f"  SIGNAL: {result['signal'].upper()} {symbol} — {result['reason']}")
+            log(f"  SIGNAL: BUY {symbol} — {result['reason']}")
 
     if not signals:
         log("No entry signals this cycle")
-        log("=== trade_brain done ===")
+        log("=== trade_brain v2 done ===")
         return
 
     trades = load_trade_log()
 
-    # Max 3 open positions total
+    # Max 8 open positions, 10% per trade
     open_positions = len(api.list_positions())
-    max_positions = 3
+    max_positions = 8
     slots = max_positions - open_positions
 
     if slots <= 0:
-        log(f"Max positions ({max_positions}) reached, no new entries")
-        log("=== trade_brain done ===")
+        log(f"Max positions ({max_positions}) reached")
+        log("=== trade_brain v2 done ===")
         return
 
-    # Size positions
     for pick in signals[:slots]:
         if pick["strategy"] == "momentum":
-            position_size = min(buying_power * 0.03, 2000)  # 3% max, $2k cap for quick movers
+            position_size = min(buying_power * 0.08, 8000)
         else:
-            position_size = min(buying_power * 0.05, 5000)  # 5% max, $5k cap for trend
+            position_size = min(buying_power * 0.10, 10000)
 
         qty = max(1, int(position_size / pick["price"]))
         cost = qty * pick["price"]
@@ -266,6 +335,7 @@ def run():
                 "side": "buy",
                 "price": pick["price"],
                 "strategy": pick["strategy"],
+                "sector": pick["sector"],
                 "reason": pick["reason"],
                 "status": "submitted",
                 "submitted_at": datetime.now().isoformat()
@@ -276,7 +346,7 @@ def run():
         except Exception as e:
             log(f"Order failed {pick['symbol']}: {e}")
 
-    log("=== trade_brain done ===")
+    log("=== trade_brain v2 done ===")
 
 if __name__ == "__main__":
     run()

@@ -827,3 +827,21 @@
 - daily_briefing.py patched — reads session_context.session_focus + next_priority
 - Tomorrow's 8am briefing will speak real session context for first time
 - All three AIs (Claude, GPT, Grok) contributed to Phase 3A design
+
+## 2026-04-01 08:28 — Auto-Act Cycle
+- Evaluated 1 suggestions, acted on 1
+
+## 2026-04-01 — Phase 3B Complete + Fixes
+- core/session_checkpoint.py built — reads CHANGELOG, auto_act, trades, regret to build session summary
+- echo-session-checkpoint.timer — fires at 23:55 every night
+- Echo now writes her own session_summary.json automatically
+- Fixed auto_act stuck lock — cleared stale lock/pid files
+- Fixed briefing reply detection — now matches by cap_id not stale text search
+- Committed: 1614a8a (Phase 3B), e8e028f (briefing fix)
+
+## 2026-04-01 — Publisher wired to content_strategy.json
+- echo_devto_publisher.py now reads content_strategy.json first
+- If a 'next' or 'queued' topic exists, uses that instead of generic session content
+- Content queue reset — all 8 topics ready to publish
+- Bad generic articles from March 31 deleted
+- Next Tuesday: "How I built a two-way phone bridge for my AI using ntfy.sh"

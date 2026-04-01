@@ -845,3 +845,11 @@
 - Content queue reset — all 8 topics ready to publish
 - Bad generic articles from March 31 deleted
 - Next Tuesday: "How I built a two-way phone bridge for my AI using ntfy.sh"
+
+## 2026-04-01 — Trade Brain v2
+- Position sizing increased: 10% per trend trade, 8% momentum, max 8 positions
+- Trailing stop added — protects gains after 2% up
+- Sector awareness — prevents over-concentration in same sector
+- Updated watchlists: added XOM (energy), IWM (small cap), RKLB, IONQ
+- Fixed take profit: trend 5%, momentum 3%
+- First v2 cycle: entered XOM (energy trend) + RKLB (momentum)

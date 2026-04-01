@@ -853,3 +853,11 @@
 - Updated watchlists: added XOM (energy), IWM (small cap), RKLB, IONQ
 - Fixed take profit: trend 5%, momentum 3%
 - First v2 cycle: entered XOM (energy trend) + RKLB (momentum)
+
+## 2026-04-01 — Crypto Brain Live
+- core/crypto_brain.py built — 24/7 trading on BTC/USD ETH/USD SOL/USD AVAX/USD
+- Uses correct Alpaca crypto API with BTC/USD format
+- echo-crypto-trader.timer fires every 2 hours around the clock
+- Strategy: RSI mean reversion + 6h momentum on hourly bars
+- Take profit 4%, stop loss 2% — tighter than stocks
+- First scan: all coins RSI 31-33 (oversold but below buy threshold)

@@ -271,9 +271,33 @@ def main():
             print(f"[publisher] Published: {result.get('url', 'unknown')}")
         sys.exit(0)
     if args.from_session:
+        # Check content_strategy.json for next queued topic first
+        import json as _json
+        _strategy_file = BASE / "memory/content_strategy.json"
+        _strategy_topic = None
+        _strategy_angle = None
+        if _strategy_file.exists():
+            try:
+                _cs = _json.loads(_strategy_file.read_text())
+                _next = next((q for q in _cs.get("queue", []) if q.get("status") in ("next", "queued")), None)
+                if _next:
+                    _strategy_topic = _next.get("title")
+                    _strategy_angle = _next.get("angle", "")
+                    # Mark as in_progress
+                    for q in _cs["queue"]:
+                        if q.get("id") == _next["id"]:
+                            q["status"] = "in_progress"
+                    _strategy_file.write_text(_json.dumps(_cs, indent=2))
+                    print(f"[publisher] Using content strategy topic: {_strategy_topic}")
+            except Exception as _e:
+                print(f"[publisher] Content strategy read failed: {_e}")
+
         print("[publisher] Reading recent build session...")
         context = get_recent_session_context()
-        topic = "building a local AI assistant on Linux — recent progress on Echo"
+        if _strategy_angle:
+            context = f"Article angle: {_strategy_angle}\n\n{context}"
+        topic = _strategy_topic or "building a local AI assistant on Linux — recent progress on Echo"
+        print(f"[publisher] Topic: {topic[:80]}")
         print(f"[publisher] Context: {len(context)} chars from recent memory")
     elif args.topic:
         topic = args.topic

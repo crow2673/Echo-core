@@ -74,11 +74,12 @@ def queue_briefing():
     # Wait for reply then speak it
     import time
     cap_id = result.stdout.strip().split("queued ")[-1] if "queued" in result.stdout else None
-    print(f"Waiting for Echo to process briefing...")
-    for _ in range(24):  # wait up to 4 minutes
+    print(f"Waiting for Echo to process briefing... cap_id={cap_id}")
+    for _ in range(36):  # wait up to 6 minutes
         time.sleep(10)
         try:
             m = json.load(open(BASE_DIR / "echo_memory.json"))
+            # Find the specific capsule by ID, then get the reply after it
             found = False
             for c in m:
                 if found and c.get("type") == "reply":
@@ -90,8 +91,22 @@ def queue_briefing():
                         from echo_voice import speak
                         speak(text)
                     return
-                if c.get("type") == "message" and "daily briefing" in c.get("text", ""):
+                # Match by cap_id if available, otherwise fall back to timestamp-based match
+                if cap_id and cap_id in c.get("id", ""):
                     found = True
+                elif not cap_id and c.get("type") == "message" and "daily briefing" in c.get("text", "").lower():
+                    # Only match if message was sent in last 2 minutes
+                    msg_time = c.get("timestamp", "")
+                    if msg_time:
+                        from datetime import timezone
+                        try:
+                            from datetime import datetime as _dt
+                            msg_dt = _dt.fromisoformat(msg_time.replace("Z", "+00:00"))
+                            now_utc = _dt.now(timezone.utc)
+                            if (now_utc - msg_dt).total_seconds() < 120:
+                                found = True
+                        except Exception:
+                            pass
         except Exception as e:
             print(f"check error: {e}")
     print("[briefing] Timed out waiting for reply")

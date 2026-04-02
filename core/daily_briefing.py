@@ -64,52 +64,50 @@ def queue_briefing():
         f"Keep it concise and spoken — read aloud. No follow-up questions. End with a complete thought."
     )
 
-    result = subprocess.run(
-        ["python3", str(INTAKE), "--text", briefing_prompt],
-        capture_output=True, text=True
-    )
-    print(result.stdout.strip())
-    print(result.stderr.strip())
-
-    # Wait for reply then speak it
-    import time
-    cap_id = result.stdout.strip().split("queued ")[-1] if "queued" in result.stdout else None
-    print(f"Waiting for Echo to process briefing... cap_id={cap_id}")
-    for _ in range(36):  # wait up to 6 minutes
-        time.sleep(10)
+    # Direct Ollama call — no daemon queue, no timeout dependency
+    print("[briefing] Calling Ollama directly...")
+    import urllib.request as _urllib
+    import time as _time
+    payload = json.dumps({
+        "model": "qwen2.5:32b",
+        "prompt": briefing_prompt,
+        "stream": False,
+        "options": {"temperature": 0.7, "num_predict": 500}
+    }).encode()
+    briefing_text = None
+    # Warmup ping to ensure model is loaded
+    try:
+        _ping = json.dumps({"model":"qwen2.5:32b","prompt":"hi","stream":False,"options":{"num_predict":1}}).encode()
+        _preq = _urllib.Request("http://localhost:11434/api/generate", data=_ping, headers={"Content-Type":"application/json"}, method="POST")
+        with _urllib.urlopen(_preq, timeout=60) as _pr: _pr.read()
+        print("[briefing] Model warmed up")
+    except Exception as _pe:
+        print(f"[briefing] Warmup skipped: {_pe}")
+    try:
+        req = _urllib.Request(
+            "http://localhost:11434/api/generate",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST"
+        )
+        with _urllib.urlopen(req, timeout=180) as resp:
+            data = json.loads(resp.read())
+            briefing_text = data.get("response", "").strip()
+    except Exception as e:
+        print(f"[briefing] Ollama error: {e}")
+        briefing_text = None
+    if briefing_text:
+        print(f"[briefing] Generated: {briefing_text[:100]}...")
+        with open(Path.home() / "Echo/logs/briefing_transcript.log", "a") as f:
+            f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} — {briefing_text}\n")
         try:
-            m = json.load(open(BASE_DIR / "echo_memory.json"))
-            # Find the specific capsule by ID, then get the reply after it
-            found = False
-            for c in m:
-                if found and c.get("type") == "reply":
-                    text = c.get("text", "")
-                    if text:
-                        print(f"[briefing] Speaking: {text[:100]}...")
-                        with open(Path.home() / "Echo/logs/briefing_transcript.log", "a") as f:
-                            f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} — {text}\n")
-                        from echo_voice import speak
-                        speak(text)
-                    return
-                # Match by cap_id if available, otherwise fall back to timestamp-based match
-                if cap_id and cap_id in c.get("id", ""):
-                    found = True
-                elif not cap_id and c.get("type") == "message" and "daily briefing" in c.get("text", "").lower():
-                    # Only match if message was sent in last 2 minutes
-                    msg_time = c.get("timestamp", "")
-                    if msg_time:
-                        from datetime import timezone
-                        try:
-                            from datetime import datetime as _dt
-                            msg_dt = _dt.fromisoformat(msg_time.replace("Z", "+00:00"))
-                            now_utc = _dt.now(timezone.utc)
-                            if (now_utc - msg_dt).total_seconds() < 120:
-                                found = True
-                        except Exception:
-                            pass
+            from echo_voice import speak
+            speak(briefing_text)
+            print("[briefing] Spoken successfully")
         except Exception as e:
-            print(f"check error: {e}")
-    print("[briefing] Timed out waiting for reply")
+            print(f"[briefing] speak error: {e}")
+    else:
+        print("[briefing] Failed to generate briefing")
 
 if __name__ == "__main__":
     queue_briefing()

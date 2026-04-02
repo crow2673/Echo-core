@@ -19,19 +19,47 @@ AUTO_ACT_LOG = BASE / "logs/auto_act.log"
 TRADE_LOG = BASE / "memory/trade_log.json"
 REGRET = BASE / "memory/regret_patterns.json"
 
-def get_recent_changelog(lines=30):
-    """Pull last N lines from CHANGELOG and extract recent session focus."""
+def get_recent_changelog(lines=80):
+    """Pull today's ## headers from CHANGELOG and join them into a focus statement.
+    Filters noise, deduplicates, caps at 4 items.
+    Respects override_focus field in existing session_summary.json.
+    """
+    # Check for human override first
+    try:
+        if SUMMARY_FILE.exists():
+            existing = json.loads(SUMMARY_FILE.read_text())
+            if existing.get("override_focus"):
+                focus = existing["override_focus"]
+                print(f"[checkpoint] Using override_focus: {focus[:60]}")
+                decisions = existing.get("key_decisions", [])
+                return focus, decisions
+    except Exception:
+        pass
+
     try:
         text = CHANGELOG.read_text().splitlines()
         recent = text[-lines:]
-        # Find the most recent ## header
-        focus = "Recent build work"
+
+        # Collect all meaningful ## headers from recent lines
+        noise = {"auto-act", "auto act", "auto backup", "session summary"}
+        headers = []
         decisions = []
         for line in recent:
-            if line.startswith("## ") and "Auto-Act" not in line:
-                focus = line.replace("## ", "").strip()
+            if line.startswith("## "):
+                header = line.replace("## ", "").strip()
+                # Filter noise and duplicates
+                if not any(n in header.lower() for n in noise):
+                    # Shorten date prefix if present
+                    if " — " in header:
+                        header = header.split(" — ", 1)[1].strip()
+                    if header not in headers:
+                        headers.append(header)
             elif line.startswith("- ") and len(line) > 5:
                 decisions.append(line[2:].strip())
+
+        # Cap at 4 most recent unique headers
+        headers = headers[-4:] if headers else ["Recent build work"]
+        focus = " + ".join(headers)
         return focus, decisions[-6:] if decisions else []
     except Exception as e:
         return "Build session", [str(e)]

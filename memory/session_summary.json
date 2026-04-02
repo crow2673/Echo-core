@@ -1,12 +1,16 @@
 {
-  "timestamp": "2026-04-01T08:15:00",
-  "session_focus": "Fixed briefing reply detection — was reading cached old content instead of waiting for fresh generation",
+  "timestamp": "2026-04-01T23:55:06.860562",
+  "session_focus": "2026-04-01 \u2014 Crypto Brain Live",
   "key_decisions": [
-    "Briefing now matches reply by cap_id not stale text search",
-    "Wait timeout extended from 4 to 6 minutes",
-    "Committed: e8e028f"
+    "core/crypto_brain.py built \u2014 24/7 trading on BTC/USD ETH/USD SOL/USD AVAX/USD",
+    "Uses correct Alpaca crypto API with BTC/USD format",
+    "echo-crypto-trader.timer fires every 2 hours around the clock",
+    "Strategy: RSI mean reversion + 6h momentum on hourly bars",
+    "Take profit 4%, stop loss 2% \u2014 tighter than stocks",
+    "First scan: all coins RSI 31-33 (oversold but below buy threshold)"
   ],
-  "next_priority": "Phase 3B — automate session_summary.json writing at end of each session",
-  "status": "complete",
-  "notes": "Tomorrow 8am briefing should speak correct fresh content for first time. Governor v2 healthy. Trading positions open."
+  "next_priority": "Crown a king Phase 3 \u2014 timers become dumb workers, daemon makes all decisions",
+  "status": "auto_checkpoint",
+  "notes": "Trading: 4 positions open: AAPL, SPY, XOM, RKLB. Regret index: healthy.",
+  "generated_by": "session_checkpoint.py"
 }

@@ -49,5 +49,45 @@
     "reason": "uptrend MA20>MA50, RSI=59.5",
     "status": "submitted",
     "submitted_at": "2026-03-30T13:30:10.355133"
+  },
+  {
+    "order_id": "b226f54f-e330-492b-a0f5-326746115d1a",
+    "symbol": "XOM",
+    "qty": 65,
+    "side": "buy",
+    "price": 152.59,
+    "strategy": "trend",
+    "sector": "energy",
+    "reason": "uptrend MA20>MA50 RSI=55.1",
+    "status": "submitted",
+    "submitted_at": "2026-04-01T09:20:34.141057"
+  },
+  {
+    "order_id": "654401f2-3575-418e-856d-48bb21b28474",
+    "symbol": "RKLB",
+    "qty": 111,
+    "side": "buy",
+    "price": 71.835,
+    "strategy": "momentum",
+    "sector": "growth",
+    "reason": "momentum +5.0% 5d vol 1.4x RSI=53.5",
+    "status": "closed",
+    "submitted_at": "2026-04-01T09:20:34.216596",
+    "close_reason": "stop loss -2.6% <= -1.0%",
+    "close_price": 65.64,
+    "pl_pct": -2.582,
+    "closed_at": "2026-04-01T13:30:05.434941"
+  },
+  {
+    "order_id": "d502e58b-d139-4621-8325-ed78b5fbc91e",
+    "symbol": "RKLB",
+    "qty": 111,
+    "side": "buy",
+    "price": 71.835,
+    "strategy": "momentum",
+    "sector": "growth",
+    "reason": "momentum +5.0% 5d vol 1.4x RSI=53.5",
+    "status": "submitted",
+    "submitted_at": "2026-04-01T15:30:10.409926"
   }
 ]

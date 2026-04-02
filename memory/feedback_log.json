@@ -538,8 +538,18 @@
   {
     "id": "analytics_20260331",
     "suggestion": "Best performing article: 'I Gave My Local AI a Public Brain: Echo + Notion M' with 295 views. Write more content on similar topics to drive traffic.",
-    "status": "pending",
+    "status": "acted_on",
     "created_at": "2026-03-31T09:00:07.287973",
+    "source": "devto_analytics",
+    "confidence": 0.85,
+    "acted_at": "2026-04-01T08:28:53.558402",
+    "action_notes": "logged analytics insight: acknowledged best performer"
+  },
+  {
+    "id": "analytics_20260401",
+    "suggestion": "Best performing article: 'I Gave My Local AI a Public Brain: Echo + Notion M' with 297 views. Write more content on similar topics to drive traffic.",
+    "status": "pending",
+    "created_at": "2026-04-01T09:00:07.237898",
     "source": "devto_analytics",
     "confidence": 0.85
   }

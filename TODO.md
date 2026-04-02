@@ -39,5 +39,5 @@
 - [x] Alpaca paper trading — $100k paper, 3 positions open
 - [x] Strategy scraper — 57 strategies seeded
 - [x] Crown a king Phase 3A — session_summary.json live ✅
-- [ ] Crown a king Phase 3B — automate session_summary.json writing at session end
+- [x] Crown a king Phase 3B — session_checkpoint.py runs at 23:55 nightly ✅
 - [ ] Crown a king Phase 3C — timers become dumb workers

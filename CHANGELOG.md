@@ -861,3 +861,11 @@
 - Strategy: RSI mean reversion + 6h momentum on hourly bars
 - Take profit 4%, stop loss 2% — tighter than stocks
 - First scan: all coins RSI 31-33 (oversold but below buy threshold)
+
+## 2026-04-02 — Session Checkpoint Upgraded
+- session_checkpoint.py now collects all today's ## headers (not just last one)
+- Filters noise (Auto-Act, Auto Backup etc), deduplicates, caps at 4
+- Joins into multi-item session_focus: "Phase 3B + Trade Brain v2 + Crypto Brain + Beehiiv"
+- Optional override_focus field respected if present in session_summary.json
+- Three AI consensus: Claude (2+3 hybrid) + GPT (agreed) + Grok (accepted with addition)
+- Briefing LLM speaks the joined focus naturally at 8am

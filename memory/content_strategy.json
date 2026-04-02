@@ -41,13 +41,13 @@
     },
     {
       "id": "content_006",
-      "status": "queued",
+      "status": "in_progress",
       "title": "I built a self-healing AI and here is what actually broke",
       "angle": "182 junk drafts overnight, RAM pressure, boot sequencing bugs, what Echo learned."
     },
     {
       "id": "content_007",
-      "status": "queued",
+      "status": "in_progress",
       "title": "How Echo publishes to dev.to without me",
       "angle": "The full pipeline, what went wrong, how it got fixed."
     },
@@ -57,5 +57,7 @@
       "title": "Building toward the shop: voice AI in a noisy environment",
       "angle": "Why this matters, what is blocking it, the VAD problem, where it is headed."
     }
-  ]
+  ],
+  "beehiiv_url": "https://echo-build-log-829254.beehiiv.com/",
+  "cta_text": "I send a weekly update on Echo's progress \u2014 what she built, what broke, trading results, and what's next. If you want to follow the build: https://echo-build-log-829254.beehiiv.com/"
 }

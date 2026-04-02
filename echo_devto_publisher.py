@@ -298,6 +298,15 @@ def main():
             context = f"Article angle: {_strategy_angle}\n\n{context}"
         topic = _strategy_topic or "building a local AI assistant on Linux — recent progress on Echo"
         print(f"[publisher] Topic: {topic[:80]}")
+        # Load CTA from content strategy and append to context
+        try:
+            import json as _j2
+            _cs2 = _j2.loads(Path.home().joinpath('Echo/memory/content_strategy.json').read_text())
+            _cta = _cs2.get('cta_text', '')
+            if _cta:
+                context = context + f'\n\nIMPORTANT: End every article with this exact call to action on its own line:\n\n---\n{_cta}'
+        except Exception:
+            pass
         print(f"[publisher] Context: {len(context)} chars from recent memory")
     elif args.topic:
         topic = args.topic

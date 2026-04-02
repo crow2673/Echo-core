@@ -869,3 +869,10 @@
 - Optional override_focus field respected if present in session_summary.json
 - Three AI consensus: Claude (2+3 hybrid) + GPT (agreed) + Grok (accepted with addition)
 - Briefing LLM speaks the joined focus naturally at 8am
+
+## 2026-04-02 — Briefing Fixed — Direct Ollama Call
+- daily_briefing.py now calls Ollama directly via HTTP
+- No more daemon queue dependency — no more timeouts
+- Model warmup ping ensures qwen2.5:32b is loaded before generation
+- First confirmed working briefing: real CPU stats, real session context, spoken aloud
+- Proof: "[briefing] Generated: Good afternoon. As of today, Thursday, April 02..."

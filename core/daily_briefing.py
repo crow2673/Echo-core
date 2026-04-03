@@ -57,11 +57,7 @@ def queue_briefing():
         f"Weather: {weather_line}. "
         f"LIVE SYSTEM — CPU: {cpu}%, RAM: {ram_used}, {swap_line}, GPU: {gpu}. Health: {system_health}. "
         f"Trading: {positions_open} positions open. Regret index: {regret_status}. "
-        f"1) Current system and service status using the real stats above. "
-        f"2) Golem node earnings and task status. "
-        f"3) Build context: {session_context} "
-        f"4) The single most important thing to work on today to move toward income. "
-        f"Keep it concise and spoken — read aloud. No follow-up questions. End with a complete thought."
+        f"Speak this as a short morning briefing — 4 sentences max. Cover: system health, trading positions, and the one most important thing to do today. Be direct. No lists."
     )
 
     # Direct Ollama call — no daemon queue, no timeout dependency
@@ -90,7 +86,7 @@ def queue_briefing():
             headers={"Content-Type": "application/json"},
             method="POST"
         )
-        with _urllib.urlopen(req, timeout=180) as resp:
+        with _urllib.urlopen(req, timeout=300) as resp:
             data = json.loads(resp.read())
             briefing_text = data.get("response", "").strip()
     except Exception as e:

@@ -876,3 +876,10 @@
 - Model warmup ping ensures qwen2.5:32b is loaded before generation
 - First confirmed working briefing: real CPU stats, real session context, spoken aloud
 - Proof: "[briefing] Generated: Good afternoon. As of today, Thursday, April 02..."
+
+## 2026-04-03 — First Honest Briefing Confirmed
+- Briefing staggered to 8:10am — avoids Ollama contention with governor at 8am
+- Prompt shortened to 4 sentences max — faster generation, less timeout risk
+- Timeout increased to 300s + 3s settle after warmup
+- First confirmed honest briefing: real weather, CPU, RAM, trading positions, spoken aloud
+- "Good morning. Today is Friday, April 3rd, weather 69.8°F..."

@@ -87,7 +87,23 @@
     "strategy": "momentum",
     "sector": "growth",
     "reason": "momentum +5.0% 5d vol 1.4x RSI=53.5",
+    "status": "closed",
+    "submitted_at": "2026-04-01T15:30:10.409926",
+    "close_reason": "take profit 4.6% >= 3.0%",
+    "close_price": 66.58,
+    "pl_pct": 4.553999999999999,
+    "closed_at": "2026-04-02T09:30:07.442697"
+  },
+  {
+    "order_id": "e3065829-a235-4a69-adb8-555be893adc3",
+    "symbol": "IWM",
+    "qty": 37,
+    "side": "buy",
+    "price": 263.79,
+    "strategy": "trend",
+    "sector": "index",
+    "reason": "uptrend MA20>MA50 RSI=44.7",
     "status": "submitted",
-    "submitted_at": "2026-04-01T15:30:10.409926"
+    "submitted_at": "2026-04-02T09:30:24.323921"
   }
 ]

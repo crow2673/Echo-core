@@ -53,7 +53,7 @@
     },
     {
       "id": "content_008",
-      "status": "queued",
+      "status": "in_progress",
       "title": "Building toward the shop: voice AI in a noisy environment",
       "angle": "Why this matters, what is blocking it, the VAD problem, where it is headed."
     }

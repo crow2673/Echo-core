@@ -287,6 +287,18 @@
       "context": "trade_brain",
       "timestamp": "2026-04-01T13:30:05.441098",
       "updated": "2026-04-01T13:30:05.442022"
+    },
+    {
+      "entry_id": "trade_RKLB_20260402_20260402_093007",
+      "action_id": "trade_RKLB_20260402",
+      "category": "trading",
+      "description": "RKLB take profit 4.6% >= 3.0%",
+      "score": 1,
+      "outcome_known": true,
+      "outcome_notes": "closed RKLB 4.6%: take profit 4.6% >= 3.0%",
+      "context": "trade_brain",
+      "timestamp": "2026-04-02T09:30:07.443691",
+      "updated": "2026-04-02T09:30:07.443897"
     }
   ],
   "last_audit": null

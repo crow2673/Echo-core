@@ -4,7 +4,7 @@
     "views": 5,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-01",
+    "date": "2026-04-02",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -13,7 +13,7 @@
     "views": 23,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-01",
+    "date": "2026-04-02",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -22,7 +22,7 @@
     "views": 97,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-01",
+    "date": "2026-04-02",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -31,7 +31,7 @@
     "views": 116,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-04-01",
+    "date": "2026-04-02",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -40,17 +40,17 @@
     "views": 3,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-01",
+    "date": "2026-04-02",
     "view_delta": 0,
     "reaction_delta": 0
   },
   "3102340": {
     "title": "Build an AI\u2011Ready Linux Workstation Under $800 in ",
-    "views": 268,
+    "views": 278,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-01",
-    "view_delta": 0,
+    "date": "2026-04-02",
+    "view_delta": 10,
     "reaction_delta": 0
   },
   "3350257": {
@@ -58,8 +58,8 @@
     "views": 297,
     "reactions": 4,
     "trend": "STABLE",
-    "date": "2026-04-01",
-    "view_delta": 2,
+    "date": "2026-04-02",
+    "view_delta": 0,
     "reaction_delta": 0
   },
   "3363557": {
@@ -76,7 +76,7 @@
     "views": 32,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-04-01",
+    "date": "2026-04-02",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -93,18 +93,18 @@
     "title": "Building a Local AI Assistant on Linux \u2014 Recent Pr",
     "views": 15,
     "reactions": 0,
-    "trend": "NEW",
-    "date": "2026-04-01",
-    "view_delta": 15,
+    "trend": "STABLE",
+    "date": "2026-04-02",
+    "view_delta": 0,
     "reaction_delta": 0
   },
   "3436587": {
     "title": "Building a Local AI Assistant on Linux \u2014 Recent Pr",
-    "views": 12,
+    "views": 22,
     "reactions": 0,
-    "trend": "NEW",
-    "date": "2026-04-01",
-    "view_delta": 12,
+    "trend": "GROWING",
+    "date": "2026-04-02",
+    "view_delta": 10,
     "reaction_delta": 0
   }
 }

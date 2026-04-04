@@ -1,13 +1,16 @@
 {
-  "timestamp": "2026-04-03T08:30:00",
-  "session_focus": "First honest briefing confirmed + Alpaca portfolio $100,440 + WeCoded skipped intentionally",
+  "timestamp": "2026-04-03T23:55:06.861131",
+  "session_focus": "Crypto Brain Live + Session Checkpoint Upgraded + Briefing Fixed \u2014 Direct Ollama Call + First Honest Briefing Confirmed",
   "key_decisions": [
-    "Briefing staggered to 8:10am to avoid Ollama contention with governor",
-    "Prompt shortened to 4 sentences max — first honest briefing spoken at 8:14am",
-    "WeCoded article deliberately skipped — don't write things you don't want to write",
-    "Pro plan canceled — free tier continues"
+    "Proof: \"[briefing] Generated: Good afternoon. As of today, Thursday, April 02...\"",
+    "Briefing staggered to 8:10am \u2014 avoids Ollama contention with governor at 8am",
+    "Prompt shortened to 4 sentences max \u2014 faster generation, less timeout risk",
+    "Timeout increased to 300s + 3s settle after warmup",
+    "First confirmed honest briefing: real weather, CPU, RAM, trading positions, spoken aloud",
+    "\"Good morning. Today is Friday, April 3rd, weather 69.8\u00b0F...\""
   ],
-  "next_priority": "Tuesday April 7 — ntfy bridge article publishes automatically with Beehiiv CTA",
-  "status": "complete",
-  "notes": "Portfolio $100,440. AAPL +3.6%, SPY +3.7% near take profit. System running autonomously."
+  "next_priority": "Crown a king Phase 3 \u2014 timers become dumb workers, daemon makes all decisions",
+  "status": "auto_checkpoint",
+  "notes": "Trading: 4 positions open: AAPL, SPY, XOM, IWM. Regret index: healthy.",
+  "generated_by": "session_checkpoint.py"
 }

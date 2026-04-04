@@ -7,7 +7,7 @@
     "comments": 0,
     "published": "2026-03-31",
     "url": "https://dev.to/crow/building-a-local-ai-assistant-on-linux-recent-progress-on-echo-214d",
-    "checked_at": "2026-04-02T09:00:07.445862"
+    "checked_at": "2026-04-03T09:00:07.280643"
   },
   {
     "id": 3436587,
@@ -17,7 +17,7 @@
     "comments": 0,
     "published": "2026-03-31",
     "url": "https://dev.to/crow/building-a-local-ai-assistant-on-linux-recent-progress-on-echo-eh7",
-    "checked_at": "2026-04-02T09:00:07.445960"
+    "checked_at": "2026-04-03T09:00:07.280739"
   },
   {
     "id": 3363367,
@@ -27,7 +27,7 @@
     "comments": 0,
     "published": "2026-03-17",
     "url": "https://dev.to/crow/she-started-fixing-herself-building-a-self-healing-ai-agent-on-linux-4ob8",
-    "checked_at": "2026-04-02T09:00:07.445989"
+    "checked_at": "2026-04-03T09:00:07.280775"
   },
   {
     "id": 3350257,
@@ -37,7 +37,7 @@
     "comments": 1,
     "published": "2026-03-14",
     "url": "https://dev.to/crow/i-gave-my-local-ai-a-public-brain-echo-notion-mcp-ci1",
-    "checked_at": "2026-04-02T09:00:07.446060"
+    "checked_at": "2026-04-03T09:00:07.280803"
   },
   {
     "id": 3335373,
@@ -47,7 +47,7 @@
     "comments": 0,
     "published": "2026-03-10",
     "url": "https://dev.to/crow/ive-been-building-an-ai-since-before-i-knew-what-i-was-building-3feg",
-    "checked_at": "2026-04-02T09:00:07.446136"
+    "checked_at": "2026-04-03T09:00:07.280829"
   },
   {
     "id": 3161893,
@@ -57,7 +57,7 @@
     "comments": 0,
     "published": "2026-01-10",
     "url": "https://dev.to/crow/cuda-vs-rocm-on-linux-what-matters-for-local-ai-hobbyists-mim",
-    "checked_at": "2026-04-02T09:00:07.446171"
+    "checked_at": "2026-04-03T09:00:07.280855"
   },
   {
     "id": 3102654,
@@ -67,7 +67,7 @@
     "comments": 0,
     "published": "2025-12-12",
     "url": "https://dev.to/crow/basic-linux-commands-every-ai-tinkerer-should-know-5gpn",
-    "checked_at": "2026-04-02T09:00:07.446199"
+    "checked_at": "2026-04-03T09:00:07.280883"
   },
   {
     "id": 3102620,
@@ -77,7 +77,7 @@
     "comments": 2,
     "published": "2025-12-12",
     "url": "https://dev.to/crow/automating-backups-for-your-ai-projects-on-linux-1mp1",
-    "checked_at": "2026-04-02T09:00:07.446228"
+    "checked_at": "2026-04-03T09:00:07.280907"
   },
   {
     "id": 3102366,
@@ -87,7 +87,7 @@
     "comments": 0,
     "published": "2025-12-12",
     "url": "https://dev.to/crow/earn-from-your-spare-gpu-step-by-step-guide-to-setting-up-golem-on-a-linux-workstation-5fc2",
-    "checked_at": "2026-04-02T09:00:07.446262"
+    "checked_at": "2026-04-03T09:00:07.280935"
   },
   {
     "id": 3102340,
@@ -97,6 +97,6 @@
     "comments": 0,
     "published": "2025-12-12",
     "url": "https://dev.to/crow/build-an-ai-ready-linux-workstation-under-800-in-2024-step-by-step-guide-28ph",
-    "checked_at": "2026-04-02T09:00:07.446287"
+    "checked_at": "2026-04-03T09:00:07.280960"
   }
 ]

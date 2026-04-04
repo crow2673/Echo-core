@@ -560,5 +560,13 @@
     "created_at": "2026-04-02T09:00:07.446528",
     "source": "devto_analytics",
     "confidence": 0.85
+  },
+  {
+    "id": "analytics_20260403",
+    "suggestion": "Best performing article: 'I Gave My Local AI a Public Brain: Echo + Notion M' with 297 views. Write more content on similar topics to drive traffic.",
+    "status": "pending",
+    "created_at": "2026-04-03T09:00:07.281172",
+    "source": "devto_analytics",
+    "confidence": 0.85
   }
 ]

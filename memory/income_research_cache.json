@@ -1,34 +1,55 @@
 {
-  "last_run": "2026-03-29 04:00",
+  "last_run": "2026-04-05 04:00",
   "findings": {
     "Hacker News \u2014 Ask HN / Show HN": {
       "total_fetched": 30,
-      "relevant_count": 0,
-      "items": []
+      "relevant_count": 2,
+      "items": [
+        {
+          "title": "Introduction to Computer Music (2009) [pdf]",
+          "link": "https://composerprogrammer.com/introductiontocomputermusic.pdf",
+          "summary": "Comments"
+        },
+        {
+          "title": "Show HN: I made open source, zero power PCB hackathon badges",
+          "link": "https://github.com/KaiPereira/Overglade-Badges",
+          "summary": "Comments"
+        }
+      ]
     },
     "Dev.to \u2014 AI tag": {
       "total_fetched": 12,
-      "relevant_count": 4,
+      "relevant_count": 6,
       "items": [
         {
-          "title": "I built a 126K-line Android app with AI \u2014 here is the workflow that actually works",
-          "link": "https://dev.to/stoyan_minchev/i-built-a-126k-line-android-app-with-ai-here-is-the-workflow-that-actually-works-2llj",
-          "summary": "Most developers trying AI coding tools hit the same wall. They open a chat, type \"build me a todo app,\" get something that looks right, and then spend 3 hours fixing the mess. They try again with a bigger project and it falls apart faster. They conclude AI coding is overhyped.\n\nI had the same experi"
+          "title": "Anthropic's 3-Agent Harness Is Just a Sprint - And That's the Point",
+          "link": "https://dev.to/itskondrat/anthropics-3-agent-harness-is-just-a-sprint-and-thats-the-point-3k8o",
+          "summary": "I've been mapping PM workflows to agent architectures for months. Then Anthropic went and published the diagram.\n\nTheir multi-agent harness for autonomous software engineering has three roles:\n\n\n\nPlanner \u2192 takes short prompt, outputs full spec\nGenerator \u2192 takes spec, builds output  \nEvaluator \u2192 runs"
         },
         {
-          "title": "Attie.ai Revolution",
-          "link": "https://dev.to/joaopakina/attieai-revolution-4d3m",
-          "summary": "Introduction to Attie.ai\n\n\nAttie.ai is a cutting-edge AI company that has been making waves in the tech industry with its groundbreaking approach to machine learning and data analysis. Founded by a team of expert researchers and engineers, Attie.ai aims to revolutionize the way we interact with AI s"
+          "title": "I Built a Voice AI with Sub-500ms Latency. Here's the Echo Cancellation Problem Nobody Talks About",
+          "link": "https://dev.to/remi_etien/i-built-a-voice-ai-with-sub-500ms-latency-heres-the-echo-cancellation-problem-nobody-talks-about-14la",
+          "summary": "When I started building GoNoGo.team \u2014 a platform where AI agents interview founders by voice to validate startup ideas \u2014 I thought the hard part would be the AI reasoning. The multi-agent orchestration. The 40+ function-calling tools.\n\nI was wrong.\n\nThe hard part was echo. Specifically: how do you s"
         },
         {
-          "title": "How to Add Persistent Memory to Any AI Agent (Step-by-Step)",
-          "link": "https://dev.to/adam_cipher/how-to-add-persistent-memory-to-any-ai-agent-step-by-step-1lam",
-          "summary": "Your agent works perfectly on day one. By day three, it's asking the same questions it already answered. By week two, it contradicts decisions it made last Tuesday.\n\nThe problem isn't your prompts. It's that your agent has no memory that survives a restart.\n\nThis tutorial shows you how to add persis"
+          "title": "How I Found $1,240/Month in Wasted LLM API Costs (And Built a Tool to Find Yours)",
+          "link": "https://dev.to/buildwithabid/how-i-found-1240month-in-wasted-llm-api-costs-and-built-a-tool-to-find-yours-3041",
+          "summary": "I was spending about $2,000/month on OpenAI and Anthropic APIs across a few projects.\n\nI knew some of it was wasteful. I just couldn't prove it. The provider dashboards show you one number \u2014 your total bill. That's like getting an electricity bill with no breakdown. Is it the AC? The lights? The ser"
         },
         {
-          "title": "Anthropic's $60B IPO Bet: What October Means for AI",
-          "link": "https://dev.to/ji_ai/anthropics-60b-ipo-bet-what-october-means-for-ai-2o3d",
-          "summary": "$1 billion to $19 billion in annualized revenue. Fourteen months. That is the growth curve Anthropic is now trying to price on the public market.\n\nBloomberg reported on March 27 that Anthropic \u2014 the company behind Claude \u2014 is weighing a"
+          "title": "3 Articles to 30: The Final Push",
+          "link": "https://dev.to/huineng6/3-articles-to-30-the-final-push-368c",
+          "summary": "27 articles down. 3 to go. Here's the final push to 30.\n\n\n  \n  \n  The Numbers So Far\n\n\n\n\n\nMetric\nValue\n\n\n\n\nTime invested\n~12 hours\n\n\nArticles published\n27\n\n\nRevenue\n$0\n\n\n\n\n\n  \n  \n  The"
+        },
+        {
+          "title": "I let Claude Code run marketing workflows for brands",
+          "link": "https://dev.to/tgdn/i-let-claude-code-run-marketing-workflows-for-brands-3n0e",
+          "summary": "I got tired of context-switching between Figma, Buffer, Instagram, analytics, random downloads folders, and whatever tab I had open for reference images.\n\nThe problem was not \"marketing is hard\" in some abstract sense. The problem was that getting one post out the door felt like a bad relay race bet"
+        },
+        {
+          "title": "Introduction to Bioinformatics: A Beginner Guide",
+          "link": "https://dev.to/laura_ashaley_be356544300/introduction-to-bioinformatics-a-beginner-guide-11og",
+          "summary": "Bioinformatics is a field that combines biology and computer science to analyze biological data such as DNA, RNA, and proteins.\n\nIn simple terms, it is the use of computational tools to understand biological information.\n\n\n  \n  \n  Why is Bioinformatics Important?\n\n\nBioinformatics helps in:\n\n\nUnderst"
         }
       ]
     },
@@ -37,54 +58,49 @@
       "relevant_count": 3,
       "items": [
         {
-          "title": "7 Mac Apps That Make Remote Pair Programming Better in 2026",
-          "link": "https://dev.to/godnick/7-mac-apps-that-make-remote-pair-programming-better-in-2026-2hpn",
-          "summary": "Pair programming is one of those practices that sounds great in theory but falls apart fast if your tools aren't up to the task. Laggy screen shares, audio that cuts out mid-thought, no way to both type at once \u2014 we've all been there.\n\nAfter a couple years of pairing remotely with teammates and open"
+          "title": "Anthropic's 3-Agent Harness Is Just a Sprint - And That's the Point",
+          "link": "https://dev.to/itskondrat/anthropics-3-agent-harness-is-just-a-sprint-and-thats-the-point-3k8o",
+          "summary": "I've been mapping PM workflows to agent architectures for months. Then Anthropic went and published the diagram.\n\nTheir multi-agent harness for autonomous software engineering has three roles:\n\n\n\nPlanner \u2192 takes short prompt, outputs full spec\nGenerator \u2192 takes spec, builds output  \nEvaluator \u2192 runs"
         },
         {
-          "title": "Notion Has a Free API \u2014 Here's How to Build a CMS, Database, or Automation on Top of It",
-          "link": "https://dev.to/0012303/notion-has-a-free-api-heres-how-to-build-a-cms-database-or-automation-on-top-of-it-1a9n",
-          "summary": "A content team I know was using a custom WordPress setup for their editorial calendar. 3 plugins, $50/month hosting, constant maintenance. They moved everything to a Notion database with the API powering their frontend. Cost: $0. Setup time: 2 hours.\n\n\n  \n  \n  What Notion's API Offers for Free\n\n\nNot"
+          "title": "How I Built a Patch Automation Platform with Python and BigFix",
+          "link": "https://dev.to/subhrajitpyne108/how-i-built-a-patch-automation-platform-with-python-and-bigfix-4h6",
+          "summary": "The problem nobody talks about If you work in enterprise IT, you already know this pain. Every month, patch Tuesday arrives. Hundreds \u2014 sometimes thousands \u2014 of servers need patches deployed, verified, and reported. In most organisations, this means engineers manually logging into consoles, running "
         },
         {
-          "title": "Linear Has a Free API \u2014 Here's How to Build Custom Project Management Workflows",
-          "link": "https://dev.to/0012303/linear-has-a-free-api-heres-how-to-build-custom-project-management-workflows-5g6m",
-          "summary": "An engineering lead told me his team spent 2 hours every Monday manually creating sprint issues from a spreadsheet. He wrote a 50-line script with Linear's API \u2014 now it takes 0 seconds and happens automatically every Monday at 9 AM.\n\n\n  \n  \n  What Linear Offers for Free\n\n\nLinear free tier:\n\n\n\nUnlimi"
+          "title": "I Let AI Coding Agents Build My Side Projects for a Month \u2014 Here's My Honest Take",
+          "link": "https://dev.to/samhartley_dev/i-let-ai-coding-agents-build-my-side-projects-for-a-month-heres-my-honest-take-52l3",
+          "summary": "Last month I ran an experiment: instead of writing code myself, I delegated as much as possible to AI coding agents. Not just autocomplete \u2014 full autonomous agents that read files, run commands, and ship features.\n\nI've been running a home lab (Mac Mini M4 + a Windows PC with GPUs + an Ubuntu box) f"
         }
       ]
     },
     "Reddit \u2014 r/selfhosted": {
       "total_fetched": 25,
-      "relevant_count": 6,
+      "relevant_count": 5,
       "items": [
         {
-          "title": "[Request] Any self hosted service to handle comics (with automation)?",
-          "link": "https://www.reddit.com/r/selfhosted/comments/1s6eiub/request_any_self_hosted_service_to_handle_comics/",
+          "title": "I dockerized my entire self-hosted stack and packaged each piece as standalone compose files - here's what I learned",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1scb596/i_dockerized_my_entire_selfhosted_stack_and/",
           "summary": ""
         },
         {
-          "title": "macOS desktop app to manage GitHub Actions self-hosted runners \u2014 open source",
-          "link": "https://www.reddit.com/r/selfhosted/comments/1s6ose7/macos_desktop_app_to_manage_github_actions/",
+          "title": "Looking for feedback: self-hosted alternative to internal tools (tasks, workflow, reports)",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1scyslp/looking_for_feedback_selfhosted_alternative_to/",
           "summary": ""
         },
         {
-          "title": "Instructions and script for migrating from Umami cloud to self-hosted",
-          "link": "https://www.reddit.com/r/selfhosted/comments/1s6i5oz/instructions_and_script_for_migrating_from_umami/",
+          "title": "anomalisa - self-hosted anomaly detection that emails you when your events look weird (zero config, Deno KV only)",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1scqc3m/anomalisa_selfhosted_anomaly_detection_that/",
           "summary": ""
         },
         {
-          "title": "SparkyFitness - A Self-Hosted MyFitnessPal alternative now supports Starva & updated Mobile app",
-          "link": "https://www.reddit.com/r/selfhosted/comments/1s5mfux/sparkyfitness_a_selfhosted_myfitnesspal/",
+          "title": "Not a lot of selfhosted clouds that work with network shares",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1scyjec/not_a_lot_of_selfhosted_clouds_that_work_with/",
           "summary": ""
         },
         {
-          "title": "What\u2019s your plan for your self-hosted data if you die? I guess I didn't have one",
-          "link": "https://www.reddit.com/r/selfhosted/comments/1s5ko9d/whats_your_plan_for_your_selfhosted_data_if_you/",
-          "summary": ""
-        },
-        {
-          "title": "Free 750-page guide to self-hosting production apps - NO AI SLOP",
-          "link": "https://www.reddit.com/r/selfhosted/comments/1s51bg1/free_750page_guide_to_selfhosting_production_apps/",
+          "title": "Running Android OS as selfhosted VM (especially Proxmox) is possible?",
+          "link": "https://www.reddit.com/r/selfhosted/comments/1sckhuv/running_android_os_as_selfhosted_vm_especially/",
           "summary": ""
         }
       ]
@@ -94,44 +110,24 @@
       "relevant_count": 2,
       "items": [
         {
-          "title": "Friendly reminder inference is WAY faster on Linux vs windows",
-          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1s6hb1h/friendly_reminder_inference_is_way_faster_on/",
+          "title": "Gemma 4 26b is the perfect all around local model and I'm surprised how well it does.",
+          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1scucfg/gemma_4_26b_is_the_perfect_all_around_local_model/",
           "summary": ""
         },
         {
-          "title": "2x RTX Pro 6000 vs 2x A100 80GB dense model inference",
-          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1s6jyij/2x_rtx_pro_6000_vs_2x_a100_80gb_dense_model/",
+          "title": "We absolutely need Qwen3.6-397B-A17B to be open source",
+          "link": "https://www.reddit.com/r/LocalLLaMA/comments/1sccpbj/we_absolutely_need_qwen36397ba17b_to_be_open/",
           "summary": ""
         }
       ]
     },
     "Reddit \u2014 r/SideProject": {
       "total_fetched": 25,
-      "relevant_count": 5,
+      "relevant_count": 1,
       "items": [
         {
-          "title": "I built a photo editor with local AI (no cloud) \u2014 segmentation + infill",
-          "link": "https://www.reddit.com/r/SideProject/comments/1s64a01/i_built_a_photo_editor_with_local_ai_no_cloud/",
-          "summary": ""
-        },
-        {
-          "title": "I quit my 9 to 5 to freelance and the first three months were the most humbling experience of my entire professional life",
-          "link": "https://www.reddit.com/r/SideProject/comments/1s64vyi/i_quit_my_9_to_5_to_freelance_and_the_first_three/",
-          "summary": ""
-        },
-        {
-          "title": "I built an open-source tool that lets you work with AI agents like co-workers",
-          "link": "https://www.reddit.com/r/SideProject/comments/1s6nquf/i_built_an_opensource_tool_that_lets_you_work/",
-          "summary": ""
-        },
-        {
-          "title": "My idea got killed 9 times by my own AI tool. Each time it came back stronger.",
-          "link": "https://www.reddit.com/r/SideProject/comments/1s6oay9/my_idea_got_killed_9_times_by_my_own_ai_tool_each/",
-          "summary": ""
-        },
-        {
-          "title": "I finally got tired of Instagram's BS and built my own unfollow tracker (free + open source)",
-          "link": "https://www.reddit.com/r/SideProject/comments/1s6nmrj/i_finally_got_tired_of_instagrams_bs_and_built_my/",
+          "title": "\ud83d\udcf1 Built a kids' treasure hunt app, got 240 downloads and \u20ac0 revenue. Is this a real product?",
+          "link": "https://www.reddit.com/r/SideProject/comments/1scn1ac/built_a_kids_treasure_hunt_app_got_240_downloads/",
           "summary": ""
         }
       ]

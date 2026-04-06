@@ -2172,3 +2172,4 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/daily_briefing.py", "mtime": 1775157336.21806, "size": 4977, "ts": 1775157337.1011791}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/daily_briefing.py", "mtime": 1775221524.7470539, "size": 4977, "ts": 1775221526.466257}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/daily_briefing.py", "mtime": 1775221940.5911007, "size": 4785, "ts": 1775221942.376071}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/registry.json", "mtime": 1775383202.5415134, "size": 5406, "ts": 1775383202.698315}

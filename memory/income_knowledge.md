@@ -1,6 +1,6 @@
 # Echo Income Knowledge Base
 
-_Last updated: 2026-04-05 02:38_
+_Last updated: 2026-04-06 02:42_
 
 This document is generated weekly by `income_researcher.py`.
 Echo reads this file and reasons about which income paths to pursue.
@@ -15,14 +15,14 @@ These are verified or researched paths Echo can pursue:
 **What it is:** Sell GPU/CPU compute to the Golem marketplace. Passive once running.
 **Realistic ceiling:** ~$20-80/month for a single RTX 3060 at current rates
 **What it needs:** yagna running, competitive pricing, patience (new node penalty ~7-14 days)
-**Echo's current status:** ACTIVE — node running, 0 tasks completed (new node penalty phase) | _checked 2026-04-05 02:38_
+**Echo's current status:** ACTIVE — node running, 0 tasks completed (new node penalty phase) | _checked 2026-04-06 02:42_
 **Effort level:** low (passive)
 
 ### ✅ Dev.to Content — AI Writing
 **What it is:** Publish technical articles. Build audience. Monetize via dev.to badges, sponsorships.
 **Realistic ceiling:** $5-50/article in badges initially; sponsorship possible at 1k+ followers
 **What it needs:** Consistent publishing, quality, niche authority
-**Echo's current status:** ACTIVE — 4 articles published, 1 scheduled Tuesday 2026-03-17 | _checked 2026-04-05 02:38_
+**Echo's current status:** ACTIVE — 4 articles published, 1 scheduled Tuesday 2026-03-17 | _checked 2026-04-06 02:42_
 **Effort level:** medium (weekly writing)
 
 ### 🔲 Local LLM API Reselling
@@ -59,52 +59,59 @@ These are verified or researched paths Echo can pursue:
 
 Items scraped from the web that may signal new income opportunities:
 
-### Dev.to — AI tag
-_4 relevant of 12 fetched_
+### Hacker News — Ask HN / Show HN
+_2 relevant of 30 fetched_
 
-- **[I built a 126K-line Android app with AI — here is the workflow that actually works](https://dev.to/stoyan_minchev/i-built-a-126k-line-android-app-with-ai-here-is-the-workflow-that-actually-works-2llj)**
-  Most developers trying AI coding tools hit the same wall. They open a chat, type "build me a todo app," get something that looks right, and then spend 3 hours fixing the mess. They try again with a bi
-- **[Attie.ai Revolution](https://dev.to/joaopakina/attieai-revolution-4d3m)**
-  Introduction to Attie.ai   Attie.ai is a cutting-edge AI company that has been making waves in the tech industry with its groundbreaking approach to machine learning and data analysis. Founded by a te
-- **[How to Add Persistent Memory to Any AI Agent (Step-by-Step)](https://dev.to/adam_cipher/how-to-add-persistent-memory-to-any-ai-agent-step-by-step-1lam)**
-  Your agent works perfectly on day one. By day three, it's asking the same questions it already answered. By week two, it contradicts decisions it made last Tuesday.  The problem isn't your prompts. It
-- **[Anthropic's $60B IPO Bet: What October Means for AI](https://dev.to/ji_ai/anthropics-60b-ipo-bet-what-october-means-for-ai-2o3d)**
-  $1 billion to $19 billion in annualized revenue. Fourteen months. That is the growth curve Anthropic is now trying to price on the public market.  Bloomberg reported on March 27 that Anthropic — the c
+- **[Introduction to Computer Music (2009) [pdf]](https://composerprogrammer.com/introductiontocomputermusic.pdf)**
+  Comments
+- **[Show HN: I made open source, zero power PCB hackathon badges](https://github.com/KaiPereira/Overglade-Badges)**
+  Comments
+
+### Dev.to — AI tag
+_6 relevant of 12 fetched_
+
+- **[Anthropic's 3-Agent Harness Is Just a Sprint - And That's the Point](https://dev.to/itskondrat/anthropics-3-agent-harness-is-just-a-sprint-and-thats-the-point-3k8o)**
+  I've been mapping PM workflows to agent architectures for months. Then Anthropic went and published the diagram.  Their multi-agent harness for autonomous software engineering has three roles:    Plan
+- **[I Built a Voice AI with Sub-500ms Latency. Here's the Echo Cancellation Problem Nobody Talks About](https://dev.to/remi_etien/i-built-a-voice-ai-with-sub-500ms-latency-heres-the-echo-cancellation-problem-nobody-talks-about-14la)**
+  When I started building GoNoGo.team — a platform where AI agents interview founders by voice to validate startup ideas — I thought the hard part would be the AI reasoning. The multi-agent orchestratio
+- **[How I Found $1,240/Month in Wasted LLM API Costs (And Built a Tool to Find Yours)](https://dev.to/buildwithabid/how-i-found-1240month-in-wasted-llm-api-costs-and-built-a-tool-to-find-yours-3041)**
+  I was spending about $2,000/month on OpenAI and Anthropic APIs across a few projects.  I knew some of it was wasteful. I just couldn't prove it. The provider dashboards show you one number — your tota
+- **[3 Articles to 30: The Final Push](https://dev.to/huineng6/3-articles-to-30-the-final-push-368c)**
+  27 articles down. 3 to go. Here's the final push to 30.           The Numbers So Far      Metric Value     Time invested ~12 hours   Articles published 27   Revenue $0              The
+- **[I let Claude Code run marketing workflows for brands](https://dev.to/tgdn/i-let-claude-code-run-marketing-workflows-for-brands-3n0e)**
+  I got tired of context-switching between Figma, Buffer, Instagram, analytics, random downloads folders, and whatever tab I had open for reference images.  The problem was not "marketing is hard" in so
+- **[Introduction to Bioinformatics: A Beginner Guide](https://dev.to/laura_ashaley_be356544300/introduction-to-bioinformatics-a-beginner-guide-11og)**
+  Bioinformatics is a field that combines biology and computer science to analyze biological data such as DNA, RNA, and proteins.  In simple terms, it is the use of computational tools to understand bio
 
 ### Dev.to — Productivity tag
 _3 relevant of 12 fetched_
 
-- **[7 Mac Apps That Make Remote Pair Programming Better in 2026](https://dev.to/godnick/7-mac-apps-that-make-remote-pair-programming-better-in-2026-2hpn)**
-  Pair programming is one of those practices that sounds great in theory but falls apart fast if your tools aren't up to the task. Laggy screen shares, audio that cuts out mid-thought, no way to both ty
-- **[Notion Has a Free API — Here's How to Build a CMS, Database, or Automation on Top of It](https://dev.to/0012303/notion-has-a-free-api-heres-how-to-build-a-cms-database-or-automation-on-top-of-it-1a9n)**
-  A content team I know was using a custom WordPress setup for their editorial calendar. 3 plugins, $50/month hosting, constant maintenance. They moved everything to a Notion database with the API power
-- **[Linear Has a Free API — Here's How to Build Custom Project Management Workflows](https://dev.to/0012303/linear-has-a-free-api-heres-how-to-build-custom-project-management-workflows-5g6m)**
-  An engineering lead told me his team spent 2 hours every Monday manually creating sprint issues from a spreadsheet. He wrote a 50-line script with Linear's API — now it takes 0 seconds and happens aut
+- **[Anthropic's 3-Agent Harness Is Just a Sprint - And That's the Point](https://dev.to/itskondrat/anthropics-3-agent-harness-is-just-a-sprint-and-thats-the-point-3k8o)**
+  I've been mapping PM workflows to agent architectures for months. Then Anthropic went and published the diagram.  Their multi-agent harness for autonomous software engineering has three roles:    Plan
+- **[How I Built a Patch Automation Platform with Python and BigFix](https://dev.to/subhrajitpyne108/how-i-built-a-patch-automation-platform-with-python-and-bigfix-4h6)**
+  The problem nobody talks about If you work in enterprise IT, you already know this pain. Every month, patch Tuesday arrives. Hundreds — sometimes thousands — of servers need patches deployed, verified
+- **[I Let AI Coding Agents Build My Side Projects for a Month — Here's My Honest Take](https://dev.to/samhartley_dev/i-let-ai-coding-agents-build-my-side-projects-for-a-month-heres-my-honest-take-52l3)**
+  Last month I ran an experiment: instead of writing code myself, I delegated as much as possible to AI coding agents. Not just autocomplete — full autonomous agents that read files, run commands, and s
 
 ### Reddit — r/selfhosted
-_6 relevant of 25 fetched_
+_5 relevant of 25 fetched_
 
-- **[[Request] Any self hosted service to handle comics (with automation)?](https://www.reddit.com/r/selfhosted/comments/1s6eiub/request_any_self_hosted_service_to_handle_comics/)**
-- **[macOS desktop app to manage GitHub Actions self-hosted runners — open source](https://www.reddit.com/r/selfhosted/comments/1s6ose7/macos_desktop_app_to_manage_github_actions/)**
-- **[Instructions and script for migrating from Umami cloud to self-hosted](https://www.reddit.com/r/selfhosted/comments/1s6i5oz/instructions_and_script_for_migrating_from_umami/)**
-- **[SparkyFitness - A Self-Hosted MyFitnessPal alternative now supports Starva & updated Mobile app](https://www.reddit.com/r/selfhosted/comments/1s5mfux/sparkyfitness_a_selfhosted_myfitnesspal/)**
-- **[What’s your plan for your self-hosted data if you die? I guess I didn't have one](https://www.reddit.com/r/selfhosted/comments/1s5ko9d/whats_your_plan_for_your_selfhosted_data_if_you/)**
-- **[Free 750-page guide to self-hosting production apps - NO AI SLOP](https://www.reddit.com/r/selfhosted/comments/1s51bg1/free_750page_guide_to_selfhosting_production_apps/)**
+- **[I dockerized my entire self-hosted stack and packaged each piece as standalone compose files - here's what I learned](https://www.reddit.com/r/selfhosted/comments/1scb596/i_dockerized_my_entire_selfhosted_stack_and/)**
+- **[Looking for feedback: self-hosted alternative to internal tools (tasks, workflow, reports)](https://www.reddit.com/r/selfhosted/comments/1scyslp/looking_for_feedback_selfhosted_alternative_to/)**
+- **[anomalisa - self-hosted anomaly detection that emails you when your events look weird (zero config, Deno KV only)](https://www.reddit.com/r/selfhosted/comments/1scqc3m/anomalisa_selfhosted_anomaly_detection_that/)**
+- **[Not a lot of selfhosted clouds that work with network shares](https://www.reddit.com/r/selfhosted/comments/1scyjec/not_a_lot_of_selfhosted_clouds_that_work_with/)**
+- **[Running Android OS as selfhosted VM (especially Proxmox) is possible?](https://www.reddit.com/r/selfhosted/comments/1sckhuv/running_android_os_as_selfhosted_vm_especially/)**
 
 ### Reddit — r/LocalLLaMA
 _2 relevant of 25 fetched_
 
-- **[Friendly reminder inference is WAY faster on Linux vs windows](https://www.reddit.com/r/LocalLLaMA/comments/1s6hb1h/friendly_reminder_inference_is_way_faster_on/)**
-- **[2x RTX Pro 6000 vs 2x A100 80GB dense model inference](https://www.reddit.com/r/LocalLLaMA/comments/1s6jyij/2x_rtx_pro_6000_vs_2x_a100_80gb_dense_model/)**
+- **[Gemma 4 26b is the perfect all around local model and I'm surprised how well it does.](https://www.reddit.com/r/LocalLLaMA/comments/1scucfg/gemma_4_26b_is_the_perfect_all_around_local_model/)**
+- **[We absolutely need Qwen3.6-397B-A17B to be open source](https://www.reddit.com/r/LocalLLaMA/comments/1sccpbj/we_absolutely_need_qwen36397ba17b_to_be_open/)**
 
 ### Reddit — r/SideProject
-_5 relevant of 25 fetched_
+_1 relevant of 25 fetched_
 
-- **[I built a photo editor with local AI (no cloud) — segmentation + infill](https://www.reddit.com/r/SideProject/comments/1s64a01/i_built_a_photo_editor_with_local_ai_no_cloud/)**
-- **[I quit my 9 to 5 to freelance and the first three months were the most humbling experience of my entire professional life](https://www.reddit.com/r/SideProject/comments/1s64vyi/i_quit_my_9_to_5_to_freelance_and_the_first_three/)**
-- **[I built an open-source tool that lets you work with AI agents like co-workers](https://www.reddit.com/r/SideProject/comments/1s6nquf/i_built_an_opensource_tool_that_lets_you_work/)**
-- **[My idea got killed 9 times by my own AI tool. Each time it came back stronger.](https://www.reddit.com/r/SideProject/comments/1s6oay9/my_idea_got_killed_9_times_by_my_own_ai_tool_each/)**
-- **[I finally got tired of Instagram's BS and built my own unfollow tracker (free + open source)](https://www.reddit.com/r/SideProject/comments/1s6nmrj/i_finally_got_tired_of_instagrams_bs_and_built_my/)**
+- **[📱 Built a kids' treasure hunt app, got 240 downloads and €0 revenue. Is this a real product?](https://www.reddit.com/r/SideProject/comments/1scn1ac/built_a_kids_treasure_hunt_app_got_240_downloads/)**
 
 ### Golem Network Blog
 _12 relevant of 15 fetched_
@@ -144,4 +151,4 @@ When Echo reads this file, she should consider:
 
 ---
 
-_Generated by Echo income_researcher.py | 2026-03-29 04:00_
+_Generated by Echo income_researcher.py | 2026-04-05 04:00_

@@ -88,7 +88,7 @@ def get_sector(symbol):
     }
     return sectors.get(symbol, "other")
 
-def manage_existing_positions(api):
+def manage_existing_positions(api, day_trades=0):
     """Check open positions — use trailing stop logic."""
     positions = api.list_positions()
     trades = load_trade_log()
@@ -280,7 +280,7 @@ def run():
 
     # Step 1 — manage existing positions
     log("--- Managing positions ---")
-    manage_existing_positions(api)
+    manage_existing_positions(api, day_trades)
 
     # Step 2 — scan for entries
     log("--- Scanning for entries ---")

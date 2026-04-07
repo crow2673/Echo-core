@@ -117,10 +117,16 @@ def manage_existing_positions(api):
             stop_loss = -2.5
             trail_pct = 2.0  # trail by 2% from peak
 
-        # Calculate trailing stop — track highest price
-        high_pct = pl_pct  # simplified — use current as proxy
-        trail_stop = high_pct - trail_pct
-
+        # Calculate trailing stop — track real peak from trade log
+        peak_pct = pl_pct
+        for t in trades:
+            if t.get("symbol") == symbol and t.get("status") == "submitted":
+                stored_peak = float(t.get("peak_pct", 0))
+                if pl_pct > stored_peak:
+                    t["peak_pct"] = round(pl_pct, 3)
+                peak_pct = max(pl_pct, stored_peak)
+                break
+        trail_stop_level = peak_pct - trail_pct
         action = None
         reason = ""
 
@@ -130,10 +136,10 @@ def manage_existing_positions(api):
         elif pl_pct <= stop_loss:
             action = "sell"
             reason = f"stop loss {pl_pct:.1f}% <= {stop_loss}%"
-        elif pl_pct > 2.0 and trail_stop <= 0:
-            # Trailing stop triggered — locked in some profit, don't let it go negative
+        elif peak_pct >= 3.0 and pl_pct <= trail_stop_level:
+            # Real trailing stop — peaked then dropped trail_pct% below peak
             action = "sell"
-            reason = f"trailing stop — was up {pl_pct:.1f}%, protecting gains"
+            reason = f"trailing stop — peaked {peak_pct:.1f}%, now {pl_pct:.1f}% (trail={trail_pct}%)"
 
         if action:
             log(f"  CLOSING {symbol}: {reason}")
@@ -328,6 +334,9 @@ def run():
                 symbol=pick["symbol"], qty=qty, side="buy",
                 type="market", time_in_force="day"
             )
+            # Determine cascade layer
+            from core.cascade_ledger import get_layer as _get_layer
+            _layer = _get_layer(pick["symbol"])
             trades.append({
                 "order_id": order.id,
                 "symbol": pick["symbol"],
@@ -336,8 +345,10 @@ def run():
                 "price": pick["price"],
                 "strategy": pick["strategy"],
                 "sector": pick["sector"],
+                "layer": _layer,
                 "reason": pick["reason"],
                 "status": "submitted",
+                "peak_pct": 0.0,
                 "submitted_at": datetime.now().isoformat()
             })
             save_trade_log(trades)

@@ -109,6 +109,25 @@ def get_auto_act_summary():
     except Exception:
         return []
 
+def get_cascade_summary():
+    """Get cascade sleeve P/L for session notes."""
+    try:
+        import importlib.util as _ilu
+        _spec = _ilu.spec_from_file_location("cascade_ledger", BASE / "core/cascade_ledger.py")
+        _mod = _ilu.module_from_spec(_spec)
+        _spec.loader.exec_module(_mod)
+        _mod.rebuild_from_logs()
+        ledger = _mod.load_ledger()
+        parts = []
+        total = 0
+        for i in range(1, 5):
+            pl = ledger[str(i)]["realized_pl"]
+            total += pl
+            parts.append(f"L{i}:{pl:+.0f}")
+        return f"Cascade: {' '.join(parts)} Total:{total:+.0f}"
+    except Exception as e:
+        return f"Cascade: unavailable ({e})"
+
 def write_checkpoint():
     print(f"[checkpoint] Writing session summary at {datetime.now().strftime('%H:%M:%S')}")
     
@@ -117,9 +136,10 @@ def write_checkpoint():
     trade_status = get_trade_status()
     regret_status = get_regret_status()
     auto_act = get_auto_act_summary()
+    cascade_summary = get_cascade_summary()
 
     # Build notes from auto_act activity
-    notes = f"Trading: {trade_status}. Regret index: {regret_status}."
+    notes = f"Trading: {trade_status}. Regret index: {regret_status}. {cascade_summary}."
     if auto_act:
         notes += f" Recent actions: {'; '.join(auto_act[-2:])}"
 

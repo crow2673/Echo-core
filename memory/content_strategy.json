@@ -11,25 +11,25 @@
   "queue": [
     {
       "id": "content_001",
-      "status": "in_progress",
+      "status": "next",
       "title": "How I built a two-way phone bridge for my AI using ntfy.sh",
       "angle": "Echo listens for messages from my phone and replies autonomously. Real code, boot timing bugs, the self-fix."
     },
     {
       "id": "content_002",
-      "status": "in_progress",
+      "status": "queued",
       "title": "The regret index: how I gave my AI a conscience",
       "angle": "What it is, why I built it, how it catches its own failure patterns."
     },
     {
       "id": "content_003",
-      "status": "in_progress",
+      "status": "queued",
       "title": "My AI traded stocks while I was on vacation",
       "angle": "What the trading brain did, what signals it looked for, why it found nothing, what that means."
     },
     {
       "id": "content_004",
-      "status": "in_progress",
+      "status": "queued",
       "title": "What it actually costs to run an autonomous AI agent for 30 days",
       "angle": "Real numbers: electricity, hardware, Golem earnings zero, dev.to views, lessons."
     },
@@ -47,9 +47,10 @@
     },
     {
       "id": "content_007",
-      "status": "queued",
+      "status": "published",
       "title": "How Echo publishes to dev.to without me",
-      "angle": "The full pipeline, what went wrong, how it got fixed."
+      "angle": "The full pipeline, what went wrong, how it got fixed.",
+      "published_url": "https://dev.to/crow/how-echo-publishes-to-devto-without-me-10f6"
     },
     {
       "id": "content_008",

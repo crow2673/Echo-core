@@ -283,10 +283,13 @@ def main():
                 if _next:
                     _strategy_topic = _next.get("title")
                     _strategy_angle = _next.get("angle", "")
-                    # Mark as in_progress
+                    _strategy_id = _next.get("id")
+                    # Mark only this specific topic as in_progress
                     for q in _cs["queue"]:
                         if q.get("id") == _next["id"]:
                             q["status"] = "in_progress"
+                        elif q.get("status") == "in_progress":
+                            q["status"] = "queued"
                     _strategy_file.write_text(_json.dumps(_cs, indent=2))
                     print(f"[publisher] Using content strategy topic: {_strategy_topic}")
             except Exception as _e:
@@ -357,6 +360,26 @@ def main():
         result = publish_article(title, body, tags, description, published=True)
         if result:
             print(f"[publisher] ✅ Published: {result.get('url')}")
+            # Mark topic as published in content strategy — by ID not by status
+            try:
+                import json as _jmark
+                _sf = BASE / "memory/content_strategy.json"
+                _cs_mark = _jmark.loads(_sf.read_text())
+                _marked = False
+                for _q in _cs_mark.get("queue", []):
+                    if _q.get("id") == _strategy_id:
+                        _q["status"] = "published"
+                        _q["published_url"] = result.get("url", "")
+                        _marked = True
+                    elif _q.get("status") == "in_progress":
+                        _q["status"] = "queued"
+                _sf.write_text(_jmark.dumps(_cs_mark, indent=2))
+                if _marked:
+                    print(f"[publisher] Content queue updated — {_strategy_id} marked published")
+                else:
+                    print("[publisher] Warning: could not find topic by ID to mark published")
+            except Exception as _me:
+                print(f"[publisher] Queue update failed: {_me}")
             # Seed into Echo's memory
             try:
                 from echo_memory_sqlite import get_memory

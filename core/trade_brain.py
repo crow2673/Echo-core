@@ -141,6 +141,11 @@ def manage_existing_positions(api):
             action = "sell"
             reason = f"trailing stop — peaked {peak_pct:.1f}%, now {pl_pct:.1f}% (trail={trail_pct}%)"
 
+        # PDT protection — don't day trade if at limit
+        if action == "sell" and day_trades >= 2:
+            if is_day_trade(api, symbol):
+                log(f"  SKIPPING {symbol} close — would be day trade #{day_trades+1}")
+                action = None
         if action:
             log(f"  CLOSING {symbol}: {reason}")
             try:
@@ -237,13 +242,41 @@ def sectors_held(api):
         held[sector] = held.get(sector, 0) + 1
     return held
 
+def get_day_trade_count(api):
+    """Get current day trade count — PDT rule: max 3 per week under $25k."""
+    try:
+        account = api.get_account()
+        return int(account.daytrade_count or 0)
+    except Exception:
+        return 0
+
+def is_day_trade(api, symbol):
+    """Check if selling symbol would be a day trade (bought today)."""
+    try:
+        from datetime import date
+        today = date.today().isoformat()
+        orders = api.list_orders(status='filled', limit=50)
+        bought_today = any(
+            o.symbol == symbol and
+            o.side == 'buy' and
+            o.filled_at and
+            str(o.filled_at)[:10] == today
+            for o in orders
+        )
+        return bought_today
+    except Exception:
+        return False
+
 def run():
     log("=== trade_brain v2 starting ===")
     api = get_api()
     account = api.get_account()
     buying_power = float(account.buying_power)
     portfolio = float(account.portfolio_value)
-    log(f"Portfolio: ${portfolio:,.2f} | Buying power: ${buying_power:,.2f}")
+    day_trades = get_day_trade_count(api)
+    log(f"Portfolio: ${portfolio:,.2f} | Buying power: ${buying_power:,.2f} | Day trades this week: {day_trades}/3")
+    if day_trades >= 3:
+        log("WARNING: Day trade limit reached (3/3) — momentum trades disabled for safety")
 
     # Step 1 — manage existing positions
     log("--- Managing positions ---")

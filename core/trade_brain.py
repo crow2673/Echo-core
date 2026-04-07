@@ -289,12 +289,15 @@ def run():
     trend_list = [
         "SPY",   # index
         "QQQ",   # index
+        "IWM",   # small cap index
         "AAPL",  # tech
         "MSFT",  # tech
         "NVDA",  # tech
         "JPM",   # finance
+        "BAC",   # finance
         "XOM",   # energy
-        "IWM",   # small cap index
+        "CVX",   # energy
+        "GLD",   # gold/hedge
     ]
     momentum_list = [
         "TSLA",  # ev

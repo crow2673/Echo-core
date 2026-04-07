@@ -895,3 +895,11 @@
 - publisher queue bug fixed — marks topic published by ID after successful post
 - content_007 marked published, content_001 (ntfy bridge) is next Tuesday
 - Portfolio: $101,559 | up $1,559 in 13 days autonomously
+
+## 2026-04-07 — Architecture Leap: Planner + Verify + Reach
+- echo_planner.py: goal intake, Ollama decomposition, dispatch table with 11 intents
+- echo_verify.py: outcome validator with verification rules per intent, retry/escalate
+- echo_reach.py: API bridge — routes hard tasks to Claude, falls back to local model
+- Intent classification works: publish/trade/crypto/notify/shell/governor all route correctly
+- Verifier catches failures and routes to retry or escalate correctly
+- Reach correctly routes: debug/analyze/strategy → API, run/publish/health → local

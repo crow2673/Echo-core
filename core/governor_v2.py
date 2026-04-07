@@ -145,6 +145,33 @@ def get_trade_snapshot():
         snapshot["error"] = str(e)
     return snapshot
 
+def get_cascade_snapshot():
+    """Get cascade sleeve summary for echo_state."""
+    try:
+        import importlib.util as _ilu
+        _spec = _ilu.spec_from_file_location(
+            "cascade_ledger",
+            BASE / "core/cascade_ledger.py"
+        )
+        _mod = _ilu.module_from_spec(_spec)
+        _spec.loader.exec_module(_mod)
+        ledger = _mod.load_ledger()
+        summary = {}
+        for i in range(1, 5):
+            key = str(i)
+            s = ledger[key]
+            closed = s["wins"] + s["losses"]
+            hit = round(s["wins"] / closed * 100, 1) if closed else 0
+            summary[f"layer_{i}"] = {
+                "name": s["name"],
+                "realized_pl": round(s["realized_pl"], 2),
+                "total_trades": s["total_trades"],
+                "hit_rate_pct": hit
+            }
+        return summary
+    except Exception as e:
+        return {"error": str(e)}
+
 def get_regret_snapshot():
     """Regret index health summary."""
     try:
@@ -208,6 +235,7 @@ def run():
         "system": get_system_stats(),
         "timers": get_timer_states(),
         "income": get_trade_snapshot(),
+        "cascade": get_cascade_snapshot(),
         "regret_index": get_regret_snapshot(),
         "golem": get_golem_snapshot(),
     }

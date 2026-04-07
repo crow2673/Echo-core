@@ -21,7 +21,8 @@ LAYER_MAP = {
     "AAPL": 3, "MSFT": 3, "NVDA": 3, "AMD": 3, "XOM": 3,
     "JPM": 3, "BAC": 3, "CVX": 3,
     "SPY": 4, "QQQ": 4, "IWM": 4, "JEPI": 4, "JEPQ": 4,
-    "QYLD": 4, "PLTW": 4, "PLTY": 4, "TSLY": 4,
+    "QYLD": 4, "PLTW": 4, "PLTY": 4, "TSLY": 4, "GLD": 4,
+    "BAC": 3, "CVX": 3,
 }
 
 LAYER_NAMES = {

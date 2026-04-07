@@ -48,6 +48,18 @@ def queue_briefing():
         next_priority = _sc.get('next_priority', '')
         if next_priority:
             session_context += f' Next: {next_priority}'
+        # Add cascade sleeve summary
+        try:
+            import importlib.util as _ilu2
+            _base2 = Path.home() / "Echo"
+            _spec2 = _ilu2.spec_from_file_location("cascade_ledger", _base2 / "core/cascade_ledger.py")
+            _mod2 = _ilu2.module_from_spec(_spec2)
+            _spec2.loader.exec_module(_mod2)
+            _ledger = _mod2.load_ledger()
+            _total_pl = sum(_ledger[str(i)]["realized_pl"] for i in range(1, 5))
+            cascade_line = f"Cascade realized P/L: ${_total_pl:+.0f} total."
+        except Exception:
+            cascade_line = ""
     except Exception as _e:
         cpu = '?'; ram_used = '?'; swap_line = 'Swap: ?'; gpu = '?'
         system_health = 'unknown'; positions_open = 0; regret_status = 'unknown'
@@ -57,7 +69,7 @@ def queue_briefing():
         f"Weather: {weather_line}. "
         f"LIVE SYSTEM — CPU: {cpu}%, RAM: {ram_used}, {swap_line}, GPU: {gpu}. Health: {system_health}. "
         f"Trading: {positions_open} positions open. Regret index: {regret_status}. "
-        f"Speak this as a short morning briefing — 4 sentences max. Cover: system health, trading positions, and the one most important thing to do today. Be direct. No lists."
+        f"Speak this as a short morning briefing — 4 sentences max. Cover: system health, trading positions ({cascade_line}), and the one most important thing to do today. Be direct. No lists."
     )
 
     # Direct Ollama call — no daemon queue, no timeout dependency

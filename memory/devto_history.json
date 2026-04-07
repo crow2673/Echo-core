@@ -4,7 +4,7 @@
     "views": 5,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-05",
+    "date": "2026-04-06",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -13,7 +13,7 @@
     "views": 23,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-05",
+    "date": "2026-04-06",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -22,7 +22,7 @@
     "views": 97,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-05",
+    "date": "2026-04-06",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -31,7 +31,7 @@
     "views": 116,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-04-05",
+    "date": "2026-04-06",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -40,27 +40,27 @@
     "views": 3,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-05",
+    "date": "2026-04-06",
     "view_delta": 0,
     "reaction_delta": 0
   },
   "3102340": {
     "title": "Build an AI\u2011Ready Linux Workstation Under $800 in ",
-    "views": 278,
+    "views": 288,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-05",
-    "view_delta": 0,
+    "date": "2026-04-06",
+    "view_delta": 10,
     "reaction_delta": 0
   },
   "3350257": {
     "title": "I Gave My Local AI a Public Brain: Echo + Notion M",
-    "views": 297,
-    "reactions": 4,
+    "views": 299,
+    "reactions": 5,
     "trend": "STABLE",
-    "date": "2026-04-05",
-    "view_delta": 0,
-    "reaction_delta": 0
+    "date": "2026-04-06",
+    "view_delta": 2,
+    "reaction_delta": 1
   },
   "3363557": {
     "title": "I've Been Building an AI Since Before I Knew What ",
@@ -76,7 +76,7 @@
     "views": 32,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-04-05",
+    "date": "2026-04-06",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -94,7 +94,7 @@
     "views": 15,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-05",
+    "date": "2026-04-06",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -103,7 +103,7 @@
     "views": 22,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-05",
+    "date": "2026-04-06",
     "view_delta": 0,
     "reaction_delta": 0
   }

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-05T23:55:02.062141",
+  "timestamp": "2026-04-06T23:55:06.862072",
   "session_focus": "Crypto Brain Live + Session Checkpoint Upgraded + Briefing Fixed \u2014 Direct Ollama Call + First Honest Briefing Confirmed",
   "key_decisions": [
     "Proof: \"[briefing] Generated: Good afternoon. As of today, Thursday, April 02...\"",
@@ -11,6 +11,6 @@
   ],
   "next_priority": "Crown a king Phase 3 \u2014 timers become dumb workers, daemon makes all decisions",
   "status": "auto_checkpoint",
-  "notes": "Trading: 4 positions open: AAPL, SPY, XOM, IWM. Regret index: healthy.",
+  "notes": "Trading: 3 positions open: SPY, XOM, IWM. Regret index: healthy.",
   "generated_by": "session_checkpoint.py"
 }

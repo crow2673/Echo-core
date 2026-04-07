@@ -299,6 +299,18 @@
       "context": "trade_brain",
       "timestamp": "2026-04-02T09:30:07.443691",
       "updated": "2026-04-02T09:30:07.443897"
+    },
+    {
+      "entry_id": "trade_AAPL_20260406_20260406_093007",
+      "action_id": "trade_AAPL_20260406",
+      "category": "trading",
+      "description": "AAPL take profit 6.0% >= 5.0%",
+      "score": 1,
+      "outcome_known": true,
+      "outcome_notes": "closed AAPL 6.0%: take profit 6.0% >= 5.0%",
+      "context": "trade_brain",
+      "timestamp": "2026-04-06T09:30:07.512756",
+      "updated": "2026-04-06T09:30:07.512967"
     }
   ],
   "last_audit": null

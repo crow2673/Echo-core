@@ -35,25 +35,25 @@
     },
     {
       "id": "content_005",
-      "status": "in_progress",
+      "status": "queued",
       "title": "Why my Golem node never got a task",
       "angle": "CGNAT, Starlink, the old AT&T IP it was broadcasting for weeks."
     },
     {
       "id": "content_006",
-      "status": "in_progress",
+      "status": "queued",
       "title": "I built a self-healing AI and here is what actually broke",
       "angle": "182 junk drafts overnight, RAM pressure, boot sequencing bugs, what Echo learned."
     },
     {
       "id": "content_007",
-      "status": "in_progress",
+      "status": "queued",
       "title": "How Echo publishes to dev.to without me",
       "angle": "The full pipeline, what went wrong, how it got fixed."
     },
     {
       "id": "content_008",
-      "status": "in_progress",
+      "status": "queued",
       "title": "Building toward the shop: voice AI in a noisy environment",
       "angle": "Why this matters, what is blocking it, the VAD problem, where it is headed."
     }

@@ -21,8 +21,12 @@
     "price": 273.0,
     "strategy": "trend",
     "reason": "uptrend MA20>MA50, RSI=47.4",
-    "status": "submitted",
-    "submitted_at": "2026-03-30T13:10:38.738301"
+    "status": "closed",
+    "submitted_at": "2026-03-30T13:10:38.738301",
+    "close_reason": "take profit 6.0% >= 5.0%",
+    "close_price": 261.855,
+    "pl_pct": 6.007,
+    "closed_at": "2026-04-06T09:30:07.511372"
   },
   {
     "order_id": "2c289ebc-4641-458a-944b-899a85d1afb5",

@@ -883,3 +883,15 @@
 - Timeout increased to 300s + 3s settle after warmup
 - First confirmed honest briefing: real weather, CPU, RAM, trading positions, spoken aloud
 - "Good morning. Today is Friday, April 3rd, weather 69.8°F..."
+
+## 2026-04-07 — Major Build Session
+- crypto_pilot.py: $100 real money pilot — kill switch at -10%, slippage logging, 14 day window, ntfy alerts
+- cascade_ledger.py: four sleeve tracking — Layer 1-4 P/L, hit rate, sweep logging
+- trade_brain: real trailing stop tracks peak_pct (was using current as proxy — bug fixed)
+- trade_brain: layer tagging on new trades + peak_pct field
+- trade_brain: PDT protection — detects day trades, warns at 2/3, skips sells at limit
+- governor_v2: cascade sleeve data flows into echo_state.json every 5 min
+- session_checkpoint: cascade P/L summary in nightly notes
+- publisher queue bug fixed — marks topic published by ID after successful post
+- content_007 marked published, content_001 (ntfy bridge) is next Tuesday
+- Portfolio: $101,559 | up $1,559 in 13 days autonomously

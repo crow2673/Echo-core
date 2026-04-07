@@ -1,14 +1,16 @@
 {
-  "timestamp": "2026-04-07T16:49:00",
-  "session_focus": "Publisher queue bug fixed — marks published by ID, ntfy bridge story next Tuesday",
+  "timestamp": "2026-04-07T17:45:00",
+  "session_focus": "Major build session — crypto pilot, cascade ledger, PDT protection, trailing stop fix, publisher fixed",
   "key_decisions": [
-    "Publisher now marks topic published by ID after successful post",
-    "content_007 marked published with URL",
-    "content_001 (ntfy bridge) is next for Tuesday April 14",
-    "Cascade trading system designed — Layer 4 mix agreed by all three AIs",
-    "Portfolio up $1128 from $100k start in 13 days"
+    "crypto_pilot.py built — $100 real money controls, kill switch -10%, slippage logging",
+    "cascade_ledger.py built — L1:+115 L2:+264 L3:+295 L4:-136 Total:+538 realized",
+    "trade_brain trailing stop fixed — now tracks real peak not current as proxy",
+    "PDT protection added — detects day trades, won't exceed 3/week",
+    "Governor now includes cascade sleeve data in echo_state.json",
+    "Publisher queue fixed — marks published by ID, ntfy bridge story next Tuesday",
+    "Portfolio $101,559 — up $1,559 in 13 days autonomously"
   ],
-  "next_priority": "Build $100 crypto pilot controls — all three AIs approved, need failsafe code before moving real money",
-  "status": "complete",
-  "notes": "SPY at 4.5% near take profit. All positions winning. Echo published autonomously today."
+  "next_priority": "Deploy idle cash — $71k sitting unused, increase position count to 8",
+  "status": "in_progress",
+  "notes": "All services active. Day trade count 2/3 this week. SPY near take profit."
 }

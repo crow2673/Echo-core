@@ -19,6 +19,13 @@ from core.memory_sessions import build_wakeup_context, generate_session_summary
 from core.self_awareness import build_self_awareness_block
 from echo_memory_sqlite import get_memory, build_memory_context
 from core.agent_loop import agent_loop
+try:
+    from echo_planner import run_plan, classify_intent_local
+    from echo_verify import verify_plan
+    from echo_reach import reach, should_reach
+    PLANNER_AVAILABLE = True
+except ImportError:
+    PLANNER_AVAILABLE = False
 
 # Load recent changelog for current mission context
 def load_echo_state():

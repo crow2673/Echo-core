@@ -1,20 +1,16 @@
 {
-  "timestamp": "2026-04-07T21:30:00",
-  "generated_by": "session_checkpoint.py",
-  "session_focus": "Architecture Leap complete — Planner + Verify + Reach + Decision Trace built and wired",
+  "timestamp": "2026-04-07T21:59:32.755180",
+  "session_focus": "Briefing Fixed \u2014 Direct Ollama Call + First Honest Briefing Confirmed + Major Build Session + Architecture Leap: Planner + Verify + Reach",
   "key_decisions": [
-    "echo_planner.py: goal intake, Ollama decomposition, 11-intent dispatch table",
-    "echo_verify.py: outcome validator, retry/escalate logic, rules per intent",
-    "echo_reach.py: API bridge — hard tasks to Claude, routine to local model",
-    "core/decision_trace.py: unified audit trail wired into planner and governor",
-    "crypto_pilot.py: $100 real money pilot controls ready — needs live API keys",
-    "cascade_ledger: L1+115 L2+264 L3+295 L4-136 Total+538 realized",
-    "trade_brain: PDT protection, real trailing stop, expanded watchlist GLD/BAC/CVX",
-    "publisher queue fixed permanently — marks published by ID",
-    "SPY closed at 5.8% take profit — locked gains",
-    "Portfolio $101,382 — up $1,382 in 13 days autonomously"
+    "echo_planner.py: goal intake, Ollama decomposition, dispatch table with 11 intents",
+    "echo_verify.py: outcome validator with verification rules per intent, retry/escalate",
+    "echo_reach.py: API bridge \u2014 routes hard tasks to Claude, falls back to local model",
+    "Intent classification works: publish/trade/crypto/notify/shell/governor all route correctly",
+    "Verifier catches failures and routes to retry or escalate correctly",
+    "Reach correctly routes: debug/analyze/strategy \u2192 API, run/publish/health \u2192 local"
   ],
-  "next_priority": "Test echo_planner.py end-to-end with a real goal — verify the full loop works",
-  "status": "complete",
-  "notes": "Phase shift session. Echo now has judgment layer: plan, execute, verify, trace. All services active. Day trades 2/3 this week. ntfy bridge article publishes Tuesday April 14."
+  "next_priority": "Crown a king Phase 3 \u2014 timers become dumb workers, daemon makes all decisions",
+  "status": "auto_checkpoint",
+  "notes": "Trading: 3 positions open: XOM, IWM, RKLB. Regret index: healthy. Cascade: L1:+346 L2:+793 L3:+886 L4:-128 Total:+1897.",
+  "generated_by": "session_checkpoint.py"
 }

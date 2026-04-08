@@ -2189,3 +2189,5 @@
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/echo_core_daemon.py", "mtime": 1775603122.3487644, "size": 12792, "ts": 1775603123.4734886}
 {"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/decision_trace.py", "mtime": 1775614729.2566733, "size": 5560, "ts": 1775614729.596628}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/governor_v2.py", "mtime": 1775614797.0513058, "size": 9743, "ts": 1775614798.489853}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/weekly_report.py", "mtime": 1775618144.1435847, "size": 9127, "ts": 1775618145.5661592}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/weekly_report.py", "mtime": 1775618716.759548, "size": 10795, "ts": 1775618717.8195555}

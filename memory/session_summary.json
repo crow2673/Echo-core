@@ -1,17 +1,19 @@
 {
-  "timestamp": "2026-04-08T16:08:00",
+  "timestamp": "2026-04-08T17:20:00",
   "generated_by": "session_checkpoint.py",
-  "session_focus": "Plaid production connected + Crow finance engine wired into Echo + trading brain 9:30am confirmed",
+  "session_focus": "Crow Finance fully wired — Plaid live, dashboard working, crow-finance systemd service active",
   "key_decisions": [
-    "Plaid production approved — real bank transactions flowing",
-    "Crow finance engine copied to ~/Echo/crow_finance — Echo now has household financial context",
-    "weekly_report.py updated — includes real household mode and runway days",
-    "Trading brain 9:30am: IWM +5.2% closed, RKLB +7.5% closed, XOM -4.8% stopped out, GLD entered",
-    "Balance product requested in Plaid — pending approval",
-    "Data filtered to 2025-2026 only — multi-year history excluded",
-    "Portfolio $101,450 — up $1,450 in 14 days autonomously"
+    "Plaid production approved and connected — Union Bank linked",
+    "179 transactions synced January 9 through April 8",
+    "crow-finance.service created — Flask starts automatically on boot",
+    "Finance Engine reads from crow_snapshot — showing real $1,014 balance",
+    "Graph fixed — January through April running net balance",
+    "Savings and bills re-entered manually in dashboard",
+    "weekly_report.py includes real household financial mode and runway",
+    "Portfolio $101,450 — up $1,450 in 14 days",
+    "Trading brain: IWM +5.2% closed, RKLB +7.5% closed, XOM stopped, GLD entered"
   ],
-  "next_priority": "Plaid balance product approval — re-link bank to get real-time balance data",
+  "next_priority": "Plaid balance product approval — re-link bank once approved to get real-time balance",
   "status": "complete",
-  "notes": "April household: $1,080 in, $1,277 out, -$197 so far. Second paycheck due mid-month. Overdue bills $384. Savings $1,000. Echo knows the real picture now."
+  "notes": "April: $1,080 in, $1,277 out. Second paycheck due mid-month. Overdue bills $384. crow-finance runs on port 8787 automatically."
 }

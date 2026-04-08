@@ -1,41 +1,41 @@
 # Echo World Context
-_Updated: 2026-04-06 06:00_
+_Updated: 2026-04-07 06:00_
 
 ## Dev.to Trending
-- **Join our April Fools Challenge for a chance at TEA-RRIFIC prizes!!!** — 304 reactions, 3min read
+- **Join our April Fools Challenge for a chance at TEA-RRIFIC prizes!!!** — 308 reactions, 3min read
   https://dev.to/devteam/join-our-april-fools-challenge-for-a-chance-at-tea-rrific-prizes-1ofa
+- **9 Things You’re Overengineering (The Browser Already Solved Them)** — 202 reactions, 5min read
+  https://dev.to/sylwia-lask/9-things-youre-overengineering-the-browser-already-solved-them-o99
 - **A Year of Change and Persistence** — 99 reactions, 4min read
   https://dev.to/jess/a-year-of-change-and-persistence-19cf
-- **9 Things You’re Overengineering (The Browser Already Solved Them)** — 158 reactions, 5min read
-  https://dev.to/sylwia-lask/9-things-youre-overengineering-the-browser-already-solved-them-o99
-- **The Great Claude Code Leak of 2026: Accident, Incompetence, or the Best PR Stunt in AI History?** — 184 reactions, 14min read
+- **The Great Claude Code Leak of 2026: Accident, Incompetence, or the Best PR Stunt in AI History?** — 192 reactions, 14min read
   https://dev.to/varshithvhegde/the-great-claude-code-leak-of-2026-accident-incompetence-or-the-best-pr-stunt-in-ai-history-3igm
-- **Top 7 Featured DEV Posts of the Week** — 78 reactions, 3min read
-  https://dev.to/devteam/top-7-featured-dev-posts-of-the-week-ba0
+- **Trading My Body for Logic: The Physical Decay We Ignore** — 105 reactions, 3min read
+  https://dev.to/the_nortern_dev/trading-my-body-for-logic-the-physical-decay-we-ignore-3c4i
 
 ## Hacker News Top
-- **Age Verification as Mass Surveillance Infrastructure** — 19 points
-  https://tboteproject.com/surveillancefindings/
-- **Show HN: I built a tiny LLM to demystify how language models work** — 517 points
-  https://github.com/arman-bd/guppylm
-- **Gemma 4 on iPhone** — 659 points
-  https://apps.apple.com/nl/app/google-ai-edge-gallery/id6749645337
-- **France pulls last gold held in US for $15B gain** — 129 points
-  https://www.mining.com/france-pulls-last-gold-held-in-us-for-15b-gain/
-- **Microsoft hasn't had a coherent GUI strategy since Petzold** — 490 points
-  https://www.jsnover.com/blog/2026/03/13/microsoft-hasnt-had-a-coherent-gui-strategy-since-petzold/
+- **Are We Idiocracy Yet?** — 135 points
+  https://idiocracy.wtf/
+- **Every GPU That Mattered** — 107 points
+  https://sheets.works/data-viz/every-gpu
+- **We found an undocumented bug in the Apollo 11 guidance computer code** — 7 points
+  https://www.juxt.pro/blog/a-bug-on-the-dark-side-of-the-moon/
+- **My Experience as a Rice Farmer** — 181 points
+  https://xd009642.github.io/2026/04/01/My-Experience-as-a-Rice-Farmer.html
+- **Blackholing My Email** — 10 points
+  https://www.johnsto.co.uk/blog/blackholing-my-email/
 
 ## r/LocalLLaMA Hot
-- **Announcing LocalLlama discord server &amp; bot!** — 147 upvotes
+- **Announcing LocalLlama discord server &amp; bot!** — 148 upvotes
   https://reddit.com/r/LocalLLaMA/comments/1mpk2va/announcing_localllama_discord_server_bot/
-- **I technically got an LLM running locally on a 1998 iMac G3 with 32 MB of RAM** — 713 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1sdnw7l/i_technically_got_an_llm_running_locally_on_a/
-- **Gemma 4 just casually destroyed every model on our leaderboard except Opus 4.6 and GPT-5.2. 31B params, $0.20/run** — 1191 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1sdcotc/gemma_4_just_casually_destroyed_every_model_on/
-- **Qwen3.5-4B GGUF quants comparison (KLD vs speed) - Lunar Lake** — 75 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1sdqn13/qwen354b_gguf_quants_comparison_kld_vs_speed/
-- **Real-time AI (audio/video in, voice out) on an M3 Pro with Gemma E2B** — 359 upvotes
-  https://reddit.com/r/LocalLLaMA/comments/1sda3r6/realtime_ai_audiovideo_in_voice_out_on_an_m3_pro/
+- **Turns out Gemma 4 had MTP (multi token prediction) all along** — 165 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1seqblr/turns_out_gemma_4_had_mtp_multi_token_prediction/
+- **Gemma 4 26b A3B is mindblowingly good , if configured right** — 399 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1segstx/gemma_4_26b_a3b_is_mindblowingly_good_if/
+- **Gemma 4 is a huge improvement in many European languages, including Danish, Dutch, French and Italian** — 122 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1seo2rq/gemma_4_is_a_huge_improvement_in_many_european/
+- **What it took to launch Google DeepMind's Gemma 4** — 955 upvotes
+  https://reddit.com/r/LocalLLaMA/comments/1se6nq5/what_it_took_to_launch_google_deepminds_gemma_4/
 
 ## Golem Blog
 - **Golem Ecosystem Fund: One Year In - Highlights, Allocations, and What’s Next** — GEF has supported Golem, Ethereum, and Web3 for over a year! We've learned and are evolving the Fund. New goals, tracks, and focus areas are coming soon. Get ready!
@@ -46,38 +46,38 @@ _Updated: 2026-04-06 06:00_
   https://blog.golem.network/eth-staking-tests-summary/
 
 ## Ollama Releases
+- **v0.20.3** — 
+  https://github.com/ollama/ollama/releases/tag/v0.20.3
+- **v0.20.3-rc0: model/parsers: add gemma4 tool call repair (#15374)** — 
+  https://github.com/ollama/ollama/releases/tag/v0.20.3-rc0
 - **v0.20.2** — 
   https://github.com/ollama/ollama/releases/tag/v0.20.2
-- **v0.20.1** — 
-  https://github.com/ollama/ollama/releases/tag/v0.20.1
-- **v0.20.1-rc2: model/parsers: rework gemma4 tool call handling (#15306)** — 
-  https://github.com/ollama/ollama/releases/tag/v0.20.1-rc2
 
 ## Arxiv AI/ML
-- **Holos: A Web-Scale LLM-Based Multi-Agent System for the Agentic Web** — arXiv:2604.02334v1 Announce Type: new 
-Abstract: As large language models (LLM)-driven agents transition from isolated task solvers to persistent digital entities, the emergence of the Agentic Web, an
-  https://arxiv.org/abs/2604.02334
-- **Xpertbench: Expert Level Tasks with Rubrics-Based Evaluation** — arXiv:2604.02368v1 Announce Type: new 
-Abstract: As Large Language Models (LLMs) exhibit plateauing performance on conventional benchmarks, a pivotal challenge persists: evaluating their proficiency i
-  https://arxiv.org/abs/2604.02368
-- **Compositional Neuro-Symbolic Reasoning** — arXiv:2604.02434v1 Announce Type: new 
-Abstract: We study structured abstraction-based reasoning for the Abstraction and Reasoning Corpus (ARC) and compare its generalization to test-time approaches. 
-  https://arxiv.org/abs/2604.02434
-- **Convolutional Surrogate for 3D Discrete Fracture-Matrix Tensor Upscaling** — arXiv:2604.02335v1 Announce Type: new 
-Abstract: Modeling groundwater flow in three-dimensional fractured crystalline media requires accounting for strong spatial heterogeneity induced by fractures. F
-  https://arxiv.org/abs/2604.02335
-- **Generating Counterfactual Patient Timelines from Real-World Data** — arXiv:2604.02337v1 Announce Type: new 
-Abstract: Counterfactual simulation - exploring hypothetical consequences under alternative clinical scenarios - holds promise for transformative applications su
-  https://arxiv.org/abs/2604.02337
+- **IC3-Evolve: Proof-/Witness-Gated Offline LLM-Driven Heuristic Evolution for IC3 Hardware Model Checking** — arXiv:2604.03232v1 Announce Type: new 
+Abstract: IC3, also known as property-directed reachability (PDR), is a commonly-used algorithm for hardware safety model checking. It checks if a state transiti
+  https://arxiv.org/abs/2604.03232
+- **Structural Segmentation of the Minimum Set Cover Problem: Exploiting Universe Decomposability for Metaheuristic Optimization** — arXiv:2604.03234v1 Announce Type: new 
+Abstract: The Minimum Set Cover Problem (MSCP) is a classical NP-hard combinatorial optimization problem with numerous applications in science and engineering. A
+  https://arxiv.org/abs/2604.03234
+- **To Throw a Stone with Six Birds: On Agents and Agenthood** — arXiv:2604.03239v1 Announce Type: new 
+Abstract: Six Birds Theory (SBT) treats macroscopic objects as induced closures rather than primitives. Empirical discussions of agency often conflate persistenc
+  https://arxiv.org/abs/2604.03239
+- **Integrating Artificial Intelligence, Physics, and Internet of Things: A Framework for Cultural Heritage Conservation** — arXiv:2604.03233v1 Announce Type: new 
+Abstract: The conservation of cultural heritage increasingly relies on integrating technological innovation with domain expertise to ensure effective monitoring 
+  https://arxiv.org/abs/2604.03233
+- **Scaling DPPs for RAG: Density Meets Diversity** — arXiv:2604.03240v1 Announce Type: new 
+Abstract: Retrieval-Augmented Generation (RAG) enhances Large Language Models (LLMs) by grounding generation in external knowledge, yielding relevance responses 
+  https://arxiv.org/abs/2604.03240
 
 ## GitHub Topics
-- **nomic-ai/gpt4all** — 77244 stars — GPT4All: Run Local LLMs on Any Device. Open-source and available for commercial use.
+- **nomic-ai/gpt4all** — 77296 stars — GPT4All: Run Local LLMs on Any Device. Open-source and available for commercial use.
   https://github.com/nomic-ai/gpt4all
-- **oobabooga/text-generation-webui** — 46416 stars — The original local LLM interface. Text, vision, tool-calling, training, and more. 100% offline.
+- **oobabooga/text-generation-webui** — 46422 stars — The original local LLM interface. Text, vision, tool-calling, training, and more. 100% offline.
   https://github.com/oobabooga/text-generation-webui
-- **ollama/ollama** — 167387 stars — Get up and running with Kimi-K2.5, GLM-5, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.
+- **ollama/ollama** — 167967 stars — Get up and running with Kimi-K2.5, GLM-5, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.
   https://github.com/ollama/ollama
-- **open-webui/open-webui** — 130268 stars — User-friendly AI Interface (Supports Ollama, OpenAI API, ...)
+- **open-webui/open-webui** — 130436 stars — User-friendly AI Interface (Supports Ollama, OpenAI API, ...)
   https://github.com/open-webui/open-webui
 - **anshuman73/DeML-Golem** — 44 stars — Proof Of Concept of DEcentralised Machine Learning on top of the Golem (https://golem.network/) arch
   https://github.com/anshuman73/DeML-Golem

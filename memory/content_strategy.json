@@ -11,13 +11,13 @@
   "queue": [
     {
       "id": "content_001",
-      "status": "next",
+      "status": "in_progress",
       "title": "How I built a two-way phone bridge for my AI using ntfy.sh",
       "angle": "Echo listens for messages from my phone and replies autonomously. Real code, boot timing bugs, the self-fix."
     },
     {
       "id": "content_002",
-      "status": "queued",
+      "status": "in_progress",
       "title": "The regret index: how I gave my AI a conscience",
       "angle": "What it is, why I built it, how it catches its own failure patterns."
     },

@@ -48,5 +48,15 @@
     "created_at": "2026-04-02T09:00:07.448535",
     "status": "pending_review",
     "updated": "2026-04-02T10:12:14.729707"
+  },
+  {
+    "id": "perf_tracker_2026-04-07",
+    "source": "devto_performance_tracker",
+    "topic": "Follow-up on trending topics: she, started, fixing",
+    "prompt": "Write a dev.to article that builds on the success of 'I Gave My Local AI a Public Brain: Echo + Notion M'. Focus on topics: she, started, fixing. Target audience: developers interested in local AI and automation.",
+    "priority": "high",
+    "created_at": "2026-04-07T09:00:07.316852",
+    "status": "pending_review",
+    "updated": "2026-04-07T10:14:35.946469"
   }
 ]

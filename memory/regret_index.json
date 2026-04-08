@@ -311,6 +311,18 @@
       "context": "trade_brain",
       "timestamp": "2026-04-06T09:30:07.512756",
       "updated": "2026-04-06T09:30:07.512967"
+    },
+    {
+      "entry_id": "trade_SPY_20260407_20260407_174804",
+      "action_id": "trade_SPY_20260407",
+      "category": "trading",
+      "description": "SPY take profit 5.8% >= 5.0%",
+      "score": 1,
+      "outcome_known": true,
+      "outcome_notes": "closed SPY 5.8%: take profit 5.8% >= 5.0%",
+      "context": "trade_brain",
+      "timestamp": "2026-04-07T17:48:04.840967",
+      "updated": "2026-04-07T17:48:04.843085"
     }
   ],
   "last_audit": null

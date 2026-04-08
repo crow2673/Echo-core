@@ -51,8 +51,13 @@
     "price": 689.32,
     "strategy": "trend",
     "reason": "uptrend MA20>MA50, RSI=59.5",
-    "status": "submitted",
-    "submitted_at": "2026-03-30T13:30:10.355133"
+    "status": "closed",
+    "submitted_at": "2026-03-30T13:30:10.355133",
+    "peak_pct": 5.812,
+    "close_reason": "take profit 5.8% >= 5.0%",
+    "close_price": 669.1,
+    "pl_pct": 5.811999999999999,
+    "closed_at": "2026-04-07T17:48:04.839989"
   },
   {
     "order_id": "b226f54f-e330-492b-a0f5-326746115d1a",
@@ -108,6 +113,20 @@
     "sector": "index",
     "reason": "uptrend MA20>MA50 RSI=44.7",
     "status": "submitted",
-    "submitted_at": "2026-04-02T09:30:24.323921"
+    "submitted_at": "2026-04-02T09:30:24.323921",
+    "peak_pct": 4.22
+  },
+  {
+    "order_id": "d59b1b2c-b418-4ab6-9315-186ca18060d1",
+    "symbol": "RKLB",
+    "qty": 109,
+    "side": "buy",
+    "price": 72.86,
+    "strategy": "momentum",
+    "sector": "growth",
+    "reason": "momentum +4.9% 5d vol 1.4x RSI=53.1",
+    "status": "submitted",
+    "submitted_at": "2026-04-07T09:30:10.130644",
+    "peak_pct": 5.889
   }
 ]

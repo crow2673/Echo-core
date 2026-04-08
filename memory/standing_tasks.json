@@ -49,7 +49,7 @@
       "id": "query_ledger",
       "task": "query_ledger: summarize recent wins and losses from the event ledger",
       "weight": 2.0,
-      "wins": 3416,
+      "wins": 3418,
       "losses": 0,
       "min_weight": 0.1,
       "max_weight": 1.2
@@ -78,5 +78,5 @@
     }
   ],
   "last_updated": "2026-04-05",
-  "total_cycles": 6937
+  "total_cycles": 6939
 }

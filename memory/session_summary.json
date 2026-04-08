@@ -1,17 +1,20 @@
 {
-  "timestamp": "2026-04-07T18:00:00",
-  "session_focus": "Architecture Leap complete — Planner + Verify + Reach scaffolded and wired into daemon",
+  "timestamp": "2026-04-07T21:30:00",
+  "generated_by": "session_checkpoint.py",
+  "session_focus": "Architecture Leap complete — Planner + Verify + Reach + Decision Trace built and wired",
   "key_decisions": [
     "echo_planner.py: goal intake, Ollama decomposition, 11-intent dispatch table",
     "echo_verify.py: outcome validator, retry/escalate logic, rules per intent",
     "echo_reach.py: API bridge — hard tasks to Claude, routine to local model",
-    "All three wired into echo_core_daemon.py as importable workers",
-    "crypto_pilot.py: $100 pilot controls built — ready to activate with live keys",
-    "cascade_ledger.py: L1+115 L2+264 L3+295 L4-136 Total+538 realized",
-    "trade_brain: PDT protection, real trailing stop, expanded watchlist",
-    "Portfolio $101,559 — SPY closed at 5.8% take profit"
+    "core/decision_trace.py: unified audit trail wired into planner and governor",
+    "crypto_pilot.py: $100 real money pilot controls ready — needs live API keys",
+    "cascade_ledger: L1+115 L2+264 L3+295 L4-136 Total+538 realized",
+    "trade_brain: PDT protection, real trailing stop, expanded watchlist GLD/BAC/CVX",
+    "publisher queue fixed permanently — marks published by ID",
+    "SPY closed at 5.8% take profit — locked gains",
+    "Portfolio $101,382 — up $1,382 in 13 days autonomously"
   ],
-  "next_priority": "Test echo_planner.py with a real goal end-to-end — verify the loop works",
+  "next_priority": "Test echo_planner.py end-to-end with a real goal — verify the full loop works",
   "status": "complete",
-  "notes": "Massive session. All services active. Day trades 2/3 this week."
+  "notes": "Phase shift session. Echo now has judgment layer: plan, execute, verify, trace. All services active. Day trades 2/3 this week. ntfy bridge article publishes Tuesday April 14."
 }

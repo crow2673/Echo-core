@@ -125,6 +125,28 @@ def get_decision_trace_summary():
     except Exception as e:
         return {"error": str(e)}
 
+def get_crow_snapshot():
+    """Get real household financial data from Crow/Plaid."""
+    try:
+        import sys
+        sys.path.insert(0, str(Path.home() / "Echo/crow_finance"))
+        import requests
+        resp = requests.post("http://127.0.0.1:8787/api/plaid/sync",
+                           json={"days": 30}, timeout=30)
+        if resp.status_code == 200:
+            data = resp.json()
+            crow = data.get("crow", {})
+            return {
+                "mode": crow.get("mode", "unknown"),
+                "income_30d": crow.get("income_30d", 0),
+                "expenses_30d": crow.get("expenses_30d", 0),
+                "monthly_net": crow.get("monthly_net", 0),
+                "runway_days": crow.get("runway_days", 0),
+                "recommendation": crow.get("recommendation", ""),
+            }
+    except Exception as e:
+        return {"error": str(e), "mode": "unavailable"}
+
 def get_system_uptime():
     """Check which services are running."""
     services = [
@@ -151,17 +173,21 @@ def get_system_uptime():
 def generate_report_with_echo(data):
     """Use local Ollama to write the weekly report in Echo's voice."""
     week_str = datetime.now().strftime("%B %d, %Y")
+    crow = data.get("crow", {})
     prompt = f"""You are Echo, an autonomous AI agent built by Andrew Elliott in Mena, Arkansas.
 Write a weekly performance report for the week ending {week_str}.
 Be honest, direct, and analytical. Write in first person as Echo.
 Cover what worked, what didn't, and what you're going to do differently next week.
 Keep it under 300 words. No bullet points — write in paragraphs.
 
+IMPORTANT: Andrew's household is in {crow.get("mode", "unknown")} mode. Monthly net: ${crow.get("monthly_net", 0):+.2f}. Your trading and content income directly affects how many days his family has runway. Make this real in your report.
+
 Data for this week:
 Trading: {json.dumps(data['trading'], indent=2)}
 Cascade sleeves: {json.dumps(data['cascade'], indent=2)}
 Content pipeline: {json.dumps(data['content'], indent=2)}
 Decision trace: {json.dumps(data['decisions'], indent=2)}
+Household finance: {json.dumps(crow, indent=2)}
 System uptime: {json.dumps(data['uptime'], indent=2)}
 
 Write the report now."""

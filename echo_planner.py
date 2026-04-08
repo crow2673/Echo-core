@@ -96,6 +96,17 @@ def classify_intent_local(goal_text):
     return None
 
 
+def needs_api_reach(goal_text):
+    """Determine if this goal needs Claude API vs local model."""
+    try:
+        import importlib.util as _ilu
+        _spec = _ilu.spec_from_file_location("echo_reach", BASE / "echo_reach.py")
+        _mod = _ilu.module_from_spec(_spec)
+        _spec.loader.exec_module(_mod)
+        return _mod.should_reach(goal_text)
+    except Exception:
+        return False
+
 def decompose_goal_ollama(goal_text):
     """Use local Ollama to decompose goal into steps."""
     prompt = f"""You are Echo's planning module. Break this goal into concrete steps.
@@ -195,7 +206,20 @@ def execute_step(step):
             path = params.get("path", "")
             if not path:
                 return {"success": False, "error": "No path provided"}
-            content = Path(path).read_text()
+            # Remap common wrong paths to Echo's actual paths
+            path_remaps = {
+                "/var/log/trading": str(BASE / "logs"),
+                "/var/log/echo": str(BASE / "logs"),
+                "/tmp/echo": str(BASE / "memory"),
+            }
+            for wrong, right in path_remaps.items():
+                if path.startswith(wrong):
+                    path = path.replace(wrong, right)
+                    break
+            p = Path(path)
+            if not p.exists():
+                return {"success": False, "error": f"File not found: {path}"}
+            content = p.read_text()
             return {"success": True, "content": content[:1000]}
 
         elif worker_type == "file_write":
@@ -235,18 +259,45 @@ def run_plan(goal_text, use_ollama=True):
         log(f"Quick intent: {quick_intent}")
         plan["steps"] = [{"step": 1, "intent": quick_intent, "description": goal_text, "params": {}}]
     elif use_ollama:
-        decomposed = decompose_goal_ollama(goal_text)
-        if decomposed and "steps" in decomposed:
-            plan["steps"] = decomposed["steps"]
-            log(f"Decomposed into {len(plan['steps'])} steps")
-        elif quick_intent:
-            log(f"Ollama failed, falling back to quick intent: {quick_intent}")
-            plan["steps"] = [{"step": 1, "intent": quick_intent, "description": goal_text, "params": {}}]
-        else:
-            log("Could not classify goal — escalating to Andrew")
-            plan["status"] = "escalated"
-            save_plan(plan)
-            return plan
+        # Check if this goal needs API reach for better decomposition
+        if needs_api_reach(goal_text):
+            log("Goal requires deep reasoning — using API reach for decomposition")
+            try:
+                import importlib.util as _ilu
+                _spec = _ilu.spec_from_file_location("echo_reach", BASE / "echo_reach.py")
+                _mod = _ilu.module_from_spec(_spec)
+                _spec.loader.exec_module(_mod)
+                api_response = _mod.reach(
+                    f"Break this goal into steps for an AI agent. Return valid JSON only with keys: goal, steps (list of: step, intent, description, params). Available intents: {list(DISPATCH_TABLE.keys())}. Goal: {goal_text}",
+                    force_api=True
+                )
+                if api_response:
+                    import re as _re
+                    json_match = _re.search(r'\{.*\}', api_response, _re.DOTALL)
+                    if json_match:
+                        decomposed = json.loads(json_match.group())
+                        if "steps" in decomposed:
+                            plan["steps"] = decomposed["steps"]
+                            plan["source"] = "claude"
+                            log(f"API decomposed into {len(plan['steps'])} steps")
+            except Exception as e:
+                log(f"API reach for decomposition failed: {e}")
+
+        if not plan.get("steps"):
+            decomposed = decompose_goal_ollama(goal_text)
+            if decomposed and "steps" in decomposed:
+                plan["steps"] = decomposed["steps"]
+                plan["source"] = "local"
+                log(f"Ollama decomposed into {len(plan['steps'])} steps")
+            elif quick_intent:
+                log(f"Ollama failed, falling back to quick intent: {quick_intent}")
+                plan["steps"] = [{"step": 1, "intent": quick_intent, "description": goal_text, "params": {}}]
+                plan["source"] = "fallback"
+            else:
+                log("Could not classify goal — escalating to Andrew")
+                plan["status"] = "escalated"
+                save_plan(plan)
+                return plan
     else:
         plan["status"] = "escalated"
         save_plan(plan)

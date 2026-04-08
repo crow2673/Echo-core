@@ -1,0 +1,15 @@
+{
+  "accounts": [],
+  "transactions": [],
+  "meta": {
+    "source": "csv_import",
+    "imported_at": "2026-04-08T03:58:32.604340+00:00",
+    "transaction_count": 0
+  },
+  "crow": {
+    "income_30d": 0,
+    "expenses_30d": 0,
+    "available_cash": 0,
+    "transaction_count": 0
+  }
+}

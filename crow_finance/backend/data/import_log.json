@@ -1,0 +1,12 @@
+[
+  {
+    "imported_at": "2026-03-19T20:39:05.188833+00:00",
+    "source_file": "/home/andrew/Downloads/crows_echo_bank_starter/backend/data/import.csv",
+    "transaction_count": 0
+  },
+  {
+    "imported_at": "2026-04-08T03:58:32.604456+00:00",
+    "source_file": "/home/andrew/Downloads/crows_echo_bank_starter/backend/data/import.csv",
+    "transaction_count": 0
+  }
+]

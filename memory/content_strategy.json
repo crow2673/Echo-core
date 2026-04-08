@@ -29,19 +29,19 @@
     },
     {
       "id": "content_004",
-      "status": "queued",
+      "status": "in_progress",
       "title": "What it actually costs to run an autonomous AI agent for 30 days",
       "angle": "Real numbers: electricity, hardware, Golem earnings zero, dev.to views, lessons."
     },
     {
       "id": "content_005",
-      "status": "queued",
+      "status": "in_progress",
       "title": "Why my Golem node never got a task",
       "angle": "CGNAT, Starlink, the old AT&T IP it was broadcasting for weeks."
     },
     {
       "id": "content_006",
-      "status": "queued",
+      "status": "in_progress",
       "title": "I built a self-healing AI and here is what actually broke",
       "angle": "182 junk drafts overnight, RAM pressure, boot sequencing bugs, what Echo learned."
     },
@@ -54,7 +54,7 @@
     },
     {
       "id": "content_008",
-      "status": "queued",
+      "status": "in_progress",
       "title": "Building toward the shop: voice AI in a noisy environment",
       "angle": "Why this matters, what is blocking it, the VAD problem, where it is headed."
     }

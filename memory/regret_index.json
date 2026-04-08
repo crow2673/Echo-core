@@ -323,6 +323,42 @@
       "context": "trade_brain",
       "timestamp": "2026-04-07T17:48:04.840967",
       "updated": "2026-04-07T17:48:04.843085"
+    },
+    {
+      "entry_id": "trade_IWM_20260408_20260408_093008",
+      "action_id": "trade_IWM_20260408",
+      "category": "trading",
+      "description": "IWM take profit 5.2% >= 5.0%",
+      "score": 1,
+      "outcome_known": true,
+      "outcome_notes": "closed IWM 5.2%: take profit 5.2% >= 5.0%",
+      "context": "trade_brain",
+      "timestamp": "2026-04-08T09:30:08.029233",
+      "updated": "2026-04-08T09:30:08.029456"
+    },
+    {
+      "entry_id": "trade_RKLB_20260408_20260408_093008",
+      "action_id": "trade_RKLB_20260408",
+      "category": "trading",
+      "description": "RKLB take profit 7.5% >= 3.0%",
+      "score": 1,
+      "outcome_known": true,
+      "outcome_notes": "closed RKLB 7.5%: take profit 7.5% >= 3.0%",
+      "context": "trade_brain",
+      "timestamp": "2026-04-08T09:30:08.160908",
+      "updated": "2026-04-08T09:30:08.161155"
+    },
+    {
+      "entry_id": "trade_XOM_20260408_20260408_093008",
+      "action_id": "trade_XOM_20260408",
+      "category": "trading",
+      "description": "XOM stop loss -4.8% <= -2.5%",
+      "score": -1,
+      "outcome_known": true,
+      "outcome_notes": "closed XOM -4.8%: stop loss -4.8% <= -2.5%",
+      "context": "trade_brain",
+      "timestamp": "2026-04-08T09:30:08.297155",
+      "updated": "2026-04-08T09:30:08.297478"
     }
   ],
   "last_audit": null

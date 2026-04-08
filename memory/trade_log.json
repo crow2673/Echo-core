@@ -68,8 +68,12 @@
     "strategy": "trend",
     "sector": "energy",
     "reason": "uptrend MA20>MA50 RSI=55.1",
-    "status": "submitted",
-    "submitted_at": "2026-04-01T09:20:34.141057"
+    "status": "closed",
+    "submitted_at": "2026-04-01T09:20:34.141057",
+    "close_reason": "stop loss -4.8% <= -2.5%",
+    "close_price": 153.86,
+    "pl_pct": -4.784,
+    "closed_at": "2026-04-08T09:30:08.296515"
   },
   {
     "order_id": "654401f2-3575-418e-856d-48bb21b28474",
@@ -112,9 +116,13 @@
     "strategy": "trend",
     "sector": "index",
     "reason": "uptrend MA20>MA50 RSI=44.7",
-    "status": "submitted",
+    "status": "closed",
     "submitted_at": "2026-04-02T09:30:24.323921",
-    "peak_pct": 4.22
+    "peak_pct": 5.22,
+    "close_reason": "take profit 5.2% >= 5.0%",
+    "close_price": 260.76,
+    "pl_pct": 5.220000000000001,
+    "closed_at": "2026-04-08T09:30:08.028283"
   },
   {
     "order_id": "d59b1b2c-b418-4ab6-9315-186ca18060d1",
@@ -125,8 +133,26 @@
     "strategy": "momentum",
     "sector": "growth",
     "reason": "momentum +4.9% 5d vol 1.4x RSI=53.1",
-    "status": "submitted",
+    "status": "closed",
     "submitted_at": "2026-04-07T09:30:10.130644",
-    "peak_pct": 5.889
+    "peak_pct": 7.464,
+    "close_reason": "take profit 7.5% >= 3.0%",
+    "close_price": 70.26,
+    "pl_pct": 7.4639999999999995,
+    "closed_at": "2026-04-08T09:30:08.160580"
+  },
+  {
+    "order_id": "91350d67-6c30-4cff-92c8-45d4d05d18ef",
+    "symbol": "GLD",
+    "qty": 21,
+    "side": "buy",
+    "price": 473.55,
+    "strategy": "trend",
+    "sector": "other",
+    "layer": 4,
+    "reason": "uptrend MA20>MA50 RSI=54.9",
+    "status": "submitted",
+    "peak_pct": 0.0,
+    "submitted_at": "2026-04-08T09:30:11.904689"
   }
 ]

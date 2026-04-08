@@ -4,7 +4,7 @@
     "views": 5,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-07",
+    "date": "2026-04-08",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -13,7 +13,7 @@
     "views": 23,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-07",
+    "date": "2026-04-08",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -22,7 +22,7 @@
     "views": 97,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-07",
+    "date": "2026-04-08",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -31,7 +31,7 @@
     "views": 116,
     "reactions": 1,
     "trend": "STABLE",
-    "date": "2026-04-07",
+    "date": "2026-04-08",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -40,25 +40,25 @@
     "views": 3,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-07",
+    "date": "2026-04-08",
     "view_delta": 0,
     "reaction_delta": 0
   },
   "3102340": {
     "title": "Build an AI\u2011Ready Linux Workstation Under $800 in ",
-    "views": 288,
+    "views": 298,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-07",
-    "view_delta": 0,
+    "date": "2026-04-08",
+    "view_delta": 10,
     "reaction_delta": 0
   },
   "3350257": {
     "title": "I Gave My Local AI a Public Brain: Echo + Notion M",
-    "views": 301,
+    "views": 303,
     "reactions": 5,
     "trend": "STABLE",
-    "date": "2026-04-07",
+    "date": "2026-04-08",
     "view_delta": 2,
     "reaction_delta": 0
   },
@@ -75,9 +75,9 @@
     "title": "She Started Fixing Herself: Building a Self-Healin",
     "views": 42,
     "reactions": 1,
-    "trend": "GROWING",
-    "date": "2026-04-07",
-    "view_delta": 10,
+    "trend": "STABLE",
+    "date": "2026-04-08",
+    "view_delta": 0,
     "reaction_delta": 0
   },
   "3395372": {
@@ -94,7 +94,7 @@
     "views": 15,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-07",
+    "date": "2026-04-08",
     "view_delta": 0,
     "reaction_delta": 0
   },
@@ -103,8 +103,17 @@
     "views": 22,
     "reactions": 0,
     "trend": "STABLE",
-    "date": "2026-04-07",
+    "date": "2026-04-08",
     "view_delta": 0,
+    "reaction_delta": 0
+  },
+  "3466579": {
+    "title": "How Echo Publishes to dev.to Without Me",
+    "views": 1,
+    "reactions": 0,
+    "trend": "NEW",
+    "date": "2026-04-08",
+    "view_delta": 1,
     "reaction_delta": 0
   }
 }

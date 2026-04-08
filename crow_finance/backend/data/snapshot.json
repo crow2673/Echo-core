@@ -1,0 +1,930 @@
+{
+  "accounts": [],
+  "transactions": [
+    {
+      "id": "nw84ZXAbN7i3KLejaVZRHvaVqOwvqJfjKJgdN",
+      "date": "2026-03-12",
+      "desc": "ONLINEACCT UNION BANK OF ME 710182110",
+      "cat": "income",
+      "amt": 1000.0,
+      "type": "income",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "pL54OmxJb7tzj1en0RomcxL76V5x6OIARngB6",
+      "date": "2026-03-31",
+      "desc": "Percentage",
+      "cat": "misc",
+      "amt": 0.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "X5d8brXApPhrXybd60g5hVL1edvVeqCz9k5eK",
+      "date": "2026-03-31",
+      "desc": "INTEREST PAID 21",
+      "cat": "income",
+      "amt": 0.1,
+      "type": "income",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "No0J173LpkibMdPE0j9vS4VOyoN4yety409q0",
+      "date": "2026-03-31",
+      "desc": "INTEREST RATE CHANGE",
+      "cat": "misc",
+      "amt": 0.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "ezAMByDJO7IaoZepnKE5CgqAvnjgvOf4R5zAo",
+      "date": "2026-03-09",
+      "desc": "Growing Kids Consignme",
+      "cat": "misc",
+      "amt": 180.54,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "bgy8qownpRu85xVRmr3ATPwkbJBPbZIPRL5jm",
+      "date": "2026-03-09",
+      "desc": "The Corner",
+      "cat": "fuel",
+      "amt": 20.63,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "gM08dkPJO7HJAoe7YybxSkVzw8EkwrC6NO5zB",
+      "date": "2026-03-09",
+      "desc": "Murphy USA",
+      "cat": "fuel",
+      "amt": 47.84,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "7VYKZRxdX4COMZ170DYBU50BD1r5Dwf8gRx1p",
+      "date": "2026-03-09",
+      "desc": "Straight Talk",
+      "cat": "misc",
+      "amt": 47.51,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "9OYAnJx6XeUbyQNXVKMZSwe8gzywgXc6nRmeD",
+      "date": "2026-03-09",
+      "desc": "OpenAI",
+      "cat": "misc",
+      "amt": 20.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "V5ZQbMXKpDhy6BrKmMogHDwA84ZD8vfnv8m1J",
+      "date": "2026-03-09",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 57.1,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "OojOMByDpAiKBwQXj8qyIadZjxLaj7CpjDqdJ",
+      "date": "2026-03-09",
+      "desc": "Donut Palace",
+      "cat": "food",
+      "amt": 19.07,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "MEvJDPB6pKuVrYO4mzb1uX6nYV4XYwt06qbZj",
+      "date": "2026-03-10",
+      "desc": "Ar.gov Stpayment",
+      "cat": "misc",
+      "amt": 33.1,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "EoPbY0dvpLiq8v1RPoJkF8epqxj8q6Hd4vMmm",
+      "date": "2026-03-10",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 14.62,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "RoaJMbAqXdi07D39amJnTkLEVegkV6C9a50xa",
+      "date": "2026-03-10",
+      "desc": "UB4",
+      "cat": "misc",
+      "amt": 105.68,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "Qo4JMBkPp0iD1LJV4rk0fm6BVO3mVQs9VevYQ",
+      "date": "2026-03-10",
+      "desc": "SBTPG LLC SBTPG PRODUCTS 3722260102",
+      "cat": "income",
+      "amt": 339.0,
+      "type": "income",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "nw84ZXAbN7i3KLejaVZRHvaVqOwvqJfjKJgRE",
+      "date": "2026-03-10",
+      "desc": "Primerica",
+      "cat": "subscriptions",
+      "amt": 94.51,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "pL54OmxJb7tzj1en0RomcxL76V5x6OIARngEd",
+      "date": "2026-03-11",
+      "desc": "McDonald's",
+      "cat": "food",
+      "amt": 17.84,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "X5d8brXApPhrXybd60g5hVL1edvVeqCz9k5Ap",
+      "date": "2026-03-11",
+      "desc": "DDA PAY FIRST DEBIT",
+      "cat": "misc",
+      "amt": 40.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "No0J173LpkibMdPE0j9vS4VOyoN4yety409ea",
+      "date": "2026-03-11",
+      "desc": "SBTPG LLC SBTPG PRODUCTS 3722260102",
+      "cat": "income",
+      "amt": 12379.05,
+      "type": "income",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "ezAMByDJO7IaoZepnKE5CgqAvnjgvOf4R5zmw",
+      "date": "2026-03-12",
+      "desc": "DBT CRD 0637 8251036 CASH APPJONATHAN ELLI CASH.APP CA C#2010",
+      "cat": "transfers",
+      "amt": 752.5,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "YQwpbMXvequPpKxwz4eLUZD8VJOZVoIzog5ky",
+      "date": "2026-03-12",
+      "desc": "Robinhood",
+      "cat": "misc",
+      "amt": 5605.38,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "zAnLZRaqbBC7P0yDX1dLCkXZDxgkD4CMjq80e",
+      "date": "2026-03-12",
+      "desc": "MOBILE PMT CAPITAL ONE 9279744380",
+      "cat": "loan",
+      "amt": 2149.23,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "mdJ4XjkoN7FER6eNm8jgCnEqro7nrQf8KJ6gP",
+      "date": "2026-03-12",
+      "desc": "ONLINEACCT UNION BANK OF ME 710182110",
+      "cat": "misc",
+      "amt": 1000.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "d5k9qyLROmhPp87mvB0dUgaEPK9gP1fo7VvXO",
+      "date": "2026-03-12",
+      "desc": "Murphy USA",
+      "cat": "fuel",
+      "amt": 20.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "wyXdxqRDb1HPpkqwE6dAUJg0y15JyZfRkq80z",
+      "date": "2026-03-12",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 23.81,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "6VYy9beaX4CdqbDkvQogfxbNv7Yxv0IAEkbgX",
+      "date": "2026-03-12",
+      "desc": "Mt Magazine Lodge",
+      "cat": "travel",
+      "amt": 45.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "LoAJLbqwNyiem6YXADkaCLJZPkDLP6FJyD3bV",
+      "date": "2026-03-12",
+      "desc": "DBT CRD 0638 8959768 CASH APPJONATHAN ELLI CASH.APP CA C#2010",
+      "cat": "transfers",
+      "amt": 51.27,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "Do1YKOxAp6ioJ8QR1ZEnCX90K8jXKYtX4pExE",
+      "date": "2026-03-13",
+      "desc": "Queen Wilhelmina Lodge",
+      "cat": "travel",
+      "amt": 3.8,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "1EY197nvXRug6x0kVowjFyxzEkAyEbhYyQJzL",
+      "date": "2026-03-13",
+      "desc": "TRANSFER TO LOAN ACCOUNT NUMBER XXXX4748",
+      "cat": "loan",
+      "amt": 100.07,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "PorbM3K1pvizM6Kmr4jbcawYVovaVxCORr80Y",
+      "date": "2026-03-13",
+      "desc": "McDonald's",
+      "cat": "food",
+      "amt": 3.06,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "qDnxZorJbEUNXP7kqgyZTxqVL1gxLaI19oLmw",
+      "date": "2026-03-13",
+      "desc": "Queen Wilhelmina Lodge",
+      "cat": "travel",
+      "amt": 5.97,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "BpmV13xKXdHAMP0enpo6tkZa5Mmk5jCvna0Pm",
+      "date": "2026-03-13",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 58.12,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "3VYq90nmXbC9EO4kKVa3HVOMqpLVqzCPnJj3R",
+      "date": "2026-03-16",
+      "desc": "McDonald's",
+      "cat": "food",
+      "amt": 23.34,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "ykn6AR4PbqUVPvoLOD84ukdA96bk9LCRq7neK",
+      "date": "2026-03-16",
+      "desc": "Murphy USA",
+      "cat": "fuel",
+      "amt": 23.82,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "Kokm6QPdY3i1DjENkZM4H1bxXq71XVIy45BaZ",
+      "date": "2026-03-16",
+      "desc": "Dollar General",
+      "cat": "misc",
+      "amt": 4.93,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "kXabDgyZOMHJDzYM5RvoSB9NgzyBgeIbNdAz9",
+      "date": "2026-03-16",
+      "desc": "The Corner",
+      "cat": "fuel",
+      "amt": 11.36,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "AV6NDK8yXYCy4YgOoZz9Hok0LDdoLNsw3JEr6",
+      "date": "2026-03-16",
+      "desc": "Queen Wilhelmina Lodge",
+      "cat": "travel",
+      "amt": 2.98,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "v3nV7OgLbDT48KPdYNg0hLxbAjrLABFpKDdxV",
+      "date": "2026-03-16",
+      "desc": "Donut Palace",
+      "cat": "food",
+      "amt": 21.25,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "0eYDxQnAXRHbwPvaV8OYSArZ98JA9et9OXKZ9",
+      "date": "2026-03-16",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 102.39,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "j54oLA3bOnh5A79nx0dgHB3XMeaBMgIv5Brgj",
+      "date": "2026-03-17",
+      "desc": "Summit Sua",
+      "cat": "misc",
+      "amt": 76.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "r1N4ZXrJbdioAqBkX4RKCdXPE6kdEJIrN7pqa",
+      "date": "2026-03-17",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 26.66,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "4VYBzNnrXeC71jRVkOXLCVLN9xqV9ACDxrBP1",
+      "date": "2026-03-17",
+      "desc": "DBT CRD 0825 3419128 CASH APPCHRISTINE ELL OAKLAND CA C#2031",
+      "cat": "transfers",
+      "amt": 60.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "a53myDdJO0hd5Nm3KXgYfg3K1pZg1RfKxVgJa",
+      "date": "2026-03-17",
+      "desc": "La Villa Mexican Resta",
+      "cat": "food",
+      "amt": 86.12,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "xKnwVmr1bPFj0AV6vLPkubxwEDVbELfmqg4wo",
+      "date": "2026-03-18",
+      "desc": "Queen Wilhelmina Lodge",
+      "cat": "travel",
+      "amt": 2.98,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "JXKJwy1mpBHoZK7R9kA5CLQXD3rLDZF0P58Jq",
+      "date": "2026-03-19",
+      "desc": "GEICO",
+      "cat": "insurance",
+      "amt": 92.91,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "8VYkOJxwe5CN37o0j1bDTwq63dZw31cY8z3bV",
+      "date": "2026-03-19",
+      "desc": "Queen Wilhelmina Lodge",
+      "cat": "travel",
+      "amt": 4.88,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "Z56RbyX0Omh3mkBzDr56H01BpbD0p7H8oEDYr",
+      "date": "2026-03-19",
+      "desc": "Cppwdrawal Amer",
+      "cat": "misc",
+      "amt": 146.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "5zY39Jn4XOIqP6bvVKzAFX69QkVXQDtNMRgjR",
+      "date": "2026-03-19",
+      "desc": "Murphy USA",
+      "cat": "fuel",
+      "amt": 24.37,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "o6Z4onrJNXHekD7x1yq0CL6x9YVL9PFrgM6m5",
+      "date": "2026-03-19",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 184.44,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "bgy8qownpRu85xVRmr3ATPwkbJBPbZIPRL5Em",
+      "date": "2026-03-19",
+      "desc": "Robinhood",
+      "cat": "misc",
+      "amt": 1260.89,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "gM08dkPJO7HJAoe7YybxSkVzw8EkwrC6NO5eB",
+      "date": "2026-03-20",
+      "desc": "DIRECT PAY STATE OF ARK 690710001",
+      "cat": "income",
+      "amt": 1075.89,
+      "type": "income",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "7VYKZRxdX4COMZ170DYBU50BD1r5Dwf8gRxVp",
+      "date": "2026-03-20",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 44.9,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "9OYAnJx6XeUbyQNXVKMZSwe8gzywgXc6nRmnD",
+      "date": "2026-03-23",
+      "desc": "Donut Palace",
+      "cat": "food",
+      "amt": 22.16,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "V5ZQbMXKpDhy6BrKmMogHDwA84ZD8vfnv8mvJ",
+      "date": "2026-03-23",
+      "desc": "The Corner",
+      "cat": "fuel",
+      "amt": 5.65,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "OojOMByDpAiKBwQXj8qyIadZjxLaj7CpjDqjJ",
+      "date": "2026-03-23",
+      "desc": "Myers Cruizzers Drive In",
+      "cat": "food",
+      "amt": 31.43,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "MEvJDPB6pKuVrYO4mzb1uX6nYV4XYwt06qb6j",
+      "date": "2026-03-23",
+      "desc": "ATM W/D 1724 0008850 GO UNION BANK 1325 HIGHWAY 71 SO MENA AR C#2010",
+      "cat": "misc",
+      "amt": 140.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "EoPbY0dvpLiq8v1RPoJkF8epqxj8q6Hd4vM4m",
+      "date": "2026-03-23",
+      "desc": "Shein",
+      "cat": "misc",
+      "amt": 86.66,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "RoaJMbAqXdi07D39amJnTkLEVegkV6C9a50aa",
+      "date": "2026-03-24",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 7.94,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "Qo4JMBkPp0iD1LJV4rk0fm6BVO3mVQs9VevVQ",
+      "date": "2026-03-25",
+      "desc": "Goodleap",
+      "cat": "loan",
+      "amt": 197.35,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "nw84ZXAbN7i3KLejaVZRHvaVqOwvqJfjKJgKE",
+      "date": "2026-03-25",
+      "desc": "Dollar Tree",
+      "cat": "misc",
+      "amt": 3.29,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "pL54OmxJb7tzj1en0RomcxL76V5x6OIARngRd",
+      "date": "2026-03-25",
+      "desc": "Queen Wilhelmina Lodge",
+      "cat": "travel",
+      "amt": 2.98,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "X5d8brXApPhrXybd60g5hVL1edvVeqCz9k59p",
+      "date": "2026-03-25",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 128.2,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "No0J173LpkibMdPE0j9vS4VOyoN4yety4094a",
+      "date": "2026-03-25",
+      "desc": "Murphy USA",
+      "cat": "fuel",
+      "amt": 53.2,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "ezAMByDJO7IaoZepnKE5CgqAvnjgvOf4R5zRw",
+      "date": "2026-03-26",
+      "desc": "Queen Wilhelmina Lodge",
+      "cat": "travel",
+      "amt": 21.39,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "YQwpbMXvequPpKxwz4eLUZD8VJOZVoIzog5oy",
+      "date": "2026-03-26",
+      "desc": "The Corner",
+      "cat": "fuel",
+      "amt": 21.92,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "zAnLZRaqbBC7P0yDX1dLCkXZDxgkD4CMjq8je",
+      "date": "2026-03-26",
+      "desc": "Murphy USA",
+      "cat": "fuel",
+      "amt": 53.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "mdJ4XjkoN7FER6eNm8jgCnEqro7nrQf8KJ6KP",
+      "date": "2026-03-30",
+      "desc": "Mt Magazine State Park",
+      "cat": "travel",
+      "amt": 26.37,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "d5k9qyLROmhPp87mvB0dUgaEPK9gP1fo7Vv7O",
+      "date": "2026-03-30",
+      "desc": "Dollar General",
+      "cat": "misc",
+      "amt": 8.15,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "wyXdxqRDb1HPpkqwE6dAUJg0y15JyZfRkq8kz",
+      "date": "2026-03-30",
+      "desc": "Mt Magazine State Park",
+      "cat": "travel",
+      "amt": 17.52,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "6VYy9beaX4CdqbDkvQogfxbNv7Yxv0IAEkbEX",
+      "date": "2026-03-30",
+      "desc": "AT&T",
+      "cat": "misc",
+      "amt": 30.15,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "LoAJLbqwNyiem6YXADkaCLJZPkDLP6FJyD3yV",
+      "date": "2026-03-31",
+      "desc": "Sonic Drive-In",
+      "cat": "food",
+      "amt": 8.56,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "Do1YKOxAp6ioJ8QR1ZEnCX90K8jXKYtX4pE4E",
+      "date": "2026-04-01",
+      "desc": "PHH Mortgage",
+      "cat": "housing",
+      "amt": 642.82,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "1EY197nvXRug6x0kVowjFyxzEkAyEbhYyQJyL",
+      "date": "2026-04-02",
+      "desc": "Murphy USA",
+      "cat": "fuel",
+      "amt": 20.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "PorbM3K1pvizM6Kmr4jbcawYVovaVxCORr8RY",
+      "date": "2026-04-02",
+      "desc": "Robinhood",
+      "cat": "misc",
+      "amt": 5.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "qDnxZorJbEUNXP7kqgyZTxqVL1gxLaI19oL9w",
+      "date": "2026-04-03",
+      "desc": "CRE 1921 1676552 CASH APPJONATHAN ELLIOTT CASH APPJONATHAN OAKLAND CA C#2010",
+      "cat": "income",
+      "amt": 4.75,
+      "type": "income",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "BpmV13xKXdHAMP0enpo6tkZa5Mmk5jCvna0nm",
+      "date": "2026-04-03",
+      "desc": "Wendy's",
+      "cat": "food",
+      "amt": 33.56,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "3VYq90nmXbC9EO4kKVa3HVOMqpLVqzCPnJjnR",
+      "date": "2026-04-03",
+      "desc": "Robinhood",
+      "cat": "misc",
+      "amt": 200.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "ykn6AR4PbqUVPvoLOD84ukdA96bk9LCRq7nqK",
+      "date": "2026-04-03",
+      "desc": "Amazon Prime",
+      "cat": "subscriptions",
+      "amt": 8.2,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "Kokm6QPdY3i1DjENkZM4H1bxXq71XVIy45B4Z",
+      "date": "2026-04-03",
+      "desc": "DIRECT PAY STATE OF ARK 690710001",
+      "cat": "income",
+      "amt": 1075.88,
+      "type": "income",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "kXabDgyZOMHJDzYM5RvoSB9NgzyBgeIbNdAN9",
+      "date": "2026-04-06",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 44.62,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "AV6NDK8yXYCy4YgOoZz9Hok0LDdoLNsw3JE36",
+      "date": "2026-04-06",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 16.93,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "v3nV7OgLbDT48KPdYNg0hLxbAjrLABFpKDdKV",
+      "date": "2026-04-06",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 37.94,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "0eYDxQnAXRHbwPvaV8OYSArZ98JA9et9OXKO9",
+      "date": "2026-04-06",
+      "desc": "Bealls Outlet",
+      "cat": "misc",
+      "amt": 8.74,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "j54oLA3bOnh5A79nx0dgHB3XMeaBMgIv5Br5j",
+      "date": "2026-04-06",
+      "desc": "Amazon",
+      "cat": "misc",
+      "amt": 89.55,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "r1N4ZXrJbdioAqBkX4RKCdXPE6kdEJIrN7pNa",
+      "date": "2026-04-06",
+      "desc": "Achpymnt Washburns Home",
+      "cat": "misc",
+      "amt": 40.0,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "4VYBzNnrXeC71jRVkOXLCVLN9xqV9ACDxrBx1",
+      "date": "2026-04-06",
+      "desc": "Donut Palace",
+      "cat": "food",
+      "amt": 22.16,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    },
+    {
+      "id": "a53myDdJO0hd5Nm3KXgYfg3K1pZg1RfKxVgxa",
+      "date": "2026-04-07",
+      "desc": "Straight Talk",
+      "cat": "misc",
+      "amt": 47.49,
+      "type": "expense",
+      "src": "plaid",
+      "pending": true
+    },
+    {
+      "id": "xKnwVmr1bPFj0AV6vLPkubxwEDVbELfmqg4qo",
+      "date": "2026-04-07",
+      "desc": "Walmart",
+      "cat": "groceries",
+      "amt": 30.73,
+      "type": "expense",
+      "src": "plaid",
+      "pending": false
+    }
+  ],
+  "meta": {
+    "institution_name": "Union Bank",
+    "last_sync": "2026-04-08T20:32:10.982081+00:00",
+    "transaction_count": 88,
+    "days": 30
+  },
+  "crow": {
+    "income_30d": 15874.67,
+    "expenses_30d": 14830.53,
+    "available_cash": 0.0,
+    "transaction_count": 88,
+    "monthly_net": 1044.14,
+    "runway_days": 0,
+    "leaks": [
+      [
+        "misc",
+        9179.06
+      ],
+      [
+        "loan",
+        2446.65
+      ],
+      [
+        "transfers",
+        863.77
+      ],
+      [
+        "groceries",
+        778.4000000000001
+      ],
+      [
+        "housing",
+        642.82
+      ]
+    ],
+    "recurring_bills": [],
+    "top_leak_category": "misc",
+    "top_leak_amount": 9179.06,
+    "pressure": [
+      "Top expense category: misc ($9179.06)"
+    ],
+    "savings_buffer": 0.0,
+    "mode": "Survival",
+    "recommendation": "Enter protection mode: cover overdue or near-term bills first, and freeze non-essential spending until at least $50.00 is accounted for."
+  }
+}

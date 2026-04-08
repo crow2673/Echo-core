@@ -1,16 +1,17 @@
 {
-  "timestamp": "2026-04-07T23:55:01.795238",
-  "session_focus": "Briefing Fixed \u2014 Direct Ollama Call + First Honest Briefing Confirmed + Major Build Session + Architecture Leap: Planner + Verify + Reach",
+  "timestamp": "2026-04-08T16:08:00",
+  "generated_by": "session_checkpoint.py",
+  "session_focus": "Plaid production connected + Crow finance engine wired into Echo + trading brain 9:30am confirmed",
   "key_decisions": [
-    "echo_planner.py: goal intake, Ollama decomposition, dispatch table with 11 intents",
-    "echo_verify.py: outcome validator with verification rules per intent, retry/escalate",
-    "echo_reach.py: API bridge \u2014 routes hard tasks to Claude, falls back to local model",
-    "Intent classification works: publish/trade/crypto/notify/shell/governor all route correctly",
-    "Verifier catches failures and routes to retry or escalate correctly",
-    "Reach correctly routes: debug/analyze/strategy \u2192 API, run/publish/health \u2192 local"
+    "Plaid production approved — real bank transactions flowing",
+    "Crow finance engine copied to ~/Echo/crow_finance — Echo now has household financial context",
+    "weekly_report.py updated — includes real household mode and runway days",
+    "Trading brain 9:30am: IWM +5.2% closed, RKLB +7.5% closed, XOM -4.8% stopped out, GLD entered",
+    "Balance product requested in Plaid — pending approval",
+    "Data filtered to 2025-2026 only — multi-year history excluded",
+    "Portfolio $101,450 — up $1,450 in 14 days autonomously"
   ],
-  "next_priority": "Crown a king Phase 3 \u2014 timers become dumb workers, daemon makes all decisions",
-  "status": "auto_checkpoint",
-  "notes": "Trading: 3 positions open: XOM, IWM, RKLB. Regret index: healthy. Cascade: L1:+808 L2:+1851 L3:+2066 L4:+449 Total:+5174.",
-  "generated_by": "session_checkpoint.py"
+  "next_priority": "Plaid balance product approval — re-link bank to get real-time balance data",
+  "status": "complete",
+  "notes": "April household: $1,080 in, $1,277 out, -$197 so far. Second paycheck due mid-month. Overdue bills $384. Savings $1,000. Echo knows the real picture now."
 }

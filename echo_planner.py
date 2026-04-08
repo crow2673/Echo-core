@@ -16,6 +16,17 @@ from pathlib import Path
 from datetime import datetime
 
 BASE = Path(__file__).resolve().parent
+
+# Decision trace — import safely
+try:
+    import importlib.util as _ilu
+    _spec = _ilu.spec_from_file_location("decision_trace", BASE / "core/decision_trace.py")
+    _dt = _ilu.module_from_spec(_spec)
+    _spec.loader.exec_module(_dt)
+    TRACE_AVAILABLE = True
+except Exception:
+    _dt = None
+    TRACE_AVAILABLE = False
 LOG = BASE / "logs/planner.log"
 PLAN_HISTORY = BASE / "memory/plan_history.json"
 
@@ -258,6 +269,12 @@ def run_plan(goal_text, use_ollama=True):
     plan["status"] = "complete" if all_succeeded else "partial"
     save_plan(plan)
     log(f"Plan complete — status: {plan['status']}")
+    # Record to decision trace
+    if TRACE_AVAILABLE and _dt:
+        try:
+            _dt.trace_plan(plan, source="local")
+        except Exception:
+            pass
     return plan
 
 

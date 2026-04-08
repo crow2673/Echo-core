@@ -145,6 +145,17 @@ def get_trade_snapshot():
         snapshot["error"] = str(e)
     return snapshot
 
+def get_trace_snapshot():
+    """Get decision trace stats for echo_state."""
+    try:
+        import importlib.util as _ilu
+        _spec = _ilu.spec_from_file_location("decision_trace", BASE / "core/decision_trace.py")
+        _mod = _ilu.module_from_spec(_spec)
+        _spec.loader.exec_module(_mod)
+        return _mod.get_summary_stats()
+    except Exception as e:
+        return {"error": str(e)}
+
 def get_cascade_snapshot():
     """Get cascade sleeve summary for echo_state."""
     try:
@@ -236,6 +247,7 @@ def run():
         "timers": get_timer_states(),
         "income": get_trade_snapshot(),
         "cascade": get_cascade_snapshot(),
+        "decision_trace": get_trace_snapshot(),
         "regret_index": get_regret_snapshot(),
         "golem": get_golem_snapshot(),
     }

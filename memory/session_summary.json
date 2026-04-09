@@ -1,19 +1,16 @@
 {
-  "timestamp": "2026-04-08T17:20:00",
-  "generated_by": "session_checkpoint.py",
-  "session_focus": "Crow Finance fully wired — Plaid live, dashboard working, crow-finance systemd service active",
+  "timestamp": "2026-04-08T23:55:00.540111",
+  "session_focus": "Briefing Fixed \u2014 Direct Ollama Call + First Honest Briefing Confirmed + Major Build Session + Architecture Leap: Planner + Verify + Reach",
   "key_decisions": [
-    "Plaid production approved and connected — Union Bank linked",
-    "179 transactions synced January 9 through April 8",
-    "crow-finance.service created — Flask starts automatically on boot",
-    "Finance Engine reads from crow_snapshot — showing real $1,014 balance",
-    "Graph fixed — January through April running net balance",
-    "Savings and bills re-entered manually in dashboard",
-    "weekly_report.py includes real household financial mode and runway",
-    "Portfolio $101,450 — up $1,450 in 14 days",
-    "Trading brain: IWM +5.2% closed, RKLB +7.5% closed, XOM stopped, GLD entered"
+    "echo_planner.py: goal intake, Ollama decomposition, dispatch table with 11 intents",
+    "echo_verify.py: outcome validator with verification rules per intent, retry/escalate",
+    "echo_reach.py: API bridge \u2014 routes hard tasks to Claude, falls back to local model",
+    "Intent classification works: publish/trade/crypto/notify/shell/governor all route correctly",
+    "Verifier catches failures and routes to retry or escalate correctly",
+    "Reach correctly routes: debug/analyze/strategy \u2192 API, run/publish/health \u2192 local"
   ],
-  "next_priority": "Plaid balance product approval — re-link bank once approved to get real-time balance",
-  "status": "complete",
-  "notes": "April: $1,080 in, $1,277 out. Second paycheck due mid-month. Overdue bills $384. crow-finance runs on port 8787 automatically."
+  "next_priority": "Crown a king Phase 3 \u2014 timers become dumb workers, daemon makes all decisions",
+  "status": "auto_checkpoint",
+  "notes": "Trading: 1 positions open: GLD. Regret index: healthy. Cascade: L1:+923 L2:+2708 L3:+1887 L4:+1103 Total:+6621.",
+  "generated_by": "session_checkpoint.py"
 }

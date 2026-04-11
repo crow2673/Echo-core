@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-10T07:59:57.776228+00:00",
-  "updated_at_local": "2026-04-10T02:59:57.828611-05:00",
+  "updated_at": "2026-04-11T07:59:46.787390+00:00",
+  "updated_at_local": "2026-04-11T02:59:46.836590-05:00",
   "core": {
     "service": "echo-core.service",
     "status": "active",
@@ -27,102 +27,102 @@
       "service": "echo-pulse.service",
       "meta": {
         "Result": "success",
-        "ExecMainStartTimestamp": "Fri 2026-04-10 00:05:04 CDT",
-        "ExecMainExitTimestamp": "Fri 2026-04-10 00:05:04 CDT",
+        "ExecMainStartTimestamp": "Sat 2026-04-11 00:05:06 CDT",
+        "ExecMainExitTimestamp": "Sat 2026-04-11 00:05:06 CDT",
         "ExecMainCode": "1",
         "ExecMainStatus": "0",
-        "InactiveExitTimestamp": "Fri 2026-04-10 00:05:04 CDT"
+        "InactiveExitTimestamp": "Sat 2026-04-11 00:05:06 CDT"
       },
       "health": "ok",
       "expected_interval_seconds": 86400,
-      "last_exit_local": "2026-04-10T00:05:04-05:00",
-      "next_expected_run_local": "2026-04-11T00:05:00-05:00",
-      "age_seconds": 10493,
+      "last_exit_local": "2026-04-11T00:05:06-05:00",
+      "next_expected_run_local": "2026-04-12T00:05:00-05:00",
+      "age_seconds": 10480,
       "stale": false
     },
     "reachability": {
       "service": "echo-reachability-watch.service",
       "meta": {
         "Result": "exit-code",
-        "ExecMainStartTimestamp": "Fri 2026-04-10 02:59:30 CDT",
-        "ExecMainExitTimestamp": "Fri 2026-04-10 02:59:30 CDT",
+        "ExecMainStartTimestamp": "Sat 2026-04-11 02:58:34 CDT",
+        "ExecMainExitTimestamp": "Sat 2026-04-11 02:58:34 CDT",
         "ExecMainCode": "1",
         "ExecMainStatus": "0",
-        "InactiveExitTimestamp": "Fri 2026-04-10 02:59:30 CDT"
+        "InactiveExitTimestamp": "Sat 2026-04-11 02:58:34 CDT"
       },
       "health": "fail",
       "expected_interval_seconds": 300,
-      "last_exit_local": "2026-04-10T02:59:30-05:00",
-      "next_expected_run_local": "2026-04-10T03:04:30-05:00",
-      "age_seconds": 27,
+      "last_exit_local": "2026-04-11T02:58:34-05:00",
+      "next_expected_run_local": "2026-04-11T03:03:34-05:00",
+      "age_seconds": 72,
       "stale": false
     },
     "golem_monitor": {
       "service": "echo-golem-monitor.service",
       "meta": {
-        "Result": "exit-code",
-        "ExecMainStartTimestamp": "Thu 2026-04-09 11:00:06 CDT",
-        "ExecMainExitTimestamp": "Thu 2026-04-09 11:00:07 CDT",
+        "Result": "success",
+        "ExecMainStartTimestamp": "Fri 2026-04-10 11:00:06 CDT",
+        "ExecMainExitTimestamp": "Fri 2026-04-10 11:00:07 CDT",
         "ExecMainCode": "1",
         "ExecMainStatus": "1",
-        "InactiveExitTimestamp": "Thu 2026-04-09 11:00:06 CDT"
+        "InactiveExitTimestamp": "Fri 2026-04-10 11:00:06 CDT"
       },
       "health": "fail",
       "expected_interval_seconds": 86400,
-      "last_exit_local": "2026-04-09T11:00:07-05:00",
-      "next_expected_run_local": "2026-04-10T11:00:00-05:00",
-      "age_seconds": 57590,
+      "last_exit_local": "2026-04-10T11:00:07-05:00",
+      "next_expected_run_local": "2026-04-11T11:00:00-05:00",
+      "age_seconds": 57579,
       "stale": false
     },
     "heartbeat": {
       "service": "echo-heartbeat.service",
       "meta": {
         "Result": "success",
-        "ExecMainStartTimestamp": "Fri 2026-04-10 02:59:57 CDT",
-        "ExecMainExitTimestamp": "Fri 2026-04-10 02:59:57 CDT",
+        "ExecMainStartTimestamp": "Sat 2026-04-11 02:59:15 CDT",
+        "ExecMainExitTimestamp": "Sat 2026-04-11 02:59:15 CDT",
         "ExecMainCode": "1",
         "ExecMainStatus": "0",
-        "InactiveExitTimestamp": "Fri 2026-04-10 02:59:57 CDT"
+        "InactiveExitTimestamp": "Sat 2026-04-11 02:59:15 CDT"
       },
       "health": "ok",
       "expected_interval_seconds": 60,
-      "last_exit_local": "2026-04-10T02:59:57-05:00",
-      "next_expected_run_local": "2026-04-10T03:00:57-05:00",
-      "age_seconds": 0,
+      "last_exit_local": "2026-04-11T02:59:15-05:00",
+      "next_expected_run_local": "2026-04-11T03:00:15-05:00",
+      "age_seconds": 31,
       "stale": false
     },
     "self_act_worker": {
       "service": "echo-self-act-worker.service",
       "meta": {
         "Result": "success",
-        "ExecMainStartTimestamp": "Fri 2026-04-10 02:59:30 CDT",
-        "ExecMainExitTimestamp": "Fri 2026-04-10 02:59:35 CDT",
+        "ExecMainStartTimestamp": "Sat 2026-04-11 02:58:34 CDT",
+        "ExecMainExitTimestamp": "Sat 2026-04-11 02:58:38 CDT",
         "ExecMainCode": "1",
         "ExecMainStatus": "0",
-        "InactiveExitTimestamp": "Fri 2026-04-10 02:59:30 CDT"
+        "InactiveExitTimestamp": "Sat 2026-04-11 02:58:34 CDT"
       },
       "health": "ok",
       "expected_interval_seconds": 300,
-      "last_exit_local": "2026-04-10T02:59:35-05:00",
-      "next_expected_run_local": "2026-04-10T03:04:30-05:00",
-      "age_seconds": 22,
+      "last_exit_local": "2026-04-11T02:58:38-05:00",
+      "next_expected_run_local": "2026-04-11T03:03:34-05:00",
+      "age_seconds": 68,
       "stale": false
     },
     "auto_act": {
       "service": "echo-auto-act.service",
       "meta": {
         "Result": "success",
-        "ExecMainStartTimestamp": "Fri 2026-04-10 02:54:28 CDT",
-        "ExecMainExitTimestamp": "Fri 2026-04-10 02:54:28 CDT",
+        "ExecMainStartTimestamp": "Sat 2026-04-11 02:58:34 CDT",
+        "ExecMainExitTimestamp": "Sat 2026-04-11 02:58:34 CDT",
         "ExecMainCode": "1",
         "ExecMainStatus": "0",
-        "InactiveExitTimestamp": "Fri 2026-04-10 02:54:28 CDT"
+        "InactiveExitTimestamp": "Sat 2026-04-11 02:58:34 CDT"
       },
       "health": "ok",
       "expected_interval_seconds": 1800,
-      "last_exit_local": "2026-04-10T02:54:28-05:00",
-      "next_expected_run_local": "2026-04-10T03:24:28-05:00",
-      "age_seconds": 329,
+      "last_exit_local": "2026-04-11T02:58:34-05:00",
+      "next_expected_run_local": "2026-04-11T03:28:34-05:00",
+      "age_seconds": 72,
       "stale": false
     },
     "ntfy_bridge": {
@@ -138,45 +138,45 @@
       "health": "ok",
       "last_exit_local": "2026-03-23T16:45:57-05:00",
       "next_expected_run_local": null,
-      "age_seconds": 1505640
+      "age_seconds": 1592029
     },
     "git_backup": {
       "service": "echo-git-backup.service",
       "meta": {
         "Result": "success",
-        "ExecMainStartTimestamp": "Thu 2026-04-09 03:00:06 CDT",
-        "ExecMainExitTimestamp": "Thu 2026-04-09 03:00:09 CDT",
+        "ExecMainStartTimestamp": "Fri 2026-04-10 03:00:06 CDT",
+        "ExecMainExitTimestamp": "Fri 2026-04-10 03:00:09 CDT",
         "ExecMainCode": "1",
         "ExecMainStatus": "0",
-        "InactiveExitTimestamp": "Thu 2026-04-09 03:00:06 CDT"
+        "InactiveExitTimestamp": "Fri 2026-04-10 03:00:06 CDT"
       },
       "health": "ok",
       "expected_interval_seconds": 86400,
-      "last_exit_local": "2026-04-09T03:00:09-05:00",
-      "next_expected_run_local": "2026-04-10T03:00:00-05:00",
-      "age_seconds": 86388,
+      "last_exit_local": "2026-04-10T03:00:09-05:00",
+      "next_expected_run_local": "2026-04-11T03:00:00-05:00",
+      "age_seconds": 86377,
       "stale": false
     },
     "disk_monitor": {
       "service": "echo-disk-monitor.service",
       "meta": {
         "Result": "success",
-        "ExecMainStartTimestamp": "Thu 2026-04-09 23:00:31 CDT",
-        "ExecMainExitTimestamp": "Thu 2026-04-09 23:00:31 CDT",
+        "ExecMainStartTimestamp": "Fri 2026-04-10 23:01:08 CDT",
+        "ExecMainExitTimestamp": "Fri 2026-04-10 23:01:08 CDT",
         "ExecMainCode": "1",
         "ExecMainStatus": "0",
-        "InactiveExitTimestamp": "Thu 2026-04-09 23:00:31 CDT"
+        "InactiveExitTimestamp": "Fri 2026-04-10 23:01:08 CDT"
       },
       "health": "ok",
       "expected_interval_seconds": 21600,
-      "last_exit_local": "2026-04-09T23:00:31-05:00",
-      "next_expected_run_local": "2026-04-10T05:00:31-05:00",
-      "age_seconds": 14366,
+      "last_exit_local": "2026-04-10T23:01:08-05:00",
+      "next_expected_run_local": "2026-04-11T05:01:08-05:00",
+      "age_seconds": 14318,
       "stale": false
     }
   },
   "last": {
-    "pulse_line": "{\"ts\": \"2026-04-10T07:59:57.775788+00:00\", \"type\": \"heartbeat\", \"source\": \"echo-heartbeat.service\", \"ts_local\": \"2026-04-10T02:59:57.775803-05:00\", \"core\": \"active\", \"self_act_timer\": \"active\", \"reachability_timer\": \"active\"}",
+    "pulse_line": "{\"ts\": \"2026-04-11T07:59:15.776547+00:00\", \"type\": \"heartbeat\", \"source\": \"echo-heartbeat.service\", \"ts_local\": \"2026-04-11T02:59:15.776560-05:00\", \"core\": \"active\", \"self_act_timer\": \"active\", \"reachability_timer\": \"active\"}",
     "command": {
       "capsule_id": "COMMAND:20260307_124906",
       "type": "command",

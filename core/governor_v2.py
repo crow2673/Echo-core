@@ -260,6 +260,15 @@ def run():
 
     write_state_atomic(state)
     print(f"[governor_v2] echo_state.json written — health={state['system_health']}")
+    # Keep soul document current with live data
+    try:
+        import subprocess
+        subprocess.Popen(
+            ["python3", str(Path.home() / "Echo/core/update_contract.py")],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
+    except Exception:
+        pass
 
 if __name__ == "__main__":
     run()

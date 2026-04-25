@@ -71,10 +71,18 @@ memory/session_summary.json ← SESSION CONTEXT
 - [Ollama](https://ollama.com) installed
 - `qwen2.5:32b` model (~19GB) — Echo's identity model
 - `qwen2.5:7b` model (~4.7GB) — fast reasoning (Telegram replies, self_act)
-- `sentence-transformers` Python package
-- NVIDIA GPU recommended (RTX 3060 or better)
+- NVIDIA GPU recommended (RTX 3060 or better) — required for local inference at this model size
 - Telegram bot token (set `TELEGRAM_BOT_TOKEN` in `~/.config/echo/golem.env`)
 - Alpaca paper trading account (free)
+
+**Python packages:**
+```
+torch (install with CUDA first — see below)
+requests
+psutil
+sentence-transformers
+alpaca-trade-api
+```
 
 ---
 
@@ -84,22 +92,25 @@ memory/session_summary.json ← SESSION CONTEXT
 ollama pull qwen2.5:32b   # ~19GB — Echo's brain
 ollama pull qwen2.5:7b    # fast reasoning
 
-# 2. Install Python dependencies
-pip install sentence-transformers requests psutil alpaca-trade-api --break-system-packages
+# 2. Install PyTorch with CUDA (do this before sentence-transformers)
+pip install torch --index-url https://download.pytorch.org/whl/cu124 --break-system-packages
 
-# 3. Build Echo's identity model (requires Echo.Modelfile — restore from backup)
+# 3. Install remaining Python dependencies
+pip install -r requirements.txt --break-system-packages
+
+# 4. Build Echo's identity model (requires Echo.Modelfile — restore from backup)
 ollama create echo -f Echo.Modelfile
 
-# 4. Seed her memory (requires echo_memory_sqlite.py — restore from backup)
+# 5. Seed her memory (requires echo_memory_sqlite.py — restore from backup)
 python3 echo_memory_sqlite.py --seed
 
-# 5. Start the core daemon
+# 6. Start the core daemon
 systemctl --user start echo-core.service
 
-# 6. Start the governor (system truth engine)
+# 7. Start the governor (system truth engine)
 systemctl --user start echo-governor-v2.timer
 
-# 7. Check status
+# 8. Check status
 systemctl --user list-timers --all | grep echo
 ```
 
@@ -127,7 +138,8 @@ ollama pull qwen2.5:7b           # fast model for Telegram replies
 git clone https://github.com/crow2673/Echo-core ~/Echo
 
 # 3. Install Python deps
-pip install sentence-transformers requests psutil alpaca-trade-api --break-system-packages
+pip install torch --index-url https://download.pytorch.org/whl/cu124 --break-system-packages
+pip install -r requirements.txt --break-system-packages
 
 # 4. Restore secrets
 mkdir -p ~/.config/echo

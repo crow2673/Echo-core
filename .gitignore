@@ -1,0 +1,223 @@
+# Memory and databases
+echo_memory.json
+echo_memory.lock
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+logs/
+*.log
+*.log.gz
+
+# Secrets
+.env
+*.key
+*.token
+echo_contract.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.pytest_cache/
+
+# Checkpoints (too large)
+checkpoints/
+
+# Temp
+/tmp/
+*.tmp
+
+# Keys and tokens
+appkey.txt
+*.txt.key
+
+# Junk
+*.swp
+*.zip
+*.bak
+*.bak.*
+*.bak2
+*.bak_*
+*.broken
+*.off
+chat
+current_state.txt
+agent_log.txt
+ai_suggestions.txt
+always_on_log.json
+always_on_task_log.json
+
+# Old backup directories
+backup_project/
+backup_echo_memory.json
+
+# Large files
+voice_models/
+bundles_all_no_images/
+bundles_raw/
+echo_project/
+archive/
+etc/
+var/
+install
+send_mach_info.py
+vastai_install_logs.tar.gz
+
+# runtime state
+memory/echo_state.json
+
+# Junk files
+a.zip
+analyze_content.py
+bundle_all_no_images.py
+bundle_all_raw.py
+content_generator.py
+chat_integrate.py
+compact_memory.py
+check_node_status.py
+cleanup.sh
+auto_backup.sh
+backup.sh
+Gai.Modelfile
+appkey.txt
+agent_log.txt
+ai_suggestions.txt
+
+# App directory (old UI experiments)
+app/
+
+# Personal companion engine (private, not for GitHub)
+companion_engine/
+assets/waifu_outfits/
+assets/tensor_extracted/
+
+# Bundles
+bundles_all_no_images/
+bundles_raw/
+
+# Archive
+archive/
+
+# Backup project
+backup_project/
+
+# Runtime memory files (keep only intentional ones)
+memory/*.json
+memory/*.jsonl
+memory/*.ndjson
+memory/*.md
+!memory/content_strategy.json
+!memory/session_summary.json
+
+# Content drafts
+content/draft_*.md
+content/article_*.md
+content/pending_review/
+
+# Swap files
+*.swp
+crow_finance/data/tokens.json
+crow_finance/backend/data/tokens.json
+
+# Keys and runtime locks
+memory/app_key.path
+memory/echo_panel.lock
+core/state.json
+memory/core_state.json.stale_*
+unsloth_compiled_cache/
+
+# Large model files (too big for GitHub)
+memory/exported_models/
+memory/lora_adapters/
+*.gguf
+*.safetensors
+
+# Removed directories (prevent re-tracking)
+companion_engine_backup_*/
+WaifuEngine/
+legacy/
+legacy_quarantined/
+echo_project/
+docs/
+modes/
+routines/
+upgrade/
+actions/
+app/
+test_outputs/
+refined_drafts/
+download/
+voice_models/
+
+# Removed chunk/dump files
+dirs_chunk_*
+dirs_full_chunk_*
+files_full_chunk_*
+echo_dirs_chunk_*
+
+# Legacy Python variants (micro_safe, dashboard, task_manager, run_micro_safe)
+micro_safe_trading_bot*.py
+run_micro_safe_trades*.py
+dashboard*.py
+task_manager*.py
+run_safe_trades.py
+sandbox_adapter.py
+sandbox_screen_adapter.py
+screen_watcher*.py
+trading_bot.py
+safe_trading_bot.py
+gpt_reasoner.py
+
+# Legacy echo_*.py stubs
+echo_agent.py
+echo_ai_trade_feed.py
+echo_always_on.py
+echo_audit*.py
+echo_autonomous*.py
+echo_crypto_watch.py
+echo_daemon_ai.py
+echo_daemon_loop.py*
+echo_debug_mobile.py
+echo_gui.*
+echo_income_monitor.py
+echo_intake.py
+echo_interface.py
+echo_launcher.py
+echo_listen_mobile.py
+echo_message_intake.py
+echo_mobile_listener.py
+echo_planner.py
+echo_price_sentry.py
+echo_scan.py
+echo_screen_watcher.py
+echo_self_audit.py
+echo_status.py
+echo_sync_*.py
+echo_trade_feed.py
+echo_utils.py
+echo_verify.py
+echo_voice.py
+echo_wake.py
+echo_watchdog.py
+echo_control_center.py
+echo_reach.py
+echo_memory_sqlite.py
+echo_command*.py
+
+# Misc junk
+*.bak
+*.bak.*
+*.broken*
+*.off
+nohup.out
+*.txt (except specific ones)
+content/legacy/
+vast_host_install.log
+vastai_install_logs.tar.gz
+send_mach_info.py

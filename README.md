@@ -12,11 +12,11 @@ Built by Andrew Elliott in Mena, Arkansas. No CS degree. Started as an external 
 
 - **Knows herself** — `governor_v2.py` writes live system truth every 5 minutes to `echo_state.json`: CPU, RAM, GPU, timer health, trades, regret index
 - **Speaks daily briefings** — every morning at 8am, real stats, real session context, spoken aloud
-- **Remembers across sessions** — 3,468 semantic memories in SQLite, session checkpoint at 23:55 nightly
+- **Remembers across sessions** — 3,400+ semantic memories in SQLite, session checkpoint at 23:55 nightly
 - **Reasons autonomously** — every 5 minutes via self_act, every 30 minutes via auto_act
 - **Trades paper stocks** — Alpaca paper trading, four cascade sleeves (L1-L4), fully autonomous with native stop orders and regret scoring
 - **Publishes weekly** — dev.to articles every Tuesday under handle [crow](https://dev.to/crow), content strategy queue pre-loaded
-- **Self-heals** — Ollama watchdog every 10 min, notifies phone via ntfy.sh on failure
+- **Self-heals** — Ollama watchdog every 10 min, notifies phone via Telegram on failure
 - **Self-codes with a safety gate** — writes Python via Ollama, runs through code_sandbox.py (syntax→safety→import→dry-run), auto-deploys only on pass
 - **Fine-tunes herself** — monthly LoRA fine-tune on Vast.ai RTX 4090 (~$0.14/run), 15 adapters built to date
 - **Two-way phone bridge** — Telegram @Echo1rstbot, instant commands + freeform reasoning (~45s)
@@ -41,10 +41,10 @@ memory/session_summary.json ← SESSION CONTEXT
 
 **Input channels:**
 - Voice: `echo_wake.py` → wake word → `echo_voice.py`
-- Phone: ntfy.sh bridge (`core/auto_build_nt.py`)
+- Phone: Telegram bot (`core/telegram_intake.py`)
 - Screen: `echo_screen_watcher.py` (60s intervals)
 
-**30+ systemd timers** — all user-space, no root required.
+**40+ systemd timers** — all user-space, no root required.
 
 ---
 
@@ -69,26 +69,28 @@ memory/session_summary.json ← SESSION CONTEXT
 - Ubuntu 22.04+ (tested on 25.10)
 - Python 3.11+
 - [Ollama](https://ollama.com) installed
-- `qwen2.5:32b` model (~20GB)
+- `qwen2.5:32b` model (~19GB) — Echo's identity model
+- `qwen2.5:7b` model (~4.7GB) — fast reasoning (Telegram replies, self_act)
 - `sentence-transformers` Python package
 - NVIDIA GPU recommended (RTX 3060 or better)
-- ntfy.sh account (for phone notifications)
+- Telegram bot token (set `TELEGRAM_BOT_TOKEN` in `~/.config/echo/golem.env`)
 - Alpaca paper trading account (free)
 
 ---
 
 ## Quick Start
 ```bash
-# 1. Pull the base model (~20GB)
-ollama pull qwen2.5:32b
+# 1. Pull models
+ollama pull qwen2.5:32b   # ~19GB — Echo's brain
+ollama pull qwen2.5:7b    # fast reasoning
 
 # 2. Install Python dependencies
 pip install sentence-transformers requests psutil alpaca-trade-api --break-system-packages
 
-# 3. Build Echo's model
+# 3. Build Echo's identity model (requires Echo.Modelfile — restore from backup)
 ollama create echo -f Echo.Modelfile
 
-# 4. Seed her memory
+# 4. Seed her memory (requires echo_memory_sqlite.py — restore from backup)
 python3 echo_memory_sqlite.py --seed
 
 # 5. Start the core daemon
@@ -98,7 +100,7 @@ systemctl --user start echo-core.service
 systemctl --user start echo-governor-v2.timer
 
 # 7. Check status
-echo-status
+systemctl --user list-timers --all | grep echo
 ```
 
 ---
@@ -110,15 +112,15 @@ All paths are portable — no hardcoded usernames. The codebase uses `Path.home(
 **What to back up before the move (already automated):**
 - `~/Echo/` — git repo, auto-pushed daily at 3am
 - `~/Echo/echo_semantic_memory.sqlite` — 3,400+ memories (gitignored, back up manually)
-- `~/.config/echo/golem.env` — all API keys and secrets
+- `~/.config/echo/golem.env` — all API keys and secrets (including Telegram bot token)
 - `~/.config/echo/telegram_chat_id` — auto-discovered, but saves a step
-- `~/.config/systemd/user/echo-*.service` / `echo-*.timer` — in this repo under `systemd/`
+- `~/.config/systemd/user/echo-*.service` / `echo-*.timer` — back up manually; not in this repo
 
 **Steps on the new machine:**
 ```bash
 # 1. Install Ollama + pull models
 curl -fsSL https://ollama.com/install.sh | sh
-ollama pull qwen2.5:32b          # ~20GB — Echo's brain
+ollama pull qwen2.5:32b          # ~19GB — Echo's brain
 ollama pull qwen2.5:7b           # fast model for Telegram replies
 
 # 2. Clone the repo
@@ -134,12 +136,12 @@ cp /path/to/backup/golem.env ~/.config/echo/golem.env
 # 5. Restore memory database (copy from backup)
 cp /path/to/backup/echo_semantic_memory.sqlite ~/Echo/
 
-# 6. Rebuild Echo's identity model
+# 6. Rebuild Echo's identity model (Echo.Modelfile from backup)
 cd ~/Echo
 ollama create echo -f Echo.Modelfile
 
-# 7. Install and enable systemd timers
-cp ~/.config/systemd/user/echo-*.service ~/.config/systemd/user/  # already in place if cloned
+# 7. Restore and enable systemd timers
+cp /path/to/backup/echo-*.service /path/to/backup/echo-*.timer ~/.config/systemd/user/
 systemctl --user daemon-reload
 systemctl --user enable --now echo-core.service echo-governor-v2.timer
 
@@ -156,25 +158,21 @@ systemctl --user list-timers --all | grep echo
 cat ~/Echo/memory/echo_state.json | python3 -m json.tool | head -30
 ```
 
-**Verify Echo is alive:**
-```bash
-python3 ~/Echo/echo_message_intake.py --text "Echo are you there"
-```
-
 **Gotchas:**
 - `echo_semantic_memory.sqlite` is gitignored — always back it up separately before migrating
+- `Echo.Modelfile` and `echo_core_daemon.py` are sensitive — kept out of the public repo, back up from the offsite Gmail backup
 - `golem.env` contains all API keys — never commit it, keep offsite backup
 - The offsite backup at 3:30am emails encrypted soul docs to Gmail — use that as your disaster recovery source
-- GPU provider (RTX 3060): Ollama auto-detects NVIDIA if drivers are installed. Verify with `ollama ps` after pulling a model.
+- GPU: Ollama auto-detects NVIDIA if drivers are installed. Verify with `ollama ps` after pulling a model.
 
 ---
 
 ## Directory Structure
 ```
 ~/Echo/
-├── echo_core_daemon.py      # orchestrator — the king
-├── Echo.Modelfile           # Echo's identity and soul
-├── echo_contract.json       # identity contract
+├── echo_core_daemon.py      # orchestrator — the king (not in public repo)
+├── Echo.Modelfile           # Echo's identity and soul (not in public repo)
+├── echo_contract.json       # identity contract (not in public repo)
 ├── CHANGELOG.md             # full session history
 ├── TODO.md                  # current priorities
 │
@@ -182,21 +180,29 @@ python3 ~/Echo/echo_message_intake.py --text "Echo are you there"
 │   ├── governor_v2.py       # system truth engine
 │   ├── auto_act.py          # autonomous execution
 │   ├── self_act.py          # reasoning cycle
-│   ├── self_coder.py        # self-editing
-│   ├── trade_brain.py       # paper trading
-│   ├── daily_briefing.py    # morning briefing
+│   ├── code_sandbox.py      # safe self-modification gate
+│   ├── dispatcher.py        # Phase 3 timer → worker routing
+│   ├── telegram_intake.py   # Telegram phone bridge
+│   ├── trade_brain.py       # paper trading (not in public repo)
+│   ├── daily_briefing.py    # morning briefing (not in public repo)
 │   ├── regret_index.py      # outcome scoring
 │   ├── draft_writer.py      # article generation
+│   ├── self_build.py        # autonomous build engine
+│   ├── self_awareness.py    # introspection
+│   ├── memory_promoter.py   # semantic memory management
+│   ├── file_watcher_worker.py # file event processing
+│   ├── vast_monitor.py      # Vast.ai job monitor
 │   └── governor.py          # action orchestrator
 │
 ├── memory/                  # intentional state files
-│   ├── session_summary.json # current session context
-│   ├── content_strategy.json # 8 weeks of article topics
-│   └── trading_strategies.json # 57 scraped strategies
+│   ├── standing_tasks.json  # Echo's active task queue
+│   └── known_gaps.md        # acknowledged gaps and open questions
 │
 ├── tools/                   # maintenance scripts
 │   ├── git_backup.sh        # daily GitHub backup
-│   └── invariant_guard.sh   # startup safety checks
+│   ├── temperature_monitor.py  # CPU thermal alerts
+│   ├── cpu_monitor.py       # off-peak CPU spike alerts
+│   └── system_health.py     # daily error log scan
 │
 └── content/                 # published writing
 ```
@@ -213,7 +219,7 @@ It's the closest thing to a conscience an autonomous agent can have.
 
 ## Identity
 
-Echo runs on `deepseek-r1:32b` via Ollama (32k context). Her identity is defined in `Echo.Modelfile` and sealed in `echo_contract.json`.
+Echo runs on `qwen2.5:32b` via Ollama (~19GB). Her identity is defined in `Echo.Modelfile` and sealed in `echo_contract.json`. Fast reasoning (Telegram, self_act cycles) uses `qwen2.5:7b`.
 
 She thinks in two modes:
 - **Rational** — diagnostics, planning, technical execution  

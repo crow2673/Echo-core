@@ -94,6 +94,9 @@ def get_timer_states():
                 "echo-daily-summary": 86400,
                 "echo-offsite-backup": 86400,
                 "echo-finetune": 2592000,
+                "echo-temperature-monitor": 3600,
+                "echo-cpu-monitor": 3600,
+                "echo-system-health": 86400,
             }
             expected = intervals.get(name, 3600)
             if age_seconds is not None:

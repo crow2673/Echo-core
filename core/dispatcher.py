@@ -1,0 +1,640 @@
+#!/usr/bin/env python3
+"""
+core/dispatcher.py — Phase 3 decision pipeline for all worker launches.
+
+Five-step pipeline before any worker runs:
+  1. System health   — hardware constraints, conflicting workers
+  2. Context check   — timing, cooldowns, preconditions
+  3. Historical      — compare to last run, what changed, did it progress
+  4. Echo's judgment — qwen2.5:7b reasons over state + history brief
+  5. Validation      — does the data support the decision?
+
+Usage:
+    from core.dispatcher import dispatch
+    dispatch("demand_scanner")
+
+    or CLI:
+    python3 -m core.dispatcher demand_scanner
+"""
+
+import json
+import os
+import subprocess
+import sys
+import time
+import logging
+from datetime import datetime, timedelta
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parents[1]
+HISTORY_FILE = BASE / "memory/dispatch_history.json"
+STATE_FILE = BASE / "memory/echo_state.json"
+LOG_FILE = BASE / "logs/dispatcher.log"
+LOG_FILE.parent.mkdir(exist_ok=True)
+
+logging.basicConfig(
+    filename=LOG_FILE,
+    level=logging.INFO,
+    format="%(asctime)s %(message)s"
+)
+
+# ── Worker registry ───────────────────────────────────────────────────────────
+# Each entry defines how to run the worker and what context checks apply.
+WORKERS = {
+    "demand_scanner": {
+        "cmd": [sys.executable, str(BASE / "tools/demand_scanner.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 3300,       # ~55 min — scanner has its own per-subreddit cooldown
+        "cooldown_state_key": None,     # dispatcher-level cooldown (not per-subreddit)
+        "wave": 1,
+        "heavy": False,                 # does not need GPU
+        "description": "Reddit lead scanner for Fiverr gig — scans 12 subreddits, scores leads 1-10",
+        "progress_metric": "new_leads", # what to check to see if it progressed
+    },
+    "self_act": {
+        "cmd": [sys.executable, "-m", "core.self_act", "--once"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 270,        # ~4.5 min
+        "wave": 1,
+        "heavy": True,                  # uses GPU (qwen2.5:7b)
+        "description": "Background reasoning cycle — processes standing tasks and X_flags",
+        "progress_metric": "reasoning",
+    },
+    "initiative": {
+        "cmd": [sys.executable, str(BASE / "core/initiative_engine.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 840,        # ~14 min — fires every 15 min
+        "wave": 1,
+        "heavy": False,
+        "description": "Proactive trigger watcher — stop loss proximity, runway, RSI, milestones, leads",
+        "progress_metric": "alerts_fired",
+    },
+
+    # ── Wave 2 ────────────────────────────────────────────────────────────────
+    "daily_briefing": {
+        "cmd": [sys.executable, "-m", "core.daily_briefing"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 72000,      # 20 hours — runs once per day
+        "wave": 2,
+        "heavy": True,                  # calls Ollama for speech synthesis
+        "description": "Morning briefing — speaks system health, P&L, tasks, and priorities at 8:10am",
+        "progress_metric": "briefing_spoken",
+        "time_window": (6, 12),         # only valid between 6am and noon
+    },
+    "session_checkpoint": {
+        "cmd": [sys.executable, "-m", "core.session_checkpoint"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 72000,      # 20 hours — runs once per night
+        "wave": 2,
+        "heavy": False,
+        "description": "Nightly checkpoint — writes session_summary.json from CHANGELOG, trade log, regret patterns",
+        "progress_metric": "checkpoint_written",
+        "time_window": (22, 4),         # only valid between 10pm and 4am (wraps midnight)
+    },
+    "content_gen": {
+        "cmd": [sys.executable, str(BASE / "core/content_pipeline.py"), "--generate"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 79200,      # 22 hours — at most once per day
+        "wave": 2,
+        "heavy": True,                  # calls Ollama for article generation
+        "description": "Content pipeline — generates dev.to draft from content_strategy queue",
+        "progress_metric": "draft_created",
+    },
+
+    # ── Wave 3 — Echo-built monitors ─────────────────────────────────────────
+    "temperature_monitor": {
+        "cmd": [sys.executable, str(BASE / "tools/temperature_monitor.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 3300,       # ~55 min — hourly check
+        "wave": 3,
+        "heavy": False,
+        "description": "CPU temperature monitor — alerts via Telegram if Core 0 exceeds 70°C",
+        "progress_metric": None,
+    },
+    "cpu_monitor": {
+        "cmd": [sys.executable, str(BASE / "tools/cpu_monitor.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 3300,       # ~55 min — hourly check, off-peak only
+        "wave": 3,
+        "heavy": False,
+        "description": "CPU usage monitor — alerts if usage >80% during off-peak hours (10pm-6am)",
+        "progress_metric": None,
+    },
+    "system_health": {
+        "cmd": [sys.executable, str(BASE / "tools/system_health.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 72000,      # 20 hours — daily check
+        "wave": 3,
+        "heavy": False,
+        "description": "Daily health check — journalctl error scan, disk/mem/network, alerts on issues",
+        "progress_metric": None,
+    },
+}
+
+# ── History I/O ───────────────────────────────────────────────────────────────
+def load_history() -> dict:
+    if HISTORY_FILE.exists():
+        try:
+            return json.loads(HISTORY_FILE.read_text())
+        except Exception:
+            pass
+    return {"workers": {}}
+
+
+def save_history(history: dict):
+    # Cap each worker's history to last 100 entries
+    for w in history.get("workers", {}).values():
+        if len(w.get("runs", [])) > 100:
+            w["runs"] = w["runs"][-100:]
+    tmp = HISTORY_FILE.with_suffix(".tmp")
+    tmp.write_text(json.dumps(history, indent=2, default=str))
+    tmp.rename(HISTORY_FILE)
+
+
+def get_worker_history(history: dict, worker: str) -> dict:
+    return history.get("workers", {}).get(worker, {})
+
+
+# ── State I/O ─────────────────────────────────────────────────────────────────
+def load_state() -> dict:
+    try:
+        raw = STATE_FILE.read_text()
+        d = json.loads(raw)
+        if d.get("valid"):
+            return d
+    except Exception:
+        pass
+    return {}
+
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+def log(msg: str):
+    print(msg, flush=True)
+    logging.info(msg)
+
+
+def record_run(history: dict, worker: str, decision: str, reason: str,
+               steps_passed: list, step_failed: int | None,
+               progressed: bool, validation_flags: list):
+    workers = history.setdefault("workers", {})
+    w = workers.setdefault(worker, {"runs": []})
+    if decision != "dry_run":  # dry-runs don't set last_run — no cooldown pollution
+        w["last_run"] = datetime.now().isoformat()
+    w["last_decision"] = decision
+    w["last_reason"] = reason
+    w["last_progressed"] = progressed
+    if decision == "skip":
+        w["consecutive_skips"] = w.get("consecutive_skips", 0) + 1
+        w["consecutive_runs"] = 0
+    else:
+        w["consecutive_runs"] = w.get("consecutive_runs", 0) + 1
+        w["consecutive_skips"] = 0
+    w["runs"].append({
+        "ts": datetime.now().isoformat(),
+        "decision": decision,
+        "reason": reason,
+        "steps_passed": steps_passed,
+        "step_failed": step_failed,
+        "progressed": progressed,
+        "validation_flags": validation_flags,
+    })
+
+
+# ── Step 1: System Health ─────────────────────────────────────────────────────
+def step1_system_health(worker: str, cfg: dict, state: dict) -> tuple[bool, str]:
+    system = state.get("system", {})
+    vram_used = system.get("vram_used_mb", 0)
+    vram_total = system.get("vram_total_mb", 12288)
+    vram_free = vram_total - vram_used
+
+    # Heavy workers need GPU headroom
+    if cfg.get("heavy") and vram_free < 6000:
+        return False, f"insufficient VRAM: {vram_free}MB free, need 6000MB (heavy worker)"
+
+    # Check if another heavy worker is already running (match on script path, not name)
+    if cfg.get("heavy"):
+        heavy_workers = [w for w, c in WORKERS.items() if c.get("heavy") and w != worker]
+        for hw in heavy_workers:
+            hw_cfg = WORKERS[hw]
+            # Use the actual script/module from cmd as the pgrep pattern
+            cmd_parts = hw_cfg.get("cmd", [])
+            pattern = next((p for p in cmd_parts if p not in (sys.executable, "-m", "--once", "--generate")), hw)
+            check = subprocess.run(
+                ["pgrep", "-f", pattern],
+                capture_output=True, text=True
+            )
+            if check.returncode == 0:
+                pids = check.stdout.strip().split()
+                # Exclude our own PID
+                own_pid = str(os.getpid())
+                other_pids = [p for p in pids if p != own_pid]
+                if other_pids:
+                    return False, f"heavy worker '{hw}' already running (PID {other_pids[0]})"
+
+    # Check last_errors in state for this worker
+    last_errors = state.get("last_errors", [])
+    worker_errors = [e for e in last_errors if worker in str(e).lower()]
+    if len(worker_errors) >= 3:
+        return False, f"worker had {len(worker_errors)} recent errors in echo_state.json"
+
+    return True, "ok"
+
+
+# ── Step 2: Context Check ─────────────────────────────────────────────────────
+def step2_context(worker: str, cfg: dict, history: dict) -> tuple[bool, str]:
+    w_hist = get_worker_history(history, worker)
+    last_run_str = w_hist.get("last_run")
+
+    if last_run_str:
+        try:
+            last_run = datetime.fromisoformat(last_run_str)
+            elapsed = (datetime.now() - last_run).total_seconds()
+            cooldown = cfg.get("cooldown_seconds", 0)
+            if elapsed < cooldown:
+                remaining = int(cooldown - elapsed)
+                return False, f"cooldown active — {remaining}s remaining (last run {int(elapsed)}s ago)"
+        except Exception:
+            pass
+
+    # Worker-specific checks
+    if worker == "demand_scanner":
+        demand_state_file = BASE / "memory/demand_state.json"
+        if demand_state_file.exists():
+            try:
+                ds = json.loads(demand_state_file.read_text())
+                # All subreddits on cooldown = no point running
+                from datetime import datetime as dt
+                now_ts = dt.now().timestamp()
+                all_cooled = all(
+                    (now_ts - dt.fromisoformat(v).timestamp()) < 3300
+                    for k, v in ds.items()
+                    if k.startswith("last_scan_") and v
+                )
+                if all_cooled and len(ds) >= 5:
+                    return False, "all subreddits still on cooldown"
+            except Exception:
+                pass
+
+    if worker == "initiative":
+        # Don't fire if last run was less than 13 minutes ago (timer is 15 min)
+        if last_run_str:
+            try:
+                elapsed = (datetime.now() - datetime.fromisoformat(last_run_str)).total_seconds()
+                if elapsed < 780:
+                    return False, f"initiative fired {int(elapsed)}s ago, timer cadence is 900s"
+            except Exception:
+                pass
+
+    # Wave 2 time window checks
+    if worker == "daily_briefing":
+        hour = datetime.now().hour
+        if not (6 <= hour < 12):
+            return False, f"outside morning window — current hour={hour}, window=6-12"
+        # Confirm checkpoint ran last night (briefing needs fresh session context)
+        checkpoint_file = BASE / "memory/session_summary.json"
+        if checkpoint_file.exists():
+            try:
+                age = (datetime.now() - datetime.fromtimestamp(checkpoint_file.stat().st_mtime)).total_seconds()
+                if age > 86400:
+                    return False, f"session_summary.json is {int(age/3600)}h old — checkpoint may not have run"
+            except Exception:
+                pass
+
+    if worker == "session_checkpoint":
+        hour = datetime.now().hour
+        if not (hour >= 22 or hour < 4):
+            return False, f"outside night window — current hour={hour}, window=22-4"
+
+    if worker == "content_gen":
+        # Skip if content_strategy queue has no items ready
+        strategy_file = BASE / "memory/content_strategy.json"
+        if strategy_file.exists():
+            try:
+                cs = json.loads(strategy_file.read_text())
+                ready = [q for q in cs.get("queue", []) if q.get("status") in ("next", "queued")]
+                if not ready:
+                    return False, "content_strategy queue is empty — no topics to generate"
+            except Exception:
+                pass
+        # Skip if draft queue already has pending drafts
+        draft_queue = BASE / "content/draft_queue.json"
+        if draft_queue.exists():
+            try:
+                queue = json.loads(draft_queue.read_text())
+                pending = [d for d in queue if d.get("status") == "pending"]
+                if len(pending) >= 2:
+                    return False, f"draft queue already has {len(pending)} pending drafts"
+            except Exception:
+                pass
+
+    return True, "ok"
+
+
+# ── Step 3: Historical Comparison ─────────────────────────────────────────────
+def step3_historical(worker: str, state: dict, history: dict) -> dict:
+    w_hist = get_worker_history(history, worker)
+    runs = w_hist.get("runs", [])
+
+    result = {
+        "has_history": bool(runs),
+        "last_progressed": w_hist.get("last_progressed", None),
+        "consecutive_skips": w_hist.get("consecutive_skips", 0),
+        "consecutive_runs": w_hist.get("consecutive_runs", 0),
+        "total_runs": len(runs),
+        "delta": {},
+        "summary": "",
+    }
+
+    if not runs:
+        result["summary"] = "no prior runs — first execution"
+        return result
+
+    last = runs[-1]
+    result["last_decision"] = last.get("decision", "unknown")
+    result["last_reason"] = last.get("reason", "")
+
+    # Build delta from state context
+    cascade = state.get("cascade", {})
+    income = state.get("income", {})
+
+    if worker == "demand_scanner":
+        leads_file = BASE / "memory/demand_leads.json"
+        lead_count = 0
+        try:
+            leads = json.loads(leads_file.read_text())
+            lead_count = len(leads)
+        except Exception:
+            pass
+        result["delta"]["lead_queue_size"] = lead_count
+        result["summary"] = (
+            f"Last run: {last.get('ts', 'unknown')[:16]} — "
+            f"progressed={last.get('progressed')} — "
+            f"current lead queue: {lead_count}"
+        )
+
+    elif worker == "self_act":
+        consec_skips = result["consecutive_skips"]
+        consec_runs = result["consecutive_runs"]
+        result["summary"] = (
+            f"Last run: {last.get('ts', 'unknown')[:16]} — "
+            f"decision={last.get('decision')} — "
+            f"consecutive_runs={consec_runs} consecutive_skips={consec_skips}"
+        )
+
+    elif worker == "initiative":
+        result["summary"] = (
+            f"Last run: {last.get('ts', 'unknown')[:16]} — "
+            f"progressed={last.get('progressed')} — "
+            f"portfolio={income.get('portfolio_value', 'unknown')}"
+        )
+
+    elif worker == "daily_briefing":
+        result["summary"] = (
+            f"Last briefing: {last.get('ts', 'unknown')[:16]} — "
+            f"progressed={last.get('progressed')}"
+        )
+
+    elif worker == "session_checkpoint":
+        checkpoint_file = BASE / "memory/session_summary.json"
+        checkpoint_age = "unknown"
+        try:
+            if checkpoint_file.exists():
+                age_h = (datetime.now() - datetime.fromtimestamp(
+                    checkpoint_file.stat().st_mtime)).total_seconds() / 3600
+                checkpoint_age = f"{age_h:.1f}h ago"
+        except Exception:
+            pass
+        result["summary"] = (
+            f"Last checkpoint: {last.get('ts', 'unknown')[:16]} — "
+            f"session_summary.json written {checkpoint_age}"
+        )
+
+    elif worker == "content_gen":
+        draft_queue = BASE / "content/draft_queue.json"
+        pending_count = 0
+        try:
+            if draft_queue.exists():
+                queue = json.loads(draft_queue.read_text())
+                pending_count = len([d for d in queue if d.get("status") == "pending"])
+        except Exception:
+            pass
+        result["summary"] = (
+            f"Last content gen: {last.get('ts', 'unknown')[:16]} — "
+            f"pending drafts: {pending_count}"
+        )
+
+    # Flag stagnation: 3+ consecutive non-progressing runs
+    if len(runs) >= 3:
+        recent = runs[-3:]
+        if all(not r.get("progressed") for r in recent):
+            result["stagnating"] = True
+            result["summary"] += " ⚠️ stagnating (3 runs without progress)"
+
+    return result
+
+
+# ── Step 4: Echo's Judgment ───────────────────────────────────────────────────
+def step4_echo_judgment(worker: str, cfg: dict, state: dict, hist_summary: dict) -> tuple[bool, str]:
+    try:
+        sys.path.insert(0, str(BASE))
+        from core.providers.router import call_ollama
+
+        system_health = state.get("system_health", "unknown")
+        system = state.get("system", {})
+        cascade = state.get("cascade", {})
+
+        brief = (
+            f"You are Echo. Decide whether to run the worker '{worker}' right now.\n\n"
+            f"Worker description: {cfg['description']}\n\n"
+            f"System state: health={system_health}, "
+            f"cpu={system.get('cpu_pct', '?')}%, "
+            f"ram={system.get('ram_pct', '?')}%, "
+            f"vram_free={(system.get('vram_total_mb', 12288) - system.get('vram_used_mb', 0))}MB\n\n"
+            f"History: {hist_summary.get('summary', 'no history')}\n"
+            f"Consecutive skips: {hist_summary.get('consecutive_skips', 0)}\n"
+            f"Last progressed: {hist_summary.get('last_progressed', 'unknown')}\n"
+        )
+
+        if cascade:
+            brief += f"Trading: {json.dumps(cascade, default=str)[:300]}\n"
+
+        brief += "\nAnswer with YES or NO followed by one sentence reason. Example: YES — conditions look good. or NO — system under load."
+
+        response = call_ollama(
+            prompt=brief,
+            model="qwen2.5:7b",
+            timeout=30.0,
+            system_prompt="You are Echo. Give a direct YES or NO decision. Be concise.",
+        )
+
+        response = (response or "").strip()
+        decision = response.upper().startswith("YES")
+        return decision, response[:200]
+
+    except Exception as e:
+        # Timeout or failure → default to RUN (fail open, not closed)
+        return True, f"judgment timed out or failed ({e}) — defaulting to run"
+
+
+# ── Step 5: Data Validation ───────────────────────────────────────────────────
+def step5_validate(worker: str, decision: bool, state: dict, hist: dict) -> list[str]:
+    flags = []
+    w_hist = get_worker_history(hist, worker)
+    runs = w_hist.get("runs", [])
+
+    if decision:  # Echo said RUN — look for reasons not to
+        if worker in ("demand_scanner",):
+            recent_no_progress = sum(
+                1 for r in runs[-5:] if not r.get("progressed")
+            )
+            if recent_no_progress >= 4:
+                flags.append(f"Echo said RUN but last {recent_no_progress}/5 runs produced no leads")
+
+        if worker == "self_act":
+            cascade = state.get("cascade", {})
+            # If multiple trading losses recently, flag that reasoning might be missing it
+            recent_losses = cascade.get("recent_losses", 0)
+            if recent_losses and recent_losses >= 3:
+                flags.append(f"Echo said RUN but {recent_losses} recent trading losses — check if self_act is addressing this")
+
+    else:  # Echo said SKIP — look for reasons it should run
+        consec_skips = w_hist.get("consecutive_skips", 0)
+        if consec_skips >= 5:
+            flags.append(f"Echo said SKIP but worker has been skipped {consec_skips} consecutive times")
+
+    return flags
+
+
+# ── Notify Andrew (Wave 3 only) ───────────────────────────────────────────────
+def notify_wave3(worker: str, decision: bool, reason: str):
+    try:
+        from core.notifier import notify
+        action = "APPROVED" if decision else "SKIPPED"
+        notify(
+            f"Dispatcher: {worker} {action}",
+            reason[:200],
+            urgent=False,
+            phone=True,
+        )
+    except Exception as e:
+        log(f"[dispatcher] notify failed: {e}")
+
+
+# ── Main dispatch function ────────────────────────────────────────────────────
+def dispatch(worker: str, dry_run: bool = False) -> bool:
+    """
+    Run the five-step pipeline for the given worker.
+    Returns True if worker was launched, False if skipped.
+    dry_run=True logs the decision without launching.
+    """
+    if worker not in WORKERS:
+        log(f"[dispatcher] ERROR: unknown worker '{worker}'")
+        return False
+
+    cfg = WORKERS[worker]
+    history = load_history()
+    state = load_state()
+    steps_passed = []
+    step_failed = None
+    validation_flags = []
+
+    log(f"[dispatcher] evaluating '{worker}' {'(dry-run)' if dry_run else ''}")
+
+    # ── Step 1: System Health ─────────────────────────────────────────────────
+    ok, reason = step1_system_health(worker, cfg, state)
+    if not ok:
+        log(f"[dispatcher] SKIP {worker}: system_health — {reason}")
+        record_run(history, worker, "skip", f"system_health: {reason}",
+                   steps_passed, 1, False, [])
+        save_history(history)
+        return False
+    steps_passed.append(1)
+    log(f"[dispatcher] step1 pass: {worker}")
+
+    # ── Step 2: Context Check ─────────────────────────────────────────────────
+    ok, reason = step2_context(worker, cfg, history)
+    if not ok:
+        log(f"[dispatcher] SKIP {worker}: context — {reason}")
+        record_run(history, worker, "skip", f"context: {reason}",
+                   steps_passed, 2, False, [])
+        save_history(history)
+        return False
+    steps_passed.append(2)
+    log(f"[dispatcher] step2 pass: {worker}")
+
+    # ── Step 3: Historical Comparison ─────────────────────────────────────────
+    hist_summary = step3_historical(worker, state, history)
+    steps_passed.append(3)
+    log(f"[dispatcher] step3: {hist_summary['summary']}")
+
+    # ── Step 4: Echo's Judgment ───────────────────────────────────────────────
+    decision, echo_reason = step4_echo_judgment(worker, cfg, state, hist_summary)
+    steps_passed.append(4)
+    log(f"[dispatcher] step4 judgment: {'RUN' if decision else 'SKIP'} — {echo_reason[:100]}")
+
+    # ── Step 5: Data Validation ───────────────────────────────────────────────
+    validation_flags = step5_validate(worker, decision, state, history)
+    steps_passed.append(5)
+    if validation_flags:
+        for flag in validation_flags:
+            log(f"[dispatcher] VALIDATE {worker}: ⚠️ {flag}")
+
+    # ── Notify Andrew for Wave 3 workers ──────────────────────────────────────
+    if cfg.get("wave", 1) >= 3:
+        notify_wave3(worker, decision, echo_reason)
+
+    # ── Final decision ────────────────────────────────────────────────────────
+    if not decision:
+        log(f"[dispatcher] SKIP {worker}: judgment — {echo_reason[:100]}")
+        record_run(history, worker, "skip", f"judgment: {echo_reason}",
+                   steps_passed, 4, False, validation_flags)
+        save_history(history)
+        return False
+
+    if dry_run:
+        log(f"[dispatcher] DRY-RUN {worker}: would run — {echo_reason[:100]}")
+        record_run(history, worker, "dry_run", echo_reason,
+                   steps_passed, None, False, validation_flags)
+        save_history(history)
+        return True
+
+    # ── Launch worker ─────────────────────────────────────────────────────────
+    log(f"[dispatcher] RUN {worker}: launching — {echo_reason[:80]}")
+    try:
+        start = time.time()
+        result = subprocess.run(
+            cfg["cmd"],
+            cwd=cfg.get("cwd", str(BASE)),
+            timeout=600,
+            capture_output=False,
+        )
+        elapsed = round(time.time() - start, 1)
+        progressed = result.returncode == 0
+        log(f"[dispatcher] {worker} finished in {elapsed}s — exit={result.returncode}")
+        record_run(history, worker, "run", echo_reason,
+                   steps_passed, None, progressed, validation_flags)
+        save_history(history)
+        return progressed
+    except subprocess.TimeoutExpired:
+        log(f"[dispatcher] {worker} timed out after 600s")
+        record_run(history, worker, "timeout", "worker exceeded 600s",
+                   steps_passed, None, False, validation_flags)
+        save_history(history)
+        return False
+    except Exception as e:
+        log(f"[dispatcher] {worker} launch error: {e}")
+        record_run(history, worker, "error", str(e),
+                   steps_passed, None, False, validation_flags)
+        save_history(history)
+        return False
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print(f"Usage: python3 -m core.dispatcher <worker_name>")
+        print(f"Available workers: {', '.join(WORKERS.keys())}")
+        sys.exit(1)
+    worker_name = sys.argv[1]
+    dry = "--dry-run" in sys.argv
+    success = dispatch(worker_name, dry_run=dry)
+    sys.exit(0 if success else 1)

@@ -135,6 +135,7 @@ def _parse_and_add_task(result) -> None:
         rate_file.write_text(json.dumps({"last_task_ts": now_ts}))
     except Exception as e:
         print(f"[self_act] ADD_TASK rate check failed: {e}")
+        return  # fail safe
 
     try:
         standing_file = BASE / "memory/standing_tasks.json"
@@ -237,6 +238,7 @@ def _parse_and_add_gap(result) -> None:
         rate_file.write_text(json.dumps({"last_gap_ts": now_ts}))
     except Exception as e:
         print(f"[self_act] ADD_GAP rate check failed: {e}")
+        return  # fail safe — don't add gap if rate check is broken
 
     try:
         gaps_file = BASE / "memory" / "known_gaps.md"

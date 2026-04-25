@@ -28,19 +28,25 @@ def check_memory_usage():
     except subprocess.CalledProcessError as e:
         logging.error(f"Error checking memory usage: {e.stderr}")
 
+NOISE_PATTERNS = [
+    "vastai_kaalia", "vast_metrics", "launch_metrics_pusher",
+    "NetworkManager", "bluetoothd", "ModemManager",
+]
+
 def check_system_logs():
     try:
         result = subprocess.run(
             ['journalctl', '-p', 'err', '--since', '24h ago', '--no-pager', '-q'],
             capture_output=True, text=True
         )
-        errors = [l for l in result.stdout.splitlines() if l.strip()]
+        all_errors = [l for l in result.stdout.splitlines() if l.strip()]
+        errors = [l for l in all_errors if not any(n in l for n in NOISE_PATTERNS)]
         if errors:
-            summary = f"{len(errors)} system errors in last 24h"
+            summary = f"{len(errors)} errors in last 24h ({len(all_errors)-len(errors)} noise filtered)"
             logging.warning(summary + "\n" + "\n".join(errors[:5]))
             notify("System Log Errors", summary, urgent=True)
         else:
-            logging.info("No system errors in last 24h")
+            logging.info(f"No real errors in last 24h ({len(all_errors)} noise lines filtered)")
     except Exception as e:
         logging.error(f"Error reading system logs: {e}")
 

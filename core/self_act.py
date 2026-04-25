@@ -121,10 +121,10 @@ def _parse_and_add_task(result) -> None:
         if phrase in _desc_lower:
             print(f"[self_act] ADD_TASK rejected (low quality — '{phrase}'): {task_desc[:60]}")
             return
-    # Guard: rate limit — max 1 new task per 4 hours
+    # Guard: rate limit — check only, write AFTER successful add
+    import time as _time
+    rate_file = BASE / "memory" / "task_rate.json"
     try:
-        import time as _time
-        rate_file = BASE / "memory" / "task_rate.json"
         now_ts = _time.time()
         if rate_file.exists():
             rate_data = json.loads(rate_file.read_text())
@@ -132,7 +132,6 @@ def _parse_and_add_task(result) -> None:
             if now_ts - last_ts < 14400:  # 4 hours
                 print(f"[self_act] ADD_TASK rate-limited (last task {int((now_ts-last_ts)/3600)}h ago)")
                 return
-        rate_file.write_text(json.dumps({"last_task_ts": now_ts}))
     except Exception as e:
         print(f"[self_act] ADD_TASK rate check failed: {e}")
         return  # fail safe
@@ -164,6 +163,11 @@ def _parse_and_add_task(result) -> None:
         tmp = standing_file.with_suffix(".tmp")
         tmp.write_text(json.dumps(data, indent=2))
         tmp.rename(standing_file)
+        # Stamp rate limit only after successful write
+        try:
+            rate_file.write_text(json.dumps({"last_task_ts": now_ts}))
+        except Exception:
+            pass
         print(f"[self_act] ADD_TASK: '{task_desc[:80]}'")
 
         # Notify Andrew via Telegram
@@ -224,18 +228,17 @@ def _parse_and_add_gap(result) -> None:
         if phrase in _low:
             print(f"[self_act] ADD_GAP rejected (low quality — '{phrase}'): {gap_desc[:60]}")
             return
-    # Guard: rate limit — max 1 new gap per 6 hours
+    # Guard: rate limit — check only, write AFTER successful add
+    import time as _time
+    gap_rate_file = BASE / "memory" / "gap_rate.json"
     try:
-        rate_file = BASE / "memory" / "gap_rate.json"
-        import time as _time
         now_ts = _time.time()
-        if rate_file.exists():
-            rate_data = json.loads(rate_file.read_text())
+        if gap_rate_file.exists():
+            rate_data = json.loads(gap_rate_file.read_text())
             last_gap_ts = rate_data.get("last_gap_ts", 0)
             if now_ts - last_gap_ts < 21600:  # 6 hours
                 print(f"[self_act] ADD_GAP rate-limited (last gap {int((now_ts-last_gap_ts)/3600)}h ago)")
                 return
-        rate_file.write_text(json.dumps({"last_gap_ts": now_ts}))
     except Exception as e:
         print(f"[self_act] ADD_GAP rate check failed: {e}")
         return  # fail safe — don't add gap if rate check is broken
@@ -265,6 +268,11 @@ def _parse_and_add_gap(result) -> None:
         tmp = gaps_file.with_suffix(".tmp")
         tmp.write_text(updated)
         tmp.rename(gaps_file)
+        # Stamp rate limit only after successful write
+        try:
+            gap_rate_file.write_text(json.dumps({"last_gap_ts": now_ts}))
+        except Exception:
+            pass
 
         print(f"[self_act] ADD_GAP: '{gap_desc[:80]}'")
 

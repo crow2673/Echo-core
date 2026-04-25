@@ -160,20 +160,28 @@ def cmd_trades():
 
 def cmd_leads():
     try:
+        import time
         leads_file = BASE / "memory/demand_leads.json"
         if not leads_file.exists():
             return "No leads file found"
         leads = json.loads(leads_file.read_text())
-        hot = [l for l in leads if l.get("score", 0) >= 7 and not l.get("alerted")]
+        now = time.time()
+        # Show score>=7 leads — include alerted ones if they're older than 48h (worth a retry)
+        hot = [
+            l for l in leads
+            if l.get("score", 0) >= 7
+            and (not l.get("alerted") or (now - l.get("created_utc", now)) > 172800)
+        ]
         hot = sorted(hot, key=lambda x: x.get("score", 0), reverse=True)[:5]
         if not hot:
-            hot = sorted(leads, key=lambda x: x.get("score", 0), reverse=True)[:3]
-            if not hot:
-                return "No leads found"
-        lines = [f"Top leads ({len(hot)}):"]
+            return "No leads score>=7 found"
+        total_hot = len([l for l in leads if l.get("score", 0) >= 7])
+        lines = [f"Top leads ({len(hot)} shown / {total_hot} total >=7):"]
         for l in hot:
+            age_h = int((now - l.get("created_utc", now)) / 3600)
+            age_str = f"{age_h}h old" if age_h < 48 else f"{age_h//24}d old"
             lines.append(
-                f"[{l['score']}/10] r/{l['subreddit']} — {l['title'][:60]}\n{l['url']}"
+                f"[{l['score']}/10] r/{l['subreddit']} ({age_str})\n{l['title'][:70]}\n{l['url']}"
             )
         return "\n\n".join(lines)
     except Exception as e:

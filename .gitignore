@@ -114,6 +114,10 @@ memory/*.ndjson
 memory/*.md
 !memory/content_strategy.json
 !memory/session_summary.json
+!memory/known_gaps.md
+!memory/income_knowledge.md
+!memory/world_context.md
+!memory/standing_tasks.json
 
 # Content drafts
 content/draft_*.md

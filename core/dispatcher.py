@@ -129,6 +129,15 @@ WORKERS = {
         "description": "Daily health check — journalctl error scan, disk/mem/network, alerts on issues",
         "progress_metric": None,
     },
+    "ram_monitor": {
+        "cmd": [sys.executable, "-m", "core.ram_monitor"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 270,        # 4.5 min — fires every 5 min
+        "wave": 3,
+        "heavy": False,
+        "description": "RAM monitor — alerts before OOM kills qwen2.5:32b; checks swap pressure too",
+        "progress_metric": None,
+    },
 }
 
 # ── History I/O ───────────────────────────────────────────────────────────────

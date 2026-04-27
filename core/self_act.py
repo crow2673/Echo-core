@@ -290,6 +290,7 @@ def _parse_and_add_build(result) -> None:
     """
     If Echo's result contains ADD_BUILD: <description>, generate a script
     and notify Andrew via Telegram for approval. She proposes — he approves.
+    Build must be grounded in known_gaps.md — no hallucinated proposals.
     """
     result_str = str(result or "")
     marker = "ADD_BUILD:"
@@ -301,6 +302,31 @@ def _parse_and_add_build(result) -> None:
     description = raw.split("\n")[0].strip().strip('"').strip("'")
     if not description or len(description) < 10:
         return
+
+    # Guard: must relate to Echo's actual domain
+    ALLOWED_DOMAINS = [
+        "trading", "alpaca", "crypto", "stock", "fiverr", "lead", "reddit",
+        "telegram", "notifier", "monitor", "alert", "backup", "ollama",
+        "content", "article", "devto", "dev.to", "beehiiv", "income",
+        "discord", "ram", "memory", "disk", "timer", "systemd", "scheduler",
+        "session", "checkpoint", "summary", "digest", "log", "error",
+        "notion", "briefing", "governor", "vast", "gpu",
+    ]
+    desc_lower = description.lower()
+    if not any(kw in desc_lower for kw in ALLOWED_DOMAINS):
+        print(f"[self_act] ADD_BUILD rejected (out of domain): {description[:80]}")
+        return
+
+    # Guard: must match something in known_gaps.md
+    gaps_file = BASE / "memory/known_gaps.md"
+    if gaps_file.exists():
+        gaps_text = gaps_file.read_text().lower()
+        # Check if at least 2 words from the description appear in the gaps file
+        words = [w for w in desc_lower.split() if len(w) > 4]
+        matches = sum(1 for w in words if w in gaps_text)
+        if matches < 2:
+            print(f"[self_act] ADD_BUILD rejected (not in known_gaps.md — {matches} word matches): {description[:80]}")
+            return
 
     # Rate limit — max one build proposal per hour
     try:
@@ -503,9 +529,10 @@ def reasoning_cycle():
                 "Special tokens you can emit at the end of your response:\n"
                 "ADD_TASK: <description> — add a new standing task to your queue\n"
                 "ADD_GAP: <description> — record a gap or missing capability you noticed\n"
-                "ADD_BUILD: <description> — propose a new script for Andrew to approve\n"
+                "ADD_BUILD: <description> — propose a script to close a gap listed in memory/known_gaps.md ONLY. Do NOT invent new ideas.\n"
                 "ADD_CONTENT: <title> | <one sentence angle> — queue an article topic you identified as worth writing\n"
-                "Only emit a token if you have a specific, concrete reason based on what you observed."
+                "Only emit a token if you have a specific, concrete reason based on what you observed.\n"
+                "ADD_BUILD is ONLY valid if the build directly addresses a gap already recorded in known_gaps.md."
             )
             result = agent_loop(
                 prompt=str(prompt_flag),

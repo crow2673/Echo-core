@@ -58,7 +58,10 @@ def run():
     gmail_user = env.get("GMAIL_ADDRESS") or env.get("GMAIL_USER") or os.environ.get("GMAIL_ADDRESS", "")
     gmail_app_password = env.get("GMAIL_APP_PASSWORD") or os.environ.get("GMAIL_APP_PASSWORD", "")
     backup_email = env.get("BACKUP_EMAIL") or env.get("GMAIL_ADDRESS") or gmail_user
-    gpg_passphrase = env.get("BACKUP_PASSPHRASE") or os.environ.get("BACKUP_PASSPHRASE", "echo-backup-2026")
+    gpg_passphrase = env.get("BACKUP_PASSPHRASE") or os.environ.get("BACKUP_PASSPHRASE", "")
+    if not gpg_passphrase:
+        log("ERROR: BACKUP_PASSPHRASE not set in golem.env — refusing to encrypt with default")
+        sys.exit(1)
 
     if not gmail_user or not gmail_app_password:
         log("ERROR: GMAIL_ADDRESS and GMAIL_APP_PASSWORD must be set in golem.env")

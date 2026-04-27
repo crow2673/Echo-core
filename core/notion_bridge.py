@@ -78,10 +78,11 @@ def log_event_to_notion(event_type: str, source: str, message: str, score: float
         _log("event log skipped — NOTION_TOKEN or NOTION_DB_EVENTS not configured")
         return
     try:
+        event_title = f"{event_type}: {source} — {message[:120]}" if message else f"{event_type}: {source}"
         _post("pages", {
             "parent": {"database_id": db_id},
             "properties": {
-                "Event": {"title": [{"text": {"content": f"{event_type}: {source}"}}]},
+                "Event": {"title": [{"text": {"content": event_title[:255]}}]},
                 "Type": {"select": {"name": event_type}},
                 "Source": {"rich_text": [{"text": {"content": source}}]},
                 "Score": {"number": score},

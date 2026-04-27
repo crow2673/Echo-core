@@ -1,0 +1,126 @@
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/registry.json", "ts": 1777129038.0209923}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/echo_core_daemon.py", "ts": 1777129038.0210469}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/__init__.py", "ts": 1777129038.0210702}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/outcomes_updater.py", "ts": 1777129038.0210884}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/log_rotator.py", "ts": 1777129038.0211046}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/semantic_matcher.py", "ts": 1777129038.02112}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/auto_test_sel.py", "ts": 1777129038.0211346}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/trader.py", "ts": 1777129038.0211487}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/strategy_scraper.py", "ts": 1777129038.0211627}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/web_search.py", "ts": 1777129038.0211766}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/notion_bridge.py", "ts": 1777129038.0211906}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/update_contract.py", "ts": 1777129038.0212047}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/rss_monitor.py", "ts": 1777129038.021219}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/event_ledger.py", "ts": 1777129038.021233}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/crypto_brain.py", "ts": 1777129038.0212476}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/robinhood_reader.py", "ts": 1777129038.021262}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/memory_sessions.py", "ts": 1777129038.021276}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/weekly_report.py", "ts": 1777129038.02129}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/notion_briefing.py", "ts": 1777129038.0213041}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/emailer.py", "ts": 1777129038.0213184}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/article_pipeline.py", "ts": 1777129038.0213325}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/agent_loop.py", "ts": 1777129038.0213463}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/command_handler.py", "ts": 1777129038.0213604}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/mission_calculator.py", "ts": 1777129038.0213745}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/devto_analytics.py", "ts": 1777129038.0213883}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/multiplier_test.py", "ts": 1777129038.0214021}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/income_researcher.py", "ts": 1777129038.0214157}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/finetune_export.py", "ts": 1777129038.0214295}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/weather.py", "ts": 1777129038.0214434}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/regret_scorer.py", "ts": 1777129038.0214572}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/memory_store.py", "ts": 1777129038.021471}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/executor.py", "ts": 1777129038.0214849}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/content_pipeline.py", "ts": 1777129038.0214987}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/disk_usage_monitor.py", "ts": 1777129038.0215127}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/outlier_scanner.py", "ts": 1777129038.0215268}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/outcome_reviewer.py", "ts": 1777129038.0215461}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/crypto_pilot.py", "ts": 1777129038.0215626}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/golem_pricing.py", "ts": 1777129038.021577}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/self_coder.py", "ts": 1777129038.021591}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/reddit_outreach.py", "ts": 1777129038.021605}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/gpt_reasoner.py", "ts": 1777129038.0216188}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/finetune_prep.py", "ts": 1777129038.0216327}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/decision_trace.py", "ts": 1777129038.0216465}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/pulse.py", "ts": 1777129038.02166}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/regret_index.py", "ts": 1777129038.0216742}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/notion_task_reader.py", "ts": 1777129038.0216882}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/autonomous_multiplier.py", "ts": 1777129038.021702}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/identity.py", "ts": 1777129038.0217159}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/income_task_injector.py", "ts": 1777129038.02173}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/initiative_engine.py", "ts": 1777129038.0217438}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/devto_performance_tracker.py", "ts": 1777129038.0217576}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/skill_unlock_validator.py", "ts": 1777129038.0217721}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/income_feed.py", "ts": 1777129038.0217862}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/task_prioritizer.py", "ts": 1777129038.0218}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/auto_build_nt.py", "ts": 1777129038.0218139}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/finetune_train.py", "ts": 1777129038.0218272}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/session_checkpoint.py", "ts": 1777129038.0218415}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/golem_task_matcher.py", "ts": 1777129038.021855}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/cascade_ledger.py", "ts": 1777129038.021869}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/income_api_placeholders.py", "ts": 1777129038.0218825}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/daily_briefing.py", "ts": 1777129038.0218966}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/boot_verifier.py", "ts": 1777129038.0219169}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/feedback_loop.py", "ts": 1777129038.021933}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/beliefs.py", "ts": 1777129038.0219471}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/trade_brain.py", "ts": 1777129038.021961}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/skill_xp_engine.py", "ts": 1777129038.0219748}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/article_reviewer.py", "ts": 1777129038.0219886}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/golem_stats_scraper.py", "ts": 1777129038.0220025}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/resource_tracker.py", "ts": 1777129038.0220163}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/action_runner.py", "ts": 1777129038.02203}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/events_to_capsules.py", "ts": 1777129038.0220475}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/providers/router.py", "ts": 1777129038.0220628}
+{"type": "file_change", "op": "deleted", "path": "/home/andrew/Echo/core/providers/__init__.py", "ts": 1777129038.0220768}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/telegram_intake.py", "mtime": 1777161191.2585747, "size": 17797, "ts": 1777161191.9410744}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/telegram_intake.py", "mtime": 1777252780.0820024, "size": 17804, "ts": 1777252780.4880269}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/telegram_intake.py", "mtime": 1777252802.88008, "size": 17438, "ts": 1777252804.8356571}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/telegram_intake.py", "mtime": 1777252809.6881032, "size": 17153, "ts": 1777252810.9275978}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/providers/__init__.py", "mtime": 1777253153.4562743, "size": 0, "ts": 1777253154.0198202}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/providers/router.py", "mtime": 1777253159.9782965, "size": 1041, "ts": 1777253160.1078598}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/event_ledger.py", "mtime": 1777257839.626547, "size": 2564, "ts": 1777257840.1956656}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/gpt_reasoner.py", "mtime": 1777257846.0945718, "size": 543, "ts": 1777257846.2858531}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/agent_loop.py", "mtime": 1777257871.0716674, "size": 565, "ts": 1777257872.6626852}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/regret_index.py", "mtime": 1777258562.9463134, "size": 2920, "ts": 1777258563.2627547}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/self_coder.py", "mtime": 1777258575.632362, "size": 2459, "ts": 1777258577.4728475}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/telegram_intake.py", "mtime": 1777258587.6034076, "size": 16771, "ts": 1777258587.6199505}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/regret_scorer.py", "mtime": 1777259373.6894336, "size": 1352, "ts": 1777259375.044626}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/notion_bridge.py", "mtime": 1777259390.5344987, "size": 3114, "ts": 1777259391.2787418}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/notion_task_reader.py", "mtime": 1777259403.1955476, "size": 2773, "ts": 1777259403.464805}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/semantic_matcher.py", "mtime": 1777259413.0805857, "size": 1158, "ts": 1777259413.6089761}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/regret_scorer.py", "mtime": 1777259465.561788, "size": 1684, "ts": 1777259466.510414}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/auto_act.py", "mtime": 1777259720.1797707, "size": 10804, "ts": 1777259720.2211745}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/income_researcher.py", "mtime": 1777259960.9086833, "size": 5591, "ts": 1777259961.757806}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_bridge.py", "mtime": 1777260997.3955371, "size": 3114, "ts": 1777260999.2750962}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_bridge.py", "mtime": 1777261000.1835473, "size": 3114, "ts": 1777261001.3036714}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_bridge.py", "mtime": 1777261007.8685749, "size": 4105, "ts": 1777261009.4242074}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_task_reader.py", "mtime": 1777261012.0305898, "size": 2771, "ts": 1777261013.4875062}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_task_reader.py", "mtime": 1777261015.5186024, "size": 2770, "ts": 1777261017.5474086}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_bridge.py", "mtime": 1777261082.144842, "size": 4141, "ts": 1777261082.5105927}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_bridge.py", "mtime": 1777261088.7818658, "size": 4042, "ts": 1777261090.6440403}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_bridge.py", "mtime": 1777261094.975888, "size": 4071, "ts": 1777261096.7312028}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/governor.py", "mtime": 1777261607.8127322, "size": 9388, "ts": 1777261608.0587213}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/governor.py", "mtime": 1777261612.3067484, "size": 9417, "ts": 1777261614.1454263}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/crypto_brain.py", "mtime": 1777262327.2892556, "size": 10175, "ts": 1777262328.7544804}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1777262393.933485, "size": 16508, "ts": 1777262395.7363808}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/crypto_brain.py", "mtime": 1777262428.5576043, "size": 10372, "ts": 1777262430.3123808}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/crypto_brain.py", "mtime": 1777262436.9526331, "size": 10214, "ts": 1777262438.4382033}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/crypto_brain.py", "mtime": 1777262442.3276517, "size": 10171, "ts": 1777262442.4997334}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/crypto_brain.py", "mtime": 1777262446.8726673, "size": 10234, "ts": 1777262448.6507661}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/trade_brain.py", "mtime": 1777262486.9628055, "size": 16592, "ts": 1777262487.252661}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/session_checkpoint.py", "mtime": 1777262903.0642385, "size": 4521, "ts": 1777262903.3132522}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/disk_usage_monitor.py", "mtime": 1777262909.9612622, "size": 1851, "ts": 1777262911.4425256}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1777268712.9538946, "size": 25149, "ts": 1777268713.5581532}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1777268725.64195, "size": 25317, "ts": 1777268725.738331}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/notion_bridge.py", "mtime": 1777268850.1534934, "size": 4173, "ts": 1777268851.572355}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/__init__.py", "mtime": 1777269828.7416086, "size": 20, "ts": 1777269830.0194237}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/pulse.py", "mtime": 1777269835.1476352, "size": 651, "ts": 1777269836.10696}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/initiative_engine.py", "mtime": 1777269889.6048603, "size": 2263, "ts": 1777269890.9171832}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/outcome_reviewer.py", "mtime": 1777269903.6209183, "size": 3433, "ts": 1777269905.1361206}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/devto_analytics.py", "mtime": 1777269924.840006, "size": 3119, "ts": 1777269925.4490824}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/dispatcher.py", "mtime": 1777270188.651096, "size": 27925, "ts": 1777270189.260831}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/dispatcher.py", "mtime": 1777270209.0381775, "size": 27923, "ts": 1777270209.6146047}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/dispatcher.py", "mtime": 1777270213.2341943, "size": 27922, "ts": 1777270213.6955616}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/weekly_report.py", "mtime": 1777270501.1843421, "size": 10732, "ts": 1777270501.753633}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/outlier_scanner.py", "mtime": 1777270550.4915388, "size": 4318, "ts": 1777270550.573063}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/registry.json", "mtime": 1777270559.8801472, "size": 515, "ts": 1777270560.7625573}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/registry.json", "mtime": 1777270666.7040188, "size": 515, "ts": 1777270668.3745673}

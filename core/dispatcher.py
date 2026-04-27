@@ -547,7 +547,7 @@ def dispatch(worker: str, dry_run: bool = False) -> bool:
         record_run(history, worker, "skip", f"system_health: {reason}",
                    steps_passed, 1, False, [])
         save_history(history)
-        return False
+        return None
     steps_passed.append(1)
     log(f"[dispatcher] step1 pass: {worker}")
 
@@ -558,7 +558,7 @@ def dispatch(worker: str, dry_run: bool = False) -> bool:
         record_run(history, worker, "skip", f"context: {reason}",
                    steps_passed, 2, False, [])
         save_history(history)
-        return False
+        return None
     steps_passed.append(2)
     log(f"[dispatcher] step2 pass: {worker}")
 
@@ -589,7 +589,7 @@ def dispatch(worker: str, dry_run: bool = False) -> bool:
         record_run(history, worker, "skip", f"judgment: {echo_reason}",
                    steps_passed, 4, False, validation_flags)
         save_history(history)
-        return False
+        return None
 
     if dry_run:
         log(f"[dispatcher] DRY-RUN {worker}: would run — {echo_reason[:100]}")
@@ -637,4 +637,5 @@ if __name__ == "__main__":
     worker_name = sys.argv[1]
     dry = "--dry-run" in sys.argv
     success = dispatch(worker_name, dry_run=dry)
-    sys.exit(0 if success else 1)
+    # None = deliberate skip (cooldown/context/judgment) — not a failure
+    sys.exit(0 if (success or success is None) else 1)

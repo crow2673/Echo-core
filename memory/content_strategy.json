@@ -1,0 +1,68 @@
+{
+  "queue": [
+    {
+      "id": "echo_20260426_215012",
+      "title": "Weekly Dev.to Article Draft",
+      "angle": "Crafting Consistent Content | Echo's Weekly Dev.to article will focus on creating a structured and engaging weekly content piece to share insights and knowledge in the tech community.",
+      "status": "queued",
+      "source": "self_act",
+      "created_at": "2026-04-26T21:50:12.903745"
+    },
+    {
+      "id": "echo_20260426_215046",
+      "title": "Automating Content Generation",
+      "angle": "Streamlining the article pipeline with AI-driven ideas",
+      "status": "queued",
+      "source": "self_act",
+      "created_at": "2026-04-26T21:50:46.153423"
+    },
+    {
+      "id": "echo_20260426_215210",
+      "title": "The Economic Impact of Renewable Energy on Job Markets",
+      "angle": "Explore how the shift to renewable energy is reshaping job opportunities and economic growth worldwide.",
+      "status": "queued",
+      "source": "self_act",
+      "created_at": "2026-04-26T21:52:10.387097"
+    },
+    {
+      "id": "echo_20260426_215323",
+      "title": "Navigating the Climate Crisis: Its Impact on Agriculture, Health, and the Economy",
+      "angle": "Explore how climate change is affecting different aspects of life and the steps we can take to mitigate its impact.",
+      "status": "queued",
+      "source": "self_act",
+      "created_at": "2026-04-26T21:53:23.846262"
+    },
+    {
+      "id": "echo_20260426_215444",
+      "title": "The Urgency of Climate Change: What You Need to Know",
+      "angle": "Highlighting the immediate and long-term impacts of climate change on global health, economies, and ecosystems.",
+      "status": "queued",
+      "source": "self_act",
+      "created_at": "2026-04-26T21:54:44.326655"
+    },
+    {
+      "id": "echo_20260426_215557",
+      "title": "Climate Change: Navigating the Path to a Sustainable Future",
+      "angle": "Explore the latest scientific findings, global initiatives, and personal actions to combat climate change.",
+      "status": "queued",
+      "source": "self_act",
+      "created_at": "2026-04-26T21:55:57.796892"
+    },
+    {
+      "id": "echo_20260426_215710",
+      "title": "Impacts of Climate Change",
+      "angle": "Understanding the far-reaching effects on our planet and society",
+      "status": "queued",
+      "source": "self_act",
+      "created_at": "2026-04-26T21:57:10.845986"
+    },
+    {
+      "id": "echo_20260426_215828",
+      "title": "The Economic Impacts of Renewable Energy",
+      "angle": "Renewable energy is transforming the global economy, offering both opportunities and challenges.",
+      "status": "queued",
+      "source": "self_act",
+      "created_at": "2026-04-26T21:58:28.998994"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "services": {
+    "echo-core.service": "active",
+    "echo-ntfy-bridge.service": "active",
+    "echo-auto-act.timer": "active",
+    "echo-governor.timer": "active",
+    "echo-crypto-trader.timer": "active",
+    "echo-trader.timer": "active",
+    "echo-demand-scanner.timer": "active",
+    "echo-session-checkpoint.timer": "active",
+    "echo-daily-summary.timer": "active",
+    "echo-offsite-backup.timer": "active",
+    "echo-ollama-watchdog.timer": "active"
+  },
+  "updated_at": "2026-04-27T01:17:46.703887"
+}

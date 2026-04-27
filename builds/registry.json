@@ -1,0 +1,16 @@
+{
+  "build_a_script_to_automate_real_estate_m": {
+    "name": "build_a_script_to_automate_real_estate_m",
+    "description": "Build a script to automate real estate market research and property evaluation",
+    "created_at": "2026-04-27T00:41:38.535467",
+    "status": "rejected",
+    "syntax_ok": true,
+    "syntax_error": null,
+    "sandbox_ok": true,
+    "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmpz9xp76dc.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpz9xp76dc.py'",
+    "path": "/home/andrew/Echo/builds/pending/build_a_script_to_automate_real_estate_m.py",
+    "deployed_path": null,
+    "rejected_at": "2026-04-27T00:45:35.385307",
+    "reject_reason": ""
+  }
+}

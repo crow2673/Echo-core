@@ -148,7 +148,7 @@ WaifuEngine/
 legacy/
 legacy_quarantined/
 echo_project/
-docs/
+## docs/ unignored — contains actions.json needed by governor
 modes/
 routines/
 upgrade/

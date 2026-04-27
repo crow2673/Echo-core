@@ -1,0 +1,37 @@
+[
+  {
+    "id": "healthcheck",
+    "description": "Check all Echo systemd services are active",
+    "cmd": ["systemctl", "--user", "is-active", "echo-core.service", "echo-governor-v2.timer", "echo-self-act-worker.timer"]
+  },
+  {
+    "id": "golem_status",
+    "description": "Check Golem provider status",
+    "cmd": ["bash", "-lc", "ya-provider status 2>/dev/null || echo 'ya-provider not available'"]
+  },
+  {
+    "id": "golem_pricing_update",
+    "description": "Adjust Golem CPU pricing",
+    "cmd": ["bash", "-lc", "echo 'Golem pricing adjustment — manual step required'"]
+  },
+  {
+    "id": "notify_phone",
+    "description": "Send Telegram notification to Andrew",
+    "cmd": ["python3", "-m", "core.notifier"]
+  },
+  {
+    "id": "query_ledger",
+    "description": "Summarise recent event ledger wins and losses",
+    "cmd": ["python3", "-c", "import sys; sys.path.insert(0,'./'); from core.event_ledger import query_summary, query_recent; import json; print(json.dumps(query_summary(), indent=2))"]
+  },
+  {
+    "id": "vast_status",
+    "description": "Check Vast.ai machine status",
+    "cmd": ["python3", "-m", "core.vast_monitor"]
+  },
+  {
+    "id": "create_draft",
+    "description": "Queue a new dev.to article draft",
+    "cmd": ["python3", "-m", "core.draft_writer"]
+  }
+]

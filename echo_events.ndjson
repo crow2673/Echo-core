@@ -141,3 +141,13 @@
 {"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/income_task_injector.py", "mtime": 1777299188.7323318, "size": 2681, "ts": 1777299190.406537}
 {"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/outcomes_updater.py", "mtime": 1777299242.6475487, "size": 4244, "ts": 1777299243.4178662}
 {"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/memory_store.py", "mtime": 1777299264.117635, "size": 1872, "ts": 1777299265.8606358}
+{"type": "file_change", "op": "created", "path": "/home/andrew/Echo/core/ram_monitor.py", "mtime": 1777300976.7395093, "size": 3614, "ts": 1777300976.7907665}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/dispatcher.py", "mtime": 1777300993.4675763, "size": 28287, "ts": 1777300995.0861564}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/ram_monitor.py", "mtime": 1777301059.38484, "size": 3813, "ts": 1777301060.1188886}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/ram_monitor.py", "mtime": 1777301063.8358579, "size": 3905, "ts": 1777301064.1786332}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1777304215.1823297, "size": 25926, "ts": 1777304217.1063383}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1777304227.3303773, "size": 26188, "ts": 1777304229.3086333}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1777304346.3018432, "size": 27229, "ts": 1777304347.1355414}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1777304961.7702448, "size": 28175, "ts": 1777304962.371655}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1777304967.426267, "size": 28281, "ts": 1777304968.465262}
+{"type": "file_change", "op": "modified", "path": "/home/andrew/Echo/core/self_act.py", "mtime": 1777304977.8153074, "size": 28349, "ts": 1777304978.6266918}

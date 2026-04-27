@@ -60,5 +60,17 @@
     "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmpj5974btn.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpj5974btn.py'",
     "path": "/home/andrew/Echo/builds/pending/script_to_automate_log_analysis_and_aler.py",
     "deployed_path": null
+  },
+  "build_a_template_for_a_business_plan_wit": {
+    "name": "build_a_template_for_a_business_plan_wit",
+    "description": "Build a template for a business plan with sections for market analysis, financial projections, and executive summary \u2014 for users to customize their own plan.",
+    "created_at": "2026-04-27T10:03:22.530575",
+    "status": "pending",
+    "syntax_ok": true,
+    "syntax_error": null,
+    "sandbox_ok": true,
+    "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmphfjke0t7.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmphfjke0t7.py'",
+    "path": "/home/andrew/Echo/builds/pending/build_a_template_for_a_business_plan_wit.py",
+    "deployed_path": null
   }
 }

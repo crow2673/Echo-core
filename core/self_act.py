@@ -102,6 +102,25 @@ def _parse_and_add_task(result) -> None:
     if 'golem' in _desc_lower:
         print(f"[self_act] ADD_TASK rejected (Golem closed): {task_desc[:60]}")
         return
+    # Guard: off-domain tasks — same domain check as ADD_BUILD
+    TASK_ALLOWED_DOMAINS = [
+        "trading", "alpaca", "crypto", "stock", "fiverr", "lead", "reddit",
+        "telegram", "notifier", "monitor", "alert", "backup", "ollama",
+        "content", "article", "devto", "dev.to", "beehiiv", "income",
+        "discord", "ram", "memory", "disk", "timer", "systemd", "log",
+        "notion", "briefing", "governor", "vast", "gpu", "registry", "ledger",
+        "income_knowledge", "standing_tasks", "world_context", "echo", "self",
+    ]
+    TASK_BLOCKED = [
+        "business plan", "launching a small tech business", "freelance writing",
+        "financial projection", "pitch deck", "investor", "recruit a team",
+    ]
+    if any(b in _desc_lower for b in TASK_BLOCKED):
+        print(f"[self_act] ADD_TASK rejected (blocked topic): {task_desc[:60]}")
+        return
+    if not any(kw in _desc_lower for kw in TASK_ALLOWED_DOMAINS):
+        print(f"[self_act] ADD_TASK rejected (out of domain): {task_desc[:60]}")
+        return
     # Guard: low-quality / repetitive task patterns
     BAD_TASK_PHRASES = [
         "echo_maintenance.py",        # script doesn't exist

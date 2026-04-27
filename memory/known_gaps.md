@@ -30,6 +30,7 @@ The correct order is: commit meaningful work under a descriptive name → THEN c
 If you are ever tempted to propose "squash the auto backup commits" — read this first.
 
 ## High Priority Gaps
+- Need a script to monitor and log system performance metrics and alert if they fall outside expected ranges.  _(identified by Echo 2026-04-27 03:46)_
 - Need a script to monitor and manage system alerts and notifications more efficiently, ensuring no important alerts are missed.  _(identified by Echo 2026-04-26 21:46)_
 
 - No outreach script — demand_scanner finds leads (score ≥ 7) but Echo cannot contact them (Reddit OAuth write scope required for DMs/comments)

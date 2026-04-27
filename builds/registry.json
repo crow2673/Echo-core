@@ -12,5 +12,53 @@
     "deployed_path": null,
     "rejected_at": "2026-04-27T00:45:35.385307",
     "reject_reason": ""
+  },
+  "script_to_simulate_investment_growth_and": {
+    "name": "script_to_simulate_investment_growth_and",
+    "description": "Script to simulate investment growth and risk for various strategies | Provide data-driven insights for decision-making",
+    "created_at": "2026-04-27T02:45:55.452732",
+    "status": "pending",
+    "syntax_ok": true,
+    "syntax_error": null,
+    "sandbox_ok": true,
+    "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmphjpvzzc6.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmphjpvzzc6.py'",
+    "path": "/home/andrew/Echo/builds/pending/script_to_simulate_investment_growth_and.py",
+    "deployed_path": null
+  },
+  "script_to_automate_product_sourcing_and_": {
+    "name": "script_to_automate_product_sourcing_and_",
+    "description": "Script to automate product sourcing and listing for online sales platform",
+    "created_at": "2026-04-27T05:31:53.414152",
+    "status": "pending",
+    "syntax_ok": true,
+    "syntax_error": null,
+    "sandbox_ok": true,
+    "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmpw3qu00rx.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpw3qu00rx.py'",
+    "path": "/home/andrew/Echo/builds/pending/script_to_automate_product_sourcing_and_.py",
+    "deployed_path": null
+  },
+  "develop_a_script_to_automate_log_analysi": {
+    "name": "develop_a_script_to_automate_log_analysi",
+    "description": "Develop a script to automate log analysis and alert generation for critical errors",
+    "created_at": "2026-04-27T06:53:17.822715",
+    "status": "pending",
+    "syntax_ok": true,
+    "syntax_error": null,
+    "sandbox_ok": true,
+    "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmpqc03fq_q.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpqc03fq_q.py'",
+    "path": "/home/andrew/Echo/builds/pending/develop_a_script_to_automate_log_analysi.py",
+    "deployed_path": null
+  },
+  "script_to_automate_log_analysis_and_aler": {
+    "name": "script_to_automate_log_analysis_and_aler",
+    "description": "Script to automate log analysis and alert generation based on predefined patterns.",
+    "created_at": "2026-04-27T08:26:40.744872",
+    "status": "pending",
+    "syntax_ok": true,
+    "syntax_error": null,
+    "sandbox_ok": true,
+    "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmpj5974btn.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpj5974btn.py'",
+    "path": "/home/andrew/Echo/builds/pending/script_to_automate_log_analysis_and_aler.py",
+    "deployed_path": null
   }
 }

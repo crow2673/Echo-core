@@ -19,9 +19,10 @@ import subprocess
 import sys
 from pathlib import Path
 from datetime import datetime
-import sys, os; sys.path.insert(0, os.path.expanduser("~/Echo/core")); from regret_index import log_action, get_flags
+import sys, os; sys.path.insert(0, os.path.expanduser("~/Echo"))
+from core.regret_index import log_action, get_flags
 try:
-    sys.path.insert(0, os.path.expanduser("~/Echo")); from core.event_ledger import log_event
+    from core.event_ledger import log_event
 except Exception:
     log_event = None
 

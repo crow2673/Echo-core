@@ -304,27 +304,37 @@ def _parse_and_add_build(result) -> None:
         return
 
     # Guard: must relate to Echo's actual domain
+    # Note: keep keywords specific — generic words like "summary" let unrelated proposals slip through
     ALLOWED_DOMAINS = [
         "trading", "alpaca", "crypto", "stock", "fiverr", "lead", "reddit",
         "telegram", "notifier", "monitor", "alert", "backup", "ollama",
         "content", "article", "devto", "dev.to", "beehiiv", "income",
         "discord", "ram", "memory", "disk", "timer", "systemd", "scheduler",
-        "session", "checkpoint", "summary", "digest", "log", "error",
+        "session", "checkpoint", "digest", "log", "error",
         "notion", "briefing", "governor", "vast", "gpu",
     ]
+    # Hard blocklist — topics Echo should never build for
+    BLOCKED_TOPICS = [
+        "business plan", "financial projection", "executive summary",
+        "market analysis", "business model", "pitch deck", "investor",
+        "resume", "cover letter", "personal finance", "budget template",
+    ]
     desc_lower = description.lower()
+    if any(blocked in desc_lower for blocked in BLOCKED_TOPICS):
+        print(f"[self_act] ADD_BUILD rejected (blocked topic): {description[:80]}")
+        return
     if not any(kw in desc_lower for kw in ALLOWED_DOMAINS):
         print(f"[self_act] ADD_BUILD rejected (out of domain): {description[:80]}")
         return
 
-    # Guard: must match something in known_gaps.md
+    # Guard: must match something in known_gaps.md with meaningful overlap
     gaps_file = BASE / "memory/known_gaps.md"
     if gaps_file.exists():
         gaps_text = gaps_file.read_text().lower()
-        # Check if at least 2 words from the description appear in the gaps file
-        words = [w for w in desc_lower.split() if len(w) > 4]
+        # Require 4+ words from description to appear in gaps (raised from 2 — word soup was matching)
+        words = [w for w in desc_lower.split() if len(w) > 5]
         matches = sum(1 for w in words if w in gaps_text)
-        if matches < 2:
+        if matches < 4:
             print(f"[self_act] ADD_BUILD rejected (not in known_gaps.md — {matches} word matches): {description[:80]}")
             return
 
@@ -532,7 +542,9 @@ def reasoning_cycle():
                 "ADD_BUILD: <description> — propose a script to close a gap listed in memory/known_gaps.md ONLY. Do NOT invent new ideas.\n"
                 "ADD_CONTENT: <title> | <one sentence angle> — queue an article topic you identified as worth writing\n"
                 "Only emit a token if you have a specific, concrete reason based on what you observed.\n"
-                "ADD_BUILD is ONLY valid if the build directly addresses a gap already recorded in known_gaps.md."
+                "ADD_BUILD is ONLY valid if the build directly addresses a gap already recorded in known_gaps.md.\n"
+                "ADD_BUILD must be about Echo's own systems: trading, monitoring, alerts, content, leads, backups, memory.\n"
+                "NEVER emit ADD_BUILD for: business plans, templates, financial documents, or anything unrelated to Echo's codebase."
             )
             result = agent_loop(
                 prompt=str(prompt_flag),

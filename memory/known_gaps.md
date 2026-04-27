@@ -30,6 +30,7 @@ The correct order is: commit meaningful work under a descriptive name → THEN c
 If you are ever tempted to propose "squash the auto backup commits" — read this first.
 
 ## High Priority Gaps
+- Memory logs indicate missing details on how often and under what conditions the system checks for updates to the knowledge base.  _(identified by Echo 2026-04-27 09:46)_
 - Need a script to monitor and log system performance metrics and alert if they fall outside expected ranges.  _(identified by Echo 2026-04-27 03:46)_
 - Need a script to monitor and manage system alerts and notifications more efficiently, ensuring no important alerts are missed.  _(identified by Echo 2026-04-26 21:46)_
 
@@ -46,7 +47,7 @@ If you are ever tempted to propose "squash the auto backup commits" — read thi
 
 ## Medium Priority Gaps
 
-- No script monitors RAM usage and warns when qwen2.5:32b is about to OOM
+- ✅ RAM monitor — core/ram_monitor.py fires every 5min via echo-ram-monitor.timer (closed 2026-04-27)
 - No script auto-restarts stale systemd timers that haven't fired in 2x their interval
 - No script validates that all secrets in golem.env are still valid (test API calls)
 - No content repurposing — dev.to articles not posted to Beehiiv newsletter automatically

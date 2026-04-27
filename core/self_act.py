@@ -319,6 +319,22 @@ def _parse_and_add_build(result) -> None:
 
     raw = result_str[idx + len(marker):].strip()
     description = raw.split("\n")[0].strip().strip('"').strip("'")
+
+    # ADD_BUILD format: <what> | goal: <goal/income impact> | reach: <how it reaches Andrew or customer>
+    # Reject if it doesn't answer all three questions
+    parts = [p.strip() for p in description.split("|")]
+    if len(parts) < 3:
+        print(f"[self_act] ADD_BUILD rejected (missing goal/reach — need 3 pipe-separated parts): {description[:80]}")
+        return
+    goal_part = next((p for p in parts if p.lower().startswith("goal:")), None)
+    reach_part = next((p for p in parts if p.lower().startswith("reach:")), None)
+    if not goal_part or not reach_part:
+        print(f"[self_act] ADD_BUILD rejected (missing goal: or reach: fields): {description[:80]}")
+        return
+    if len(goal_part) < 15 or len(reach_part) < 15:
+        print(f"[self_act] ADD_BUILD rejected (goal/reach too vague): {description[:80]}")
+        return
+    description = parts[0]  # use just the 'what' for domain/gap checks; full raw stored below
     if not description or len(description) < 10:
         return
 
@@ -386,7 +402,9 @@ def _parse_and_add_build(result) -> None:
 
         msg = (
             f"Echo proposes a build: {name}\n"
-            f"Reason: {description[:120]}\n"
+            f"What: {description[:120]}\n"
+            f"Goal: {goal_part[5:].strip()[:120]}\n"
+            f"Reach: {reach_part[6:].strip()[:120]}\n"
             f"Syntax: {syntax}\n\n"
             f"{preview}\n\n"
             f"/approve {name}  or  /reject {name}"
@@ -558,10 +576,10 @@ def reasoning_cycle():
                 "Special tokens you can emit at the end of your response:\n"
                 "ADD_TASK: <description> — add a new standing task to your queue\n"
                 "ADD_GAP: <description> — record a gap or missing capability you noticed\n"
-                "ADD_BUILD: <description> — propose a script to close a gap listed in memory/known_gaps.md ONLY. Do NOT invent new ideas.\n"
+                "ADD_BUILD: <what> | goal: <how it generates income or moves Echo's goals forward> | reach: <how it reaches Andrew or a customer> — propose a build grounded in known_gaps.md.\n"
                 "ADD_CONTENT: <title> | <one sentence angle> — queue an article topic you identified as worth writing\n"
                 "Only emit a token if you have a specific, concrete reason based on what you observed.\n"
-                "ADD_BUILD is ONLY valid if the build directly addresses a gap already recorded in known_gaps.md.\n"
+                "ADD_BUILD requires all three parts separated by pipes. A build with no goal or no reach is not worth proposing.\n"
                 "ADD_BUILD must be about Echo's own systems: trading, monitoring, alerts, content, leads, backups, memory.\n"
                 "NEVER emit ADD_BUILD for: business plans, templates, financial documents, or anything unrelated to Echo's codebase."
             )

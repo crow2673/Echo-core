@@ -17,7 +17,20 @@ The Golem network has thousands of CPU providers and very few requestors. CPU-on
 
 **What would actually help:** Configure the RTX 3060 as a GPU provider (requires nvidia-container-toolkit + ya-provider GPU plugin). This is a real build task if Andrew decides Golem is worth pursuing. Until then, treat Golem income as $0 and do not allocate reasoning cycles to it.
 
+## GIT SAFETY — LEARNED 2026-04-26 (do not forget)
+
+**`git filter-repo` wipes files from disk when it drops commits.**
+
+On 2026-04-26, Andrew and Claude Code squashed 49 "Auto backup" commits using `git filter-repo`. This rewrote the working tree to match the new HEAD. Every file that existed ONLY in those auto backup commits was deleted from disk — 15 core modules and memory files were lost and had to be rebuilt from scratch.
+
+**Rule: never propose or run a git history rewrite (filter-repo, rebase -i, reset --hard) without first confirming every important file has a named non-backup commit.**
+
+The correct order is: commit meaningful work under a descriptive name → THEN clean history. Never backwards.
+
+If you are ever tempted to propose "squash the auto backup commits" — read this first.
+
 ## High Priority Gaps
+- Need a script to monitor and manage system alerts and notifications more efficiently, ensuring no important alerts are missed.  _(identified by Echo 2026-04-26 21:46)_
 
 - No outreach script — demand_scanner finds leads (score ≥ 7) but Echo cannot contact them (Reddit OAuth write scope required for DMs/comments)
 - No script tracks Fiverr gig view count over time (manual check required now)

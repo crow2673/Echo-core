@@ -2,17 +2,7 @@
   {
     "id": "healthcheck",
     "description": "Check all Echo systemd services are active",
-    "cmd": ["systemctl", "--user", "is-active", "echo-core.service", "echo-governor-v2.timer", "echo-self-act-worker.timer"]
-  },
-  {
-    "id": "golem_status",
-    "description": "Check Golem provider status",
-    "cmd": ["bash", "-lc", "ya-provider status 2>/dev/null || echo 'ya-provider not available'"]
-  },
-  {
-    "id": "golem_pricing_update",
-    "description": "Adjust Golem CPU pricing",
-    "cmd": ["bash", "-lc", "echo 'Golem pricing adjustment — manual step required'"]
+    "cmd": ["systemctl", "--user", "is-active", "echo-core.service", "echo-governor-v2.timer", "echo-self-act-worker.timer", "echo-telegram-intake.service"]
   },
   {
     "id": "notify_phone",

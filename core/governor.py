@@ -59,17 +59,9 @@ def match_action(reasoning_text, actions):
     """
     text = reasoning_text.lower()
 
-    # Golem pricing — reasoning suggests lowering price
-    if any(x in text for x in ["lower price", "reduce price", "drop price", "pricing too high", "adjust pricing"]):
-        action = next((a for a in actions if a["id"] == "golem_pricing_update"), None)
-        if action:
-            return action, {"GOLEM_CPU": "0.00008", "GOLEM_DUR": "0.00002"}
-
-    # Golem status check
-    if any(x in text for x in ["golem status", "check golem", "golem node"]):
-        action = next((a for a in actions if a["id"] == "golem_status"), None)
-        if action:
-            return action, {}
+    # Golem — closed investigation, do not act (market demand problem, not fixable by Echo)
+    if any(x in text for x in ["golem", "ya-provider", "golemsp"]):
+        return None, None
 
     # Health check
     if any(x in text for x in ["health check", "system status", "services down", "check services"]):
@@ -103,9 +95,9 @@ def match_action(reasoning_text, actions):
         if action:
             return action, {}
 
-    # Income path reasoning
+    # Income path reasoning — query ledger for context
     if any(x in text for x in ["income path", "income_knowledge", "activate next", "which income"]):
-        action = next((a for a in actions if a["id"] == "golem_status"), None)
+        action = next((a for a in actions if a["id"] == "query_ledger"), None)
         if action:
             return action, {}
 

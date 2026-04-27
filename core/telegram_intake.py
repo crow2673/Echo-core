@@ -285,21 +285,7 @@ def ask_ollama(text):
 
 
 def mark_sent(capsule_id):
-    try:
-        pass  # no-op — capsule system removed
-    except Exception:
-        pass
-
-    try:
-        from core.memory_store import file_lock, load_memory, save_memory
-        with file_lock():
-            memory = load_memory()
-            for cap in memory:
-                if cap.get("in_reply_to") == capsule_id:
-                    cap["status"] = "sent_telegram"
-            save_memory(memory)
-    except Exception:
-        pass
+    pass  # capsule system removed — Ollama replies directly
 
 
 # ── Self-build handlers ───────────────────────────────────────────────────────

@@ -201,7 +201,7 @@ def cmd_tasks():
                 f"[{t['weight']:.2f}] {t['id']}{flag} — {t['task'][:55]}"
             )
         lines.append(f"\nTotal cycles: {data.get('total_cycles', 0):,}")
-        return "\n".join(lines)
+        return "\n".join(lines)[:4090]
     except Exception as e:
         return f"Tasks unavailable: {e}"
 
@@ -256,51 +256,40 @@ COMMANDS = {
 }
 
 
-# ── Message intake → capsule queue ────────────────────────────────────────────
-def drop_to_capsule(text, update_id):
-    """Drop freeform message into echo_memory.json for daemon to process."""
+# ── Freeform message → direct Ollama reply ───────────────────────────────────
+def ask_ollama(text):
+    """Send freeform message to qwen2.5:7b and return reply."""
     try:
-        from core.memory_store import file_lock, load_memory, save_memory
-        capsule_id = f"TELEGRAM:{update_id}"
-        capsule = {
-            "capsule_id": capsule_id,
-            "type": "message",
-            "source": "telegram",
-            "text": text,
-            "status": "new",
-            "created_at": datetime.now().isoformat(),
-        }
-        with file_lock():
-            memory = load_memory()
-            memory.append(capsule)
-            save_memory(memory)
-        log(f"[telegram] queued capsule {capsule_id}: {text[:60]}")
-        return capsule_id
+        payload = json.dumps({
+            "model": "qwen2.5:7b",
+            "prompt": (
+                "You are Echo, an autonomous AI agent running on Andrew's machine in Mena, Arkansas. "
+                "Andrew is messaging you via Telegram. Reply concisely and directly.\n\n"
+                f"Andrew: {text}\nEcho:"
+            ),
+            "stream": False,
+            "options": {"num_predict": 300}
+        }).encode()
+        req = urllib.request.Request(
+            "http://localhost:11434/api/generate",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST"
+        )
+        with urllib.request.urlopen(req, timeout=60) as r:
+            data = json.loads(r.read())
+            return data.get("response", "").strip()
     except Exception as e:
-        log(f"[telegram] capsule drop failed: {e}")
+        log(f"[telegram] ollama error: {e}")
         return None
 
 
-def await_reply(capsule_id, timeout=90):
-    """Poll echo_memory.json for a reply to our capsule."""
-    import time
-    deadline = time.time() + timeout
-    while time.time() < deadline:
-        try:
-            from core.memory_store import load_memory
-            memory = load_memory()
-            for cap in memory:
-                if (cap.get("type") == "reply" and
-                        cap.get("in_reply_to") == capsule_id and
-                        cap.get("status") != "sent_telegram"):
-                    return cap
-        except Exception:
-            pass
-        time.sleep(3)
-    return None
-
-
 def mark_sent(capsule_id):
+    try:
+        pass  # no-op — capsule system removed
+    except Exception:
+        pass
+
     try:
         from core.memory_store import file_lock, load_memory, save_memory
         with file_lock():
@@ -461,17 +450,13 @@ def run():
         elif cmd_key == "/builds":
             handle_list_builds()
         else:
-            # Freeform — drop to capsule queue and wait for Echo's reply
+            # Freeform — ask Ollama directly
             tg_send(AUTHORIZED_CHAT_ID, "Echo is thinking...")
-            capsule_id = drop_to_capsule(text, update_id)
-            if capsule_id:
-                reply_cap = await_reply(capsule_id, timeout=90)
-                if reply_cap:
-                    reply_text = reply_cap.get("text", "(no response)")
-                    tg_send(AUTHORIZED_CHAT_ID, reply_text[:4000])
-                    mark_sent(capsule_id)
-                else:
-                    tg_send(AUTHORIZED_CHAT_ID, "Echo is still processing — check back in a moment.")
+            reply = ask_ollama(text)
+            if reply:
+                tg_send(AUTHORIZED_CHAT_ID, reply[:4090])
+            else:
+                tg_send(AUTHORIZED_CHAT_ID, "No response — Ollama may be busy, try again.")
 
     save_state(state)
 

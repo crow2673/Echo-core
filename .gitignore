@@ -176,7 +176,7 @@ sandbox_screen_adapter.py
 screen_watcher*.py
 trading_bot.py
 safe_trading_bot.py
-gpt_reasoner.py
+## gpt_reasoner.py  # removed — now core/gpt_reasoner.py is tracked
 
 # Legacy echo_*.py stubs
 echo_agent.py

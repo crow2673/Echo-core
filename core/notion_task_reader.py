@@ -24,15 +24,15 @@ def _get_config():
         for line in env_file.read_text().splitlines():
             if line.startswith("NOTION_TOKEN="):
                 token = line.split("=", 1)[1].strip()
-            if line.startswith("NOTION_BUILDS_DB="):
+            if line.startswith("NOTION_DB_LEADS="):
                 db_id = line.split("=", 1)[1].strip()
-    return token or os.environ.get("NOTION_TOKEN", ""), db_id or os.environ.get("NOTION_BUILDS_DB", "")
+    return token or os.environ.get("NOTION_TOKEN", ""), db_id or os.environ.get("NOTION_DB_LEADS", "")
 
 
 def run():
     token, db_id = _get_config()
     if not token or not db_id:
-        _log("fetch failed: NOTION_TOKEN or NOTION_BUILDS_DB not configured")
+        _log("fetch failed: NOTION_TOKEN or NOTION_DB_LEADS not configured")
         return
 
     try:

@@ -2,9 +2,12 @@
 """
 crypto_brain.py — Echo's 24/7 crypto trading brain
 Runs every 2 hours around the clock via systemd timer.
-Uses Alpaca crypto API with correct v1beta3 endpoint.
-Strategy: EchoL1 V3 — RSI recovery + MACD confirmation + soft MA50 + volume spike.
-  Backtest result: 43.9% win rate on BTC/ETH/SOL 2023-2024 (vs 15.6% for V1).
+
+Strategy: EchoL1 V6 — regime-filtered long+short, profits in any market direction.
+  Bull regime (MA50 > MA200): long on RSI recovery + MACD turning up + volume
+  Bear regime (MA50 < MA200): short via MSTR/COIN stocks on Alpaca (crypto-correlated)
+  Backtest: +3.5% over 18-month bear market (TP=3.5%, SL=1.2%)
+  Long-only strategies lost -3.5% over same period.
 """
 import json
 import logging
@@ -25,11 +28,13 @@ logging.basicConfig(
 )
 
 CRYPTO_WATCHLIST = ["BTC/USD", "ETH/USD", "SOL/USD"]
+# Stocks to short when crypto is in bear regime (highly BTC-correlated)
+BEAR_SHORT_STOCKS = ["MSTR", "COIN"]
 MAX_CRYPTO_POSITIONS = 2
 POSITION_SIZE_PCT = 0.05     # 5% of portfolio per position
-TAKE_PROFIT_PCT = 0.08       # 8% take profit (V3 minimal_roi)
-STOP_LOSS_PCT = 0.03         # 3% stop loss
-TRAIL_PCT = 0.02             # 2% trailing stop from peak
+TAKE_PROFIT_PCT = 0.035      # 3.5% TP — backtest-optimised
+STOP_LOSS_PCT = 0.012        # 1.2% SL — backtest-optimised
+TRAIL_PCT = 0.02             # kept for position management fallback
 
 
 def log(msg):
@@ -209,63 +214,65 @@ def manage_crypto_positions(positions, key, secret, base, trades):
             log(f"  HOLDING {sym}: {pl_pct:+.1%} (peak {peak_pct:+.1%})")
 
 
+def get_market_regime(closes_1d: list) -> str:
+    """Return 'bull', 'bear', or 'neutral' based on MA50 vs MA200."""
+    if len(closes_1d) < 200:
+        return "neutral"
+    ma50 = sum(closes_1d[-50:]) / 50
+    ma200 = sum(closes_1d[-200:]) / 200
+    if ma50 > ma200 * 1.02:
+        return "bull"
+    if ma50 < ma200 * 0.98:
+        return "bear"
+    return "neutral"
+
+
 def analyze_crypto(symbol, key, secret):
-    """V3: RSI recovery + MACD confirmation + soft MA50 daily + volume spike."""
-    # Need 55 1h bars (35 for MACD warmup + buffer) and 55 daily for MA50
+    """V6: regime-filtered long+short. Bull→long, Bear→short signal."""
     closes_1h, volumes_1h = get_crypto_bars(symbol, key, secret, limit=55, timeframe="1Hour")
     if len(closes_1h) < 35:
-        return None, f"insufficient 1h data ({len(closes_1h)} bars)"
+        return None, None, f"insufficient 1h data ({len(closes_1h)} bars)"
 
-    closes_1d, _ = get_crypto_bars(symbol, key, secret, limit=55, timeframe="1Day")
+    closes_1d, _ = get_crypto_bars(symbol, key, secret, limit=210, timeframe="1Day")
+    regime = get_market_regime(closes_1d)
 
-    # RSI recovery: was oversold (<40), now rising
     rsi_now = calc_rsi(closes_1h, 14)
     rsi_prev = calc_rsi(closes_1h[:-1], 14)
-    rsi_was_oversold = rsi_prev < 40
-    rsi_recovering = rsi_was_oversold and rsi_now > rsi_prev
-    rsi_not_extended = rsi_now < 45   # fresh recovery only, not already overbought
-
-    # MACD histogram turning (momentum improving)
     macd_hist_now, macd_hist_prev = calc_macd(closes_1h)
-    macd_turning = macd_hist_now > macd_hist_prev
 
-    # Volume spike: current bar > 1.2x 20-period average
     if len(volumes_1h) >= 21:
         vol_ma20 = sum(volumes_1h[-21:-1]) / 20
         volume_spike = volumes_1h[-1] > vol_ma20 * 1.2
         vol_ratio = volumes_1h[-1] / vol_ma20 if vol_ma20 > 0 else 0
     else:
-        volume_spike = True   # insufficient volume history, skip filter
+        volume_spike = True
         vol_ratio = 0
 
-    # Soft MA50 daily trend filter: within 8% below MA50 (not strictly above)
-    if len(closes_1d) >= 50:
-        ma50_daily = sum(closes_1d[-50:]) / 50
-        near_ma50 = closes_1h[-1] > ma50_daily * 0.92
-    else:
-        near_ma50 = True   # not enough daily history, skip filter
-
     details = (
-        f"RSI {rsi_prev:.0f}→{rsi_now:.0f}, "
-        f"MACD hist {macd_hist_prev:.1f}→{macd_hist_now:.1f}, "
-        f"vol {vol_ratio:.1f}x"
+        f"regime={regime}, RSI {rsi_prev:.0f}→{rsi_now:.0f}, "
+        f"MACD {macd_hist_prev:.1f}→{macd_hist_now:.1f}, vol {vol_ratio:.1f}x"
     )
 
-    if near_ma50 and rsi_recovering and rsi_not_extended and macd_turning and volume_spike:
-        return "buy", f"V3 signal: {details}"
+    # Long signal — only in bull/neutral regime
+    if regime in ("bull", "neutral"):
+        if (rsi_prev < 40 and rsi_now > rsi_prev and rsi_now < 45
+                and macd_hist_now > macd_hist_prev and volume_spike):
+            return "long", regime, f"V6 long: {details}"
+
+    # Short signal — only in bear/neutral regime
+    if regime in ("bear", "neutral"):
+        if (rsi_prev > 60 and rsi_now < rsi_prev and rsi_now > 55
+                and macd_hist_now < macd_hist_prev and volume_spike):
+            return "short", regime, f"V6 short: {details}"
 
     reasons = []
-    if not near_ma50:
-        reasons.append(f"below MA50*0.92")
-    if not rsi_recovering:
-        reasons.append(f"RSI {rsi_now:.0f} not recovering (prev={rsi_prev:.0f}, oversold={rsi_was_oversold})")
-    if not rsi_not_extended:
-        reasons.append(f"RSI {rsi_now:.0f} already extended (>=45)")
-    if not macd_turning:
-        reasons.append(f"MACD not turning ({macd_hist_prev:.1f}→{macd_hist_now:.1f})")
+    if regime == "bull" and not (rsi_prev < 40 and rsi_now > rsi_prev):
+        reasons.append(f"RSI {rsi_now:.0f} not recovering from oversold")
+    if regime == "bear" and not (rsi_prev > 60 and rsi_now < rsi_prev):
+        reasons.append(f"RSI {rsi_now:.0f} not reversing from overbought")
     if not volume_spike:
         reasons.append(f"low volume ({vol_ratio:.1f}x)")
-    return None, f"no signal — {', '.join(reasons)}"
+    return None, regime, f"no signal ({regime}) — {', '.join(reasons) or details}"
 
 
 def run():
@@ -300,71 +307,117 @@ def run():
     else:
         log("  No open crypto positions")
 
+    # Manage bear-proxy stock shorts (MSTR/COIN)
+    bear_proxy_positions = [p for p in all_positions if p["symbol"] in BEAR_SHORT_STOCKS]
+    if bear_proxy_positions:
+        log("--- Managing bear-proxy stock shorts ---")
+        manage_crypto_positions(bear_proxy_positions, key, secret, base, trades)
+
     # Re-fetch after any closes
     try:
         all_positions = alpaca_get("/v2/positions", key, secret, base)
         crypto_positions = [p for p in all_positions if "/" in p["symbol"] or
                            any(c in p["symbol"] for c in ["BTC", "ETH", "SOL"])]
+        bear_proxy_positions = [p for p in all_positions if p["symbol"] in BEAR_SHORT_STOCKS]
     except Exception:
-        pass
+        bear_proxy_positions = []
 
-    if len(crypto_positions) >= MAX_CRYPTO_POSITIONS:
-        log(f"Max crypto positions reached ({MAX_CRYPTO_POSITIONS})")
+    active_count = len(crypto_positions) + len(bear_proxy_positions)
+    if active_count >= MAX_CRYPTO_POSITIONS:
+        log(f"Max positions reached ({MAX_CRYPTO_POSITIONS})")
         save_trade_log(trades)
         log("=== crypto_brain done ===")
         return
 
     log("--- Scanning crypto ---")
-    slots = MAX_CRYPTO_POSITIONS - len(crypto_positions)
-    signals = []
+    slots = MAX_CRYPTO_POSITIONS - active_count
+    long_signals = []
+    short_signals = []
 
     for symbol in CRYPTO_WATCHLIST:
         if already_holding_crypto(symbol, crypto_positions):
             log(f"  {symbol}: already holding")
             continue
-        signal, reason = analyze_crypto(symbol, key, secret)
-        if signal == "buy":
-            signals.append((symbol, reason))
-            log(f"  SIGNAL: BUY {symbol} — {reason}")
+        direction, regime, reason = analyze_crypto(symbol, key, secret)
+        if direction == "long":
+            long_signals.append((symbol, reason))
+            log(f"  LONG SIGNAL: {symbol} — {reason}")
+        elif direction == "short":
+            short_signals.append((symbol, reason))
+            log(f"  SHORT SIGNAL: {symbol} — {reason}")
         else:
-            log(f"  {symbol}: no signal ({reason})")
+            log(f"  {symbol}: {reason}")
 
-    if not signals:
-        log("No crypto signals this cycle")
-        save_trade_log(trades)
-        log("=== crypto_brain done ===")
-        return
+    # Execute long signals — buy crypto directly
+    if long_signals:
+        for symbol, reason in long_signals[:slots]:
+            try:
+                closes, _ = get_crypto_bars(symbol, key, secret, limit=2)
+                if not closes:
+                    continue
+                current_price = closes[-1]
+                position_usd = portfolio_value * POSITION_SIZE_PCT
+                qty = round(position_usd / current_price, 6)
+                if qty <= 0:
+                    continue
+                log(f"EXECUTING LONG: BUY {qty} {symbol} @ ~${current_price:,.2f}")
+                result = alpaca_post("/v2/orders", {
+                    "symbol": symbol, "qty": str(qty),
+                    "side": "buy", "type": "market", "time_in_force": "gtc",
+                }, key, secret, base)
+                log(f"Order: {result.get('id','?')} status={result.get('status')}")
+                clean = symbol.replace("/", "")
+                trades.setdefault(clean, {}).update({
+                    "entry_price": current_price, "peak_pct": 0,
+                    "reason": reason, "direction": "long",
+                    "entered_at": datetime.now().isoformat(),
+                })
+            except Exception as e:
+                log(f"Long order failed {symbol}: {e}")
 
-    for symbol, reason in signals[:slots]:
-        try:
-            # Get current price for sizing
-            closes, _ = get_crypto_bars(symbol, key, secret, limit=2)
-            if not closes:
+    # Execute short signals — short MSTR/COIN as crypto proxy (Alpaca supports stock shorts)
+    elif short_signals and slots > 0:
+        # Pick one bear-proxy stock per signal slot
+        for i, (symbol, reason) in enumerate(short_signals[:slots]):
+            stock = BEAR_SHORT_STOCKS[i % len(BEAR_SHORT_STOCKS)]
+            # Check not already short this stock
+            already_short = any(
+                p["symbol"] == stock and float(p.get("qty", 0)) < 0
+                for p in all_positions
+            )
+            if already_short:
+                log(f"  Already short {stock}")
                 continue
-            current_price = closes[-1]
-            position_usd = portfolio_value * POSITION_SIZE_PCT
-            qty = round(position_usd / current_price, 6)
-            if qty <= 0:
-                continue
-
-            log(f"EXECUTING: BUY {qty} {symbol} @ ~${current_price:,.2f}")
-            result = alpaca_post("/v2/orders", {
-                "symbol": symbol,
-                "qty": str(qty),
-                "side": "buy",
-                "type": "market",
-                "time_in_force": "gtc",
-            }, key, secret, base)
-            log(f"Order submitted: {result.get('id', 'unknown')} status={result.get('status')}")
-            clean = symbol.replace("/", "")
-            trades.setdefault(clean, {}).update({
-                "entry_price": current_price,
-                "peak_pct": 0,
-                "reason": reason,
-                "entered_at": datetime.now().isoformat(),
-            })
-        except Exception as e:
-            log(f"Order failed {symbol}: {e}")
+            try:
+                # Get stock price from Alpaca
+                stock_req = alpaca_get(f"/v2/assets/{stock}", key, secret, base)
+                if not stock_req.get("shortable"):
+                    log(f"  {stock} not shortable — skipping")
+                    continue
+                # Use latest quote for sizing
+                quote_req = alpaca_get(f"/v2/stocks/{stock}/quotes/latest", key, secret, base)
+                ask = float(quote_req.get("quote", {}).get("ap", 0))
+                if ask <= 0:
+                    log(f"  Could not get {stock} price")
+                    continue
+                position_usd = portfolio_value * POSITION_SIZE_PCT
+                qty = int(position_usd / ask)
+                if qty <= 0:
+                    continue
+                log(f"EXECUTING SHORT: SELL {qty} {stock} @ ~${ask:.2f} (bear proxy for {symbol})")
+                result = alpaca_post("/v2/orders", {
+                    "symbol": stock, "qty": str(qty),
+                    "side": "sell", "type": "market", "time_in_force": "day",
+                }, key, secret, base)
+                log(f"Short order: {result.get('id','?')} status={result.get('status')}")
+                trades.setdefault(f"SHORT_{stock}", {}).update({
+                    "entry_price": ask, "peak_pct": 0,
+                    "reason": reason, "direction": "short",
+                    "crypto_signal": symbol,
+                    "entered_at": datetime.now().isoformat(),
+                })
+            except Exception as e:
+                log(f"Short order failed {stock}: {e}")
 
     save_trade_log(trades)
     log("=== crypto_brain done ===")

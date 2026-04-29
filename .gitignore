@@ -225,3 +225,4 @@ content/legacy/
 vast_host_install.log
 vastai_install_logs.tar.gz
 send_mach_info.py
+echo_events.ndjson

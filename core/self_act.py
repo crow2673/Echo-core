@@ -424,6 +424,127 @@ def _parse_and_add_build(result) -> None:
         print(f"[self_act] ADD_BUILD error: {e}")
 
 
+def _parse_and_revise_build(result) -> None:
+    """
+    If Echo's result contains REVISE_BUILD: <build_name>, re-generate the script
+    using the existing code + review_notes as context, overwrite the pending file,
+    and notify Andrew for re-approval.
+    Format: REVISE_BUILD: <build_name>
+    """
+    result_str = str(result or "")
+    marker = "REVISE_BUILD:"
+    idx = result_str.find(marker)
+    if idx == -1:
+        return
+
+    raw = result_str[idx + len(marker):].strip().split("\n")[0].strip()
+    build_name = raw.split("|")[0].strip()
+    if not build_name or len(build_name) < 5:
+        return
+
+    try:
+        import re as _re, py_compile, tempfile, os as _os
+        from core.self_build import load_registry, save_registry, SYSTEM_PROMPT
+        from core.providers.router import call_ollama
+
+        reg = load_registry()
+
+        # Partial name match — build names are truncated slugs
+        matched = None
+        for name in reg:
+            if build_name in name or name in build_name:
+                matched = name
+                break
+        if not matched:
+            print(f"[self_act] REVISE_BUILD: no build found for '{build_name}'")
+            return
+
+        build = reg[matched]
+        if build.get("status") not in ("needs_revision",):
+            print(f"[self_act] REVISE_BUILD: '{matched}' status={build.get('status')} — only revise needs_revision builds")
+            return
+
+        pending_path = Path(build["path"])
+        if not pending_path.exists():
+            print(f"[self_act] REVISE_BUILD: pending file missing: {pending_path}")
+            return
+
+        original_code = pending_path.read_text()
+        review_notes = build.get("review_notes", "Fix the issues in this script.")
+        description = build.get("description", matched)
+
+        prompt = (
+            f"Revise this Python script based on the review feedback.\n\n"
+            f"ORIGINAL SCRIPT:\n{original_code}\n\n"
+            f"REVIEW FEEDBACK (apply these exact fixes):\n{review_notes}\n\n"
+            f"Output ONLY the corrected Python. No explanation. No markdown fences."
+        )
+
+        print(f"[self_act] REVISE_BUILD: revising '{matched}'")
+
+        try:
+            code = call_ollama(
+                prompt=prompt,
+                model="qwen2.5:32b",
+                timeout=600.0,
+                system_prompt=SYSTEM_PROMPT,
+            )
+        except Exception as e:
+            print(f"[self_act] REVISE_BUILD LLM error: {e}")
+            return
+
+        code = _re.sub(r"^```python\s*", "", code, flags=_re.MULTILINE)
+        code = _re.sub(r"^```\s*$", "", code, flags=_re.MULTILINE)
+        code = code.strip()
+        if not code.startswith("#"):
+            code = f"#!/usr/bin/env python3\n{code}"
+
+        # Syntax check — do not overwrite with broken code
+        with tempfile.NamedTemporaryFile(suffix=".py", mode="w", delete=False) as tf:
+            tf.write(code)
+            tf_path = tf.name
+        try:
+            py_compile.compile(tf_path, doraise=True)
+            syntax_ok = True
+        except py_compile.PyCompileError as e:
+            print(f"[self_act] REVISE_BUILD: syntax error in revision — {e}")
+            syntax_ok = False
+        finally:
+            _os.unlink(tf_path)
+
+        if not syntax_ok:
+            return
+
+        # Atomic overwrite
+        tmp = pending_path.with_suffix(".tmp")
+        tmp.write_text(code)
+        tmp.rename(pending_path)
+
+        build["status"] = "pending"
+        build["revised_at"] = datetime.now().isoformat()
+        build["revision_note"] = "Self-revised by Echo based on review_notes"
+        reg[matched] = build
+        save_registry(reg)
+
+        preview = code[:1500] + ("\n...(truncated)" if len(code) > 1500 else "")
+        msg = (
+            f"Echo revised: {matched}\n"
+            f"Syntax: ok\n\n"
+            f"{preview}\n\n"
+            f"/approve {matched}  or  /reject {matched}"
+        )
+        try:
+            from core.notifier import notify
+            notify("Echo revised a build", msg[:4000], urgent=False, phone=True)
+        except Exception:
+            pass
+
+        print(f"[self_act] REVISE_BUILD: done — '{matched}' ready for /approve")
+
+    except Exception as e:
+        print(f"[self_act] REVISE_BUILD error: {e}")
+
+
 def _parse_and_add_content(result) -> None:
     """
     If Echo's result contains ADD_CONTENT: <title> | <angle>, queue it in
@@ -578,6 +699,7 @@ def reasoning_cycle():
                 "ADD_GAP: <description> — record a gap or missing capability you noticed\n"
                 "ADD_BUILD: <what> | goal: <how it generates income or moves Echo's goals forward> | reach: <how it reaches Andrew or a customer> — propose a build grounded in known_gaps.md.\n"
                 "ADD_CONTENT: <title> | <one sentence angle> — queue an article topic you identified as worth writing\n"
+                "REVISE_BUILD: <build_name> — re-generate a pending build that has status=needs_revision, applying its review_notes. Only emit if you are specifically processing a build revision flag.\n"
                 "Only emit a token if you have a specific, concrete reason based on what you observed.\n"
                 "ADD_BUILD requires all three parts separated by pipes. A build with no goal or no reach is not worth proposing.\n"
                 "ADD_BUILD must be about Echo's own systems: trading, monitoring, alerts, content, leads, backups, memory.\n"
@@ -614,6 +736,9 @@ def reasoning_cycle():
 
         # Check if Echo proposed a new build
         _parse_and_add_build(result)
+
+        # Check if Echo needs to revise an existing build
+        _parse_and_revise_build(result)
 
         # Check if Echo identified content worth writing
         _parse_and_add_content(result)
@@ -653,6 +778,20 @@ def generate_flags(core_state: dict) -> list:
             flag = f"investigate inactive timer: {name}"
             if flag not in core_state.get("knowledge", {}):
                 flags.append(flag)
+
+    # Flag any needs_revision builds so Echo self-corrects them
+    try:
+        from core.self_build import load_registry as _load_reg
+        _reg = _load_reg()
+        for _name, _b in _reg.items():
+            if _b.get("status") == "needs_revision":
+                _notes = _b.get("review_notes", "")[:100]
+                _flag = f"revise build '{_name}': {_notes}"
+                if _flag not in core_state.get("knowledge", {}):
+                    flags.append(_flag)
+                    break  # one revision per cycle
+    except Exception:
+        pass
 
     # Load standing tasks from file — adaptive, not hardcoded
     standing_file = BASE / "memory/standing_tasks.json"

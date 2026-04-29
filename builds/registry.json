@@ -17,13 +17,16 @@
     "name": "script_to_simulate_investment_growth_and",
     "description": "Script to simulate investment growth and risk for various strategies | Provide data-driven insights for decision-making",
     "created_at": "2026-04-27T02:45:55.452732",
-    "status": "pending",
+    "status": "deployed",
     "syntax_ok": true,
     "syntax_error": null,
     "sandbox_ok": true,
     "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmphjpvzzc6.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmphjpvzzc6.py'",
     "path": "/home/andrew/Echo/builds/pending/script_to_simulate_investment_growth_and.py",
-    "deployed_path": null
+    "deployed_path": "/home/andrew/Echo/tools/script_to_simulate_investment_growth_and.py",
+    "reviewed_at": "2026-04-29T00:00:00",
+    "review_notes": "APPROVED in concept. Two fixes before deploy: (1) Output is written to memory/investment_results.txt but nothing reads it \u2014 results are orphaned. Write a one-line summary to memory/investment_snapshot.md instead so Echo's context system can surface it in Telegram. (2) env_file.read_text() will raise FileNotFoundError if golem.env is missing \u2014 add an exists() check or a try/except around it. [FIXED 2026-04-29: output wired to investment_snapshot.md, env_file guarded]",
+    "deployed_at": "2026-04-29T17:06:07.786794"
   },
   "script_to_automate_product_sourcing_and_": {
     "name": "script_to_automate_product_sourcing_and_",
@@ -41,25 +44,32 @@
     "name": "develop_a_script_to_automate_log_analysi",
     "description": "Develop a script to automate log analysis and alert generation for critical errors",
     "created_at": "2026-04-27T06:53:17.822715",
-    "status": "pending",
+    "status": "rejected",
     "syntax_ok": true,
     "syntax_error": null,
     "sandbox_ok": true,
     "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmpqc03fq_q.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpqc03fq_q.py'",
     "path": "/home/andrew/Echo/builds/pending/develop_a_script_to_automate_log_analysi.py",
-    "deployed_path": null
+    "deployed_path": null,
+    "reviewed_at": "2026-04-29T00:00:00",
+    "review_notes": "APPROVED in concept. This is the weaker version \u2014 superseded by script_to_automate_log_analysis_and_aler which uses regex patterns and catches warnings too. Recommended action: drop this one and fix the v2 version instead. If keeping both, at minimum fix the directory: scanning BASE/memory/*.log but logs are in BASE/logs/.",
+    "rejected_at": "2026-04-29T17:03:16.525825",
+    "reject_reason": "Superseded by script_to_automate_log_analysis_and_aler \u2014 identical purpose, weaker implementation (no regex, misses warnings)."
   },
   "script_to_automate_log_analysis_and_aler": {
     "name": "script_to_automate_log_analysis_and_aler",
     "description": "Script to automate log analysis and alert generation based on predefined patterns.",
     "created_at": "2026-04-27T08:26:40.744872",
-    "status": "pending",
+    "status": "deployed",
     "syntax_ok": true,
     "syntax_error": null,
     "sandbox_ok": true,
     "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmpj5974btn.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpj5974btn.py'",
     "path": "/home/andrew/Echo/builds/pending/script_to_automate_log_analysis_and_aler.py",
-    "deployed_path": null
+    "deployed_path": "/home/andrew/Echo/tools/script_to_automate_log_analysis_and_aler.py",
+    "reviewed_at": "2026-04-29T00:00:00",
+    "review_notes": "APPROVED \u2014 this is the better log analysis version (regex patterns, catches warnings). One fix before deploy: log_dir is set to BASE/memory but Echo's actual logs live in BASE/logs/. Change line 61 from `log_dir = BASE / 'memory'` to `log_dir = BASE / 'logs'`. One line change, then it is ready to deploy. [FIXED 2026-04-29: log_dir corrected to BASE/logs/]",
+    "deployed_at": "2026-04-29T17:06:38.785611"
   },
   "build_a_template_for_a_business_plan_wit": {
     "name": "build_a_template_for_a_business_plan_wit",

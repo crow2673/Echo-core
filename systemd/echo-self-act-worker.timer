@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Timer: self_act worker every 5 minutes
+
+[Timer]
+AccuracySec=1s
+OnBootSec=90
+OnUnitActiveSec=300
+Persistent=true
+Unit=echo-self-act-worker.service
+
+[Install]
+WantedBy=timers.target

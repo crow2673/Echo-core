@@ -1,0 +1,7 @@
+[Unit]
+Description=Echo Pulse (daily heartbeat)
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=%h/Echo/venv/bin/python3 %h/Echo/core/pulse.py

@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Worker: write core_state_system.json (run-once)
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=%h/Echo/venv/bin/python3 %h/Echo/tools/core_state_writer.py
+StandardOutput=append:%h/Echo/memory/core_state.log
+StandardError=append:%h/Echo/memory/core_state.log

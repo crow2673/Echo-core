@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Auto-Backup
+After=echo-core.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash %h/Echo/tools/git_backup.sh
+StandardOutput=append:%h/Echo/logs/backup.log
+StandardError=append:%h/Echo/logs/backup.log

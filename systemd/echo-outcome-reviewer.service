@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Outcome Reviewer — post-trade belief updates
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/core/outcome_reviewer.py
+StandardOutput=journal
+StandardError=journal
+TimeoutStartSec=300

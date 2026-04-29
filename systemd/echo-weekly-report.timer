@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Weekly Report — Sunday 8pm
+
+[Timer]
+OnCalendar=Sun *-*-* 20:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Governor V2 — System Truth Engine
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 -m core.governor_v2
+StandardOutput=append:%h/Echo/logs/governor_v2.log
+StandardError=append:%h/Echo/logs/governor_v2.log

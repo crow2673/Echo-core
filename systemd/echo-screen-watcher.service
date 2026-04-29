@@ -1,0 +1,18 @@
+[Unit]
+Description=Echo Screen Watcher
+After=echo-core.service graphical-session.target
+Requires=echo-core.service
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Echo
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/python3 -u %h/Echo/echo_screen_watcher.py --interval 60
+Restart=on-failure
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=graphical-session.target

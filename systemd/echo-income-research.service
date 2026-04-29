@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Income Researcher — weekly web scrape
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 -m core.income_researcher
+StandardOutput=append:%h/Echo/logs/income_researcher.log
+StandardError=append:%h/Echo/logs/income_researcher.log

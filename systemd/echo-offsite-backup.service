@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Offsite Backup — encrypted soul doc to Gmail
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/offsite_backup.py
+StandardOutput=append:%h/Echo/logs/offsite_backup.log
+StandardError=append:%h/Echo/logs/offsite_backup.log

@@ -1,0 +1,13 @@
+[Unit]
+Description=Echo Auto-Publisher — weekly dev.to post
+After=echo-core.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/echo_devto_publisher.py --from-session
+StandardOutput=append:%h/Echo/logs/devto_publish.log
+StandardError=append:%h/Echo/logs/devto_publish.log
+
+[Install]
+WantedBy=default.target

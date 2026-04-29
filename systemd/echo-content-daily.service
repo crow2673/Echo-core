@@ -1,0 +1,7 @@
+[Unit]
+Description=Echo - Generate 1 content draft (daily)
+
+[Service]
+Type=oneshot
+TimeoutStartSec=45m
+ExecStart=/bin/bash -lc '/usr/bin/timeout 45m env DAILY_ENFORCE=1 CONTENT_LIMIT=1 MODEL_TIMEOUT=1800 $HOME/.local/bin/echoc run content_run'

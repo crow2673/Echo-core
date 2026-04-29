@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Worker: self_act reasoning cycle (run-once)
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py self_act
+StandardOutput=append:%h/Echo/memory/self_act.log
+StandardError=append:%h/Echo/memory/self_act.log

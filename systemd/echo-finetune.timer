@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Soul Fine-tuning — monthly on the 1st at 2am
+Requires=echo-finetune.service
+
+[Timer]
+OnCalendar=*-*-01 02:00:00
+Persistent=true
+Unit=echo-finetune.service
+
+[Install]
+WantedBy=timers.target

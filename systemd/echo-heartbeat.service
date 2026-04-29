@@ -1,0 +1,7 @@
+[Unit]
+Description=Echo Worker: heartbeat (append to experience_log.jsonl)
+
+[Service]
+Type=oneshot
+ExecStart=%h/Echo/venv/bin/python3 %h/Echo/tools/heartbeat.py
+WorkingDirectory=%h/Echo

@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Worker: Reachability constraint watch (run-once)
+RefuseManualStop=yes
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/reachability_watch.py
+StandardOutput=append:%h/Echo/memory/reachability_watch.log
+StandardError=append:%h/Echo/memory/reachability_watch.log

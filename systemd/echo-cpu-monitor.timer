@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo CPU Monitor — every hour
+Requires=echo-cpu-monitor.service
+
+[Timer]
+OnBootSec=6min
+OnUnitActiveSec=1h
+Unit=echo-cpu-monitor.service
+
+[Install]
+WantedBy=timers.target

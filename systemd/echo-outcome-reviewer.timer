@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Outcome Reviewer — every 30 minutes
+Requires=echo-outcome-reviewer.service
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=30min
+Unit=echo-outcome-reviewer.service
+
+[Install]
+WantedBy=timers.target

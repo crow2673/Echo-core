@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Income Task Injector
+After=echo-core.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 -m core.income_task_injector
+StandardOutput=append:%h/Echo/logs/income.log
+StandardError=append:%h/Echo/logs/income.log

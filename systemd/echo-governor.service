@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Governor — closed reasoning→action loop
+After=echo-core.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 -m core.governor
+StandardOutput=append:%h/Echo/logs/governor.log
+StandardError=append:%h/Echo/logs/governor.log

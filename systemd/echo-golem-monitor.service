@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Worker: Golem earnings snapshot (run-once)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+Environment=PATH=%h/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=%h/Echo/venv/bin/python3 %h/Echo/golem_monitor.py
+StandardOutput=append:%h/Echo/memory/golem_cron.log
+StandardError=append:%h/Echo/memory/golem_cron.log

@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Daily Git Backup
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/bin/bash %h/Echo/tools/git_backup.sh
+StandardOutput=append:%h/Echo/logs/git_backup.log
+StandardError=append:%h/Echo/logs/git_backup.log

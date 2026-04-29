@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Dev.to Analytics
+After=echo-core.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 -m core.devto_analytics
+StandardOutput=append:%h/Echo/logs/analytics.log
+StandardError=append:%h/Echo/logs/analytics.log

@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Demand Scanner — Reddit lead scanner for Fiverr gig
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py demand_scanner
+StandardOutput=journal
+StandardError=journal

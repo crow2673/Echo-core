@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Initiative Engine — every 15 minutes
+Requires=echo-initiative.service
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=15min
+Unit=echo-initiative.service
+
+[Install]
+WantedBy=timers.target

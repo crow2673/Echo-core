@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Registry Update — weekly
+
+[Timer]
+OnCalendar=Sun *-*-* 05:00:00
+OnBootSec=2min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

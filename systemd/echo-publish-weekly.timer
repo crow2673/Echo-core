@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo publishes to dev.to every Tuesday 10am
+Requires=echo-publish-weekly.service
+
+[Timer]
+OnCalendar=Tue *-*-* 10:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

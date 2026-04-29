@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Demand Scanner — hourly Reddit lead scan
+Requires=echo-demand-scanner.service
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1h
+Unit=echo-demand-scanner.service
+
+[Install]
+WantedBy=timers.target

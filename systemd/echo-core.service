@@ -1,0 +1,21 @@
+[Unit]
+Description=Echo Core Orchestrator (single-loop)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Echo
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 -u %h/Echo/echo_core_daemon.py
+
+Restart=always
+RestartSec=2
+
+TimeoutStopSec=10
+KillSignal=SIGINT
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

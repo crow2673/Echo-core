@@ -1,0 +1,13 @@
+[Unit]
+Description=Echo Timer: reachability watch (every 5 minutes)
+RefuseManualStop=yes
+
+[Timer]
+AccuracySec=1s
+OnBootSec=60
+OnUnitActiveSec=300
+Persistent=true
+Unit=echo-reachability-watch.service
+
+[Install]
+WantedBy=timers.target

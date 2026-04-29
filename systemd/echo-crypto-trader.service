@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Crypto Trading Brain — 24/7
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 -m core.crypto_brain
+StandardOutput=append:%h/Echo/logs/crypto_trader.log
+StandardError=append:%h/Echo/logs/crypto_trader.log

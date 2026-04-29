@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Paper Trading Brain
+After=network-online.target echo-core.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/Echo/core/trade_brain.py
+WorkingDirectory=%h/Echo
+StandardOutput=journal
+StandardError=journal

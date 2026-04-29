@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo backs herself up every night at 2am
+Requires=echo-backup.service
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

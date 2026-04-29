@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Timer: core_state.json every minute
+
+[Timer]
+OnBootSec=30
+OnUnitActiveSec=60
+Persistent=true
+Unit=echo-core-state.service
+
+[Install]
+WantedBy=timers.target

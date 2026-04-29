@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Temperature Monitor — every hour
+Requires=echo-temperature-monitor.service
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1h
+Unit=echo-temperature-monitor.service
+
+[Install]
+WantedBy=timers.target

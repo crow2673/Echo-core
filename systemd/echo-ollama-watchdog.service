@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Ollama Watchdog — restart Ollama if down
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/ollama_watchdog.py
+StandardOutput=append:%h/Echo/logs/ollama_watchdog.log
+StandardError=append:%h/Echo/logs/ollama_watchdog.log

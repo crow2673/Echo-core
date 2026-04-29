@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Session Checkpoint — writes session_summary.json
+After=echo-core.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py session_checkpoint
+StandardOutput=append:%h/Echo/logs/session_checkpoint.log
+StandardError=append:%h/Echo/logs/session_checkpoint.log

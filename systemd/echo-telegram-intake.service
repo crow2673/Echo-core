@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Telegram Intake — inbound command and message handler
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/core/telegram_intake.py
+StandardOutput=append:%h/Echo/logs/telegram_intake.log
+StandardError=append:%h/Echo/logs/telegram_intake.log

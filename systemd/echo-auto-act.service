@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Autonomous Execution Engine
+After=echo-core.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=no
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/flock -n %h/Echo/logs/auto_act.lock /usr/bin/python3 -m core.auto_act
+StandardOutput=append:%h/Echo/logs/auto_act.log
+StandardError=append:%h/Echo/logs/auto_act.log

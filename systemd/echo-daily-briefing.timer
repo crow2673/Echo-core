@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo speaks daily briefing every morning at 8am
+Requires=echo-daily-briefing.service
+
+[Timer]
+OnCalendar=Mon,Tue,Wed,Thu,Fri,Sat *-*-* 08:10:00
+Persistent=false
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Content Generator — generate article from topic pool
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py content_gen
+StandardOutput=append:%h/Echo/logs/content_gen.log
+StandardError=append:%h/Echo/logs/content_gen.log
+TimeoutStartSec=900

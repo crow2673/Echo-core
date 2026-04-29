@@ -1,0 +1,18 @@
+[Unit]
+Description=Echo Always-On Wake Word Listener
+After=echo-core.service sound.target
+Wants=sound.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/echo_wake.py
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:%h/Echo/logs/wake.log
+StandardError=append:%h/Echo/logs/wake.log
+Environment=DISPLAY=:1
+Environment=PULSE_RUNTIME_PATH=/run/user/1000/pulse
+
+[Install]
+WantedBy=default.target

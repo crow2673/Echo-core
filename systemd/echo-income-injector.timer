@@ -1,0 +1,11 @@
+[Unit]
+Description=Inject income tasks into Echo every 30 minutes
+Requires=echo-income-injector.service
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

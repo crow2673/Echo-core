@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Timer: auto-fix stale workers every 60s
+
+[Timer]
+AccuracySec=1s
+OnBootSec=45
+OnUnitActiveSec=60
+Persistent=true
+Unit=echo-core-state-autofix.service
+
+[Install]
+WantedBy=timers.target

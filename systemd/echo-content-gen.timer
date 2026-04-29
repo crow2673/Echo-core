@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Content Generator — weekly on Thursday at 9pm
+Requires=echo-content-gen.service
+
+[Timer]
+OnCalendar=Thu *-*-* 21:00:00
+Persistent=true
+Unit=echo-content-gen.service
+
+[Install]
+WantedBy=timers.target

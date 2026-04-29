@@ -1,0 +1,19 @@
+[Unit]
+Description=Echo ntfy.sh Two-Way Bridge
+Wants=network-online.target
+After=network-online.target echo-core.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Echo
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 -u %h/Echo/core/auto_build_nt.py --topic echo-andrew
+Restart=always
+RestartSec=10
+TimeoutStopSec=10
+KillSignal=SIGINT
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

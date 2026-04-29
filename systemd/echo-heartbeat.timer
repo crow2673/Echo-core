@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Timer: heartbeat every 60 seconds
+
+[Timer]
+AccuracySec=1s
+OnBootSec=30
+OnUnitActiveSec=60
+Persistent=true
+Unit=echo-heartbeat.service
+
+[Install]
+WantedBy=timers.target

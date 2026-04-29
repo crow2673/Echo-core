@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo dev.to Tuesday Publish
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=%h/Echo/tools/timer_signal.py devto_publish
+StandardOutput=append:%h/Echo/logs/devto_publish.log
+StandardError=append:%h/Echo/logs/devto_publish.log

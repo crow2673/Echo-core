@@ -1,0 +1,6 @@
+[Unit]
+Description=Echo Vast.ai Monitor
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/Echo/core/vast_monitor.py

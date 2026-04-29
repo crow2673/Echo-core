@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Echo Pulse daily
+
+[Timer]
+OnCalendar=*-*-* 00:05:00
+Persistent=true
+Unit=echo-pulse.service
+
+[Install]
+WantedBy=timers.target

@@ -1,8 +1,22 @@
 # Echo dependencies
-# Install torch first with CUDA support (see README), then:
-# pip install -r requirements.txt
+# GPU/CUDA setup first — see README for torch install command
+# Then: pip install -r requirements.txt
 
-requests
-psutil
-sentence-transformers
-alpaca-trade-api
+# Core system
+psutil>=5.9
+
+# Networking / scraping
+requests>=2.31
+playwright>=1.40          # browser automation (pip install playwright && playwright install chromium)
+duckduckgo-search>=4.0    # web search in web_search.py
+
+# AI / embeddings
+sentence-transformers>=2.7  # semantic memory in memory_store.py
+
+# Data / trading
+pandas>=2.0
+praw>=7.7                   # Reddit lead scanner in demand_scanner.py
+
+# Trading backtests (optional — only needed if running Freqtrade)
+# freqtrade — install separately: pip install freqtrade
+# ta-lib  — install via system package first: apt install ta-lib, then pip install TA-Lib

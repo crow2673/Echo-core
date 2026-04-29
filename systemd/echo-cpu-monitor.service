@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo CPU Monitor
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py cpu_monitor
+StandardOutput=journal
+StandardError=journal

@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Timer: write core_state_system.json every 30s
+
+[Timer]
+AccuracySec=1s
+OnBootSec=20
+OnUnitActiveSec=30
+Persistent=true
+Unit=echo-core-state-writer.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo acts on her own suggestions every 30 minutes
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

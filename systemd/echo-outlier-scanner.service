@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Outlier.ai Scanner
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/core/outlier_scanner.py
+StandardOutput=journal
+StandardError=journal
+TimeoutStartSec=60

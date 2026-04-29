@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Soul Fine-tuning Pipeline
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/bin/bash %h/Echo/tools/finetune_pipeline.sh
+StandardOutput=journal
+StandardError=journal
+TimeoutStartSec=7200

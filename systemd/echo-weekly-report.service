@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Weekly Income Report
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/core/weekly_report.py
+StandardOutput=append:%h/Echo/logs/weekly_report.log
+StandardError=append:%h/Echo/logs/weekly_report.log

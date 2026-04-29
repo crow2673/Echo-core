@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Tech Scout — discover and assimilate new libraries
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Echo
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 -u %h/Echo/tools/tech_scout.py
+StandardOutput=journal
+StandardError=journal
+TimeoutStopSec=300

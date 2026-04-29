@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Session Checkpoint — runs at midnight daily
+
+[Timer]
+OnCalendar=*-*-* 23:55:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

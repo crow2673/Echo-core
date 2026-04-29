@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo System Health Check — daily at 9am
+Requires=echo-system-health.service
+
+[Timer]
+OnCalendar=*-*-* 09:00:00
+Persistent=true
+Unit=echo-system-health.service
+
+[Install]
+WantedBy=timers.target

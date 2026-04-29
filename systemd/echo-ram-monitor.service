@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo RAM Monitor
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 -m core.ram_monitor
+StandardOutput=append:%h/Echo/logs/ram_monitor.log
+StandardError=append:%h/Echo/logs/ram_monitor.log

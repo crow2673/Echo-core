@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Fiverr Buyer Requests Monitor
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Echo
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 -u %h/Echo/tools/fiverr_buyer_requests.py
+StandardOutput=journal
+StandardError=journal
+TimeoutStopSec=120

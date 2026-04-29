@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Gmail Scanner
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/gmail_scanner.py
+StandardOutput=append:%h/Echo/logs/gmail_scanner.log
+StandardError=append:%h/Echo/logs/gmail_scanner.log

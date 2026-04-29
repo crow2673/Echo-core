@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Daily Briefing
+After=echo-core.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py daily_briefing
+StandardOutput=append:%h/Echo/logs/briefing.log
+StandardError=append:%h/Echo/logs/briefing.log

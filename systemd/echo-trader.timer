@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo runs trading brain every 4 hours during market hours
+
+[Timer]
+OnCalendar=Mon-Fri 09:30:00
+OnCalendar=Mon-Fri 13:30:00
+OnCalendar=Mon-Fri 15:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

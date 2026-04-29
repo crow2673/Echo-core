@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Income Research — weekly
+
+[Timer]
+OnCalendar=Sun *-*-* 04:00:00
+OnBootSec=3min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Outlier.ai Scanner — every 4 hours
+Requires=echo-outlier-scanner.service
+
+[Timer]
+OnBootSec=20min
+OnUnitActiveSec=4h
+Persistent=true
+Unit=echo-outlier-scanner.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,6 @@
+[Unit]
+Description=Echo - Publish due content (Dev.to)
+[Service]
+Type=oneshot
+TimeoutStartSec=10m
+ExecStart=/bin/bash -lc 'python3 $HOME/content_bot/publish_due_devto.py'

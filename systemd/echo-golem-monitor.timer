@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Timer: Golem earnings snapshot (daily)
+
+[Timer]
+OnCalendar=*-*-* 11:00:00
+Persistent=true
+Unit=echo-golem-monitor.service
+
+[Install]
+WantedBy=timers.target

@@ -101,6 +101,17 @@ WORKERS = {
         "progress_metric": "draft_created",
     },
 
+    "devto_publish": {
+        "cmd": [sys.executable, str(BASE / "echo_devto_publisher.py"), "--from-session"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 518400,     # 6 days — publishes once per week (Tuesday)
+        "wave": 2,
+        "heavy": True,                  # calls Ollama for article generation
+        "description": "Weekly dev.to publisher — publishes next queued draft or generates new article",
+        "progress_metric": "article_published",
+        "time_window": (8, 11),         # only valid between 8am and 11am (Tuesday window)
+    },
+
     # ── Wave 3 — Echo-built monitors ─────────────────────────────────────────
     "temperature_monitor": {
         "cmd": [sys.executable, str(BASE / "tools/temperature_monitor.py")],
@@ -108,6 +119,7 @@ WORKERS = {
         "cooldown_seconds": 3300,       # ~55 min — hourly check
         "wave": 3,
         "heavy": False,
+        "skip_judgment": True,          # cooldown handles timing; LLM confuses low temp with skip
         "description": "CPU temperature monitor — alerts via Telegram if Core 0 exceeds 70°C",
         "progress_metric": None,
     },
@@ -117,6 +129,7 @@ WORKERS = {
         "cooldown_seconds": 3300,       # ~55 min — hourly check, off-peak only
         "wave": 3,
         "heavy": False,
+        "skip_judgment": True,          # cooldown handles timing; LLM skips at low CPU (wrong)
         "description": "CPU usage monitor — alerts if usage >80% during off-peak hours (10pm-6am)",
         "progress_metric": None,
     },
@@ -126,6 +139,7 @@ WORKERS = {
         "cooldown_seconds": 72000,      # 20 hours — daily check
         "wave": 3,
         "heavy": False,
+        "skip_judgment": True,          # deterministic — cooldown is the only gate needed
         "description": "Daily health check — journalctl error scan, disk/mem/network, alerts on issues",
         "progress_metric": None,
     },
@@ -135,6 +149,7 @@ WORKERS = {
         "cooldown_seconds": 270,        # 4.5 min — fires every 5 min
         "wave": 3,
         "heavy": False,
+        "skip_judgment": True,          # high-frequency monitor; LLM call overhead not worth it
         "description": "RAM monitor — alerts before OOM kills qwen2.5:32b; checks swap pressure too",
         "progress_metric": None,
     },
@@ -444,6 +459,9 @@ def step3_historical(worker: str, state: dict, history: dict) -> dict:
 
 # ── Step 4: Echo's Judgment ───────────────────────────────────────────────────
 def step4_echo_judgment(worker: str, cfg: dict, state: dict, hist_summary: dict) -> tuple[bool, str]:
+    if cfg.get("skip_judgment"):
+        return True, "monitor — cooldown is sole gate, judgment skipped"
+
     try:
         sys.path.insert(0, str(BASE))
         from core.providers.router import call_ollama
@@ -467,18 +485,28 @@ def step4_echo_judgment(worker: str, cfg: dict, state: dict, hist_summary: dict)
         if cascade:
             brief += f"Trading: {json.dumps(cascade, default=str)[:300]}\n"
 
-        brief += "\nAnswer with YES or NO followed by one sentence reason. Example: YES — conditions look good. or NO — system under load."
+        brief += (
+            "\nAnswer with YES or NO followed by one sentence reason."
+            "\nExample: YES — conditions look good."
+            "\nExample: NO — last 5 runs produced nothing."
+            "\nNOTE: CPU under 30% and RAM under 80% is NOT a reason to skip."
+            "\nOnly skip if there is a concrete, specific reason related to this worker's purpose."
+        )
 
         response = call_ollama(
             prompt=brief,
-            model="qwen2.5:7b",
-            timeout=30.0,
-            system_prompt="You are Echo. Give a direct YES or NO decision. Be concise.",
+            model="llama3.1:latest",
+            timeout=60.0,
+            system_prompt="You are Echo. Give a direct YES or NO decision. Be concise. Do not skip workers just because system load is low.",
         )
 
         response = (response or "").strip()
+        if not response:
+            return True, "no response from model — defaulting to run"
         decision = response.upper().startswith("YES")
-        return decision, response[:200]
+        # Ensure reason is always populated
+        reason = response[:200] if response else f"{'run' if decision else 'skip'} (no reason given)"
+        return decision, reason
 
     except Exception as e:
         # Timeout or failure → default to RUN (fail open, not closed)

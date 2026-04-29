@@ -289,6 +289,7 @@ def run():
                 "time_in_force": "gtc",
             }, key, secret, base)
             log(f"Order submitted: {result.get('id', 'unknown')} status={result.get('status')}")
+            clean = symbol.replace("/", "")
             trades.setdefault(clean, {}).update({
                 "entry_price": current_price,
                 "peak_pct": 0,

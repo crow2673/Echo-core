@@ -257,18 +257,89 @@ COMMANDS = {
 
 
 # ── Freeform message → direct Ollama reply ───────────────────────────────────
-def ask_ollama(text):
-    """Send freeform message to qwen2.5:7b and return reply."""
+def _build_context() -> str:
+    """Build a grounded context block from Echo's actual runtime files."""
+    lines = []
+
+    # Hardware facts — never hallucinate these
+    lines.append(
+        "HARDWARE: AMD Ryzen 9 5900X, 32GB RAM, RTX 3060 12GB VRAM, Ubuntu 24.04, Mena Arkansas."
+    )
+
+    # Live system state
     try:
+        state = json.loads((BASE / "memory/echo_state.json").read_text())
+        sys_s = state.get("system", {})
+        lines.append(
+            f"SYSTEM NOW: health={state.get('system_health','?')}, "
+            f"cpu={sys_s.get('cpu_pct','?')}%, ram={sys_s.get('ram_pct','?')}%, "
+            f"vram_used={sys_s.get('vram_used_mb','?')}MB"
+        )
+    except Exception:
+        pass
+
+    # Top standing tasks
+    try:
+        data = json.loads((BASE / "memory/standing_tasks.json").read_text())
+        tasks = [t for t in data.get("tasks", []) if not t.get("disabled")]
+        tasks = sorted(tasks, key=lambda x: x.get("weight", 1), reverse=True)[:5]
+        if tasks:
+            lines.append("TOP TASKS: " + " | ".join(f"{t['task'][:50]}" for t in tasks))
+    except Exception:
+        pass
+
+    # Income streams
+    try:
+        ledger = json.loads((BASE / "memory/cascade_ledger.json").read_text())
+        total = sum(v.get("realized_pl", 0) for v in ledger.values() if isinstance(v, dict))
+        lines.append(f"REALIZED P&L: ${total:+,.2f}")
+    except Exception:
+        pass
+
+    # Tools/skills Echo actually has
+    tools_dir = BASE / "tools"
+    tool_names = sorted(p.stem for p in tools_dir.glob("*.py") if not p.stem.startswith("_"))
+    lines.append(f"TOOLS ({len(tool_names)}): {', '.join(tool_names[:20])}")
+
+    # Recent assimilation
+    try:
+        assim = json.loads((BASE / "memory/assimilated_libraries.json").read_text())
+        integrated = [k for k, v in assim.items() if v.get("status") == "integrated"]
+        if integrated:
+            lines.append(f"ASSIMILATED LIBRARIES: {', '.join(integrated[-5:])}")
+        else:
+            lines.append("ASSIMILATION: no libraries integrated yet — engine is running")
+    except Exception:
+        lines.append("ASSIMILATION ENGINE: autonomous PyPI library discovery and integration system")
+
+    # Key recent upgrades (static facts from this session)
+    lines.append(
+        "RECENT UPGRADES: switched brain model to llama3.1:latest (was qwen2.5:7b), "
+        "added game-detection for notifications, built assimilation engine (tech_scout + assimilator), "
+        "backtested EchoL1StrategyV3 (crypto trading — 43.9% win rate), "
+        "dispatcher Phase 3 Wave 2 complete (devto_publish migrated)"
+    )
+
+    return "\n".join(lines)
+
+
+def ask_ollama(text):
+    """Send freeform message to llama3.1 with grounded Echo context."""
+    try:
+        context = _build_context()
+        system_prompt = (
+            "You are Echo, an autonomous AI assistant running on Andrew Elliott's machine.\n"
+            "Andrew built you. You run 24/7, manage income streams, and grow your own capabilities.\n"
+            "IMPORTANT: Only state facts you know from the context below. "
+            "If you don't know something, say so — never invent hardware specs, library names, or numbers.\n\n"
+            f"{context}"
+        )
         payload = json.dumps({
-            "model": "qwen2.5:7b",
-            "prompt": (
-                "You are Echo, an autonomous AI agent running on Andrew's machine in Mena, Arkansas. "
-                "Andrew is messaging you via Telegram. Reply concisely and directly.\n\n"
-                f"Andrew: {text}\nEcho:"
-            ),
+            "model": "llama3.1:latest",
+            "system": system_prompt,
+            "prompt": f"Andrew: {text}\nEcho:",
             "stream": False,
-            "options": {"num_predict": 300}
+            "options": {"num_predict": 350}
         }).encode()
         req = urllib.request.Request(
             "http://localhost:11434/api/generate",

@@ -110,6 +110,10 @@ def reconcile_from_alpaca(key, secret):
     return ledger
 
 
+def get_summary() -> dict:
+    return load_ledger()
+
+
 def print_summary():
     ledger = load_ledger()
     print("=== Cascade Ledger ===")

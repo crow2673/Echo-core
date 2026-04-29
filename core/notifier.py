@@ -55,9 +55,27 @@ def _discover_telegram_chat_id(token: str) -> str:
     return ""
 
 
-def notify_desktop(title, message, urgency="normal"):
+def _is_game_running() -> bool:
+    """Check if a fullscreen game is running that desktop popups would disrupt."""
+    games = ["aces", "warthunder", "steam", "wine"]
     try:
-        subprocess.run(["notify-send", "-u", urgency, f"Echo: {title}", message], capture_output=True)
+        result = subprocess.run(["pgrep", "-f", "|".join(games)], capture_output=True)
+        return result.returncode == 0
+    except Exception:
+        return False
+
+
+def notify_desktop(title, message, urgency="normal"):
+    if _is_game_running():
+        print(f"[notifier] desktop suppressed (game running): {title}")
+        return
+    try:
+        # Auto-expire after 6s, never steal focus
+        subprocess.run([
+            "notify-send", "-u", urgency,
+            "-t", "6000",
+            f"Echo: {title}", message
+        ], capture_output=True)
     except Exception as e:
         print(f"[notifier] desktop error: {e}")
 
@@ -107,11 +125,11 @@ def notify_telegram(title, message, urgent=False):
         print(f"[notifier] telegram error: {e}")
 
 
-def notify(title, message, urgent=False, phone=True):
+def notify(title, message, urgent=False, phone=True, desktop=False):
     urgency = "critical" if urgent else "normal"
-    priority = "high" if urgent else "default"
-    tags = "warning" if urgent else "robot"
-    notify_desktop(title, message, urgency)
+    # Desktop only for urgent alerts, and only when no game is running
+    if desktop or urgent:
+        notify_desktop(title, message, urgency)
     if phone:
         notify_telegram(title, message, urgent=urgent)
     print(f"[{datetime.now().strftime('%H:%M')}] notified: {title} — {message[:80]}")

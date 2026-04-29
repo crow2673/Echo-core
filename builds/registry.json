@@ -72,5 +72,29 @@
     "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmphfjke0t7.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmphfjke0t7.py'",
     "path": "/home/andrew/Echo/builds/pending/build_a_template_for_a_business_plan_wit.py",
     "deployed_path": null
+  },
+  "freelance_software_developer_portfolio_s": {
+    "name": "freelance_software_developer_portfolio_s",
+    "description": "Freelance Software Developer Portfolio Showcase\" | Highlight key projects and achievements to attract potential clients",
+    "created_at": "2026-04-27T14:18:11.725863",
+    "status": "pending",
+    "syntax_ok": true,
+    "syntax_error": null,
+    "sandbox_ok": true,
+    "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmpcb74pz09.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpcb74pz09.py'",
+    "path": "/home/andrew/Echo/builds/pending/freelance_software_developer_portfolio_s.py",
+    "deployed_path": null
+  },
+  "a_tool_for_skill_assessment_and_gap_iden": {
+    "name": "a_tool_for_skill_assessment_and_gap_iden",
+    "description": "A tool for skill assessment and gap identification in software development.",
+    "created_at": "2026-04-27T15:25:23.320208",
+    "status": "pending",
+    "syntax_ok": true,
+    "syntax_error": null,
+    "sandbox_ok": true,
+    "sandbox_output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    compile(open('/tmp/tmp0nl6nrh3.py').read(), '<test>', 'exec')\n            ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp0nl6nrh3.py'",
+    "path": "/home/andrew/Echo/builds/pending/a_tool_for_skill_assessment_and_gap_iden.py",
+    "deployed_path": null
   }
 }

@@ -197,7 +197,7 @@ def process_one_capsule(capsule, memory):
         response = agent_loop(
             prompt=f"User: {text}\nEcho:",
             system_prompt=system_prompt,
-            model="qwen2.5:7b",
+            model="llama3.1:latest",
             timeout=120,
         )
     except Exception as e:

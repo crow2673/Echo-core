@@ -11,7 +11,7 @@ def gpt_reasoner(prompt, core_state: dict = None) -> str:
     )
     return call_ollama(
         prompt=str(prompt),
-        model="qwen2.5:7b",
+        model="llama3.1:latest",
         timeout=120.0,
         system_prompt=system,
     )

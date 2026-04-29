@@ -202,6 +202,9 @@ def audit_stop_orders(positions, key, secret, base, trades):
         stops_by_symbol = {o["symbol"] for o in open_orders if o.get("type") in ("stop", "stop_limit")}
         for p in positions:
             sym = p["symbol"]
+            # Crypto symbols are managed by crypto_brain — skip them here
+            if "/" in sym or sym.endswith("USD") and len(sym) <= 7:
+                continue
             if sym not in stops_by_symbol:
                 entry = float(trades.get(sym, {}).get("entry_price", p["avg_entry_price"]))
                 strategy = trades.get(sym, {}).get("strategy", "trend")

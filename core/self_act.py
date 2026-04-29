@@ -587,7 +587,7 @@ def reasoning_cycle():
                 prompt=str(prompt_flag),
                 system_prompt=system_prompt,
                 call_ollama_fn=_call_ollama,
-                model="qwen2.5:7b",
+                model="llama3.1:latest",
                 timeout=180.0,
                 max_iterations=3,
                 auto_approve_safe=True,

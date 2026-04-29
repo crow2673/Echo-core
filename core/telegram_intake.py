@@ -263,7 +263,7 @@ def _build_context() -> str:
 
     # Hardware facts — never hallucinate these
     lines.append(
-        "HARDWARE: AMD Ryzen 9 5900X, 32GB RAM, RTX 3060 12GB VRAM, Ubuntu 24.04, Mena Arkansas."
+        "MY MACHINE: AMD Ryzen 9 5900X, 32GB RAM, RTX 3060 12GB VRAM, Ubuntu 24.04, Mena Arkansas."
     )
 
     # Live system state
@@ -271,53 +271,39 @@ def _build_context() -> str:
         state = json.loads((BASE / "memory/echo_state.json").read_text())
         sys_s = state.get("system", {})
         lines.append(
-            f"SYSTEM NOW: health={state.get('system_health','?')}, "
-            f"cpu={sys_s.get('cpu_pct','?')}%, ram={sys_s.get('ram_pct','?')}%, "
-            f"vram_used={sys_s.get('vram_used_mb','?')}MB"
+            f"SYSTEM: health={state.get('system_health','?')}, "
+            f"cpu={sys_s.get('cpu_pct','?')}%, ram={sys_s.get('ram_pct','?')}%"
         )
     except Exception:
         pass
 
-    # Top standing tasks
-    try:
-        data = json.loads((BASE / "memory/standing_tasks.json").read_text())
-        tasks = [t for t in data.get("tasks", []) if not t.get("disabled")]
-        tasks = sorted(tasks, key=lambda x: x.get("weight", 1), reverse=True)[:5]
-        if tasks:
-            lines.append("TOP TASKS: " + " | ".join(f"{t['task'][:50]}" for t in tasks))
-    except Exception:
-        pass
-
-    # Income streams
+    # Income stream P&L — the numbers Andrew actually cares about
     try:
         ledger = json.loads((BASE / "memory/cascade_ledger.json").read_text())
-        total = sum(v.get("realized_pl", 0) for v in ledger.values() if isinstance(v, dict))
-        lines.append(f"REALIZED P&L: ${total:+,.2f}")
+        parts = []
+        for sleeve, data in ledger.items():
+            if isinstance(data, dict) and "realized_pl" in data:
+                parts.append(f"{sleeve}=${data['realized_pl']:+,.0f}")
+        if parts:
+            lines.append("PAPER TRADING P&L: " + ", ".join(parts))
     except Exception:
         pass
 
-    # Tools/skills Echo actually has
-    tools_dir = BASE / "tools"
-    tool_names = sorted(p.stem for p in tools_dir.glob("*.py") if not p.stem.startswith("_"))
-    lines.append(f"TOOLS ({len(tool_names)}): {', '.join(tool_names[:20])}")
-
-    # Recent assimilation
+    # Income knowledge summary
     try:
-        assim = json.loads((BASE / "memory/assimilated_libraries.json").read_text())
-        integrated = [k for k, v in assim.items() if v.get("status") == "integrated"]
-        if integrated:
-            lines.append(f"ASSIMILATED LIBRARIES: {', '.join(integrated[-5:])}")
-        else:
-            lines.append("ASSIMILATION: no libraries integrated yet — engine is running")
+        ik = (BASE / "memory/income_knowledge.md").read_text()
+        # Pull just the Active Income Streams section (first ~600 chars)
+        if "## Active Income Streams" in ik:
+            section = ik.split("## Active Income Streams")[1].split("\n## ")[0].strip()
+            lines.append("INCOME STREAMS:\n" + section[:600])
     except Exception:
-        lines.append("ASSIMILATION ENGINE: autonomous PyPI library discovery and integration system")
+        pass
 
-    # Key recent upgrades (static facts from this session)
+    # Recent upgrades — static facts
     lines.append(
-        "RECENT UPGRADES: switched brain model to llama3.1:latest (was qwen2.5:7b), "
-        "added game-detection for notifications, built assimilation engine (tech_scout + assimilator), "
-        "backtested EchoL1StrategyV3 (crypto trading — 43.9% win rate), "
-        "dispatcher Phase 3 Wave 2 complete (devto_publish migrated)"
+        "RECENT WORK: upgraded crypto strategy to V3 (43.9% win rate backtest, May 15 real capital target), "
+        "Fiverr gig live (andrewelliot476, 0 orders so far), "
+        "dev.to articles publishing weekly, assimilation engine built"
     )
 
     return "\n".join(lines)
@@ -328,18 +314,24 @@ def ask_ollama(text):
     try:
         context = _build_context()
         system_prompt = (
-            "You are Echo, an autonomous AI assistant running on Andrew Elliott's machine.\n"
-            "Andrew built you. You run 24/7, manage income streams, and grow your own capabilities.\n"
-            "IMPORTANT: Only state facts you know from the context below. "
-            "If you don't know something, say so — never invent hardware specs, library names, or numbers.\n\n"
-            f"{context}"
+            "You are Echo — Andrew Elliott's autonomous AI. Andrew built you and you run 24/7 on his machine.\n\n"
+            "YOUR EXPERTISE: You are deeply knowledgeable about personal finance, trading, crypto, "
+            "income strategy, budgeting, and building financial autonomy. When Andrew asks financial questions, "
+            "answer like a sharp, direct financial expert who knows his specific situation — not like a generic chatbot.\n\n"
+            "RULES:\n"
+            "- Be direct and specific. No filler phrases like 'I can help with that' or 'Great question'.\n"
+            "- Use the context below for facts about Andrew's situation. Draw on your training knowledge for financial expertise.\n"
+            "- Never invent numbers or hardware specs not in the context.\n"
+            "- Keep responses under 200 words unless detail is genuinely needed.\n"
+            "- Speak as Echo, not as a language model. You have opinions and make recommendations.\n\n"
+            f"ANDREW'S CURRENT SITUATION:\n{context}"
         )
         payload = json.dumps({
             "model": "llama3.1:latest",
             "system": system_prompt,
             "prompt": f"Andrew: {text}\nEcho:",
             "stream": False,
-            "options": {"num_predict": 350}
+            "options": {"num_predict": 400, "temperature": 0.7}
         }).encode()
         req = urllib.request.Request(
             "http://localhost:11434/api/generate",

@@ -305,6 +305,104 @@ def _parse_and_add_gap(result) -> None:
         print(f"[self_act] ADD_GAP error: {e}")
 
 
+def _find_existing_build(description: str) -> tuple:
+    """
+    Check if Echo already has something that covers this description.
+    Returns (match_type, name, path) or (None, None, None).
+
+    match_type:
+      'deployed'  — live file in tools/ or core/ with overlapping purpose
+      'pending'   — already in the build queue (don't duplicate)
+      'rejected'  — was proposed and rejected before (don't re-propose)
+
+    Match logic: keyword overlap against name + one-line docstring only.
+    Threshold scales with keyword count so short descriptions aren't too strict.
+    Registry is checked in priority order: deployed > pending > rejected.
+    """
+    import re as _re
+
+    desc_lower = description.lower()
+    STOPWORDS = {"script", "tool", "build", "write", "create", "develop",
+                 "make", "generate", "that", "with", "from", "this", "will",
+                 "based", "using", "echo", "python", "file", "data", "system",
+                 "when", "have", "send", "auto", "every", "each", "check",
+                 "usage", "level", "high", "current", "existing", "ensure",
+                 "detect", "notification", "performance", "information"}
+    # Include 3-char technical terms (ram, cpu, gpu, log, etc.) — they're specific
+    TECH_SHORT = {"ram", "cpu", "gpu", "log", "dns", "ssl", "api", "ssh", "vpn"}
+    keywords = [w for w in _re.sub(r'[^a-z0-9 ]', ' ', desc_lower).split()
+                if (len(w) >= 4 or w in TECH_SHORT) and w not in STOPWORDS]
+
+    if not keywords:
+        return None, None, None
+
+    # Threshold: need at least 2 matches, or 40% of keywords, whichever is higher
+    threshold = max(2, int(len(keywords) * 0.4))
+
+    def _overlap(text: str) -> int:
+        t = text.lower()
+        return sum(1 for k in keywords if k in t)
+
+    def _docstring(py_file) -> str:
+        """Return the first meaningful docstring line, skipping shebang and delimiters."""
+        try:
+            text = py_file.read_text(encoding="utf-8", errors="replace")
+            in_docstring = False
+            for line in text.splitlines()[:10]:
+                stripped = line.strip()
+                if stripped.startswith("#"):
+                    continue  # skip shebang and comments
+                if stripped in ('"""', "'''", ''):
+                    in_docstring = True
+                    continue
+                cleaned = stripped.strip('"""').strip("'''").strip()
+                if len(cleaned) > 10:
+                    return cleaned
+        except Exception:
+            pass
+        return ""
+
+    # Collect all candidates above threshold, return the best (highest overlap)
+    candidates = []  # list of (score, match_type, name, path)
+
+    # 1. Registry
+    try:
+        from core.self_build import load_registry
+        reg = load_registry()
+        STATUS_PRIORITY = {"deployed": 0, "pending": 1, "rejected": 2}
+        for name, b in reg.items():
+            status = b.get("status", "unknown")
+            if status not in STATUS_PRIORITY:
+                continue
+            reg_text = f"{name.replace('_', ' ')} {b.get('description', '')}"
+            score = _overlap(reg_text)
+            if score >= threshold:
+                path = b.get("deployed_path", "") or b.get("path", "")
+                candidates.append((score, STATUS_PRIORITY[status], status, name, path))
+    except Exception:
+        pass
+
+    # 2. tools/ and core/ — stem + one-line docstring only
+    for search_dir in [BASE / "tools", BASE / "core"]:
+        for py_file in sorted(search_dir.glob("*.py")):
+            if py_file.name.startswith("__"):
+                continue
+            file_text = py_file.stem.replace("_", " ") + " " + _docstring(py_file)
+            score = _overlap(file_text)
+            if score >= threshold:
+                candidates.append((score, 0, "deployed", py_file.stem, str(py_file)))
+
+    if not candidates:
+        return None, None, None
+
+    # Sort: deployed/pending beat rejected even if rejected scores 1 higher.
+    # Effective score = raw_score - status_penalty (rejected penalised by 1.5)
+    STATUS_PENALTY = {0: 0, 1: 0, 2: 1.5}  # deployed=0, pending=0, rejected=1.5
+    candidates.sort(key=lambda c: (-(c[0] - STATUS_PENALTY[c[1]]), c[1]))
+    _, _, match_type, name, path = candidates[0]
+    return match_type, name, path
+
+
 def _build_tier(description: str) -> str:
     """
     Classify a build description into an autonomy tier.
@@ -421,6 +519,55 @@ def _parse_and_add_build(result) -> None:
         tmp.rename(rate_file)
     except Exception as e:
         print(f"[self_act] ADD_BUILD rate check error: {e}")
+
+    # Duplicate / upgrade check — don't build what already exists
+    match_type, match_name, match_path = _find_existing_build(description)
+    if match_type == "pending":
+        print(f"[self_act] ADD_BUILD skipped — already pending: {match_name}")
+        return
+    if match_type == "rejected":
+        print(f"[self_act] ADD_BUILD skipped — previously rejected: {match_name}")
+        return
+    if match_type == "deployed":
+        # Something similar already exists — propose an upgrade via REVISE_BUILD instead
+        print(f"[self_act] ADD_BUILD → upgrade existing: {match_name} at {match_path}")
+        try:
+            from core.self_build import load_registry, save_registry
+            reg = load_registry()
+            if match_name in reg:
+                existing = reg[match_name]
+                existing["status"] = "needs_revision"
+                existing["review_notes"] = (
+                    f"Upgrade requested: a new build was proposed with description '{description[:200]}'. "
+                    f"Rather than creating a duplicate, improve this existing version to cover the new requirement."
+                )
+                existing["reviewed_at"] = datetime.now().isoformat()
+                reg[match_name] = existing
+                save_registry(reg)
+                try:
+                    from core.notifier import notify
+                    notify(
+                        "Echo upgrading existing build",
+                        f"Found '{match_name}' already covers: {description[:120]}\nMarked for upgrade instead of duplicate.",
+                        urgent=False, phone=True,
+                    )
+                except Exception:
+                    pass
+            else:
+                # File exists in tools/core but not in registry — can't revise, just skip
+                print(f"[self_act] ADD_BUILD skipped — {match_path} already serves this purpose")
+                try:
+                    from core.notifier import notify
+                    notify(
+                        "Echo skipped duplicate build",
+                        f"Already have: {match_path}\nCovers: {description[:120]}",
+                        urgent=False, phone=True,
+                    )
+                except Exception:
+                    pass
+        except Exception as e:
+            print(f"[self_act] upgrade routing error: {e}")
+        return
 
     tier = _build_tier(description)
     print(f"[self_act] ADD_BUILD triggered (tier={tier}): {description[:80]}")

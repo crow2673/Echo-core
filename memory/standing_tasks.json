@@ -4,8 +4,8 @@
       "id": "system_state",
       "task": "summarize: current Echo system state in ONE paragraph",
       "weight": 1.2,
-      "wins": 802,
-      "losses": 2,
+      "wins": 869,
+      "losses": 6,
       "min_weight": 0.1,
       "max_weight": 1.2
     },
@@ -13,7 +13,7 @@
       "id": "income_knowledge",
       "task": "read memory/income_knowledge.md and reason about which income path to activate next",
       "weight": 2.0,
-      "wins": 1131,
+      "wins": 1202,
       "losses": 0,
       "min_weight": 0.9,
       "max_weight": 2.0
@@ -22,7 +22,7 @@
       "id": "registry_verify",
       "task": "read registry.json and verify all listed services are actually running",
       "weight": 2.0,
-      "wins": 802,
+      "wins": 874,
       "losses": 1,
       "min_weight": 0.1,
       "max_weight": 2.0
@@ -30,8 +30,8 @@
     {
       "id": "query_ledger",
       "task": "query_ledger: summarize recent wins and losses from the event ledger",
-      "weight": 1.9000000000000006,
-      "wins": 7699,
+      "weight": 1.3,
+      "wins": 8058,
       "losses": 1,
       "min_weight": 0.1,
       "max_weight": 1.2
@@ -40,7 +40,7 @@
       "id": "world_context",
       "task": "read memory/world_context.md and identify one trending topic Echo should write an article about \u2014 add to content/draft_queue.json if promising",
       "weight": 2.0,
-      "wins": 783,
+      "wins": 855,
       "losses": 29,
       "min_weight": 0.9,
       "max_weight": 2.0,
@@ -51,13 +51,46 @@
       "id": "self_review_tasks",
       "task": "You are Echo. Review your own system by reading: memory/known_gaps.md, memory/echo_state.json, memory/dispatch_history.json, and logs/self_act.log (last 50 lines). Do ONE of the following this cycle:\n1. If there is a High Priority gap in known_gaps.md not yet built \u2014 output ADD_BUILD: <exact description of what the script should do, what it monitors, what triggers it, how it notifies>\n2. If you notice something broken, missing, or inefficient NOT already in known_gaps.md \u2014 output ADD_GAP: <description>\n3. If you need a new reasoning task not a script \u2014 output ADD_TASK: <description>\nOutput exactly one token. Be specific. No explanations.",
       "weight": 2.0,
-      "wins": 641,
-      "losses": 164,
+      "wins": 707,
+      "losses": 170,
       "min_weight": 0.5,
       "max_weight": 2.0,
       "note": "Self-generated goal capability \u2014 Echo reviews her own task queue and proposes additions"
+    },
+    {
+      "id": "self_20260427_183216",
+      "task": "Verify service logs for any recent errors or warnings.",
+      "weight": 0.3,
+      "wins": 15,
+      "losses": 56,
+      "min_weight": 0.3,
+      "max_weight": 2.0,
+      "self_generated": true,
+      "added_at": "2026-04-27T18:32:16.671696"
+    },
+    {
+      "id": "self_20260502_004408",
+      "task": "Monitor Disk Usage and Alert: running `df -h` every 5 minutes to check if disk usage exceeds 80%, sending email notification to Andrew if it does.",
+      "weight": 1.5000000000000004,
+      "wins": 10,
+      "losses": 0,
+      "min_weight": 0.3,
+      "max_weight": 2.0,
+      "self_generated": true,
+      "added_at": "2026-05-02T00:44:08.921725"
+    },
+    {
+      "id": "self_20260503_001727",
+      "task": "** Review and optimize trading performance in response to recent market fluctuations.",
+      "weight": 1.1500000000000001,
+      "wins": 3,
+      "losses": 0,
+      "min_weight": 0.3,
+      "max_weight": 2.0,
+      "self_generated": true,
+      "added_at": "2026-05-03T00:17:27.516682"
     }
   ],
-  "last_updated": "2026-04-26",
-  "total_cycles": 16652
+  "last_updated": "2026-05-03",
+  "total_cycles": 17709
 }

@@ -611,6 +611,117 @@ def _parse_and_add_content(result) -> None:
         print(f"[self_act] ADD_CONTENT error: {e}")
 
 
+def _build_grounded_context(task: str) -> str:
+    """
+    Detect what real data a task references and inject it into the prompt.
+    Without this, llama3.1 hallucinates file contents — long fluent lies.
+    Returns a context block to prepend to the prompt, or "" if nothing relevant.
+    """
+    task_lower = task.lower()
+    sections = []
+
+    def _read(path, label, max_chars=2000):
+        try:
+            p = BASE / path
+            if p.exists():
+                content = p.read_text().strip()[:max_chars]
+                sections.append(f"=== {label} ===\n{content}")
+        except Exception:
+            pass
+
+    def _cmd(cmd, label, max_chars=1500):
+        try:
+            import subprocess
+            r = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+            out = (r.stdout + r.stderr).strip()[:max_chars]
+            if out:
+                sections.append(f"=== {label} ===\n{out}")
+        except Exception:
+            pass
+
+    # File references
+    if any(k in task_lower for k in ["income_knowledge", "income path", "income stream"]):
+        _read("memory/income_knowledge.md", "income_knowledge.md")
+
+    if any(k in task_lower for k in ["known_gaps", "gap", "missing capability"]):
+        _read("memory/known_gaps.md", "known_gaps.md")
+
+    if any(k in task_lower for k in ["registry.json", "services are", "services running", "verify all listed"]):
+        _read("registry.json", "registry.json", max_chars=3000)
+        _cmd(["systemctl", "--user", "list-units", "echo-*", "--no-pager", "--plain"],
+             "systemctl echo units")
+
+    if any(k in task_lower for k in ["world_context", "trending topic", "write an article"]):
+        _read("memory/world_context.md", "world_context.md")
+
+    if any(k in task_lower for k in ["standing_tasks", "task queue", "task list"]):
+        _read("memory/standing_tasks.json", "standing_tasks.json", max_chars=2000)
+
+    if any(k in task_lower for k in ["system state", "system health", "services", "timers"]):
+        _read("memory/core_state_system.json", "core_state_system.json", max_chars=2000)
+
+    if any(k in task_lower for k in ["ledger", "recent wins", "recent losses", "event"]):
+        _read("memory/cascade_ledger.json", "cascade_ledger.json (last entries)", max_chars=2000)
+
+    if any(k in task_lower for k in ["disk", "disk usage", "disk space"]):
+        _cmd(["df", "-h", str(Path.home())], "disk usage")
+
+    if any(k in task_lower for k in ["memory usage", "ram", "cpu usage"]):
+        _cmd(["free", "-h"], "memory usage")
+
+    if any(k in task_lower for k in ["trading", "trade", "crypto", "stock", "position"]):
+        _read("memory/crypto_trade_log.json", "crypto_trade_log.json", max_chars=1500)
+        _read("memory/income_knowledge.md", "income_knowledge.md", max_chars=1000)
+
+    if not sections:
+        return ""
+
+    return (
+        "REAL DATA — use only this, do not invent or assume anything outside it:\n\n"
+        + "\n\n".join(sections)
+        + "\n\n"
+    )
+
+
+def _score_outcome(result: str) -> str:
+    """
+    Return 'win', 'neutral', or 'loss' based on verifiable output, not fluency.
+
+    win    — emitted a verifiable token (ADD_BUILD/ADD_GAP/ADD_TASK/ADD_CONTENT/REVISE_BUILD)
+             that passed downstream guards, meaning real work was proposed
+    loss   — hallucination signals: invented tools, wrong years, fabricated hostnames,
+             or references to data that doesn't exist in Echo's codebase
+    neutral — produced text only; no token, no hallucination caught
+    """
+    result_str = str(result or "").strip()
+
+    # Win: emitted a real action token (guards already filtered bad ones upstream)
+    ACTION_TOKENS = ["ADD_BUILD:", "ADD_GAP:", "ADD_TASK:", "ADD_CONTENT:", "REVISE_BUILD:"]
+    if any(tok in result_str for tok in ACTION_TOKENS):
+        return "win"
+
+    # Loss: hallucination signals — things that don't exist in Echo's environment
+    HALLUCINATION_SIGNALS = [
+        "sysmon",           # fake monitoring tool
+        "host1", "host2", "host3",  # invented hostnames
+        "2023-02", "2023-03", "2022-",  # wrong years (Echo started 2026)
+        "asset xyz",        # fake asset
+        "ledger database",  # no such tool — it's a JSON file
+        "google analytics", # not integrated
+        "backup_config",    # fake tool
+        "echo_maintenance.py",  # script doesn't exist
+        "i will run a series",  # classic hallucinated future-promise
+        "i have initiated a 24-hour",  # hallucinated commitment
+        "i've started a monitoring cycle",  # can't do that, it's one-shot
+        "i will run the following commands",  # no tool loop exists
+    ]
+    result_lower = result_str.lower()
+    if any(sig in result_lower for sig in HALLUCINATION_SIGNALS):
+        return "loss"
+
+    return "neutral"
+
+
 def _update_task_weight(task_text: str, result) -> None:
     """Score the standing task that produced this result and adjust its weight."""
     try:
@@ -618,16 +729,7 @@ def _update_task_weight(task_text: str, result) -> None:
         data = json.loads(standing_file.read_text())
         result_str = str(result).strip() if result else ""
 
-        # Determine success: result has substance and isn't an error/empty
-        failure_signals = [
-            "error", "timeout", "failed", "exception", "i cannot",
-            "i don't know", "unable to", "no data", "not found", ""
-        ]
-        too_short = len(result_str) < 30
-        is_failure = too_short or any(
-            s in result_str.lower()[:120] for s in failure_signals[:8]
-        )
-        success = not is_failure
+        outcome = _score_outcome(result_str)
 
         # Match task by text substring
         task_lower = str(task_text).lower()
@@ -636,13 +738,14 @@ def _update_task_weight(task_text: str, result) -> None:
             t_text = t.get("task", "").lower()
             t_id = t.get("id", "").lower()
             if t_text and (t_text[:40] in task_lower or task_lower[:40] in t_text or t_id in task_lower):
-                if success:
+                if outcome == "win":
                     t["wins"] = t.get("wins", 0) + 1
-                    t["weight"] = min(t.get("max_weight", 2.0), t.get("weight", 1.0) + 0.05)
-                else:
+                    t["weight"] = min(t.get("max_weight", 2.0), t.get("weight", 1.0) + 0.1)
+                elif outcome == "loss":
                     t["losses"] = t.get("losses", 0) + 1
                     if not t.get("failure_immune", False):
-                        t["weight"] = max(t.get("min_weight", 0.1), t.get("weight", 1.0) - 0.05)
+                        t["weight"] = max(t.get("min_weight", 0.1), t.get("weight", 1.0) - 0.2)
+                # neutral: no weight change
                 matched = True
                 break
 
@@ -686,27 +789,33 @@ def reasoning_cycle():
                 "Use ONLY these facts (no guessing): " + json.dumps(facts, default=str)
             )
 
+        # Ground the prompt in real data before sending to LLM.
+        # Without this, llama3.1 fabricates file contents and tool outputs.
+        grounded_context = _build_grounded_context(str(prompt_flag))
+        grounded_prompt = grounded_context + str(prompt_flag) if grounded_context else str(prompt_flag)
+
         # Use agent_loop for tool-capable reasoning; fall back to gpt_reasoner if it fails
         try:
             system_prompt = (
                 "You are Echo. You are running an autonomous background reasoning cycle.\n"
-                "Complete the task below using your tools if needed.\n"
-                "Be concrete and specific. State what you found or did — not what you would do.\n"
-                "If you check a tool, summarize what it returned.\n"
-                "Do not restart services unless specifically asked to investigate a failure.\n\n"
+                "The REAL DATA block above contains the actual current state of the system — "
+                "use it as your only source of truth. Do not invent data, tools, or outcomes.\n"
+                "Be concrete and specific. State what you found — not what you would do.\n"
+                "Do not promise future monitoring cycles or scheduled tasks — you are one-shot.\n"
+                "Do not reference tools that don't exist (sysmon, backup_config, ledger database, etc).\n\n"
                 "Special tokens you can emit at the end of your response:\n"
                 "ADD_TASK: <description> — add a new standing task to your queue\n"
-                "ADD_GAP: <description> — record a gap or missing capability you noticed\n"
+                "ADD_GAP: <description> — record a gap or missing capability you noticed in the REAL DATA\n"
                 "ADD_BUILD: <what> | goal: <how it generates income or moves Echo's goals forward> | reach: <how it reaches Andrew or a customer> — propose a build grounded in known_gaps.md.\n"
                 "ADD_CONTENT: <title> | <one sentence angle> — queue an article topic you identified as worth writing\n"
                 "REVISE_BUILD: <build_name> — re-generate a pending build that has status=needs_revision, applying its review_notes. Only emit if you are specifically processing a build revision flag.\n"
-                "Only emit a token if you have a specific, concrete reason based on what you observed.\n"
+                "Only emit a token if you have a specific, concrete reason based on what you observed in the REAL DATA.\n"
                 "ADD_BUILD requires all three parts separated by pipes. A build with no goal or no reach is not worth proposing.\n"
                 "ADD_BUILD must be about Echo's own systems: trading, monitoring, alerts, content, leads, backups, memory.\n"
                 "NEVER emit ADD_BUILD for: business plans, templates, financial documents, or anything unrelated to Echo's codebase."
             )
             result = agent_loop(
-                prompt=str(prompt_flag),
+                prompt=grounded_prompt,
                 system_prompt=system_prompt,
                 call_ollama_fn=_call_ollama,
                 model="llama3.1:latest",
@@ -715,7 +824,7 @@ def reasoning_cycle():
                 auto_approve_safe=True,
             )
         except Exception as _e:
-            result = gpt_reasoner(prompt_flag, core_state)
+            result = gpt_reasoner(grounded_prompt, core_state)
         core_state["reasoning_history"].append(result)
         core_state["knowledge"][x_flag] = result
         if "income_knowledge" in str(x_flag):

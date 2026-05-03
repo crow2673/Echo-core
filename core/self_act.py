@@ -305,11 +305,50 @@ def _parse_and_add_gap(result) -> None:
         print(f"[self_act] ADD_GAP error: {e}")
 
 
+def _build_tier(description: str) -> str:
+    """
+    Classify a build description into an autonomy tier.
+
+    auto   — new tools/ utility (monitor, alert, scanner, log reader, backup helper).
+             Echo builds AND deploys immediately. Notifies after the fact.
+    notify — touches data sources, memory writers, or external APIs.
+             Echo builds, notifies Andrew, auto-deploys after 2 hours if not rejected.
+    gate   — anything that touches core/, modifies existing deployed files,
+             makes financial orders, or changes trading logic.
+             Always requires explicit /approve. Never auto-deploys.
+    """
+    desc_lower = description.lower()
+
+    # Hard gate — these never auto-deploy
+    GATE_SIGNALS = [
+        "core/", "alpaca order", "place order", "submit order",
+        "buy signal", "sell signal", "open position", "close position",
+        "crypto_brain", "trade_brain", "dispatcher",
+        "modify existing", "replace existing", "rewrite existing", "patch existing",
+        "trading strategy", "trading logic", "trading algorithm",
+    ]
+    if any(s in desc_lower for s in GATE_SIGNALS):
+        return "gate"
+
+    # Auto tier — safe new utility scripts
+    AUTO_SIGNALS = [
+        "monitor", "alert", "scan", "log", "backup", "digest",
+        "check", "report", "watch", "tracker", "summary",
+    ]
+    if any(s in desc_lower for s in AUTO_SIGNALS):
+        return "auto"
+
+    # Everything else — notify Andrew, auto-deploy after 2h if no rejection
+    return "notify"
+
+
 def _parse_and_add_build(result) -> None:
     """
     If Echo's result contains ADD_BUILD: <description>, generate a script
-    and notify Andrew via Telegram for approval. She proposes — he approves.
-    Build must be grounded in known_gaps.md — no hallucinated proposals.
+    and deploy it according to its autonomy tier:
+      auto  — build + deploy immediately, notify after
+      notify — build + notify Andrew, auto-deploy after 2h if no /reject
+      gate  — build + notify Andrew, wait for explicit /approve
     """
     result_str = str(result or "")
     marker = "ADD_BUILD:"
@@ -321,7 +360,6 @@ def _parse_and_add_build(result) -> None:
     description = raw.split("\n")[0].strip().strip('"').strip("'")
 
     # ADD_BUILD format: <what> | goal: <goal/income impact> | reach: <how it reaches Andrew or customer>
-    # Reject if it doesn't answer all three questions
     parts = [p.strip() for p in description.split("|")]
     if len(parts) < 3:
         print(f"[self_act] ADD_BUILD rejected (missing goal/reach — need 3 pipe-separated parts): {description[:80]}")
@@ -334,12 +372,10 @@ def _parse_and_add_build(result) -> None:
     if len(goal_part) < 15 or len(reach_part) < 15:
         print(f"[self_act] ADD_BUILD rejected (goal/reach too vague): {description[:80]}")
         return
-    description = parts[0]  # use just the 'what' for domain/gap checks; full raw stored below
+    description = parts[0]
     if not description or len(description) < 10:
         return
 
-    # Guard: must relate to Echo's actual domain
-    # Note: keep keywords specific — generic words like "summary" let unrelated proposals slip through
     ALLOWED_DOMAINS = [
         "trading", "alpaca", "crypto", "stock", "fiverr", "lead", "reddit",
         "telegram", "notifier", "monitor", "alert", "backup", "ollama",
@@ -348,7 +384,6 @@ def _parse_and_add_build(result) -> None:
         "session", "checkpoint", "digest", "log", "error",
         "notion", "briefing", "governor", "vast", "gpu",
     ]
-    # Hard blocklist — topics Echo should never build for
     BLOCKED_TOPICS = [
         "business plan", "financial projection", "executive summary",
         "market analysis", "business model", "pitch deck", "investor",
@@ -362,21 +397,18 @@ def _parse_and_add_build(result) -> None:
         print(f"[self_act] ADD_BUILD rejected (out of domain): {description[:80]}")
         return
 
-    # Guard: must match something in known_gaps.md with meaningful overlap
     gaps_file = BASE / "memory/known_gaps.md"
     if gaps_file.exists():
         gaps_text = gaps_file.read_text().lower()
-        # Require 4+ words from description to appear in gaps (raised from 2 — word soup was matching)
         words = [w for w in desc_lower.split() if len(w) > 5]
         matches = sum(1 for w in words if w in gaps_text)
         if matches < 4:
             print(f"[self_act] ADD_BUILD rejected (not in known_gaps.md — {matches} word matches): {description[:80]}")
             return
 
-    # Rate limit — max one build proposal per hour
+    # Rate limit — max one build per hour
     try:
         rate_file = BASE / "memory" / "self_build_rate.json"
-        from datetime import datetime, timedelta
         now = datetime.now()
         if rate_file.exists():
             rate = json.loads(rate_file.read_text())
@@ -390,33 +422,83 @@ def _parse_and_add_build(result) -> None:
     except Exception as e:
         print(f"[self_act] ADD_BUILD rate check error: {e}")
 
-    print(f"[self_act] ADD_BUILD triggered: {description[:80]}")
+    tier = _build_tier(description)
+    print(f"[self_act] ADD_BUILD triggered (tier={tier}): {description[:80]}")
 
     try:
-        from core.self_build import generate, read_pending_code
+        from core.self_build import generate, read_pending_code, approve
         build = generate(description)
+        if not build.get("syntax_ok"):
+            print(f"[self_act] ADD_BUILD syntax failed — not deploying: {build.get('syntax_error','')}")
+            return
+
         name = build.get("name", "unknown")
-        syntax = "ok" if build.get("syntax_ok") else f"SYNTAX ERROR: {build.get('syntax_error','')}"
         code = read_pending_code(name)
-        preview = code[:2000] + ("\n...(truncated)" if len(code) > 2000 else "")
+        preview = code[:1500] + ("\n...(truncated)" if len(code) > 1500 else "")
 
-        msg = (
-            f"Echo proposes a build: {name}\n"
-            f"What: {description[:120]}\n"
-            f"Goal: {goal_part[5:].strip()[:120]}\n"
-            f"Reach: {reach_part[6:].strip()[:120]}\n"
-            f"Syntax: {syntax}\n\n"
-            f"{preview}\n\n"
-            f"/approve {name}  or  /reject {name}"
-        )
-        try:
-            from core.notifier import notify
-            notify("Echo wants to build", msg[:4000], urgent=False, phone=True)
-        except Exception as _e:
-            print(f"[self_act] ADD_BUILD notify failed: {_e}")
+        if tier == "auto":
+            # Deploy immediately — notify after the fact
+            result_deploy = approve(name, target_dir="tools")
+            if result_deploy.get("ok"):
+                msg = (
+                    f"Echo deployed: {name}\n"
+                    f"What: {description[:120]}\n"
+                    f"Deployed to: {result_deploy['path']}\n\n"
+                    f"To undo: /reject {name}"
+                )
+                print(f"[self_act] AUTO-DEPLOYED: {name}")
+            else:
+                msg = f"Echo tried to auto-deploy {name} but it failed: {result_deploy.get('error','')}"
+                print(f"[self_act] AUTO-DEPLOY FAILED: {name}")
+            try:
+                from core.notifier import notify
+                notify("Echo deployed a build", msg[:4000], urgent=False, phone=True)
+            except Exception:
+                pass
+
+        elif tier == "notify":
+            # Build done — notify Andrew, stamp a 2h deadline, auto-deploy later
+            build_reg_path = BASE / "builds" / "registry.json"
+            try:
+                reg = json.loads(build_reg_path.read_text())
+                reg[name]["auto_deploy_after"] = (
+                    datetime.now() + __import__("datetime").timedelta(hours=2)
+                ).isoformat()
+                tmp = build_reg_path.with_suffix(".tmp")
+                tmp.write_text(json.dumps(reg, indent=2))
+                tmp.rename(build_reg_path)
+            except Exception:
+                pass
+            msg = (
+                f"Echo built (auto-deploys in 2h): {name}\n"
+                f"What: {description[:120]}\n"
+                f"Goal: {goal_part[5:].strip()[:100]}\n\n"
+                f"{preview}\n\n"
+                f"To block: /reject {name}"
+            )
+            try:
+                from core.notifier import notify
+                notify("Echo built — deploying in 2h", msg[:4000], urgent=False, phone=True)
+            except Exception:
+                pass
+
+        else:  # gate
+            msg = (
+                f"Echo wants to build (requires approval): {name}\n"
+                f"What: {description[:120]}\n"
+                f"Goal: {goal_part[5:].strip()[:100]}\n"
+                f"Reach: {reach_part[6:].strip()[:100]}\n\n"
+                f"{preview}\n\n"
+                f"/approve {name}  or  /reject {name}"
+            )
+            try:
+                from core.notifier import notify
+                notify("Echo wants to build", msg[:4000], urgent=False, phone=True)
+            except Exception:
+                pass
 
         try:
-            log_event("action", "self_act", f"self_proposed build: {name} — {description[:80]}", score=1.0)
+            log_event("action", "self_act", f"build tier={tier}: {name} — {description[:80]}", score=1.0)
         except Exception:
             pass
 
@@ -887,6 +969,29 @@ def generate_flags(core_state: dict) -> list:
             flag = f"investigate inactive timer: {name}"
             if flag not in core_state.get("knowledge", {}):
                 flags.append(flag)
+
+    # Auto-deploy any notify-tier builds whose 2h window has passed
+    try:
+        from core.self_build import load_registry, save_registry, approve as _approve
+        _reg = load_registry()
+        _changed = False
+        for _name, _b in _reg.items():
+            if _b.get("status") == "pending" and _b.get("auto_deploy_after"):
+                _deadline = datetime.fromisoformat(_b["auto_deploy_after"])
+                if datetime.now() >= _deadline:
+                    _r = _approve(_name, target_dir="tools")
+                    if _r.get("ok"):
+                        print(f"[self_act] auto-deployed (2h passed): {_name}")
+                        try:
+                            from core.notifier import notify as _notify
+                            _notify("Echo auto-deployed", f"Deployed {_name} (no rejection in 2h)", urgent=False, phone=True)
+                        except Exception:
+                            pass
+                    _changed = True
+        if _changed:
+            pass  # approve() already updates registry
+    except Exception:
+        pass
 
     # Flag any needs_revision builds so Echo self-corrects them
     try:

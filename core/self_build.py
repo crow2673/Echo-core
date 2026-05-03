@@ -229,15 +229,27 @@ def approve(name: str, target_dir: str = "tools") -> dict:
 
 
 def reject(name: str, reason: str = "") -> dict:
-    """Delete a pending build."""
+    """
+    Reject a pending build, or undo an auto-deployed build by removing it from tools/.
+    Works on pending AND deployed builds so /reject can undo an auto-deploy.
+    """
     reg = load_registry()
     build = reg.get(name)
     if not build:
         return {"ok": False, "error": f"No build named '{name}'"}
 
+    # Remove pending file if it still exists
     src = PENDING_DIR / f"{name}.py"
     if src.exists():
         src.unlink()
+
+    # If already auto-deployed to tools/, remove it there too
+    deployed_path = build.get("deployed_path")
+    if deployed_path:
+        dp = Path(deployed_path)
+        if dp.exists() and str(dp).startswith(str(BASE / "tools")):
+            dp.unlink()
+            log(f"[self_build] removed auto-deployed file: {dp}")
 
     build["status"] = "rejected"
     build["rejected_at"] = datetime.now().isoformat()

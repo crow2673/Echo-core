@@ -1,0 +1,96 @@
+{
+  "asset": {
+    "asset_id": "TACOMA-DAY5",
+    "name": "2003 Toyota Tacoma Day 5 Fixture",
+    "type": "vehicle",
+    "manufacturer": "Toyota",
+    "model": "Tacoma 4WD 3.4L",
+    "serial": "",
+    "status": "active",
+    "created": "2026-07-15T00:00:00",
+    "metadata": {
+      "fixture": true,
+      "drive": "4WD",
+      "engine": "3.4L"
+    }
+  },
+  "observations": [
+    {
+      "asset_id": "TACOMA-DAY5",
+      "timestamp": "2026-07-15T08:00:00",
+      "source": "manual",
+      "observer": "FixtureReviewer",
+      "summary": "Baseline note: truck has low power under acceleration.",
+      "raw_text": "Truck feels weak when accelerating. Odometer reads 185000.",
+      "raw_input_reference": "tests/fixtures/asset_intelligence/tacoma_manual_note_001.txt",
+      "processing_method": "manual_fixture",
+      "review_status": "reviewed",
+      "confidence": 0.9,
+      "tags": ["asset_intelligence", "fault", "maintenance"],
+      "extracted_facts": {
+        "odometer_miles": 185000,
+        "symptoms": ["low_power_acceleration"],
+        "transmission_fluid_condition": "unknown"
+      },
+      "inferred_facts": {
+        "affected_area": "drivetrain_or_engine",
+        "needs_human_review": true
+      },
+      "uncertainty": ["cause not diagnosed"]
+    },
+    {
+      "asset_id": "TACOMA-DAY5",
+      "timestamp": "2026-07-15T09:00:00",
+      "source": "manual",
+      "observer": "FixtureReviewer",
+      "summary": "Follow-up note: delayed shift is now observed and fluid appears dark.",
+      "raw_text": "At 185120 miles it still lacks power and has delayed shift. Transmission fluid looks dark.",
+      "raw_input_reference": "tests/fixtures/asset_intelligence/tacoma_manual_note_002.txt",
+      "processing_method": "manual_fixture",
+      "review_status": "reviewed",
+      "confidence": 0.88,
+      "tags": ["asset_intelligence", "fault", "maintenance"],
+      "extracted_facts": {
+        "odometer_miles": 185120,
+        "symptoms": ["low_power_acceleration", "delayed_shift"],
+        "transmission_fluid_condition": "dark"
+      },
+      "inferred_facts": {
+        "affected_area": "drivetrain",
+        "needs_human_review": true
+      },
+      "uncertainty": ["fluid color is a manual visual note, not a lab test"]
+    },
+    {
+      "asset_id": "TACOMA-DAY5",
+      "timestamp": "2026-07-15T10:00:00",
+      "source": "manual",
+      "observer": "FixtureReviewer",
+      "summary": "Conflicting note: odometer entry appears lower than previous record.",
+      "raw_text": "Odometer entered as 184900, but this may be a typo.",
+      "raw_input_reference": "tests/fixtures/asset_intelligence/tacoma_manual_note_003.txt",
+      "processing_method": "manual_fixture",
+      "review_status": "pending_review",
+      "confidence": 0.55,
+      "tags": ["asset_intelligence", "measurement"],
+      "extracted_facts": {
+        "odometer_miles": 184900,
+        "symptoms": ["low_power_acceleration", "delayed_shift"],
+        "transmission_fluid_condition": "dark"
+      },
+      "inferred_facts": {
+        "possible_entry_error": true
+      },
+      "uncertainty": ["odometer value conflicts with prior observation"]
+    }
+  ],
+  "expected": {
+    "pilot_asset": "TACOMA-DAY5",
+    "comparison_sequence": [
+      "no_prior_observation",
+      "changed",
+      "conflicting_evidence"
+    ],
+    "final_next_action": "Mark for human review and enter a corrected measurement or source note."
+  }
+}

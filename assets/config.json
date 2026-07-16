@@ -1,0 +1,8 @@
+{
+  "enabled_modules": {
+    "assets": true,
+    "vehicle_intelligence": true,
+    "telemetry": true,
+    "maintenance": true
+  }
+}

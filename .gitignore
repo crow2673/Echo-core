@@ -170,6 +170,7 @@ micro_safe_trading_bot*.py
 run_micro_safe_trades*.py
 dashboard*.py
 task_manager*.py
+!assets/task_manager.py
 run_safe_trades.py
 sandbox_adapter.py
 sandbox_screen_adapter.py

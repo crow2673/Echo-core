@@ -71,6 +71,8 @@ vastai_install_logs.tar.gz
 
 # runtime state
 memory/echo_state.json
+memory/video_observation_candidates/
+memory/video_observation_candidates.sqlite
 
 # Junk files
 a.zip

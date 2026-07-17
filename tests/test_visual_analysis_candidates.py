@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -202,3 +203,179 @@ def test_companion_session_stores_state_without_frame_contents(tmp_path, monkeyp
 
     assert ".jpg" not in str(updated)
     assert candidate["candidate_id"] in updated["current_step"]
+
+
+def test_ollama_call_sends_image_data(tmp_path, monkeypatch):
+    frame = tmp_path / "frame.jpg"
+    _make_image(frame)
+    captured = {}
+
+    class FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+        def read(self):
+            return json.dumps({"message": {"content": "{\"objects\": []}"}}).encode()
+
+    def fake_urlopen(request, timeout):
+        captured["body"] = json.loads(request.data.decode())
+        captured["timeout"] = timeout
+        return FakeResponse()
+
+    monkeypatch.setattr(vac.urllib.request, "urlopen", fake_urlopen)
+
+    raw = vac.call_ollama_vision(frame, model_name="fixture-vision")
+
+    assert captured["body"]["model"] == "fixture-vision"
+    assert captured["body"]["messages"][0]["images"][0]
+    assert raw["request_structure"]["messages"][0]["images"] == ["<base64 image omitted>"]
+
+
+def test_text_only_ollama_model_is_rejected(tmp_path, monkeypatch):
+    frame = {"frame_id": "frame-001", "timestamp_seconds": 2.0}
+    image_path = tmp_path / "frame.jpg"
+    _make_image(image_path)
+    frame_info = {"path": str(image_path), "sha256": "abc", "width": 80, "height": 60, "format": "JPEG"}
+    monkeypatch.setattr(vac, "get_ollama_model_info", lambda *args, **kwargs: {"capabilities": ["completion"]})
+
+    with pytest.raises(vac.VisualAnalysisError, match="does not report image"):
+        vac.analyze_frame_pixels(frame, frame_info, method=vac.OLLAMA_QWEN25VL_METHOD)
+
+
+def test_malformed_ollama_json_produces_no_candidates(tmp_path, monkeypatch):
+    candidate = _video_candidate(tmp_path, monkeypatch)
+    monkeypatch.setattr(vac, "get_ollama_model_info", lambda *args, **kwargs: {"capabilities": ["vision"]})
+    monkeypatch.setattr(vac, "call_ollama_vision", lambda *args, **kwargs: {"content": "not json"})
+
+    result = vac.analyze_video_candidate(
+        candidate["candidate_id"],
+        db_path=tmp_path / "visual.sqlite",
+        video_db_path=tmp_path / "video.sqlite",
+        method=vac.OLLAMA_QWEN25VL_METHOD,
+        frame_timestamp=2.0,
+    )
+
+    assert result["created_count"] == 0
+    assert result["analysis_errors"][0]["error_type"] == "malformed_model_output"
+    assert vac.list_visual_candidates(video_candidate_id=candidate["candidate_id"], db_path=tmp_path / "visual.sqlite") == []
+
+
+def test_ollama_top_level_json_list_is_accepted(tmp_path, monkeypatch):
+    candidate = _video_candidate(tmp_path, monkeypatch)
+    monkeypatch.setattr(vac, "get_ollama_model_info", lambda *args, **kwargs: {"capabilities": ["vision"]})
+    monkeypatch.setattr(
+        vac,
+        "call_ollama_vision",
+        lambda *args, **kwargs: {
+            "content": json.dumps([{"label": "fixture mug", "confidence": 0.8, "uncertainty": "fixture visible object"}])
+        },
+    )
+
+    result = vac.analyze_video_candidate(
+        candidate["candidate_id"],
+        db_path=tmp_path / "visual.sqlite",
+        video_db_path=tmp_path / "video.sqlite",
+        method=vac.OLLAMA_QWEN25VL_METHOD,
+        frame_timestamp=2.0,
+    )
+
+    assert result["created_count"] == 1
+    assert result["candidates"][0]["proposed_label"] == "fixture mug"
+
+
+def test_ollama_confidence_is_bounded_and_candidate_remains_pending(tmp_path, monkeypatch):
+    candidate = _video_candidate(tmp_path, monkeypatch)
+    monkeypatch.setattr(vac, "get_ollama_model_info", lambda *args, **kwargs: {"capabilities": ["vision"]})
+    monkeypatch.setattr(
+        vac,
+        "call_ollama_vision",
+        lambda *args, **kwargs: {
+            "content": json.dumps({
+                "objects": [{
+                    "label": "fixture keyboard",
+                    "confidence": 3.2,
+                    "uncertainty": "fixture uncertainty",
+                    "alternate_labels": ["fixture input device"],
+                }]
+            })
+        },
+    )
+
+    result = vac.analyze_video_candidate(
+        candidate["candidate_id"],
+        db_path=tmp_path / "visual.sqlite",
+        video_db_path=tmp_path / "video.sqlite",
+        method=vac.OLLAMA_QWEN25VL_METHOD,
+        frame_timestamp=2.0,
+    )
+
+    created = result["candidates"][0]
+    assert created["confidence"] == 1.0
+    assert created["status"] == "pending_review"
+    assert created["source_frame_hash"]
+    assert created["frame_timestamp"] == 2.0
+    assert "bounded" in " ".join(created["uncertainty"])
+
+
+def test_repeated_ollama_analysis_deduplicates_one_frame(tmp_path, monkeypatch):
+    candidate = _video_candidate(tmp_path, monkeypatch)
+    monkeypatch.setattr(vac, "get_ollama_model_info", lambda *args, **kwargs: {"capabilities": ["vision"]})
+    monkeypatch.setattr(
+        vac,
+        "call_ollama_vision",
+        lambda *args, **kwargs: {"content": json.dumps({"objects": [{"label": "fixture hand tool", "confidence": 0.7}]})},
+    )
+
+    first = vac.analyze_video_candidate(
+        candidate["candidate_id"],
+        db_path=tmp_path / "visual.sqlite",
+        video_db_path=tmp_path / "video.sqlite",
+        method=vac.OLLAMA_QWEN25VL_METHOD,
+        frame_timestamp=2.0,
+    )
+    second = vac.analyze_video_candidate(
+        candidate["candidate_id"],
+        db_path=tmp_path / "visual.sqlite",
+        video_db_path=tmp_path / "video.sqlite",
+        method=vac.OLLAMA_QWEN25VL_METHOD,
+        frame_timestamp=2.0,
+    )
+
+    assert first["created_count"] == 1
+    assert second["created_count"] == 0
+    assert second["duplicate_count"] == 1
+
+
+def test_ollama_failure_leaves_existing_candidate_state_intact(tmp_path, monkeypatch):
+    candidate = _video_candidate(tmp_path, monkeypatch)
+    monkeypatch.setattr(vac, "get_ollama_model_info", lambda *args, **kwargs: {"capabilities": ["vision"]})
+    monkeypatch.setattr(
+        vac,
+        "call_ollama_vision",
+        lambda *args, **kwargs: {"content": json.dumps({"objects": [{"label": "fixture mug", "confidence": 0.7}]})},
+    )
+    created = vac.analyze_video_candidate(
+        candidate["candidate_id"],
+        db_path=tmp_path / "visual.sqlite",
+        video_db_path=tmp_path / "video.sqlite",
+        method=vac.OLLAMA_QWEN25VL_METHOD,
+        frame_timestamp=2.0,
+    )["candidates"][0]
+
+    def broken_call(*args, **kwargs):
+        raise vac.VisualAnalysisError("fixture network failure")
+
+    monkeypatch.setattr(vac, "call_ollama_vision", broken_call)
+
+    with pytest.raises(vac.VisualAnalysisError, match="fixture network failure"):
+        vac.analyze_video_candidate(
+            candidate["candidate_id"],
+            db_path=tmp_path / "visual.sqlite",
+            video_db_path=tmp_path / "video.sqlite",
+            method=vac.OLLAMA_QWEN25VL_METHOD,
+            frame_timestamp=2.0,
+        )
+    assert vac.get_visual_candidate(created["visual_candidate_id"], db_path=tmp_path / "visual.sqlite")["status"] == "pending_review"

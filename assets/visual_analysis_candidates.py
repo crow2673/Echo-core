@@ -8,10 +8,14 @@ Executive Context changes.
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import sqlite3
 import sys
+import time
+import urllib.error
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -24,11 +28,29 @@ from PIL import Image
 from assets.video_observation_candidates import get_candidate as get_video_candidate
 
 DEFAULT_DB_PATH = BASE / "memory" / "visual_analysis_candidates.sqlite"
+DEFAULT_PRIVATE_RUN_DIR = BASE / "memory" / "visual_analysis_candidates"
 ALLOWED_STATUSES = {"pending_review", "approved", "corrected", "rejected", "superseded"}
 NO_MODEL_METHOD = "no_local_vision_model_v1"
+OLLAMA_QWEN25VL_METHOD = "ollama_qwen2_5_vl_7b_json_v1"
+DEFAULT_OLLAMA_MODEL = "qwen2.5vl:7b"
+DEFAULT_OLLAMA_URL = "http://127.0.0.1:11434/api/chat"
+
+VISION_PROMPT = (
+    "Inspect only the visible image pixels. List up to eight clearly visible objects. "
+    "For each object return a broad label, confidence from 0 to 1, and one short uncertainty note. "
+    "Do not identify brands unless text is clearly readable. Do not infer ownership, hidden contents, "
+    "value, functionality, or people's identities. Return JSON only with this schema: "
+    '{"objects":[{"label":"broad object label","confidence":0.0,'
+    '"uncertainty":"short note","alternate_labels":["optional alternative"],'
+    '"broad_category":"optional category"}]}.'
+)
 
 
 class VisualAnalysisError(RuntimeError):
+    pass
+
+
+class MalformedVisionOutput(VisualAnalysisError):
     pass
 
 
@@ -112,8 +134,29 @@ def ensure_schema(db: sqlite3.Connection) -> None:
         )
         """
     )
+    db.execute(
+        """
+        CREATE TABLE IF NOT EXISTS visual_analysis_runs (
+            run_id TEXT PRIMARY KEY,
+            source_video_candidate_id TEXT NOT NULL,
+            frame_id TEXT,
+            frame_timestamp REAL,
+            frame_hash TEXT,
+            method TEXT NOT NULL,
+            model_name TEXT,
+            started_at TEXT NOT NULL,
+            completed_at TEXT NOT NULL,
+            latency_seconds REAL,
+            raw_response_reference TEXT,
+            parsed_ok INTEGER NOT NULL DEFAULT 0,
+            error TEXT,
+            metadata TEXT NOT NULL DEFAULT '{}'
+        )
+        """
+    )
     db.execute("CREATE INDEX IF NOT EXISTS idx_visual_candidates_video ON visual_analysis_candidates(source_video_candidate_id)")
     db.execute("CREATE INDEX IF NOT EXISTS idx_visual_candidates_status ON visual_analysis_candidates(status)")
+    db.execute("CREATE INDEX IF NOT EXISTS idx_visual_runs_video ON visual_analysis_runs(source_video_candidate_id)")
     db.commit()
 
 
@@ -290,7 +333,142 @@ def verify_frame_readable(frame: dict[str, Any]) -> dict[str, Any]:
         raise VisualAnalysisError(f"frame is not readable: {frame.get('frame_id')}: {exc}") from exc
 
 
-def analyze_frame_pixels(frame: dict[str, Any], frame_info: dict[str, Any], *, method: str) -> list[dict[str, Any]]:
+def model_supports_images(model_info: dict[str, Any]) -> bool:
+    text = json.dumps(model_info, sort_keys=True, default=str).lower()
+    return any(token in text for token in ("vision", "image", "clip", "mmproj", "multimodal"))
+
+
+def get_ollama_model_info(model_name: str, *, ollama_url: str = DEFAULT_OLLAMA_URL, timeout_seconds: float = 20.0) -> dict[str, Any]:
+    show_url = ollama_url.replace("/api/chat", "/api/show")
+    body = json.dumps({"name": model_name}).encode()
+    request = urllib.request.Request(show_url, data=body, headers={"Content-Type": "application/json"}, method="POST")
+    try:
+        with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+            return json.loads(response.read().decode())
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        raise VisualAnalysisError(f"could not inspect Ollama model {model_name}: {exc}") from exc
+
+
+def call_ollama_vision(
+    frame_path: Path,
+    *,
+    model_name: str = DEFAULT_OLLAMA_MODEL,
+    ollama_url: str = DEFAULT_OLLAMA_URL,
+    prompt: str = VISION_PROMPT,
+    timeout_seconds: float = 180.0,
+) -> dict[str, Any]:
+    image_b64 = base64.b64encode(frame_path.read_bytes()).decode()
+    request_body = {
+        "model": model_name,
+        "messages": [{"role": "user", "content": prompt, "images": [image_b64]}],
+        "stream": False,
+        "options": {"temperature": 0},
+        "keep_alive": "5m",
+    }
+    request = urllib.request.Request(
+        ollama_url,
+        data=json.dumps(request_body).encode(),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+            payload = json.loads(response.read().decode())
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        raise VisualAnalysisError(f"Ollama vision request failed: {exc}") from exc
+    content = ((payload.get("message") or {}).get("content") or payload.get("response") or "").strip()
+    return {
+        "request_structure": {
+            "endpoint": ollama_url,
+            "model": model_name,
+            "messages": [{"role": "user", "content": prompt, "images": ["<base64 image omitted>"]}],
+            "stream": False,
+            "options": {"temperature": 0},
+            "keep_alive": "5m",
+        },
+        "raw_payload": payload,
+        "content": content,
+    }
+
+
+def _extract_json_object(text: str) -> dict[str, Any]:
+    cleaned = text.strip()
+    if cleaned.startswith("```"):
+        lines = cleaned.splitlines()
+        if lines and lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].startswith("```"):
+            lines = lines[:-1]
+        cleaned = "\n".join(lines).strip()
+    try:
+        parsed = json.loads(cleaned)
+    except json.JSONDecodeError as exc:
+        raise MalformedVisionOutput(f"vision model did not return valid JSON: {exc}") from exc
+    if isinstance(parsed, list):
+        return {"objects": parsed, "schema_variant": "top_level_list"}
+    if not isinstance(parsed, dict):
+        raise MalformedVisionOutput("vision model JSON must be an object or object list")
+    return parsed
+
+
+def parse_ollama_object_response(
+    raw: dict[str, Any],
+    *,
+    model_name: str,
+    method: str,
+) -> list[dict[str, Any]]:
+    parsed = _extract_json_object(raw.get("content", ""))
+    objects = parsed.get("objects")
+    if not isinstance(objects, list):
+        raise MalformedVisionOutput("vision model JSON missing objects list")
+    proposals: list[dict[str, Any]] = []
+    for obj in objects[:8]:
+        if not isinstance(obj, dict):
+            continue
+        label = str(obj.get("label") or obj.get("proposed_label") or "").strip()
+        if not label:
+            continue
+        if obj.get("person_identification") or obj.get("face_recognition_performed"):
+            raise VisualAnalysisError("person identification and face recognition are not allowed")
+        raw_confidence = obj.get("confidence", 0.0)
+        try:
+            confidence = float(raw_confidence)
+        except (TypeError, ValueError):
+            confidence = 0.0
+        bounded_confidence = max(0.0, min(1.0, confidence))
+        uncertainty: list[str] = []
+        if obj.get("uncertainty"):
+            if isinstance(obj["uncertainty"], list):
+                uncertainty.extend(str(item) for item in obj["uncertainty"][:3])
+            else:
+                uncertainty.append(str(obj["uncertainty"]))
+        if confidence != bounded_confidence:
+            uncertainty.append("model confidence was outside 0-1 and was bounded")
+        alternatives = obj.get("alternate_labels") or obj.get("alternatives") or []
+        if isinstance(alternatives, str):
+            alternatives = [alternatives]
+        proposals.append({
+            "proposed_label": label,
+            "broad_category": obj.get("broad_category", "unknown"),
+            "confidence": bounded_confidence,
+            "alternate_labels": [str(item) for item in list(alternatives)[:4]],
+            "uncertainty": uncertainty or ["model supplied no uncertainty note"],
+            "source_model": model_name,
+            "model_version": model_name,
+            "analysis_method_version": method,
+        })
+    return proposals
+
+
+def analyze_frame_pixels(
+    frame: dict[str, Any],
+    frame_info: dict[str, Any],
+    *,
+    method: str,
+    model_name: str = DEFAULT_OLLAMA_MODEL,
+    ollama_url: str = DEFAULT_OLLAMA_URL,
+    require_model_info: bool = True,
+) -> list[dict[str, Any]]:
     """Return tentative labels from a real pixel-inspection method.
 
     The default method deliberately returns no labels because no usable local
@@ -298,9 +476,16 @@ def analyze_frame_pixels(frame: dict[str, Any], frame_info: dict[str, Any], *, m
     analyzer, but production code must not invent labels from filenames or chat
     context.
     """
-    if method != NO_MODEL_METHOD:
+    if method == NO_MODEL_METHOD:
+        return []
+    if method != OLLAMA_QWEN25VL_METHOD:
         raise VisualAnalysisError(f"unsupported local visual analysis method: {method}")
-    return []
+    if require_model_info:
+        model_info = get_ollama_model_info(model_name, ollama_url=ollama_url)
+        if not model_supports_images(model_info):
+            raise VisualAnalysisError(f"Ollama model {model_name} does not report image/vision support")
+    raw = call_ollama_vision(Path(frame_info["path"]), model_name=model_name, ollama_url=ollama_url)
+    return parse_ollama_object_response(raw, model_name=model_name, method=method)
 
 
 def _candidate_from_proposal(
@@ -363,6 +548,10 @@ def analyze_video_candidate(
     db_path: str | Path | None = None,
     video_db_path: str | Path | None = None,
     method: str = NO_MODEL_METHOD,
+    model_name: str = DEFAULT_OLLAMA_MODEL,
+    ollama_url: str = DEFAULT_OLLAMA_URL,
+    frame_id: str | None = None,
+    frame_timestamp: float | None = None,
     actor: str = "manual_reviewer",
 ) -> dict[str, Any]:
     video_candidate = get_video_candidate(video_candidate_id, db_path=video_db_path)
@@ -371,10 +560,17 @@ def analyze_video_candidate(
     frames = list(video_candidate.get("evidence_frame_references") or [])
     if not frames:
         raise VisualAnalysisError("video candidate has no evidence frames")
+    if frame_id is not None:
+        frames = [frame for frame in frames if str(frame.get("frame_id")) == str(frame_id)]
+    if frame_timestamp is not None:
+        frames = [frame for frame in frames if abs(float(frame.get("timestamp_seconds", -1.0)) - float(frame_timestamp)) < 0.001]
+    if not frames:
+        raise VisualAnalysisError("no matching evidence frame found")
     ts = utcnow()
     created: list[dict[str, Any]] = []
     duplicates: list[dict[str, Any]] = []
     readable_frames: list[dict[str, Any]] = []
+    analysis_errors: list[dict[str, Any]] = []
     with connect(db_path) as db:
         for frame in frames:
             frame_info = verify_frame_readable(frame)
@@ -385,7 +581,82 @@ def analyze_video_candidate(
                 "width": frame_info["width"],
                 "height": frame_info["height"],
             })
-            proposals = analyze_frame_pixels(frame, frame_info, method=method)
+            started = time.monotonic()
+            run_id = "visual-run-" + hashlib.sha256(
+                f"{video_candidate_id}|{frame.get('frame_id')}|{frame_info['sha256']}|{method}|{ts}".encode()
+            ).hexdigest()[:16]
+            try:
+                if method == OLLAMA_QWEN25VL_METHOD:
+                    proposals = analyze_frame_pixels(
+                        frame,
+                        frame_info,
+                        method=method,
+                        model_name=model_name,
+                        ollama_url=ollama_url,
+                    )
+                else:
+                    proposals = analyze_frame_pixels(frame, frame_info, method=method)
+                latency = time.monotonic() - started
+                db.execute(
+                    """
+                    INSERT OR REPLACE INTO visual_analysis_runs
+                    (run_id, source_video_candidate_id, frame_id, frame_timestamp, frame_hash,
+                     method, model_name, started_at, completed_at, latency_seconds,
+                     raw_response_reference, parsed_ok, error, metadata)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                    """,
+                    (
+                        run_id,
+                        video_candidate_id,
+                        frame.get("frame_id"),
+                        float(frame.get("timestamp_seconds", 0.0)),
+                        frame_info["sha256"],
+                        method,
+                        model_name if method == OLLAMA_QWEN25VL_METHOD else None,
+                        ts,
+                        utcnow(),
+                        latency,
+                        None,
+                        1,
+                        None,
+                        _json({"proposal_count": len(proposals)}),
+                    ),
+                )
+            except MalformedVisionOutput as exc:
+                latency = time.monotonic() - started
+                error = {
+                    "frame_id": frame.get("frame_id"),
+                    "timestamp_seconds": frame.get("timestamp_seconds"),
+                    "error": str(exc),
+                    "error_type": "malformed_model_output",
+                }
+                analysis_errors.append(error)
+                db.execute(
+                    """
+                    INSERT OR REPLACE INTO visual_analysis_runs
+                    (run_id, source_video_candidate_id, frame_id, frame_timestamp, frame_hash,
+                     method, model_name, started_at, completed_at, latency_seconds,
+                     raw_response_reference, parsed_ok, error, metadata)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                    """,
+                    (
+                        run_id,
+                        video_candidate_id,
+                        frame.get("frame_id"),
+                        float(frame.get("timestamp_seconds", 0.0)),
+                        frame_info["sha256"],
+                        method,
+                        model_name if method == OLLAMA_QWEN25VL_METHOD else None,
+                        ts,
+                        utcnow(),
+                        latency,
+                        None,
+                        0,
+                        str(exc),
+                        _json({"candidate_creation": "skipped"}),
+                    ),
+                )
+                continue
             seen_labels: set[str] = set()
             for proposal in proposals:
                 if proposal.get("person_identification") or proposal.get("face_recognition_performed"):
@@ -438,6 +709,7 @@ def analyze_video_candidate(
         "duplicate_count": len(duplicates),
         "candidates": created,
         "duplicates": duplicates,
+        "analysis_errors": analysis_errors,
         "consolidated": consolidate_candidates(video_candidate_id, db_path=db_path),
         "missing_capability": missing,
     }
@@ -577,6 +849,10 @@ def main() -> int:
     analyze = sub.add_parser("analyze")
     analyze.add_argument("--video-candidate-id", required=True)
     analyze.add_argument("--method", default=NO_MODEL_METHOD)
+    analyze.add_argument("--model", default=DEFAULT_OLLAMA_MODEL)
+    analyze.add_argument("--ollama-url", default=DEFAULT_OLLAMA_URL)
+    analyze.add_argument("--frame-id")
+    analyze.add_argument("--frame-timestamp", type=float)
 
     list_cmd = sub.add_parser("list")
     list_cmd.add_argument("--video-candidate-id")
@@ -609,7 +885,16 @@ def main() -> int:
 
     args = parser.parse_args()
     if args.cmd == "analyze":
-        _print(analyze_video_candidate(args.video_candidate_id, db_path=args.db, video_db_path=args.video_db, method=args.method))
+        _print(analyze_video_candidate(
+            args.video_candidate_id,
+            db_path=args.db,
+            video_db_path=args.video_db,
+            method=args.method,
+            model_name=args.model,
+            ollama_url=args.ollama_url,
+            frame_id=args.frame_id,
+            frame_timestamp=args.frame_timestamp,
+        ))
     elif args.cmd == "list":
         _print(list_visual_candidates(video_candidate_id=args.video_candidate_id, status=args.status, db_path=args.db))
     elif args.cmd == "show":

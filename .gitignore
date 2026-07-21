@@ -77,6 +77,7 @@ memory/visual_analysis_candidates/
 memory/visual_analysis_candidates.sqlite
 memory/workspace_state_candidates/
 memory/workspace_state_candidates.sqlite
+memory/workspace_change_candidates.sqlite
 
 # Junk files
 a.zip

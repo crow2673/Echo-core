@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Log Anomaly Scorer — every 15 minutes
+Requires=echo-log-anomaly.service
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=15min
+Persistent=true
+Unit=echo-log-anomaly.service
+
+[Install]
+WantedBy=timers.target

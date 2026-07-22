@@ -57,6 +57,8 @@ def get_ledger_stats():
         conn = sqlite3.connect(db)
         total = conn.execute("SELECT COUNT(*) FROM events").fetchone()[0]
         wins = conn.execute("SELECT COUNT(*) FROM events WHERE outcome_score > 0").fetchone()[0]
+        losses = conn.execute("SELECT COUNT(*) FROM events WHERE outcome_score < 0").fetchone()[0]
+        neutral = total - wins - losses
         articles = conn.execute(
             "SELECT COUNT(*) FROM events WHERE source='article_pipeline' AND outcome_score > 0"
         ).fetchone()[0]
@@ -65,10 +67,18 @@ def get_ledger_stats():
             f"SELECT COUNT(*) FROM events WHERE ts LIKE '{today}%'"
         ).fetchone()[0]
         conn.close()
-        losses = total - wins
-        win_rate = round(wins / total * 100) if total else 0
-        return {"total": total, "wins": wins, "losses": losses, "articles": articles,
-                "today": today_events, "win_rate": win_rate}
+        scored = wins + losses
+        win_rate = round(wins / scored * 100) if scored else 0
+        return {
+            "total": total,
+            "scored": scored,
+            "wins": wins,
+            "losses": losses,
+            "neutral": neutral,
+            "articles": articles,
+            "today": today_events,
+            "win_rate": win_rate,
+        }
     except Exception:
         return {}
 
@@ -85,6 +95,8 @@ def run():
     stats = get_ledger_stats()
     wins = stats.get("wins", 0)
     losses = stats.get("losses", 0)
+    scored = stats.get("scored", 0)
+    neutral = stats.get("neutral", 0)
     win_rate = stats.get("win_rate", 0)
     total = stats.get("total", 0)
 
@@ -113,7 +125,9 @@ def run():
 
     summary = (
         f"Views: {views} | Articles: {article_count} | Echo wrote: {stats.get('articles', 0)} | "
-        f"Events: {total} | Win rate: {win_rate}% | Golem: Down | Earned: $0.00"
+        f"Events: {total} | Scored: {scored} | Win rate: {win_rate}% | "
+        f"Wins: {wins} | Losses: {losses} | Neutral/unscored: {neutral} | "
+        f"Golem: Down | Earned: $0.00"
     )
 
     try:

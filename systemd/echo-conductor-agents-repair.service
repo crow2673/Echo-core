@@ -1,0 +1,12 @@
+[Unit]
+Description=Repair Echo conductor agent panes and registration
+After=echo-conductor-agents.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+Environment=TERM=xterm-256color
+ExecStart=/usr/bin/bash %h/Echo/tools/launch_agents.sh --ensure
+TimeoutStartSec=45
+StandardOutput=append:%h/Echo/logs/conductor_agents.log
+StandardError=append:%h/Echo/logs/conductor_agents.log

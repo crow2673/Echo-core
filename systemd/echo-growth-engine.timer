@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Growth Engine — daily
+Requires=echo-growth-engine.service
+
+[Timer]
+OnCalendar=*-*-* 04:10:00
+Unit=echo-growth-engine.service
+
+[Install]
+WantedBy=timers.target

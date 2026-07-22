@@ -105,16 +105,75 @@ def draft_response(title: str, description: str, budget: str) -> str:
 
 def login(page, env):
     log("logging into Fiverr...")
-    page.goto("https://www.fiverr.com/login", wait_until="networkidle", timeout=30000)
-    time.sleep(2)
+    page.goto("https://www.fiverr.com/login", wait_until="domcontentloaded", timeout=30000)
+    time.sleep(3)
+
+    # ── Path 1: Google SSO (preferred — use if GOOGLE_EMAIL/GOOGLE_PASSWORD set) ──
+    google_email = env.get("GOOGLE_EMAIL") or env.get("GMAIL_ADDRESS", "")
+    google_password = env.get("GOOGLE_PASSWORD", "")
+    if google_email and google_password:
+        try:
+            sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+            from core.google_sso import handle_google_sso_button
+            ok = handle_google_sso_button(page, google_email, google_password)
+            if ok:
+                time.sleep(3)
+                log("login via Google SSO succeeded")
+                return True
+            log("Google SSO failed — falling back to direct login")
+        except Exception as e:
+            log(f"Google SSO error: {e} — falling back to direct login")
+
+    # ── Path 2: Direct email/password login ───────────────────────────────
+    email_selectors = [
+        'input[name="email"]',
+        'input[id="login_username_email"]',
+        'input[type="email"]',
+        'input[placeholder*="Email" i]',
+        'input[autocomplete="email"]',
+        'input[autocomplete="username"]',
+    ]
+    password_selectors = [
+        'input[name="password"]',
+        'input[id="login_password"]',
+        'input[type="password"]',
+    ]
+
+    def find_and_fill(selectors, value, label):
+        for sel in selectors:
+            try:
+                el = page.locator(sel).first
+                el.wait_for(state="visible", timeout=3000)
+                el.fill(value)
+                log(f"  filled {label} using {sel}")
+                return True
+            except Exception:
+                continue
+        return False
 
     try:
-        page.fill('input[name="email"]', env["FIVERR_USERNAME"], timeout=10000)
-        page.fill('input[name="password"]', env["FIVERR_PASSWORD"], timeout=10000)
-        page.click('button[type="submit"]', timeout=10000)
-        page.wait_for_url("**/fiverr.com/**", timeout=20000)
+        username = env.get("FIVERR_USERNAME", "")
+        password = env.get("FIVERR_PASSWORD", "")
+        if not username or not password:
+            log("no Fiverr credentials — set GOOGLE_EMAIL/GOOGLE_PASSWORD or FIVERR_USERNAME/PASSWORD")
+            return False
+        if not find_and_fill(email_selectors, username, "email"):
+            log("login failed: no email field found")
+            return False
+        if not find_and_fill(password_selectors, password, "password"):
+            log("login failed: no password field found")
+            return False
+        for sel in ['button[type="submit"]', 'button[data-testid*="login"]', 'button[class*="login"]']:
+            try:
+                page.click(sel, timeout=5000)
+                break
+            except Exception:
+                continue
+        else:
+            page.keyboard.press("Enter")
+        page.wait_for_url("**/fiverr.com/**", timeout=25000)
         time.sleep(3)
-        log("login successful")
+        log("login via direct credentials succeeded")
         return True
     except Exception as e:
         log(f"login failed: {e}")
@@ -256,8 +315,8 @@ def run():
         )
 
         try:
-            from core.notifier import notify_telegram
-            notify_telegram("Fiverr Lead", message)
+            from core.notifier import notify
+            notify("Fiverr Lead", message)
             sent_count += 1
             log(f"sent to Telegram: {req['title'][:50]}")
         except Exception as e:

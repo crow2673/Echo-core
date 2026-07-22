@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Autonomy Model
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py autonomy_model
+StandardOutput=append:%h/Echo/logs/autonomy_model.log
+StandardError=append:%h/Echo/logs/autonomy_model.log

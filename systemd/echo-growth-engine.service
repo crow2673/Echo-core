@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Growth Engine
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py growth_engine
+StandardOutput=append:%h/Echo/logs/growth_engine.log
+StandardError=append:%h/Echo/logs/growth_engine.log

@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Codex collaboration bus watcher
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/collab/codex_watch.py
+StandardOutput=append:%h/Echo/logs/codex_bus_watch.log
+StandardError=append:%h/Echo/logs/codex_bus_watch.log

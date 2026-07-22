@@ -30,9 +30,9 @@ logging.basicConfig(
 
 USER_AGENT = "echo-demand-scanner/1.0 (autonomous income agent; contact: echo-andrew)"
 SUBREDDIT_COOLDOWN = 3300  # 55 min between scans of same subreddit
-SCORE_THRESHOLD_ALERT = 8   # instant Telegram alert
-SCORE_THRESHOLD_DIGEST = 6  # include in digest
-SCORE_THRESHOLD_SAVE = 5    # save to leads file
+SCORE_THRESHOLD_ALERT = 9   # instant Telegram alert (raised: was 8, too many false positives)
+SCORE_THRESHOLD_DIGEST = 7  # include in digest
+SCORE_THRESHOLD_SAVE = 7    # save to leads file — raised from 5, cuts noise by ~60%
 
 SUBREDDITS = [
     "r/smallbusiness", "r/Entrepreneur", "r/startups",
@@ -45,11 +45,10 @@ HIGH_VALUE_KEYWORDS = [
     "automate", "automation", "script", "scraper", "bot",
     "python", "api", "integrate", "workflow", "save time",
     "data entry", "spreadsheet", "airtable", "notion api",
-    "fiverr", "hire", "looking for", "need someone",
 ]
 MEDIUM_KEYWORDS = [
-    "tool", "software", "app", "dashboard", "report",
-    "email", "schedule", "repeat", "manual", "tedious",
+    "tool", "software", "dashboard", "report",
+    "schedule", "repeat", "manual", "tedious",
 ]
 BUYER_SIGNALS = [
     "hire", "pay", "budget", "quote", "how much", "looking for",
@@ -57,12 +56,18 @@ BUYER_SIGNALS = [
     "willing to pay", "freelancer", "developer", "build for me",
 ]
 SELLER_SIGNALS = [
-    "i offer", "i build", "i make", "my service", "check out my",
+    "[for hire]", "i offer", "i build", "i make", "my service", "check out my",
     "fiverr.com", "upwork.com", "available for hire", "dm me",
+    "my portfolio", "my gig", "hire me", "i am a freelancer", "i am a developer",
 ]
 EXCLUDE_KEYWORDS = [
     "hiring manager", "job posting", "full time", "full-time",
     "salary", "benefits", "remote work", "years experience",
+    "new employee", "new employees", "onboard", "onboarding",
+    "just got hired", "just hired", "scavenger hunt",
+    "cfo ", "ceo ", "vp of", "head of", "marketing strategy",
+    "market testing", "market research", "brand", "customer persona",
+    "manufacturing", "distributor", "supplier", "wholesale",
 ]
 
 ENV = {}

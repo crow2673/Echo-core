@@ -1,0 +1,62 @@
+[
+  {
+    "post_id": "1tjd9ma",
+    "manual_label": "research_about_demand",
+    "supporting_wording": "I scraped more than 10,000 Reddit comments and posts related to automation",
+    "reviewer_reason": "The author is reporting demand research, not asking someone to perform work."
+  },
+  {
+    "post_id": "1thjcus",
+    "manual_label": "direct_buyer_request",
+    "supporting_wording": "Need help setting up an AI video workflow",
+    "reviewer_reason": "The author describes their own workflow bottleneck and asks for setup help."
+  },
+  {
+    "post_id": "1tjmz3s",
+    "manual_label": "hiring_request",
+    "supporting_wording": "[HIRING] Expert Mobile Game Automation Developer",
+    "reviewer_reason": "This is a job/hiring post, not a direct product opportunity."
+  },
+  {
+    "post_id": "1tnajs3",
+    "manual_label": "partnership_request",
+    "supporting_wording": "Looking for a sales partner; 30% commission",
+    "reviewer_reason": "The author runs an agency and is recruiting a partner."
+  },
+  {
+    "post_id": "1tq9i25",
+    "manual_label": "tutorial_or_showcase",
+    "supporting_wording": "Building a real-time intent monitoring pipeline",
+    "reviewer_reason": "The author explains a system they built rather than requesting work."
+  },
+  {
+    "post_id": "1tjsro8",
+    "manual_label": "self_promotion",
+    "supporting_wording": "That is the problem Surmado Sites is built for",
+    "reviewer_reason": "The author is promoting their own service."
+  },
+  {
+    "post_id": "1tq42ul",
+    "manual_label": "advice_request",
+    "supporting_wording": "How are people handling reconciliation across multiple payment platforms?",
+    "reviewer_reason": "The author asks for recommendations and does not request paid work."
+  },
+  {
+    "post_id": "1the4ai",
+    "manual_label": "advice_request",
+    "supporting_wording": "Should I learn n8n for healthcare automation as a doctor?",
+    "reviewer_reason": "The author asks for advice about learning/selling, not for implementation."
+  },
+  {
+    "post_id": "1ti5cnc",
+    "manual_label": "hiring_request",
+    "supporting_wording": "We are looking for a creative graphic designer",
+    "reviewer_reason": "This is a hiring request, but outside Echo's strongest automation capability."
+  },
+  {
+    "post_id": "1tpb32r",
+    "manual_label": "tutorial_or_showcase",
+    "supporting_wording": "I spent a year building an F1 analytics platform alone. It finally makes money.",
+    "reviewer_reason": "The author is showcasing a completed product."
+  }
+]

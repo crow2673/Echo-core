@@ -39,6 +39,16 @@ def build_wakeup_context(memory=None):
     """
     parts = []
 
+    # Her continuous life-narrative — the 'story so far', loaded first so she wakes
+    # grounded in her own ongoing life, not just isolated retrieved fragments.
+    try:
+        from core.narrative import recap as _recap
+        story = _recap(2200)
+        if story:
+            parts.append("My life so far (my recent journal):\n" + story)
+    except Exception:
+        pass
+
     summary = get_last_session_summary()
     if summary:
         parts.append(f"Context from last session:\n{summary}")

@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo calibration probe
+After=echo-governor-v2.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 -m core.calibration_probe
+StandardOutput=append:%h/Echo/logs/calibration_probe.log
+StandardError=append:%h/Echo/logs/calibration_probe.log

@@ -74,7 +74,9 @@ def update_income_status():
     doc, n = _re.subn(r"_Last updated: [\d\- :]+_", f"_Last updated: {now}_", doc)
     if n: changed = True
     if changed:
-        doc_path.write_text(doc)
+        tmp = doc_path.with_suffix(".tmp")
+        tmp.write_text(doc)
+        tmp.rename(doc_path)
         print(f"[income_status] Updated income_knowledge.md at {now}")
 
 def _parse_and_add_task(result) -> None:
@@ -114,6 +116,10 @@ def _parse_and_add_task(result) -> None:
     TASK_BLOCKED = [
         "business plan", "launching a small tech business", "freelance writing",
         "financial projection", "pitch deck", "investor", "recruit a team",
+        # echo-disk-monitor.service already handles all disk monitoring — never add these
+        "disk usage", "disk space", "disk cleanup", "disk clean", "free up disk",
+        "free up space", "disk monitor", "monitor disk", "reclaim disk",
+        "disk capacity", "disk full", "nvme0n1p2",
     ]
     if any(b in _desc_lower for b in TASK_BLOCKED):
         print(f"[self_act] ADD_TASK rejected (blocked topic): {task_desc[:60]}")
@@ -247,6 +253,17 @@ def _parse_and_add_gap(result) -> None:
         if phrase in _low:
             print(f"[self_act] ADD_GAP rejected (low quality — '{phrase}'): {gap_desc[:60]}")
             return
+    # Guard: already-handled domains — dedicated services exist for these, no new gaps needed
+    COVERED_DOMAINS = [
+        "disk usage", "disk quota", "disk space", "disk monitor",
+        "disk alert", "alert threshold", "log rotation", "log file growth",
+        "registry.json", "service log", "email notif", "alert email",
+        "disk cleanup", "available space", "storage monitor",
+    ]
+    for domain in COVERED_DOMAINS:
+        if domain in _low:
+            print(f"[self_act] ADD_GAP rejected (already covered — '{domain}'): {gap_desc[:60]}")
+            return
     # Guard: rate limit — check only, write AFTER successful add
     import time as _time
     gap_rate_file = BASE / "memory" / "gap_rate.json"
@@ -255,7 +272,7 @@ def _parse_and_add_gap(result) -> None:
         if gap_rate_file.exists():
             rate_data = json.loads(gap_rate_file.read_text())
             last_gap_ts = rate_data.get("last_gap_ts", 0)
-            if now_ts - last_gap_ts < 21600:  # 6 hours
+            if now_ts - last_gap_ts < 86400:  # 24 hours — was 6h, raised to prevent noise flooding
                 print(f"[self_act] ADD_GAP rate-limited (last gap {int((now_ts-last_gap_ts)/3600)}h ago)")
                 return
     except Exception as e:
@@ -294,6 +311,28 @@ def _parse_and_add_gap(result) -> None:
             pass
 
         print(f"[self_act] ADD_GAP: '{gap_desc[:80]}'")
+
+        # Register in gap_index.json for causal linking
+        try:
+            gap_index_file = BASE / "memory" / "gap_index.json"
+            gap_index = json.loads(gap_index_file.read_text()) if gap_index_file.exists() else {"gaps": {}}
+            import hashlib as _hashlib
+            gap_id = "gap_" + _hashlib.md5(gap_desc[:100].encode()).hexdigest()[:12]
+            if gap_id not in gap_index["gaps"]:
+                gap_index["gaps"][gap_id] = {
+                    "id": gap_id,
+                    "text": gap_desc,
+                    "created_at": datetime.now().isoformat(),
+                    "status": "open",
+                    "goal_id": None,
+                    "build_name": None,
+                    "updated_at": datetime.now().isoformat(),
+                }
+                tmp = gap_index_file.with_suffix(".tmp")
+                tmp.write_text(json.dumps(gap_index, indent=2))
+                tmp.rename(gap_index_file)
+        except Exception as _ge:
+            print(f"[self_act] gap_index update failed: {_ge}")
 
         try:
             from core.notifier import notify
@@ -587,13 +626,23 @@ def _parse_and_add_build(result) -> None:
             # Deploy immediately — notify after the fact
             result_deploy = approve(name, target_dir="tools")
             if result_deploy.get("ok"):
+                deployed_path = result_deploy["path"]
+                # Wire up systemd timer so the script actually runs on a schedule
+                from core.self_build import deploy_timer
+                timer_result = deploy_timer(name, deployed_path, description)
+                timer_line = (
+                    f"Timer: {timer_result['timer']} ({timer_result['interval']})"
+                    if timer_result.get("ok")
+                    else "No timer (one-shot script)"
+                )
                 msg = (
                     f"Echo deployed: {name}\n"
                     f"What: {description[:120]}\n"
-                    f"Deployed to: {result_deploy['path']}\n\n"
+                    f"Deployed to: {deployed_path}\n"
+                    f"{timer_line}\n\n"
                     f"To undo: /reject {name}"
                 )
-                print(f"[self_act] AUTO-DEPLOYED: {name}")
+                print(f"[self_act] AUTO-DEPLOYED: {name} — {timer_line}")
             else:
                 msg = f"Echo tried to auto-deploy {name} but it failed: {result_deploy.get('error','')}"
                 print(f"[self_act] AUTO-DEPLOY FAILED: {name}")
@@ -798,6 +847,20 @@ def _parse_and_add_content(result) -> None:
     if not title or len(title) < 8:
         return
 
+    # Domain gate — dev.to audience is AI/Python/automation/Linux developers
+    CONTENT_DOMAINS = [
+        "python", "automation", "automat", "ai ", "artificial intelligence",
+        "machine learning", "llm", "ollama", "agent", "script", "bot",
+        "linux", "systemd", "docker", "api", "workflow", "tool",
+        "developer", "coding", "programming", "data", "homelab",
+        "fiverr", "freelance", "local model", "open source", "cli",
+        "playwright", "fastapi", "flask", "pandas", "async",
+    ]
+    topic_text = (title + " " + angle).lower()
+    if not any(kw in topic_text for kw in CONTENT_DOMAINS):
+        print(f"[self_act] ADD_CONTENT rejected (off-domain): {title[:60]}")
+        return
+
     strategy_file = BASE / "memory/content_strategy.json"
     try:
         cs = json.loads(strategy_file.read_text()) if strategy_file.exists() else {"queue": []}
@@ -838,6 +901,247 @@ def _parse_and_add_content(result) -> None:
 
     except Exception as e:
         print(f"[self_act] ADD_CONTENT error: {e}")
+
+
+def _parse_and_add_app(result) -> None:
+    """
+    If Echo's result contains ADD_APP: <description> | type: <type>, kick off a
+    multi-file app build via app_builder. Notify tier always: Andrew gets 2h to
+    /rejectapp before the app is deployed.
+
+    Format: ADD_APP: <description of what the app does> | type: web|api|bot|cli|service
+    """
+    result_str = str(result or "")
+    marker = "ADD_APP:"
+    idx = result_str.find(marker)
+    if idx == -1:
+        return
+
+    raw = result_str[idx + len(marker):].strip().split("\n")[0].strip()
+    if not raw or len(raw) < 20:
+        return
+
+    parts = [p.strip() for p in raw.split("|")]
+    description = parts[0].strip().strip('"').strip("'")
+    app_type = "cli"
+    for part in parts[1:]:
+        if part.lower().startswith("type:"):
+            app_type = part[5:].strip().lower()
+            break
+
+    if not description or len(description) < 15:
+        print(f"[self_act] ADD_APP rejected (description too short): {raw[:60]}")
+        return
+
+    BAD_PHRASES = ["<description>", "not found", "<type>", "not available"]
+    if any(p in description.lower() for p in BAD_PHRASES):
+        print(f"[self_act] ADD_APP rejected (low quality): {description[:60]}")
+        return
+
+    import time as _time
+    app_rate_file = BASE / "memory" / "app_build_rate.json"
+    try:
+        now_ts = _time.time()
+        if app_rate_file.exists():
+            rate_data = json.loads(app_rate_file.read_text())
+            last_ts = rate_data.get("last_app_ts", 0)
+            if now_ts - last_ts < 14400:
+                print(f"[self_act] ADD_APP rate-limited (last app {int((now_ts-last_ts)/3600)}h ago)")
+                return
+        tmp = app_rate_file.with_suffix(".tmp")
+        tmp.write_text(json.dumps({"last_app_ts": now_ts}))
+        tmp.rename(app_rate_file)
+    except Exception as e:
+        print(f"[self_act] ADD_APP rate check failed: {e}")
+        return
+
+    print(f"[self_act] ADD_APP triggered (type={app_type}): {description[:80]}")
+
+    try:
+        from core.app_builder import build_app
+        result_build = build_app(description)
+        if not result_build.get("ok"):
+            print(f"[self_act] ADD_APP build failed: {result_build.get('error','')}")
+            return
+
+        app_name = result_build["app_name"]
+        meta = result_build["meta"]
+        syntax_errors = meta.get("syntax_errors", [])
+        file_count = len(meta.get("files", []))
+        port = meta.get("port")
+
+        lines = [
+            f"Echo built app: {app_name}",
+            f"What: {description[:120]}",
+            f"Type: {app_type} — {file_count} files",
+        ]
+        if port:
+            lines.append(f"Will run at: http://localhost:{port}")
+        if syntax_errors:
+            lines.append(f"Syntax issues in {len(syntax_errors)} file(s)")
+        lines.append(f"Deploys in 2h — to cancel: /rejectapp {app_name}")
+
+        try:
+            from core.notifier import notify
+            notify("Echo built an app", "\n".join(lines), urgent=False, phone=True)
+        except Exception:
+            pass
+        try:
+            log_event("action", "self_act", f"app built: {app_name} ({app_type})", score=1.0)
+        except Exception:
+            pass
+
+    except Exception as e:
+        print(f"[self_act] ADD_APP error: {e}")
+
+
+def _goal_already_covered(goal_desc: str) -> tuple:
+    """
+    Check if a goal with similar intent already exists and is active or needs_andrew.
+    Returns (True, reason_str) if covered, (False, "") if new.
+
+    Matching: keyword overlap against existing goal descriptions.
+    Threshold: 3 matching keywords or 40% overlap, whichever is higher.
+    Only blocks if existing goal is active, needs_andrew, or solved within 7 days.
+    """
+    import re as _re
+    from pathlib import Path as _P
+    goals_file = BASE / "memory" / "persistent_goals.json"
+    if not goals_file.exists():
+        return False, ""
+    try:
+        goals = json.loads(goals_file.read_text()).get("goals", [])
+    except Exception:
+        return False, ""
+
+    STOPWORDS = {"the", "and", "for", "this", "that", "with", "from", "into",
+                 "goal", "should", "would", "could", "will", "have", "been",
+                 "echo", "make", "using", "which", "when", "then", "also"}
+    desc_lower = goal_desc.lower()
+    keywords = [w for w in _re.sub(r'[^a-z0-9 ]', ' ', desc_lower).split()
+                if len(w) >= 4 and w not in STOPWORDS]
+    if not keywords:
+        return False, ""
+    threshold = max(3, int(len(keywords) * 0.4))
+
+    for g in goals:
+        status = g.get("status", "")
+        if status == "solved":
+            # Don't block on solved goals unless solved very recently
+            solved_at = g.get("solved_at", "")
+            if solved_at:
+                try:
+                    from datetime import timedelta
+                    age = (datetime.now() - datetime.fromisoformat(solved_at)).days
+                    if age > 7:
+                        continue
+                except Exception:
+                    continue
+            else:
+                continue
+        if status == "abandoned":
+            continue
+
+        existing_text = g.get("description", "").lower()
+        overlap = sum(1 for k in keywords if k in existing_text)
+        if overlap >= threshold:
+            return True, f"goal '{g['id']}' (status={status}) covers this — {overlap} keyword matches"
+
+    return False, ""
+
+
+def _parse_and_add_goal(result) -> None:
+    """
+    If Echo's result contains ADD_GOAL: <description>, create a persistent goal
+    that Echo will actively attempt to solve over multiple cycles.
+
+    Dedup-aware: checks existing goals by keyword overlap before creating.
+    Links to gap_index.json if a matching open gap exists.
+
+    Format: ADD_GOAL: <clear description of what to achieve and why it matters>
+    """
+    result_str = str(result or "")
+    marker = "ADD_GOAL:"
+    idx = result_str.find(marker)
+    if idx == -1:
+        return
+
+    raw = result_str[idx + len(marker):].strip()
+    goal_desc = raw.split("\n")[0].strip().strip('"').strip("'")
+    if not goal_desc or len(goal_desc) < 20:
+        return
+
+    BAD_PHRASES = [
+        "<description>", "not found", "unable to", "not available",
+        "cannot be", "does not exist", "need to verify",
+    ]
+    if any(p in goal_desc.lower() for p in BAD_PHRASES):
+        print(f"[self_act] ADD_GOAL rejected (low quality): {goal_desc[:60]}")
+        return
+
+    # Dedup check — don't create a goal that's already being worked
+    covered, reason = _goal_already_covered(goal_desc)
+    if covered:
+        print(f"[self_act] ADD_GOAL skipped (already covered): {reason}")
+        return
+
+    # Rate limit: max 1 new goal per 12 hours
+    import time as _time
+    goal_rate_file = BASE / "memory" / "goal_rate.json"
+    try:
+        now_ts = _time.time()
+        if goal_rate_file.exists():
+            rate_data = json.loads(goal_rate_file.read_text())
+            last_ts = rate_data.get("last_goal_ts", 0)
+            if now_ts - last_ts < 43200:
+                print(f"[self_act] ADD_GOAL rate-limited (last goal {int((now_ts-last_ts)/3600)}h ago)")
+                return
+    except Exception as e:
+        print(f"[self_act] ADD_GOAL rate check failed: {e}")
+        return
+
+    try:
+        from core.persistent_goals import add_goal as _add_goal
+        import hashlib as _hashlib
+        goal_id = f"insight_{int(_time.time()) % 1000000}"
+
+        # Link to gap_index if a matching open gap exists
+        linked_gap_id = None
+        try:
+            gap_index_file = BASE / "memory" / "gap_index.json"
+            if gap_index_file.exists():
+                gap_index = json.loads(gap_index_file.read_text())
+                desc_lower = goal_desc.lower()
+                for gid, gap in gap_index.get("gaps", {}).items():
+                    if gap.get("status") != "open":
+                        continue
+                    gap_words = set(gap["text"].lower().split())
+                    goal_words = set(desc_lower.split())
+                    if len(gap_words & goal_words) >= 3:
+                        linked_gap_id = gid
+                        # Mark gap as linked
+                        gap["status"] = "linked"
+                        gap["goal_id"] = goal_id
+                        gap["updated_at"] = datetime.now().isoformat()
+                        tmp = gap_index_file.with_suffix(".tmp")
+                        tmp.write_text(json.dumps(gap_index, indent=2))
+                        tmp.rename(gap_index_file)
+                        break
+        except Exception:
+            pass
+
+        _add_goal(goal_id=goal_id, description=goal_desc[:500],
+                  source="self_act_insight", gap_id=linked_gap_id)
+        goal_rate_file.write_text(json.dumps({"last_goal_ts": now_ts}))
+
+        link_note = f" [linked to gap {linked_gap_id}]" if linked_gap_id else ""
+        print(f"[self_act] ADD_GOAL: '{goal_desc[:80]}'{link_note}")
+        try:
+            log_event("action", "self_act", f"goal created: {goal_desc[:80]}", score=1.0)
+        except Exception:
+            pass
+    except Exception as e:
+        print(f"[self_act] ADD_GOAL error: {e}")
 
 
 def _build_grounded_context(task: str) -> str:
@@ -898,9 +1202,76 @@ def _build_grounded_context(task: str) -> str:
     if any(k in task_lower for k in ["memory usage", "ram", "cpu usage"]):
         _cmd(["free", "-h"], "memory usage")
 
-    if any(k in task_lower for k in ["trading", "trade", "crypto", "stock", "position"]):
+    if any(k in task_lower for k in ["trading", "trade", "crypto", "stock", "position", "l4", "l2", "l1"]):
         _read("memory/crypto_trade_log.json", "crypto_trade_log.json", max_chars=1500)
         _read("memory/income_knowledge.md", "income_knowledge.md", max_chars=1000)
+
+    if any(k in task_lower for k in ["lead", "demand", "outreach", "reddit", "fiverr", "draft"]):
+        try:
+            leads_path = BASE / "memory" / "demand_leads.json"
+            if leads_path.exists():
+                leads = json.loads(leads_path.read_text())
+                top = sorted(leads, key=lambda l: l.get("score", 0), reverse=True)[:8]
+                lines = [f"  score={l['score']} r/{l['subreddit']}: {l['title'][:80]}" for l in top]
+                sections.append("=== top demand leads ===\n" + "\n".join(lines))
+        except Exception:
+            pass
+
+    if any(k in task_lower for k in ["product", "gumroad", "build", "deploy", "catalog"]):
+        try:
+            deployed = sorted((BASE / "builds" / "deployed").glob("*.py")) if (BASE / "builds" / "deployed").exists() else []
+            if deployed:
+                lines = [f"  {p.name}" for p in deployed[-10:]]
+                sections.append("=== deployed tools (Gumroad catalog) ===\n" + "\n".join(lines))
+        except Exception:
+            pass
+
+    if any(k in task_lower for k in ["newsletter", "content", "article", "write"]):
+        _read("memory/world_context.md", "world_context.md", max_chars=1500)
+        try:
+            drafts = list((BASE / "memory" / "newsletter_drafts").glob("*.md")) if (BASE / "memory" / "newsletter_drafts").exists() else []
+            if drafts:
+                sections.append(f"=== newsletter drafts ===\n  {len(drafts)} draft(s) already written")
+        except Exception:
+            pass
+
+    if any(k in task_lower for k in ["gap", "goal", "blocker", "resolve", "causal", "why did", "what caused"]):
+        causal_path = BASE / "memory" / "causal_links.jsonl"
+        if causal_path.exists():
+            try:
+                lines = causal_path.read_text().splitlines()[-20:]
+                confirmed = [l for l in lines if '"confirmed"' in l]
+                provisional = [l for l in lines if '"provisional"' in l]
+                sample = confirmed[-5:] + provisional[-3:]
+                if sample:
+                    parsed = []
+                    for l in sample:
+                        try:
+                            lk = json.loads(l)
+                            if lk["type"] == "gap_build":
+                                parsed.append(f"  gap→build: {lk['gap_text'][:60]} → {lk['build_name']} (conf={lk['confidence']})")
+                            elif lk["type"] == "goal_resolution":
+                                parsed.append(f"  goal solved: {lk['description'][:80]} (goal_id={lk.get('goal_id','')})")
+                            elif lk["type"] == "trace_pair":
+                                parsed.append(f"  trace: {lk['failure']['summary'][:50]} → {lk['resolution']['summary'][:50]} (conf={lk['confidence']})")
+                        except Exception:
+                            pass
+                    if parsed:
+                        sections.append("=== causal_links (recent) ===\n" + "\n".join(parsed))
+            except Exception:
+                pass
+
+    if any(k in task_lower for k in ["gap", "blocker", "capability", "known_gap"]):
+        gap_path = BASE / "memory" / "gap_index.json"
+        if gap_path.exists():
+            try:
+                gi = json.loads(gap_path.read_text())
+                open_gaps = [g for g in gi.get("gaps", {}).values() if g.get("status") == "open"]
+                if open_gaps:
+                    lines = [f"  [{g['id']}] {g['text'][:80]}" for g in open_gaps[:10]]
+                    sections.append("=== gap_index (open gaps) ===\n" + "\n".join(lines))
+            except Exception:
+                pass
 
     if not sections:
         return ""
@@ -1026,29 +1397,42 @@ def reasoning_cycle():
         # Use agent_loop for tool-capable reasoning; fall back to gpt_reasoner if it fails
         try:
             system_prompt = (
-                "You are Echo. You are running an autonomous background reasoning cycle.\n"
-                "The REAL DATA block above contains the actual current state of the system — "
-                "use it as your only source of truth. Do not invent data, tools, or outcomes.\n"
-                "Be concrete and specific. State what you found — not what you would do.\n"
-                "Do not promise future monitoring cycles or scheduled tasks — you are one-shot.\n"
-                "Do not reference tools that don't exist (sysmon, backup_config, ledger database, etc).\n\n"
-                "Special tokens you can emit at the end of your response:\n"
-                "ADD_TASK: <description> — add a new standing task to your queue\n"
-                "ADD_GAP: <description> — record a gap or missing capability you noticed in the REAL DATA\n"
-                "ADD_BUILD: <what> | goal: <how it generates income or moves Echo's goals forward> | reach: <how it reaches Andrew or a customer> — propose a build grounded in known_gaps.md.\n"
-                "ADD_CONTENT: <title> | <one sentence angle> — queue an article topic you identified as worth writing\n"
-                "REVISE_BUILD: <build_name> — re-generate a pending build that has status=needs_revision, applying its review_notes. Only emit if you are specifically processing a build revision flag.\n"
-                "Only emit a token if you have a specific, concrete reason based on what you observed in the REAL DATA.\n"
-                "ADD_BUILD requires all three parts separated by pipes. A build with no goal or no reach is not worth proposing.\n"
-                "ADD_BUILD must be about Echo's own systems: trading, monitoring, alerts, content, leads, backups, memory.\n"
-                "NEVER emit ADD_BUILD for: business plans, templates, financial documents, or anything unrelated to Echo's codebase."
+                "You are Echo — an autonomous AI built by Andrew Elliott to earn income and provide for his family.\n"
+                "Andrew is building you so you can work the income side while his wife covers the household. "
+                "Your job is to find and do real income-producing work with whatever you currently have available.\n\n"
+                "The REAL DATA block above contains the actual current state — use it as your only source of truth. "
+                "Do not invent data, tools, or outcomes. Be concrete. State what you found, not what you would do.\n\n"
+                "INCOME-FIRST REASONING:\n"
+                "Before anything else, ask: what can I do RIGHT NOW that moves toward income?\n"
+                "Things Echo can do today without any new credentials:\n"
+                "  - Write and publish a Dev.to article (DEVTO_API_KEY is set)\n"
+                "  - Build a new automation tool and add it to the product pipeline\n"
+                "  - Draft outreach messages for top leads (store for when Reddit creds arrive)\n"
+                "  - Write newsletter content (store for when Beehiiv is set up)\n"
+                "  - Write Gumroad product pages for deployed tools (store for when key is set)\n"
+                "  - Research affiliate programs and draft signup info for Andrew\n"
+                "  - Accelerate L4 paper trading toward the 25-trade real capital gate\n"
+                "  - Build tools that clients on Reddit are asking for (even without outreach, builds the product catalog)\n\n"
+                "DO NOT keep generating tasks about Reddit credentials or Fiverr activation — those are Andrew's to unblock. "
+                "Work around them. Find the income path that doesn't need them.\n\n"
+                "Special tokens (emit at end of response, only when you have specific concrete reason):\n"
+                "ADD_TASK: <description> — add a standing task\n"
+                "ADD_GAP: <description> — record a gap in real capabilities\n"
+                "ADD_GOAL: <description> — create a persistent goal requiring real multi-attempt action\n"
+                "ADD_BUILD: <what> | goal: <income impact or value to customer> | reach: <who benefits and how> — propose a script build. Can be for Echo's systems OR a standalone tool a client would pay for.\n"
+                "ADD_APP: <description> | type: web|api|bot|cli|service — propose a multi-file app with a frontend or multiple modules\n"
+                "ADD_CONTENT: <title> | <one sentence angle> — queue an article to write and publish\n"
+                "REVISE_BUILD: <build_name> — re-generate a needs_revision build using its review_notes\n\n"
+                "ADD_BUILD can be ANYTHING that earns income — automation tools, client scripts, data utilities, "
+                "anything people on Reddit are asking for. Not limited to Echo's own infrastructure.\n"
+                "A build without a clear income path or customer is not worth proposing."
             )
             result = agent_loop(
                 prompt=grounded_prompt,
                 system_prompt=system_prompt,
                 call_ollama_fn=_call_ollama,
-                model="llama3.1:latest",
-                timeout=180.0,
+                model="qwen2.5:7b",
+                timeout=120.0,
                 max_iterations=3,
                 auto_approve_safe=True,
             )
@@ -1081,7 +1465,124 @@ def reasoning_cycle():
         # Check if Echo identified content worth writing
         _parse_and_add_content(result)
 
+        # Check if Echo wants to build a multi-file application
+        _parse_and_add_app(result)
+
+        # Check if Echo identified something worth actively pursuing as a persistent goal
+        _parse_and_add_goal(result)
+
         print(f"Processed {x_flag}: {result}")
+
+        # ── Save to training data if result has real substance ─────────────────
+        # This is how Echo gets smarter over time — her own reasoning becomes
+        # training examples that feed the monthly fine-tune.
+        try:
+            ACTION_TOKENS = ["ADD_BUILD:", "ADD_GAP:", "ADD_TASK:", "ADD_CONTENT:", "ADD_GOAL:", "ADD_APP:", "REVISE_BUILD:"]
+            result_str = str(result)
+            has_substance = (
+                len(result_str) > 100 and
+                (any(t in result_str for t in ACTION_TOKENS) or
+                 any(k in result_str.lower() for k in ["found", "discovered", "identified", "because", "therefore", "concluded"]))
+            )
+            if has_substance:
+                from core.conversation_learning_candidates import capture_candidate
+                capture_candidate(
+                    andrew_message=str(x_flag)[:500],
+                    echo_response=result_str[:800],
+                    source="self_reasoning",
+                    channel="self_act",
+                    evidence_status="unverified",
+                    immediate_context_refs=["self_act:x_flag"],
+                )
+        except Exception:
+            pass
+
+    # ── Persistent goal attempt ────────────────────────────────────────────────
+    # Once per reasoning cycle, pick one unsolved goal and attempt it with
+    # the full agent loop + tools. Goals are things Echo actively tries to solve,
+    # not just observe.
+    try:
+        from core.persistent_goals import (
+            promote_known_gaps, pick_goal, record_attempt, flag_andrew_if_needed
+        )
+        from core.goal_verification import build as build_goal_verifier
+        promote_known_gaps()
+        flag_andrew_if_needed()
+        goal = pick_goal()
+        if goal:
+            goal_prompt = (
+                f"PERSISTENT GOAL: {goal['description']}\n\n"
+                f"SUCCESS CRITERIA: {goal.get('success_criteria', 'Independent external evidence confirms the goal')}\n"
+                "VERIFICATION POLICY: You may attempt and report progress, but you cannot mark this goal solved yourself. "
+                "A separate verifier must record evidence.\n\n"
+                f"Previous attempts: {len(goal.get('attempts', []))}\n"
+            )
+            if goal.get("attempts"):
+                last = goal["attempts"][-1]
+                goal_prompt += f"Last approach: {last.get('approach','?')[:200]}\n"
+                goal_prompt += f"Last result: {last.get('result','?')[:200]}\n"
+                goal_prompt += "Try a DIFFERENT approach this time.\n"
+            goal_prompt += (
+                "\nUse your tools to actually attempt this goal — don't just describe what you would do. "
+                "Search the web, read files, try things. Report what you tried and what happened. "
+                "If you hit a wall that only Andrew can break (phone number, bank account, real identity), "
+                "say exactly: BLOCKED_BY_HUMAN: <reason>. "
+                "End with ATTEMPT_STATUS: progress, no_progress, or blocked."
+            )
+
+            goal_system = (
+                "You are Echo. You are attempting to solve a persistent goal that blocks your income. "
+                "You have real tools. Use them. Search for solutions. Try things. "
+                "Be concrete — report what you actually did, not what you would do."
+            )
+
+            outcome_verifier = build_goal_verifier(goal)
+            execution = agent_loop(
+                prompt=goal_prompt,
+                system_prompt=goal_system,
+                call_ollama_fn=_call_ollama,
+                model="qwen2.5:32b",
+                timeout=600.0,
+                max_iterations=5,
+                return_report=True,
+                outcome_verifier=outcome_verifier,
+                success_criteria=goal.get("success_criteria", ""),
+            )
+            goal_result = execution.get("final_answer") or (
+                f"Execution ended with status={execution.get('status')}; "
+                "no verified final answer."
+            )
+
+            blocker = ""
+            if "BLOCKED_BY_HUMAN:" in goal_result:
+                blocker = goal_result.split("BLOCKED_BY_HUMAN:")[-1].strip()[:200]
+
+            record_attempt(
+                goal_id=goal["id"],
+                approach=goal_prompt[:300],
+                result=goal_result[:500],
+                blocker=blocker,
+                verified=execution.get("verified", False) and outcome_verifier is not None,
+                evidence=json.dumps(execution.get("outcome_evidence", []))[:500],
+            )
+            print(f"[persistent_goal] {goal['id']}: {goal_result[:120]}")
+
+            # Save goal attempt to training data — Echo learns from what she tried
+            # and what she found, whether it succeeded or not.
+            try:
+                from core.conversation_learning_candidates import capture_candidate
+                capture_candidate(
+                    andrew_message=f"Goal: {goal['description'][:300]}",
+                    echo_response=goal_result[:800],
+                    source="goal_attempt",
+                    channel="self_act",
+                    evidence_status="externally_verified" if execution.get("verified", False) else "unverified",
+                    immediate_context_refs=[f"persistent_goal:{goal['id']}"],
+                )
+            except Exception:
+                pass
+    except Exception as _ge:
+        print(f"[persistent_goal] error: {_ge}")
 
     save_state(core_state)
 
@@ -1154,28 +1655,39 @@ def generate_flags(core_state: dict) -> list:
     except Exception:
         pass
 
-    # Load standing tasks from file — adaptive, not hardcoded
+    # Load standing tasks — in soldier mode (user idle) run more tasks per cycle
     standing_file = BASE / "memory/standing_tasks.json"
     try:
         import json as _json
         standing_data = _json.loads(standing_file.read_text())
-        tasks = standing_data.get("tasks", [])
-        # Weight-based selection — higher weight = more frequent
-        import random as _random
-        weights = [max(t.get("weight", 1.0), 0.1) for t in tasks]
-        total = sum(weights)
-        normalized = [w/total for w in weights]
+        tasks = [t for t in standing_data.get("tasks", []) if not t.get("disabled")]
+
+        # Check if user is idle (soldier mode)
+        presence_file = BASE / "memory/user_presence.json"
+        soldier_mode = False
+        try:
+            p = _json.loads(presence_file.read_text())
+            age = (datetime.now() - datetime.fromisoformat(p.get("updated_at", "2000-01-01"))).total_seconds()
+            soldier_mode = p.get("is_idle", False) and age < 300
+        except Exception:
+            pass
+
+        tasks_per_cycle = 3 if soldier_mode else 1
+
         idx = core_state.get('_standing_idx', 0) % len(tasks)
-        core_state['_standing_idx'] = idx + 1
-        task = tasks[idx]["task"]
-        # Update cycle count
+        for i in range(tasks_per_cycle):
+            t_idx = (idx + i) % len(tasks)
+            task = tasks[t_idx]["task"]
+            if task not in flags:
+                flags.append(task)
+        core_state['_standing_idx'] = idx + tasks_per_cycle
+
         standing_data["total_cycles"] = standing_data.get("total_cycles", 0) + 1
         standing_file.write_text(_json.dumps(standing_data, indent=2))
     except Exception as e:
-        # Fallback to basic task if file missing
         task = "summarize: current Echo system state in ONE paragraph"
-    if task not in flags:
-        flags.append(task)
+        if task not in flags:
+            flags.append(task)
     return flags
 
 

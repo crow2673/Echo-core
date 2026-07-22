@@ -1,0 +1,10 @@
+[Unit]
+Description=Echo Growth Bridge — daily
+Requires=echo-growth-bridge.service
+
+[Timer]
+OnCalendar=*-*-* 04:20:00
+Unit=echo-growth-bridge.service
+
+[Install]
+WantedBy=timers.target

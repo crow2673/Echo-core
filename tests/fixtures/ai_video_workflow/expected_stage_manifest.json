@@ -1,0 +1,60 @@
+{
+  "fixture_id": "ai_video_workflow_1thjcus_minimal",
+  "description": "Expected stage manifest for a non-contact AI video workflow prototype using synthetic local inputs.",
+  "source_inputs": {
+    "script": "tests/fixtures/ai_video_workflow/sample_script.txt",
+    "voice": "placeholder_tts_or_silent_audio",
+    "avatar_visual": "placeholder_static_avatar_or_color_card",
+    "caption_source": "script_text"
+  },
+  "stages": [
+    {
+      "id": "source_intake",
+      "required": true,
+      "input": "sample_script.txt",
+      "expected_output": "work/source/script.normalized.txt"
+    },
+    {
+      "id": "script_preparation",
+      "required": true,
+      "input": "work/source/script.normalized.txt",
+      "expected_output": "work/script/segments.json"
+    },
+    {
+      "id": "voice_generation",
+      "required": true,
+      "input": "work/script/segments.json",
+      "expected_output": "work/audio/narration.wav or work/audio/narration.placeholder.wav"
+    },
+    {
+      "id": "avatar_or_visual_generation",
+      "required": true,
+      "input": "work/script/segments.json",
+      "expected_output": "work/visual/avatar_placeholder.png or work/visual/scene.mp4"
+    },
+    {
+      "id": "scene_assembly",
+      "required": true,
+      "input": "work/audio/narration.wav + work/visual/avatar_placeholder.png",
+      "expected_output": "work/video/segment.raw.mp4"
+    },
+    {
+      "id": "captions_subtitles",
+      "required": true,
+      "input": "work/script/segments.json",
+      "expected_output": "work/captions/captions.srt"
+    },
+    {
+      "id": "rendering",
+      "required": true,
+      "input": "work/video/segment.raw.mp4 + work/captions/captions.srt",
+      "expected_output": "out/final_segment.mp4"
+    },
+    {
+      "id": "quality_checks",
+      "required": true,
+      "input": "out/final_segment.mp4",
+      "expected_output": "out/quality_report.json"
+    }
+  ]
+}

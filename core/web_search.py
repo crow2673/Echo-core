@@ -52,6 +52,10 @@ def search(query: str, max_results: int = 5, cache_hours: float = 6.0) -> list:
     Search the web. Returns list of {title, url, body} dicts.
     Caches results for cache_hours to avoid hammering DDG.
     """
+    query = str(query or "").strip()
+    if not query:
+        log("search skipped: empty query")
+        return []
     cache_key = f"web:{query}:{max_results}"
     cache = _load_cache()
     if cache_key in cache:

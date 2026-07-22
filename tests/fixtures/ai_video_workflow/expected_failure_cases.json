@@ -1,0 +1,24 @@
+{
+  "failure_cases": [
+    {
+      "case": "ffmpeg_missing",
+      "expected_behavior": "scene assembly and rendering fail clearly with missing_dependency=ffmpeg; prior text stages remain valid"
+    },
+    {
+      "case": "tts_missing",
+      "expected_behavior": "voice_generation records missing local TTS and may create a silent placeholder only if configured"
+    },
+    {
+      "case": "external_avatar_api_missing",
+      "expected_behavior": "avatar generation is marked requires_external_service and does not claim success"
+    },
+    {
+      "case": "caption_timing_unknown",
+      "expected_behavior": "captions are generated from approximate script segments and marked needs_human_review"
+    },
+    {
+      "case": "render_output_missing",
+      "expected_behavior": "quality check fails with missing_output and final status is incomplete"
+    }
+  ]
+}

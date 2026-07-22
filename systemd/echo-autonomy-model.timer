@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Autonomy Model — every 15 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=15min
+Persistent=true
+Unit=echo-autonomy-model.service
+
+[Install]
+WantedBy=timers.target

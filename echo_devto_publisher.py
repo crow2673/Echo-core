@@ -55,7 +55,7 @@ def write_article_with_echo(topic: str, context: str = "") -> dict:
         f"(article body here)"
     )
 
-    response = call_ollama(prompt, model="qwen2.5:32b", timeout=180)
+    response = call_ollama(prompt, model="qwen2.5:32b", timeout=600)
     if not response:
         raise RuntimeError("Ollama returned empty response")
 
@@ -160,6 +160,8 @@ def list_articles():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--from-session", action="store_true", help="Article from recent build session")
+    parser.add_argument("--from-draft", default="", metavar="FILE", help="Publish a specific draft file")
+    parser.add_argument("--from-queue", action="store_true", help="Publish oldest Andrew-approved draft (dispatcher path)")
     parser.add_argument("--topic", default="", help="Article topic")
     parser.add_argument("--draft", action="store_true", help="Save as draft, don't publish")
     parser.add_argument("--list", action="store_true", help="List published articles")
@@ -167,6 +169,54 @@ def main():
 
     if args.list:
         list_articles()
+        return
+
+    # Dispatcher catch-up path — only publishes Andrew-approved drafts
+    if args.from_queue:
+        approval_file = BASE / "content/pending_approval.json"
+        if not approval_file.exists():
+            print("no pending approval file — nothing to publish")
+            return
+        state = json.loads(approval_file.read_text())
+        if state.get("status") != "approved":
+            print(f"approval status is '{state.get('status')}' — not publishing")
+            return
+        # Re-use --from-draft logic with the approved file
+        args.from_draft = state.get("draft_file", "")
+        if not args.from_draft:
+            print("approved but no draft_file in approval state")
+            return
+        print(f"from-queue: publishing approved draft — {state.get('title','')[:60]}")
+
+    # Publish from an approved draft file
+    if args.from_draft:
+        draft_path = Path(args.from_draft)
+        if not draft_path.exists():
+            print(f"Draft file not found: {args.from_draft}")
+            sys.exit(1)
+        raw = draft_path.read_text()
+        lines = raw.splitlines()
+        title = lines[0].lstrip("# ").strip() if lines else draft_path.stem
+        body = "\n".join(lines[2:]).strip() if len(lines) > 2 else raw
+        tags = ["ai", "python", "automation", "linux"]
+        print(f"Publishing draft: {title}")
+        try:
+            result = publish_article(title, body, tags, draft=args.draft)
+            url = result.get("url", "")
+            print(f"Published: {url}")
+            try:
+                from core.notifier import notify
+                notify("Article published", f'"{title}"\n{url}')
+            except Exception:
+                pass
+            try:
+                from core.event_ledger import log_event
+                log_event("content", "devto_publisher", f"published: {title[:80]}", score=1.0)
+            except Exception:
+                pass
+        except Exception as e:
+            print(f"Publish failed: {e}")
+            sys.exit(1)
         return
 
     if not args.from_session and not args.topic:

@@ -14,15 +14,62 @@ import json
 import subprocess
 import os
 import tempfile
+import re
 from pathlib import Path
 from datetime import datetime
 
 BASE = Path.home() / "Echo"
 STATE_FILE = BASE / "memory/echo_state.json"
 
+def get_failed_units():
+    """Return failed Echo user services instead of treating active timers as health."""
+    try:
+        result = subprocess.run(
+            ["systemctl", "--user", "--failed", "--no-legend", "--plain"],
+            capture_output=True, text=True, timeout=10
+        )
+        if result.returncode != 0:
+            return {"error": result.stderr.strip() or "systemctl failed", "units": []}
+        units = []
+        for line in result.stdout.splitlines():
+            unit = line.split(maxsplit=1)[0] if line.strip() else ""
+            if unit.startswith("echo-"):
+                units.append(unit)
+        return {"units": sorted(units), "count": len(units)}
+    except Exception as e:
+        return {"error": str(e), "units": []}
+
+
 def get_timer_states():
     """Read all echo timer last-run times from systemd."""
     timers = {}
+    def parse_passed_seconds(line: str):
+        """Parse systemd's PASSED phrases: '13s ago', '1min 57s ago', '2h 44min ago'."""
+        if "ago" not in line:
+            return None
+        before = line.rsplit(" ago", 1)[0]
+        # Keep the final duration tokens before "ago"; ignore date/time columns.
+        total = 0.0
+        found = False
+        for amount, unit in re.findall(r"(\d+(?:\.\d+)?)\s*(ms|us|s|min|h|day|days|week|weeks)", before):
+            found = True
+            value = float(amount)
+            if unit == "us":
+                total += value / 1_000_000
+            elif unit == "ms":
+                total += value / 1000
+            elif unit == "s":
+                total += value
+            elif unit == "min":
+                total += value * 60
+            elif unit == "h":
+                total += value * 3600
+            elif unit in ("day", "days"):
+                total += value * 86400
+            elif unit in ("week", "weeks"):
+                total += value * 604800
+        return int(total) if found else None
+
     try:
         result = subprocess.run(
             ["systemctl", "--user", "list-timers", "--all", "--no-pager"],
@@ -40,23 +87,7 @@ def get_timer_states():
             name = svc.replace(".service", "")
             # Find PASSED column — look for "ago" in line
             last_run = None
-            age_seconds = None
-            if "ago" in line:
-                try:
-                    # Extract the timestamp before "ago"
-                    idx = parts.index("ago")
-                    # Parse time like "5min", "1h", "30s"
-                    passed_str = parts[idx-1]
-                    if "day" in passed_str:
-                        age_seconds = int(parts[idx-2]) * 86400
-                    elif "min" in passed_str:
-                        age_seconds = int(passed_str.replace("min", "")) * 60
-                    elif "h" in passed_str:
-                        age_seconds = int(passed_str.replace("h", "")) * 3600
-                    elif passed_str.isdigit():
-                        age_seconds = int(passed_str)
-                except Exception:
-                    pass
+            age_seconds = parse_passed_seconds(line)
             # Determine expected interval and health
             intervals = {
                 "echo-heartbeat": 60,
@@ -80,6 +111,8 @@ def get_timer_states():
                 "echo-git-backup": 86400,
                 "echo-pulse": 86400,
                 "echo-income-research": 604800,
+                "echo-task-pruner": 604800,
+                "echo-tech-scout": 604800,
                 "echo-registry-update": 604800,
                 "echo-weekly-report": 604800,
                 "echo-initiative": 900,
@@ -97,8 +130,11 @@ def get_timer_states():
                 "echo-temperature-monitor": 3600,
                 "echo-cpu-monitor": 3600,
                 "echo-system-health": 86400,
+                "echo-inner-voice": 28800,
             }
-            expected = intervals.get(name, 3600)
+            # Unknown/generated timers are commonly daily. Treating every unknown
+            # timer as hourly creates false degradation for healthy daily jobs.
+            expected = intervals.get(name, 86400)
             if age_seconds is not None:
                 status = "healthy" if age_seconds < expected * 2 else "stale"
             else:
@@ -204,17 +240,35 @@ def get_cascade_snapshot():
 def get_regret_snapshot():
     """Regret index health summary."""
     try:
+        import sqlite3
+        db = sqlite3.connect(BASE / "memory/echo_events.db")
+        total = db.execute("SELECT COUNT(*) FROM regret_index").fetchone()[0]
+        unresolved = db.execute(
+            "SELECT COUNT(*) FROM regret_index WHERE resolved_at IS NULL"
+        ).fetchone()[0]
+        db.close()
         p = BASE / "memory/regret_patterns.json"
+        flags = []
         if p.exists():
             data = json.loads(p.read_text())
-            return {
-                "healthy": data.get("healthy", True),
-                "flagged_count": len(data.get("flagged_categories", [])),
-                "status": "stable" if data.get("healthy") else "flagged"
-            }
-    except Exception:
-        pass
-    return {"healthy": True, "flagged_count": 0, "status": "unknown"}
+            flags = data.get("flags", [])
+        status = "inactive" if total == 0 else ("flagged" if flags else "stable")
+        return {
+            "healthy": total > 0 and not flags,
+            "entries": total,
+            "unresolved": unresolved,
+            "flagged_count": len(flags),
+            "status": status,
+        }
+    except Exception as e:
+        return {
+            "healthy": False,
+            "entries": 0,
+            "unresolved": 0,
+            "flagged_count": 0,
+            "status": "error",
+            "error": str(e),
+        }
 
 def get_golem_snapshot():
     """Check yagna wallet balance."""
@@ -262,6 +316,7 @@ def run():
         "version": "v1",
         "valid": True,
         "system": get_system_stats(),
+        "failed_units": get_failed_units(),
         "timers": get_timer_states(),
         "income": get_trade_snapshot(),
         "cascade": get_cascade_snapshot(),
@@ -271,10 +326,23 @@ def run():
     }
 
     # Overall health
-    stale_timers = [k for k, v in state["timers"].items()
-                    if v.get("status") == "stale"]
-    state["system_health"] = "OK" if not stale_timers else f"STALE: {stale_timers}"
-    state["last_errors"] = stale_timers
+    stale_timers = [
+        k for k, v in state["timers"].items()
+        if isinstance(v, dict) and v.get("status") == "stale"
+    ]
+    failed_units = state["failed_units"].get("units", [])
+    errors = []
+    if stale_timers:
+        errors.append({"stale_timers": stale_timers})
+    if failed_units:
+        errors.append({"failed_units": failed_units})
+    if state["failed_units"].get("error"):
+        errors.append({"failed_unit_check": state["failed_units"]["error"]})
+    if state["regret_index"].get("status") in ("inactive", "error"):
+        errors.append({"regret_index": state["regret_index"]["status"]})
+
+    state["system_health"] = "OK" if not errors else "DEGRADED"
+    state["last_errors"] = errors
 
     write_state_atomic(state)
     print(f"[governor_v2] echo_state.json written — health={state['system_health']}")

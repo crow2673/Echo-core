@@ -234,7 +234,7 @@ def assimilate(package_name: str) -> dict:
 
     # Notify Andrew
     try:
-        from core.notifier import notify_telegram
+        from core.notifier import notify as notify_telegram
         score = evaluation.get("relevance_score", 0)
         integrated = result["status"] == "integrated"
         gap = evaluation.get("gap_it_fills", "unknown")

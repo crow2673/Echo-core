@@ -18,7 +18,7 @@ Built by Andrew Elliott in Mena, Arkansas. No CS degree. Started as an external 
 - **Publishes weekly** — dev.to articles every Tuesday under handle [crow](https://dev.to/crow), content strategy queue pre-loaded
 - **Self-heals** — Ollama watchdog every 10 min, notifies phone via Telegram on failure
 - **Self-codes with a safety gate** — writes Python via Ollama, runs through code_sandbox.py (syntax→safety→import→dry-run), auto-deploys only on pass
-- **Fine-tunes herself** — monthly LoRA fine-tune on Vast.ai RTX 4090 (~$0.14/run), 15 adapters built to date
+- **Fine-tunes her voice (income-gated)** — LoRA persona fine-tune on Vast.ai RTX 4090 (~$0.14/run); 15 adapters built, **paused since Apr 2026** until she earns her own training cost; dataset auto-filtered to drop responses Andrew corrected (no training on her own mistakes)
 - **Two-way phone bridge** — Telegram @Echo1rstbot, instant commands + freeform reasoning (~45s)
 - **Backs herself up** — daily git push at 3am + encrypted offsite backup of soul docs to Gmail at 3:30am
 

@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Log Anomaly Trainer — daily
+Requires=echo-log-anomaly-train.service
+
+[Timer]
+OnCalendar=*-*-* 03:20:00
+Persistent=true
+Unit=echo-log-anomaly-train.service
+
+[Install]
+WantedBy=timers.target

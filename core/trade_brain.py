@@ -27,10 +27,15 @@ logging.basicConfig(
 )
 
 # ── Strategy universes ────────────────────────────────────────────────────────
-TREND_LIST = [
-    "GLD", "TLT", "XLF", "XLE", "XLK", "XLV", "XLU", "XLI", "XLP", "XLY",
-    "SPY", "QQQ", "IWM", "DIA",
-]
+# L3 is intentionally disabled: the old trend selector produced 0 wins in 18
+# closed trades. Keep its historical symbols explicit for P&L reconciliation.
+TREND_LIST = []
+HISTORICAL_TREND_SYMBOLS = {
+    "XOM", "CVX", "TLT", "XLF", "XLE", "XLK", "XLV", "XLU", "XLI", "XLP", "XLY",
+}
+
+# L4 remains active independently of L3's circuit breaker.
+INDEX_LIST = ["SPY", "QQQ", "IWM", "DIA", "GLD"]
 MOMENTUM_LIST = [
     "NVDA", "TSLA", "AAPL", "MSFT", "AMZN", "META", "GOOGL",
     "RKLB", "SOFI", "PLTR", "MSTR", "HOOD",
@@ -160,7 +165,9 @@ def load_trade_log():
 
 def save_trade_log(trades):
     TRADE_LOG.parent.mkdir(parents=True, exist_ok=True)
-    TRADE_LOG.write_text(json.dumps(trades, indent=2, default=str))
+    tmp = TRADE_LOG.with_suffix(".tmp")
+    tmp.write_text(json.dumps(trades, indent=2, default=str))
+    tmp.rename(TRADE_LOG)
 
 
 def get_sector(symbol):
@@ -208,7 +215,7 @@ def audit_stop_orders(positions, key, secret, base, trades):
             if sym not in stops_by_symbol:
                 entry = float(trades.get(sym, {}).get("entry_price", p["avg_entry_price"]))
                 strategy = trades.get(sym, {}).get("strategy", "trend")
-                stop_pct = TREND_STOP_LOSS if strategy == "trend" else MOMENTUM_STOP_LOSS
+                stop_pct = TREND_STOP_LOSS if strategy in ("trend", "index") else MOMENTUM_STOP_LOSS
                 stop_price = round(entry * (1 - stop_pct), 2)
                 qty = p["qty"]
                 try:
@@ -232,9 +239,10 @@ def manage_existing_positions(positions, key, secret, base, trades, day_trades, 
         current_price = float(p["current_price"])
         strategy = trades.get(sym, {}).get("strategy", "trend")
 
-        take_profit = TREND_TAKE_PROFIT if strategy == "trend" else MOMENTUM_TAKE_PROFIT
-        stop_loss = TREND_STOP_LOSS if strategy == "trend" else MOMENTUM_STOP_LOSS
-        trail_pct = TREND_TRAIL_PCT if strategy == "trend" else MOMENTUM_TRAIL_PCT
+        trend_style = strategy in ("trend", "index")
+        take_profit = TREND_TAKE_PROFIT if trend_style else MOMENTUM_TAKE_PROFIT
+        stop_loss = TREND_STOP_LOSS if trend_style else MOMENTUM_STOP_LOSS
+        trail_pct = TREND_TRAIL_PCT if trend_style else MOMENTUM_TRAIL_PCT
 
         stored_peak = trades.get(sym, {}).get("peak_pct", pl_pct)
         if pl_pct > stored_peak:
@@ -270,18 +278,30 @@ def manage_existing_positions(positions, key, secret, base, trades, day_trades, 
 
 
 def analyze_trend(symbol, key, secret):
-    """Trend following — MA crossover + RSI."""
+    """Trend following — MA crossover + RSI + slope + separation filters."""
     prices = get_bars(symbol, key, secret, limit=60)
     if len(prices) < 55:
         return None, "insufficient data"
     rsi = calc_rsi(prices)
     ma20 = sum(prices[-20:]) / 20
     ma50 = sum(prices[-50:]) / 50
+    ma50_5ago = sum(prices[-55:-5]) / 50  # MA50 as of 5 trading days ago
     current = prices[-1]
-    if rsi < 40 and current > ma20 and ma20 > ma50:
-        return "buy", f"RSI oversold {rsi:.0f} + above MA20"
-    if current > ma20 and ma20 > ma50 and rsi < 60:
-        return "buy", f"uptrend MA20>MA50 RSI={rsi:.0f}"
+
+    # MA50 must be rising (slope confirmation — not a decelerating trend)
+    ma50_rising = ma50 > ma50_5ago
+    # MA20 must be at least 0.5% above MA50 (real separation, not a false cross)
+    separation_ok = (ma20 - ma50) / ma50 >= 0.005
+
+    if not ma50_rising or not separation_ok:
+        return None, f"no signal (MA50 slope={'up' if ma50_rising else 'flat/down'}, sep={((ma20-ma50)/ma50)*100:.2f}%)"
+
+    # Condition 1: oversold bounce in confirmed uptrend
+    if rsi < 40 and current > ma20:
+        return "buy", f"RSI oversold {rsi:.0f} + above MA20 + rising MA50"
+    # Condition 2: momentum entry — tightened from rsi<60 to rsi<50 (below neutral)
+    if current > ma20 and rsi < 50:
+        return "buy", f"uptrend MA20>MA50 RSI={rsi:.0f} (rising slope, sep={((ma20-ma50)/ma50)*100:.1f}%)"
     return None, f"no signal (RSI={rsi:.0f})"
 
 
@@ -298,6 +318,67 @@ def analyze_momentum(symbol, key, secret):
     if rsi < 35 and current > ma10 and momentum_5d > 0:
         return "buy", f"RSI oversold {rsi:.0f} + above MA10 momentum={momentum_5d:+.1%}"
     return None, f"no signal (RSI={rsi:.0f}, mom={momentum_5d:+.1%})"
+
+
+TREND_CIRCUIT_BREAKER_LOSSES = 3   # consecutive trend losses before pause
+TREND_CIRCUIT_BREAKER_DAYS = 5    # trading days to wait after breaker trips
+
+
+def check_trend_circuit_breaker(trades) -> tuple[bool, str]:
+    """
+    Returns (paused, reason). Trips after TREND_CIRCUIT_BREAKER_LOSSES
+    consecutive closed trend losses and holds for TREND_CIRCUIT_BREAKER_DAYS.
+    State is persisted in trades['_circuit_breaker'].
+    """
+    cb = trades.get("_circuit_breaker", {})
+    pause_until = cb.get("pause_until")
+    if pause_until:
+        try:
+            until_dt = datetime.fromisoformat(pause_until)
+            if datetime.now() < until_dt:
+                return True, f"circuit breaker active until {until_dt.strftime('%Y-%m-%d')} ({cb.get('consecutive_losses',0)} consecutive losses)"
+        except Exception:
+            pass
+
+    # Count consecutive trend losses from most recent closed positions
+    closed = [
+        (sym, t) for sym, t in trades.items()
+        if sym != "_circuit_breaker"
+        and t.get("close_reason")
+        and t.get("strategy", "trend") == "trend"
+        and "take profit" not in t.get("close_reason", "")
+    ]
+    # Sort by close time if available
+    closed.sort(key=lambda x: x[1].get("close_price", 0))
+    consecutive = len(closed)  # all recent closes without a win resets the count
+
+    # Check if most recent was a win — if so, reset
+    wins = [
+        (sym, t) for sym, t in trades.items()
+        if sym != "_circuit_breaker"
+        and "take profit" in t.get("close_reason", "")
+        and t.get("strategy", "trend") == "trend"
+    ]
+    if wins:
+        consecutive = 0  # a win resets the streak
+
+    if consecutive >= TREND_CIRCUIT_BREAKER_LOSSES:
+        pause_dt = datetime.now() + timedelta(days=TREND_CIRCUIT_BREAKER_DAYS)
+        trades["_circuit_breaker"] = {
+            "consecutive_losses": consecutive,
+            "tripped_at": datetime.now().isoformat(),
+            "pause_until": pause_dt.isoformat(),
+        }
+        reason = f"circuit breaker tripped — {consecutive} consecutive trend losses, pausing until {pause_dt.strftime('%Y-%m-%d')}"
+        log(f"  [circuit_breaker] {reason}")
+        try:
+            from core.notifier import notify
+            notify("L3 Circuit Breaker", f"{consecutive} consecutive trend losses — pausing new entries for {TREND_CIRCUIT_BREAKER_DAYS} days", urgent=True)
+        except Exception:
+            pass
+        return True, reason
+
+    return False, ""
 
 
 def get_position_scalar(symbol, trades):
@@ -357,6 +438,11 @@ def run():
         log("=== trade_brain v2 done ===")
         return
 
+    # Circuit breaker pauses L3 only. L4 index and L2 momentum remain independent.
+    paused, pause_reason = check_trend_circuit_breaker(trades)
+    if paused:
+        log(f"TREND PAUSED: {pause_reason}")
+
     regime = get_market_regime(key, secret)
     if regime == "bear":
         log("BEAR MARKET: SPY below 200MA — skipping all new long entries this cycle")
@@ -369,13 +455,31 @@ def run():
     signals = []
 
     log("--- Scanning for entries ---")
-    for symbol in TREND_LIST:
+    if not paused:
+        for symbol in TREND_LIST:
+            if any(p["symbol"] == symbol for p in positions):
+                log(f"  {symbol}: already holding")
+                continue
+            sector = get_sector(symbol)
+            if sector in held_sectors:
+                log(f"  {symbol}: sector already held, skipping")
+                continue
+            signal, reason = analyze_trend(symbol, key, secret)
+            if signal:
+                scalar = get_position_scalar(symbol, trades)
+                if scalar < 0.6:
+                    log(f"  {symbol}: low confidence in {signal} signal — beliefs gate")
+                    continue
+                signals.append((symbol, "trend", reason, scalar))
+                log(f"  SIGNAL: BUY {symbol} ({reason})")
+
+    for symbol in INDEX_LIST:
         if any(p["symbol"] == symbol for p in positions):
             log(f"  {symbol}: already holding")
             continue
         sector = get_sector(symbol)
         if sector in held_sectors:
-            log(f"  {symbol} already has 2 positions, skipping")
+            log(f"  {symbol}: sector already held, skipping")
             continue
         signal, reason = analyze_trend(symbol, key, secret)
         if signal:
@@ -383,7 +487,7 @@ def run():
             if scalar < 0.6:
                 log(f"  {symbol}: low confidence in {signal} signal — beliefs gate")
                 continue
-            signals.append((symbol, "trend", reason, scalar))
+            signals.append((symbol, "index", reason, scalar))
             log(f"  SIGNAL: BUY {symbol} ({reason})")
 
     if day_trades < 3:
@@ -415,7 +519,7 @@ def run():
             log(f"  {symbol} already held, skipping")
             continue
 
-        stop_pct = TREND_STOP_LOSS if strategy == "trend" else MOMENTUM_STOP_LOSS
+        stop_pct = TREND_STOP_LOSS if strategy in ("trend", "index") else MOMENTUM_STOP_LOSS
         position_usd = portfolio_value * POSITION_SIZE_PCT * scalar
 
         try:

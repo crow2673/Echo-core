@@ -7,6 +7,26 @@ from pathlib import Path
 
 MEMORY_FILE = Path.home() / "Echo/echo_memory.json"
 LOCK_FILE = Path.home() / "Echo/echo_memory.lock"
+MAX_DONE_CAPSULES = 5000
+
+
+def _compact_capsules(capsules):
+    """Discard noisy screen events and bound completed capsule history."""
+    active = []
+    done = []
+    for capsule in capsules:
+        if capsule.get("type") == "event" and not capsule.get("retain", False):
+            continue
+        if (
+            capsule.get("type") == "reply"
+            and capsule.get("in_reply_to") == "CAPSULE:unknown"
+        ):
+            continue
+        if capsule.get("status") == "done":
+            done.append(capsule)
+        else:
+            active.append(capsule)
+    return done[-MAX_DONE_CAPSULES:] + active
 
 
 @contextlib.contextmanager
@@ -44,6 +64,7 @@ def load_memory():
 
 
 def save_memory(data):
+    data["capsules"] = _compact_capsules(data.get("capsules", []))
     tmp = MEMORY_FILE.with_suffix(".json.tmp")
     tmp.write_text(json.dumps(data, indent=2, default=str))
     tmp.rename(MEMORY_FILE)

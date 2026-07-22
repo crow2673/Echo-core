@@ -48,7 +48,11 @@ def log(msg):
     print(line)  # systemd captures stdout → log file; no explicit file write needed
 
 def notify_phone(msg):
-    subprocess.run(["python3", str(NOTIFY), msg], capture_output=True)
+    try:
+        from core.notifier import notify
+        notify("Echo Action", msg)
+    except Exception as e:
+        log(f"notify failed: {e}")
 
 def load_pending_suggestions():
     if not FEEDBACK_LOG.exists():

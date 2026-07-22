@@ -66,59 +66,47 @@ def is_relevant(item):
     return any(kw in text for kw in KEYWORDS)
 
 
-def build_markdown(relevant_items):
-    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+def build_signals_section(relevant_items):
     lines = [
-        f"# Echo Income Knowledge Base",
-        f"_Last updated: {now}_",
-        "",
-        "## Active Income Streams",
-        "",
-        "### L1 — Crypto 24/7 (BTC/SOL)",
-        "**Echo's current status:** ACTIVE — 67% win rate, +$324 realized | paper trading",
-        "",
-        "### L2 — Momentum Stocks",
-        "**Echo's current status:** ACTIVE — 60% win rate, +$433 realized | paper trading",
-        "",
-        "### L3 — Trend Stocks",
-        "**Echo's current status:** ACTIVE — 25% win rate, -$1,011 realized | stop fix in progress",
-        "",
-        "### L4 — Income/Index",
-        "**Echo's current status:** ACTIVE — 67% win rate, +$652 realized | paper trading",
-        "",
-        "### Fiverr — AI Automation Builder",
-        "**Echo's current status:** ACTIVE — gig live at andrewelliot476 | local Python automation",
-        "",
-        "### Dev.to Content",
-        "**Echo's current status:** ACTIVE — 1 articles published, 1 scheduled Tuesday 2026-03-17",
-        "",
-        "### Golem Compute",
-        "**Echo's current status:** CLOSED — investigation ended 2026-04-24, market demand problem not connectivity",
-        "",
         "## Market Signals This Week",
         f"_{len(relevant_items)} relevant items found across {len(SOURCES)} sources_",
         "",
     ]
-    for item in relevant_items[:40]:
+    for item in relevant_items[:10]:
         lines.append(f"- **{item['title'][:80]}**")
         if item.get("link"):
             lines.append(f"  {item['link']}")
-        if item.get("desc"):
-            lines.append(f"  _{item['desc'][:120]}_")
         lines.append("")
-
-    lines += [
-        "## Key Decisions",
-        "- May 15, 2026: Real capital decision — $1,000 into L1 Crypto only (no PDT rule)",
-        "- L3 stop loss fix required before real capital deployment",
-        "- Reddit outreach blocked pending OAuth write scope",
-        "",
-        "## Next Actions",
-        "- Fix L3 stop loss logic (trade_brain.py — restore from backup)",
-        "- Register Reddit app for write scope to enable outreach",
-        "- Review L1 paper performance through May 15",
-    ]
     return "\n".join(lines)
+
+
+def update_markdown(relevant_items):
+    """Update only the Market Signals section in income_knowledge.md. Preserve everything else."""
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    signals = build_signals_section(relevant_items)
+
+    if OUTPUT.exists():
+        existing = OUTPUT.read_text()
+        # Update timestamp
+        import re
+        existing = re.sub(r"_Last updated:.*?_", f"_Last updated: {now}_", existing, count=1)
+        # Replace Market Signals section only
+        if "## Market Signals This Week" in existing:
+            # Find start of section and end (next ## heading or EOF)
+            start = existing.index("## Market Signals This Week")
+            rest = existing[start:]
+            next_section = rest.find("\n## ", 1)
+            if next_section != -1:
+                after = rest[next_section:]
+            else:
+                after = ""
+            existing = existing[:start] + signals + ("\n\n" if after else "") + after.lstrip("\n")
+        else:
+            existing = existing.rstrip() + "\n\n" + signals
+        return existing
+    else:
+        # File doesn't exist — write a minimal bootstrap
+        return f"# Echo Income Knowledge Base\n_Last updated: {now}_\n\n{signals}"
 
 
 def run():
@@ -131,18 +119,59 @@ def run():
     relevant = [i for i in all_items if is_relevant(i)]
     logging.info(f"{len(relevant)} relevant items from {len(all_items)} total")
 
-    md = build_markdown(relevant)
+    md = update_markdown(relevant)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(md)
-    logging.info(f"income_knowledge.md written ({len(md)} chars)")
+    tmp_out = OUTPUT.with_suffix(".tmp")
+    tmp_out.write_text(md)
+    tmp_out.rename(OUTPUT)
+    logging.info(f"income_knowledge.md updated ({len(md)} chars)")
 
-    CACHE.write_text(json.dumps({
+    cache_data = json.dumps({
         "updated_at": datetime.now().isoformat(),
         "item_count": len(relevant),
         "sources": len(SOURCES),
-    }, indent=2))
+    }, indent=2)
+    tmp_cache = CACHE.with_suffix(".tmp")
+    tmp_cache.write_text(cache_data)
+    tmp_cache.rename(CACHE)
     logging.info(f"Cache saved to {CACHE}")
     print(f"[income_researcher] Done. {len(relevant)} relevant items found. → {OUTPUT}")
+
+    # Promote high-signal discoveries into persistent goals Echo will actively pursue
+    try:
+        from core.persistent_goals import add_goal
+        from core.assimilator import run as assimilate
+        for item in relevant[:5]:
+            title = item.get("title", "")
+            url = item.get("url", item.get("link", ""))
+            source = item.get("source", "")
+            # Create a goal to investigate and act on each strong signal
+            goal_id = f"signal_{hash(url) % 100000}"
+            add_goal(
+                goal_id=goal_id,
+                description=(
+                    f"Investigate and act on external signal: '{title[:80]}' "
+                    f"(from {source}). Search for actionable income opportunity. "
+                    f"If a useful library or tool is mentioned, assimilate it."
+                ),
+                source="income_researcher",
+            )
+        # Also try to assimilate any library/tool mentioned in relevant items
+        for item in relevant:
+            body = item.get("summary", item.get("description", ""))
+            title = item.get("title", "")
+            text = (title + " " + body).lower()
+            # Look for Python package mentions
+            import re as _re
+            packages = _re.findall(r'\b([a-z][a-z0-9_-]{2,}(?:\.py)?)\b', text)
+            for pkg in set(packages[:3]):
+                if len(pkg) > 3 and pkg not in ("this", "that", "with", "from", "http", "https", "the", "and"):
+                    try:
+                        assimilate(pkg)
+                    except Exception:
+                        pass
+    except Exception as _e:
+        logging.warning(f"goal/assimilation promotion failed: {_e}")
 
 
 if __name__ == "__main__":

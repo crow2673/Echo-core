@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Outcome Loop - every 15 minutes
+Requires=echo-outcome-loop.service
+
+[Timer]
+OnBootSec=8min
+OnUnitActiveSec=15min
+AccuracySec=1min
+Unit=echo-outcome-loop.service
+
+[Install]
+WantedBy=timers.target

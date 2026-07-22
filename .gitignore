@@ -79,6 +79,11 @@ memory/workspace_state_candidates/
 memory/workspace_state_candidates.sqlite
 memory/workspace_change_candidates.sqlite
 
+# Review-gated conversation learning runtime data
+memory/conversation_learning_candidates.jsonl
+memory/conversation_learning_candidate_events.jsonl
+memory/finetune_dataset_reviewed.jsonl
+
 # Junk files
 a.zip
 analyze_content.py

@@ -87,14 +87,26 @@ def _load_mission_context():
 
 
 def is_high_signal_event(event):
-    etype = event.get("type", "")
-    if etype == "event":
-        return True
-    if etype == "file_change":
-        path = event.get("path", "")
+    """Only send explicit, actionable events to the LLM."""
+    if event.get("type") != "event":
+        return False
+
+    if not event.get("requires_response", False):
+        return False
+
+    text = event.get("text", "")
+    cap_id = event.get("cap_id", "")
+    if cap_id.startswith("EVENT:file_change:"):
+        path = text.removeprefix("File changed: ").strip()
+        try:
+            path = str(Path(path).resolve().relative_to(BASE))
+        except (OSError, ValueError):
+            pass
         if any(path.startswith(p) for p in IGNORE_PREFIXES):
             return False
-        return any(f in path for f in HIGH_SIGNAL_FILES) or any(path.startswith(p) for p in HIGH_SIGNAL_PREFIXES)
+        return any(f in path for f in HIGH_SIGNAL_FILES) or any(
+            path.startswith(p) for p in HIGH_SIGNAL_PREFIXES
+        )
     return False
 
 
@@ -130,7 +142,7 @@ def make_reply(capsule, text):
     }
 
 
-def build_system_prompt(state):
+def build_system_prompt(state, memory_query=""):
     parts = [SYSTEM_NOTE]
     ts = datetime.now().strftime("%A %B %d %Y %I:%M %p")
     parts.append(f"\n\nCURRENT LOCAL TIME: {ts} ({time.tzname[time.daylight]})")
@@ -144,6 +156,31 @@ def build_system_prompt(state):
         parts.append(build_self_awareness_block())
     except Exception:
         pass
+    try:
+        from core.self_model import context_block
+        parts.append(f"\n\n{context_block()}")
+    except Exception:
+        pass
+    try:
+        from core.verification_contract import context_block
+        parts.append(f"\n\n{context_block()}")
+    except Exception:
+        pass
+    if memory_query:
+        try:
+            from core.semantic_memory import context_block
+            block = context_block(memory_query)
+            if block:
+                parts.append(f"\n\n{block}")
+        except Exception as e:
+            print(f"[memory] semantic recall failed: {e}", flush=True)
+        try:
+            from core.correction_memory import context_block as correction_context
+            block = correction_context(memory_query)
+            if block:
+                parts.append(f"\n\n{block}")
+        except Exception as e:
+            print(f"[memory] correction recall failed: {e}", flush=True)
 
     return "".join(parts)
 
@@ -190,7 +227,7 @@ def process_one_capsule(capsule, memory):
 
     # Generate response via Ollama
     state = load_echo_state()
-    system_prompt = build_system_prompt(state)
+    system_prompt = build_system_prompt(state, text)
 
     try:
         from core.agent_loop import agent_loop
@@ -222,6 +259,12 @@ def process_one_capsule(capsule, memory):
             save_memory(mem)
     except Exception as e:
         print(f"[daemon] save error: {e}", flush=True)
+
+    try:
+        from core.semantic_memory import remember_exchange
+        remember_exchange(text, response, "echo_core_daemon")
+    except Exception as e:
+        print(f"[memory] semantic store failed: {e}", flush=True)
 
     print(f"[daemon] replied: {response[:80]}", flush=True)
 

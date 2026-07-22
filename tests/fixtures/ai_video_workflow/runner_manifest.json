@@ -1,0 +1,106 @@
+{
+  "workflow_id": "1thjcus_ai_video_placeholder",
+  "fixture_dir": "tests/fixtures/ai_video_workflow",
+  "work_dir": "memory/media_workflows/1thjcus",
+  "external_services_allowed": false,
+  "stages": [
+    {
+      "stage_id": "intake",
+      "handler": "intake",
+      "inputs": ["tests/fixtures/ai_video_workflow/sample_script.txt"],
+      "outputs": ["memory/media_workflows/1thjcus/work/intake/script.normalized.txt"],
+      "dependencies": [],
+      "human_review_required": false,
+      "retryable": true
+    },
+    {
+      "stage_id": "segment_script",
+      "handler": "segment_script",
+      "inputs": ["memory/media_workflows/1thjcus/work/intake/script.normalized.txt"],
+      "outputs": ["memory/media_workflows/1thjcus/work/script/segments.json"],
+      "dependencies": ["intake"],
+      "human_review_required": true,
+      "retryable": true
+    },
+    {
+      "stage_id": "generate_placeholder_audio",
+      "handler": "generate_placeholder_audio",
+      "inputs": ["memory/media_workflows/1thjcus/work/script/segments.json"],
+      "outputs": ["memory/media_workflows/1thjcus/work/audio/narration.wav"],
+      "dependencies": ["segment_script"],
+      "human_review_required": true,
+      "retryable": true
+    },
+    {
+      "stage_id": "generate_placeholder_visual",
+      "handler": "generate_placeholder_visual",
+      "inputs": ["memory/media_workflows/1thjcus/work/script/segments.json"],
+      "outputs": ["memory/media_workflows/1thjcus/work/visual/avatar_placeholder.ppm"],
+      "dependencies": ["segment_script"],
+      "human_review_required": true,
+      "retryable": true
+    },
+    {
+      "stage_id": "generate_captions",
+      "handler": "generate_captions",
+      "inputs": ["memory/media_workflows/1thjcus/work/script/segments.json"],
+      "outputs": ["memory/media_workflows/1thjcus/work/captions/captions.srt"],
+      "dependencies": ["segment_script"],
+      "human_review_required": true,
+      "retryable": true
+    },
+    {
+      "stage_id": "assemble_video",
+      "handler": "assemble_video",
+      "inputs": [
+        "memory/media_workflows/1thjcus/work/audio/narration.wav",
+        "memory/media_workflows/1thjcus/work/visual/avatar_placeholder.ppm",
+        "memory/media_workflows/1thjcus/work/captions/captions.srt"
+      ],
+      "outputs": ["memory/media_workflows/1thjcus/work/video/segment.raw.mp4"],
+      "dependencies": ["generate_placeholder_audio", "generate_placeholder_visual", "generate_captions"],
+      "human_review_required": true,
+      "retryable": true
+    },
+    {
+      "stage_id": "quality_check",
+      "handler": "quality_check",
+      "inputs": [
+        "memory/media_workflows/1thjcus/work/video/segment.raw.mp4",
+        "memory/media_workflows/1thjcus/work/captions/captions.srt"
+      ],
+      "outputs": ["memory/media_workflows/1thjcus/work/quality/quality_report.json"],
+      "dependencies": ["assemble_video"],
+      "human_review_required": true,
+      "retryable": true
+    },
+    {
+      "stage_id": "export",
+      "handler": "export",
+      "inputs": [
+        "memory/media_workflows/1thjcus/work/video/segment.raw.mp4",
+        "memory/media_workflows/1thjcus/work/quality/quality_report.json"
+      ],
+      "outputs": ["memory/media_workflows/1thjcus/out/final_segment.mp4"],
+      "dependencies": ["quality_check"],
+      "human_review_required": true,
+      "retryable": true
+    },
+    {
+      "stage_id": "write_final_manifest",
+      "handler": "write_final_manifest",
+      "inputs": ["memory/media_workflows/1thjcus/out/final_segment.mp4"],
+      "outputs": ["memory/media_workflows/1thjcus/final_manifest.json"],
+      "dependencies": ["export"],
+      "human_review_required": false,
+      "retryable": true
+    }
+  ],
+  "external_required_stages": [
+    {
+      "stage_id": "commercial_avatar_generation",
+      "status": "blocked",
+      "reason": "Requires an external avatar/video service, account, and cost approval. Offline placeholder path does not run it."
+    }
+  ]
+}

@@ -34,17 +34,11 @@ def run():
             "SELECT id, description FROM regret_index WHERE outcome_score = 0 AND resolved_at IS NULL LIMIT 10"
         ).fetchall()
         log(f"found {len(rows)} unscored regret entries")
+        # Unknown is not neutral. Leave entries unresolved until a real outcome
+        # source or a human explicitly scores them.
         scored = 0
-        for row_id, desc in rows:
-            # Default to neutral until real outcome is known
-            db.execute(
-                "UPDATE regret_index SET outcome_score=0.0, notes=?, resolved_at=? WHERE id=?",
-                ("auto-scored neutral — no outcome data", datetime.now().isoformat(), row_id)
-            )
-            scored += 1
-        db.commit()
         db.close()
-        log(f"scored {scored}/{len(rows)} entries")
+        log(f"deferred {len(rows)} entries — no verified outcome source")
     except Exception as e:
         log(f"error: {e}")
 

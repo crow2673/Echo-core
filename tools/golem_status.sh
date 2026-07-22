@@ -1,0 +1,1 @@
+golem task list -a --status

@@ -1,0 +1,121 @@
+{
+  "workflow_id": "1thjcus_ai_video_scene_cards",
+  "fixture_dir": "tests/fixtures/ai_video_workflow",
+  "work_dir": "memory/media_workflows/1thjcus_scene_cards",
+  "external_services_allowed": false,
+  "external_required_stages": [
+    {
+      "stage_id": "commercial_avatar_generation",
+      "status": "blocked",
+      "reason": "Requires an external avatar/video service, account, and cost approval. Offline scene-card path does not run it."
+    }
+  ],
+  "stages": [
+    {
+      "stage_id": "intake",
+      "status": "pending",
+      "inputs": ["tests/fixtures/ai_video_workflow/sample_script.txt"],
+      "outputs": ["memory/media_workflows/1thjcus_scene_cards/work/intake/script.normalized.txt"],
+      "dependencies": [],
+      "handler": "intake",
+      "retryable": true,
+      "human_review_required": false
+    },
+    {
+      "stage_id": "segment_script",
+      "status": "pending",
+      "inputs": ["memory/media_workflows/1thjcus_scene_cards/work/intake/script.normalized.txt"],
+      "outputs": ["memory/media_workflows/1thjcus_scene_cards/work/script/segments.json"],
+      "dependencies": ["intake"],
+      "handler": "segment_script",
+      "retryable": true,
+      "human_review_required": true
+    },
+    {
+      "stage_id": "generate_placeholder_audio",
+      "status": "pending",
+      "inputs": ["memory/media_workflows/1thjcus_scene_cards/work/script/segments.json"],
+      "outputs": ["memory/media_workflows/1thjcus_scene_cards/work/audio/narration.wav"],
+      "dependencies": ["segment_script"],
+      "handler": "generate_placeholder_audio",
+      "retryable": true,
+      "human_review_required": true
+    },
+    {
+      "stage_id": "generate_placeholder_visual",
+      "status": "pending",
+      "inputs": [
+        "memory/media_workflows/1thjcus_scene_cards/work/script/segments.json",
+        "tests/fixtures/ai_video_workflow/scene_card_style.json"
+      ],
+      "outputs": ["memory/media_workflows/1thjcus_scene_cards/work/visual/scene_cards.mp4"],
+      "dependencies": ["segment_script"],
+      "handler": "generate_scene_cards_visual",
+      "fallback_handler": "generate_placeholder_visual",
+      "style_config_path": "tests/fixtures/ai_video_workflow/scene_card_style.json",
+      "style_profile": "clean_default",
+      "retryable": true,
+      "human_review_required": true
+    },
+    {
+      "stage_id": "generate_captions",
+      "status": "pending",
+      "inputs": ["memory/media_workflows/1thjcus_scene_cards/work/script/segments.json"],
+      "outputs": ["memory/media_workflows/1thjcus_scene_cards/work/captions/captions.srt"],
+      "dependencies": ["segment_script"],
+      "handler": "generate_captions",
+      "retryable": true,
+      "human_review_required": true
+    },
+    {
+      "stage_id": "assemble_video",
+      "status": "pending",
+      "inputs": [
+        "memory/media_workflows/1thjcus_scene_cards/work/audio/narration.wav",
+        "memory/media_workflows/1thjcus_scene_cards/work/visual/scene_cards.mp4",
+        "memory/media_workflows/1thjcus_scene_cards/work/captions/captions.srt"
+      ],
+      "outputs": ["memory/media_workflows/1thjcus_scene_cards/work/video/segment.raw.mp4"],
+      "dependencies": ["generate_placeholder_audio", "generate_placeholder_visual", "generate_captions"],
+      "handler": "assemble_video",
+      "retryable": true,
+      "human_review_required": true
+    },
+    {
+      "stage_id": "quality_check",
+      "status": "pending",
+      "inputs": [
+        "memory/media_workflows/1thjcus_scene_cards/work/video/segment.raw.mp4",
+        "memory/media_workflows/1thjcus_scene_cards/work/captions/captions.srt"
+      ],
+      "outputs": ["memory/media_workflows/1thjcus_scene_cards/work/quality/quality_report.json"],
+      "dependencies": ["assemble_video"],
+      "handler": "quality_check",
+      "retryable": true,
+      "human_review_required": true
+    },
+    {
+      "stage_id": "export",
+      "status": "pending",
+      "inputs": [
+        "memory/media_workflows/1thjcus_scene_cards/work/video/segment.raw.mp4",
+        "memory/media_workflows/1thjcus_scene_cards/work/quality/quality_report.json"
+      ],
+      "outputs": ["memory/media_workflows/1thjcus_scene_cards/out/final_segment.mp4"],
+      "dependencies": ["quality_check"],
+      "handler": "export",
+      "retryable": true,
+      "human_review_required": true
+    },
+    {
+      "stage_id": "write_final_manifest",
+      "status": "pending",
+      "inputs": ["memory/media_workflows/1thjcus_scene_cards/out/final_segment.mp4"],
+      "outputs": ["memory/media_workflows/1thjcus_scene_cards/final_manifest.json"],
+      "dependencies": ["export"],
+      "handler": "write_final_manifest",
+      "retryable": true,
+      "human_review_required": false
+    }
+  ]
+}

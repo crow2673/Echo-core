@@ -4,6 +4,7 @@ Automate daily system health checks and log summaries, trigger on daily system s
 """
 
 import logging
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -58,8 +59,33 @@ def check_network_status():
         logging.error(f"Error checking network status: {e.stderr}")
         notify("Network Error", "Failed to reach 8.8.8.8", urgent=True)
 
+def check_operational_drift():
+    try:
+        result = subprocess.run(
+            [sys.executable, str(BASE / "tools/operational_audit.py")],
+            capture_output=True, text=True, timeout=30
+        )
+        if result.stdout.strip():
+            logging.info("Operational audit: " + result.stdout.strip())
+        if result.stderr.strip():
+            logging.warning("Operational audit stderr: " + result.stderr.strip())
+        report_path = BASE / "memory/operational_audit.json"
+        if not report_path.exists():
+            logging.error("Operational audit did not write memory/operational_audit.json")
+            return
+        report = json.loads(report_path.read_text())
+        assessment = report.get("assessment", {})
+        critical = assessment.get("critical", [])
+        if critical:
+            summary = f"{len(critical)} critical operational findings; first: {critical[0]}"
+            logging.error(summary)
+            notify("Echo Operational Audit", summary, urgent=True)
+    except Exception as e:
+        logging.error(f"Error running operational audit: {e}")
+
 if __name__ == "__main__":
     check_disk_usage()
     check_memory_usage()
+    check_operational_drift()
     check_system_logs()
     check_network_status()

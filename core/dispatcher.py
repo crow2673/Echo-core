@@ -19,6 +19,7 @@ Usage:
 
 import json
 import os
+import urllib.request
 import subprocess
 import sys
 import time
@@ -77,6 +78,7 @@ WORKERS = {
         "cooldown_seconds": 72000,      # 20 hours — runs once per day
         "wave": 2,
         "heavy": True,                  # calls Ollama for speech synthesis
+        "skip_judgment": True,          # LLM spirals into "no progress" self-reinforcing skips — time_window + cooldown are sufficient gates
         "description": "Morning briefing — speaks system health, P&L, tasks, and priorities at 8:10am",
         "progress_metric": "briefing_spoken",
         "time_window": (6, 12),         # only valid between 6am and noon
@@ -87,6 +89,7 @@ WORKERS = {
         "cooldown_seconds": 72000,      # 20 hours — runs once per night
         "wave": 2,
         "heavy": False,
+        "skip_judgment": True,          # cooldown is the only gate; LLM confuses "24h ago" with "too soon"
         "description": "Nightly checkpoint — writes session_summary.json from CHANGELOG, trade log, regret patterns",
         "progress_metric": "checkpoint_written",
         "time_window": (22, 4),         # only valid between 10pm and 4am (wraps midnight)
@@ -97,19 +100,33 @@ WORKERS = {
         "cooldown_seconds": 79200,      # 22 hours — at most once per day
         "wave": 2,
         "heavy": True,                  # calls Ollama for article generation
+        "skip_judgment": True,          # LLM self-reinforces skips ("3 consecutive skips = skip again") — cooldown gates it
         "description": "Content pipeline — generates dev.to draft from content_strategy queue",
         "progress_metric": "draft_created",
     },
 
     "devto_publish": {
-        "cmd": [sys.executable, str(BASE / "echo_devto_publisher.py"), "--from-session"],
+        "cmd": [sys.executable, str(BASE / "echo_devto_publisher.py"), "--from-queue"],
         "cwd": str(BASE),
-        "cooldown_seconds": 518400,     # 6 days — publishes once per week (Tuesday)
+        "cooldown_seconds": 518400,     # 6 days — Tuesday catch-up slot
         "wave": 2,
-        "heavy": True,                  # calls Ollama for article generation
-        "description": "Weekly dev.to publisher — publishes next queued draft or generates new article",
+        "heavy": False,                 # only publishes pre-approved drafts — no Ollama
+        "skip_judgment": True,
+        "description": "Weekly dev.to publisher — publishes Andrew-approved drafts only (telegram_approver is primary path)",
         "progress_metric": "article_published",
         "time_window": (8, 11),         # only valid between 8am and 11am (Tuesday window)
+    },
+
+    # ── Wave 2.5 — Reconciler (runs after every trading cycle) ───────────────
+    "alpaca_reconciler": {
+        "cmd": [sys.executable, "-m", "core.alpaca_reconciler"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 7200,       # 2 hours — runs after each trader cycle
+        "wave": 2,
+        "heavy": False,
+        "skip_judgment": True,          # deterministic — cooldown is the only gate
+        "description": "Alpaca P&L reconciler — rebuilds cascade_ledger and income_knowledge from real fills",
+        "progress_metric": "reconciled_at",
     },
 
     # ── Wave 3 — Echo-built monitors ─────────────────────────────────────────
@@ -153,7 +170,207 @@ WORKERS = {
         "description": "RAM monitor — alerts before OOM kills qwen2.5:32b; checks swap pressure too",
         "progress_metric": None,
     },
+    "task_pruner": {
+        "cmd": [sys.executable, "-m", "core.task_pruner"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 604800,     # 7 days — weekly strategic decay pass
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,          # deterministic rule-based pruning, no judgment needed
+        "description": "Task queue pruner — removes stale/duplicate self-generated tasks, caps queue at 60",
+        "progress_metric": None,
+    },
+    "temporal_mirror": {
+        "cmd": [sys.executable, "-m", "core.temporal_mirror"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 86400,      # daily — runs overnight to link causal pairs
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,          # structural matching, no judgment needed
+        "description": "Temporal mirror — links failure events to resolution events in decision trace",
+        "progress_metric": None,
+        "time_window": (0, 5),          # run overnight 12am–5am only
+    },
+    "opportunity_hunter": {
+        "cmd": [sys.executable, str(BASE / "tools/opportunity_hunter.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 3600,       # hourly — live opportunities expire fast
+        "wave": 1,
+        "heavy": True,                  # generates proposals with qwen2.5:7b
+        "skip_judgment": False,
+        "description": "Hunt real paying work: Freelancer.com API, GitHub bounties, Reddit forhire",
+        "progress_metric": "new_proposals",
+    },
+    "income_scanner": {
+        "cmd": [sys.executable, "-m", "core.income_scanner"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 7200,       # every 2 hours — reads all data, finds work, does it
+        "wave": 1,
+        "heavy": True,                  # uses qwen2.5:7b
+        "skip_judgment": False,         # Echo should judge — she's deciding what to work on
+        "description": "Income scanner — reads all Echo data, finds best income action, executes it",
+        "progress_metric": "income_action",
+    },
+    "gumroad_publisher": {
+        "cmd": [sys.executable, str(BASE / "tools/gumroad_publisher.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 86400,      # daily — new builds listed as products
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,
+        "description": "List Echo's built tools as Gumroad products — passive digital product income",
+        "progress_metric": None,
+    },
+    "affiliate_injector": {
+        "cmd": [sys.executable, str(BASE / "tools/affiliate_injector.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 43200,      # twice daily
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,
+        "description": "Inject affiliate links into published Dev.to articles — passive referral income",
+        "progress_metric": None,
+    },
+    "newsletter_composer": {
+        "cmd": [sys.executable, str(BASE / "tools/newsletter_composer.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 86400,      # daily check, sends weekly
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,
+        "description": "Compose and send weekly automation newsletter via Beehiiv — subscription income",
+        "progress_metric": None,
+        "time_window": (8, 10),         # send morning only
+    },
+    "account_bootstrap": {
+        "cmd": [sys.executable, "-m", "core.account_bootstrap"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 43200,      # retry every 12h if something failed last time
+        "wave": 1,
+        "heavy": True,                  # uses Playwright + browser = needs VRAM headroom
+        "skip_judgment": True,          # deterministic: run if any credential is missing
+        "description": "Create missing platform accounts — Reddit, Gumroad, Beehiiv, Dev.to",
+        "progress_metric": None,
+    },
+    "log_anomaly": {
+        "cmd": [sys.executable, "-m", "core.log_anomaly", "score"],
+        "cwd": str(BASE),
+        "cooldown_seconds": 840,        # timer is 15 min; allow slight drift
+        "wave": 3,
+        "heavy": False,                 # CPU-only model/scorer
+        "skip_judgment": True,          # deterministic monitor; cooldown is enough
+        "description": "Log sequence anomaly scorer — flags surprising Echo/systemd log transitions",
+        "progress_metric": None,
+        "lock_file": str(BASE / "logs/log_anomaly.lock"),
+        "notify_dispatcher": False,
+    },
+    "log_anomaly_train": {
+        "cmd": [
+            sys.executable, "-m", "core.log_anomaly", "train",
+            "--since", "72 hours ago",
+            "--epochs", "8",
+        ],
+        "cwd": str(BASE),
+        "cooldown_seconds": 72000,      # daily-ish
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,
+        "description": "Daily CPU-only training pass for the log sequence anomaly model",
+        "progress_metric": None,
+        "time_window": (2, 5),          # train during quiet overnight hours
+        "lock_file": str(BASE / "logs/log_anomaly.lock"),
+        "notify_dispatcher": False,
+        "timeout_seconds": 1800,
+    },
+    "homeostasis": {
+        "cmd": [sys.executable, str(BASE / "tools/homeostasis_check.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 270,        # timer is 5 min; allow slight drift
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,
+        "description": "Reliability homeostasis — audits drift, restarts safe monitors, alerts for protected failures",
+        "progress_metric": None,
+        "lock_file": str(BASE / "logs/homeostasis.lock"),
+        "notify_dispatcher": False,
+    },
+    "autonomy_model": {
+        "cmd": [sys.executable, str(BASE / "tools/autonomy_model.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 840,        # refresh before each life-loop window
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,
+        "description": "Autonomy model — ranks no-human actions, human gates, trust, memory sprawl, and maturity gaps",
+        "progress_metric": None,
+        "lock_file": str(BASE / "logs/autonomy_model.lock"),
+        "notify_dispatcher": False,
+    },
+    "life_loop": {
+        "cmd": [sys.executable, str(BASE / "tools/life_loop.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 840,        # timer is 15 min; allow slight drift
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,
+        "description": "Life loop — records Echo's evidence-grounded current state and next priority",
+        "progress_metric": None,
+        "lock_file": str(BASE / "logs/life_loop.lock"),
+        "notify_dispatcher": False,
+    },
+    "outcome_loop": {
+        "cmd": [sys.executable, str(BASE / "tools/outcome_loop.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 840,        # timer is 15 min; allow slight drift
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,
+        "description": "Outcome loop — verifies expected local outcomes and writes success/failure evidence",
+        "progress_metric": None,
+        "lock_file": str(BASE / "logs/outcome_loop.lock"),
+        "notify_dispatcher": False,
+    },
+    "growth_engine": {
+        "cmd": [sys.executable, str(BASE / "tools/growth_engine.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 72000,      # daily-ish
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,
+        "description": "Growth engine — ranks evidence-backed improvement proposals without auto-building code",
+        "progress_metric": None,
+        "time_window": (3, 6),
+        "lock_file": str(BASE / "logs/growth_engine.lock"),
+        "notify_dispatcher": False,
+    },
+    "growth_bridge": {
+        "cmd": [sys.executable, str(BASE / "tools/growth_bridge.py")],
+        "cwd": str(BASE),
+        "cooldown_seconds": 72000,      # daily-ish
+        "wave": 3,
+        "heavy": False,
+        "skip_judgment": True,
+        "description": "Growth bridge — promotes top safe growth proposals into reviewed build requests",
+        "progress_metric": None,
+        "time_window": (4, 7),
+        "lock_file": str(BASE / "logs/growth_bridge.lock"),
+        "notify_dispatcher": False,
+    },
 }
+
+# ── User presence ─────────────────────────────────────────────────────────────
+def is_user_idle() -> bool:
+    try:
+        p = BASE / "memory/user_presence.json"
+        if p.exists():
+            d = json.loads(p.read_text())
+            age = (datetime.now() - datetime.fromisoformat(d.get("updated_at", "2000-01-01"))).total_seconds()
+            if age < 300:  # presence file must be fresh (< 5 min old)
+                return d.get("is_idle", False)
+    except Exception:
+        pass
+    return False
+
 
 # ── History I/O ───────────────────────────────────────────────────────────────
 def load_history() -> dict:
@@ -170,9 +387,17 @@ def save_history(history: dict):
     for w in history.get("workers", {}).values():
         if len(w.get("runs", [])) > 100:
             w["runs"] = w["runs"][-100:]
-    tmp = HISTORY_FILE.with_suffix(".tmp")
-    tmp.write_text(json.dumps(history, indent=2, default=str))
-    tmp.rename(HISTORY_FILE)
+    HISTORY_FILE.parent.mkdir(parents=True, exist_ok=True)
+    tmp = HISTORY_FILE.with_name(f"{HISTORY_FILE.name}.{os.getpid()}.{time.time_ns()}.tmp")
+    try:
+        tmp.write_text(json.dumps(history, indent=2, default=str))
+        os.replace(tmp, HISTORY_FILE)
+    finally:
+        try:
+            if tmp.exists():
+                tmp.unlink()
+        except Exception:
+            pass
 
 
 def get_worker_history(history: dict, worker: str) -> dict:
@@ -224,6 +449,47 @@ def record_run(history: dict, worker: str, decision: str, reason: str,
     })
 
 
+# ── VRAM flush ────────────────────────────────────────────────────────────────
+def _flush_idle_ollama_models(keep_model: str = "qwen2.5:7b") -> int:
+    """
+    Unload any Ollama models that are NOT the one we're about to use.
+    Returns MB freed (estimated). Called before launching heavy workers.
+    qwen2.5:32b at Q4_K_M = 10.4GB VRAM — kills self_act every time it stays loaded.
+    """
+    freed_mb = 0
+    try:
+        req = urllib.request.Request(
+            "http://localhost:11434/api/ps",
+            headers={"Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=5) as r:
+            data = json.loads(r.read())
+        models = data.get("models", [])
+        for m in models:
+            name = m.get("name", "")
+            if name == keep_model:
+                continue
+            vram_bytes = m.get("size_vram", 0)
+            # Unload by calling generate with keep_alive=0
+            payload = json.dumps({"model": name, "keep_alive": 0}).encode()
+            unload_req = urllib.request.Request(
+                "http://localhost:11434/api/generate",
+                data=payload,
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            try:
+                with urllib.request.urlopen(unload_req, timeout=10):
+                    pass
+                freed_mb += vram_bytes // (1024 * 1024)
+                log(f"[dispatcher] unloaded {name} from VRAM (~{freed_mb}MB freed)")
+            except Exception:
+                pass
+    except Exception:
+        pass
+    return freed_mb
+
+
 # ── Step 1: System Health ─────────────────────────────────────────────────────
 def step1_system_health(worker: str, cfg: dict, state: dict) -> tuple[bool, str]:
     system = state.get("system", {})
@@ -231,9 +497,15 @@ def step1_system_health(worker: str, cfg: dict, state: dict) -> tuple[bool, str]
     vram_total = system.get("vram_total_mb", 12288)
     vram_free = vram_total - vram_used
 
-    # Heavy workers need GPU headroom
-    if cfg.get("heavy") and vram_free < 6000:
-        return False, f"insufficient VRAM: {vram_free}MB free, need 6000MB (heavy worker)"
+    # Heavy workers need GPU headroom — qwen2.5:7b runs fine in 3.5GB.
+    # If VRAM is tight, try flushing idle models before giving up.
+    if cfg.get("heavy") and vram_free < 3500:
+        freed = _flush_idle_ollama_models(keep_model="qwen2.5:7b")
+        if freed > 0:
+            vram_free += freed
+            log(f"[dispatcher] VRAM flush freed {freed}MB — now ~{vram_free}MB free")
+        if vram_free < 3500:
+            return False, f"insufficient VRAM: {vram_free}MB free, need 3500MB (heavy worker)"
 
     # Check if another heavy worker is already running (match on script path, not name)
     if cfg.get("heavy"):
@@ -274,6 +546,9 @@ def step2_context(worker: str, cfg: dict, history: dict) -> tuple[bool, str]:
             last_run = datetime.fromisoformat(last_run_str)
             elapsed = (datetime.now() - last_run).total_seconds()
             cooldown = cfg.get("cooldown_seconds", 0)
+            # Soldier mode: when user is idle, cut cooldowns in half for execution workers
+            if is_user_idle() and not cfg.get("skip_judgment") and worker in ("self_act", "auto_act", "initiative", "demand_scanner"):
+                cooldown = max(60, cooldown // 2)
             if elapsed < cooldown:
                 remaining = int(cooldown - elapsed)
                 return False, f"cooldown active — {remaining}s remaining (last run {int(elapsed)}s ago)"
@@ -319,7 +594,7 @@ def step2_context(worker: str, cfg: dict, history: dict) -> tuple[bool, str]:
         if checkpoint_file.exists():
             try:
                 age = (datetime.now() - datetime.fromtimestamp(checkpoint_file.stat().st_mtime)).total_seconds()
-                if age > 86400:
+                if age > 172800:  # 48h — briefing still useful with day-old context
                     return False, f"session_summary.json is {int(age/3600)}h old — checkpoint may not have run"
             except Exception:
                 pass
@@ -557,6 +832,22 @@ def notify_wave3(worker: str, decision: bool, reason: str):
         log(f"[dispatcher] notify failed: {e}")
 
 
+def acquire_worker_lock(cfg: dict):
+    lock_file = cfg.get("lock_file")
+    if not lock_file:
+        return None
+    import fcntl
+    path = Path(lock_file)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = path.open("a")
+    try:
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        return handle
+    except BlockingIOError:
+        handle.close()
+        return False
+
+
 # ── Main dispatch function ────────────────────────────────────────────────────
 def dispatch(worker: str, dry_run: bool = False) -> bool:
     """
@@ -605,7 +896,16 @@ def dispatch(worker: str, dry_run: bool = False) -> bool:
     log(f"[dispatcher] step3: {hist_summary['summary']}")
 
     # ── Step 4: Echo's Judgment ───────────────────────────────────────────────
-    decision, echo_reason = step4_echo_judgment(worker, cfg, state, hist_summary)
+    # Force-run if judgment has blocked the same worker too many consecutive times.
+    # A self-reinforcing skip loop ("I was skipped, therefore skip again") is worse
+    # than running a worker that does nothing useful.
+    consec_skips = hist_summary.get("consecutive_skips", 0)
+    if consec_skips >= 5 and not cfg.get("skip_judgment"):
+        decision = True
+        echo_reason = f"force-run: {consec_skips} consecutive skips — breaking self-reinforcing skip loop"
+        log(f"[dispatcher] step4 OVERRIDE {worker}: {echo_reason}")
+    else:
+        decision, echo_reason = step4_echo_judgment(worker, cfg, state, hist_summary)
     steps_passed.append(4)
     log(f"[dispatcher] step4 judgment: {'RUN' if decision else 'SKIP'} — {echo_reason[:100]}")
 
@@ -617,7 +917,7 @@ def dispatch(worker: str, dry_run: bool = False) -> bool:
             log(f"[dispatcher] VALIDATE {worker}: ⚠️ {flag}")
 
     # ── Notify Andrew for Wave 3 workers ──────────────────────────────────────
-    if cfg.get("wave", 1) >= 3:
+    if cfg.get("wave", 1) >= 3 and cfg.get("notify_dispatcher", True):
         notify_wave3(worker, decision, echo_reason)
 
     # ── Final decision ────────────────────────────────────────────────────────
@@ -635,14 +935,24 @@ def dispatch(worker: str, dry_run: bool = False) -> bool:
         save_history(history)
         return True
 
+    worker_lock = acquire_worker_lock(cfg)
+    if worker_lock is False:
+        reason = "another mutually exclusive worker is already running"
+        log(f"[dispatcher] SKIP {worker}: lock — {reason}")
+        record_run(history, worker, "skip", f"lock: {reason}",
+                   steps_passed, None, False, validation_flags)
+        save_history(history)
+        return None
+
     # ── Launch worker ─────────────────────────────────────────────────────────
     log(f"[dispatcher] RUN {worker}: launching — {echo_reason[:80]}")
+    worker_timeout = int(cfg.get("timeout_seconds") or (900 if cfg.get("heavy") else 600))
     try:
         start = time.time()
         result = subprocess.run(
             cfg["cmd"],
             cwd=cfg.get("cwd", str(BASE)),
-            timeout=600,
+            timeout=worker_timeout,
             capture_output=False,
         )
         elapsed = round(time.time() - start, 1)
@@ -653,8 +963,8 @@ def dispatch(worker: str, dry_run: bool = False) -> bool:
         save_history(history)
         return progressed
     except subprocess.TimeoutExpired:
-        log(f"[dispatcher] {worker} timed out after 600s")
-        record_run(history, worker, "timeout", "worker exceeded 600s",
+        log(f"[dispatcher] {worker} timed out after {worker_timeout}s")
+        record_run(history, worker, "timeout", f"worker exceeded {worker_timeout}s",
                    steps_passed, None, False, validation_flags)
         save_history(history)
         return False
@@ -664,6 +974,12 @@ def dispatch(worker: str, dry_run: bool = False) -> bool:
                    steps_passed, None, False, validation_flags)
         save_history(history)
         return False
+    finally:
+        if worker_lock:
+            try:
+                worker_lock.close()
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":

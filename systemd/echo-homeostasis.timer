@@ -1,0 +1,12 @@
+[Unit]
+Description=Echo Homeostasis Reliability Check — every 5 minutes
+Requires=echo-homeostasis.service
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=5min
+Persistent=true
+Unit=echo-homeostasis.service
+
+[Install]
+WantedBy=timers.target

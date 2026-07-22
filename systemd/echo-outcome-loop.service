@@ -1,0 +1,11 @@
+[Unit]
+Description=Echo Outcome Loop - verify expected local outcomes
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py outcome_loop
+StandardOutput=append:%h/Echo/logs/outcome_loop.log
+StandardError=append:%h/Echo/logs/outcome_loop.log
+TimeoutStartSec=180

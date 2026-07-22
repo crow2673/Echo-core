@@ -1,0 +1,18 @@
+[Unit]
+Description=Echo conductor Claude and Codex tmux agents
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+Environment=TERM=xterm-256color
+ExecStart=/usr/bin/bash %h/Echo/tools/launch_agents.sh --ensure
+ExecReload=/usr/bin/bash %h/Echo/tools/launch_agents.sh --register
+RemainAfterExit=yes
+TimeoutStartSec=45
+StandardOutput=append:%h/Echo/logs/conductor_agents.log
+StandardError=append:%h/Echo/logs/conductor_agents.log
+
+[Install]
+WantedBy=default.target

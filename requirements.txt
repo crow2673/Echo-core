@@ -4,11 +4,23 @@
 
 # Core system
 psutil>=5.9
+python-dotenv>=1.0          # env loading in builds/apps workers + core
+schedule>=1.2               # in-process schedulers
+
+# Web services
+flask>=3.0                  # echo_dashboard, crow_finance
 
 # Networking / scraping
 requests>=2.31
-playwright>=1.40          # browser automation (pip install playwright && playwright install chromium)
+playwright==1.59.0         # PINNED: must match the cached chromium-1217 browser build.
+                           # Newer playwright expects a newer chromium that won't download on
+                           # this OS; if you bump it, run `playwright install chromium` too.
 duckduckgo-search>=4.0    # web search in web_search.py
+
+# Messaging / LLM APIs
+anthropic>=0.40            # Claude API
+openai>=1.40               # OpenAI-compatible local/remote models
+telethon>=1.36             # Telegram intake/approver
 
 # AI / embeddings
 sentence-transformers>=2.7  # semantic memory in memory_store.py
@@ -16,6 +28,7 @@ sentence-transformers>=2.7  # semantic memory in memory_store.py
 # Data / trading
 pandas>=2.0
 praw>=7.7                   # Reddit lead scanner in demand_scanner.py
+plaid-python>=20.0          # Crow Finance bank transaction sync
 
 # Trading backtests (optional — only needed if running Freqtrade)
 # freqtrade — install separately: pip install freqtrade

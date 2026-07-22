@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Log Anomaly Trainer
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py log_anomaly_train
+StandardOutput=append:%h/Echo/logs/log_anomaly.log
+StandardError=append:%h/Echo/logs/log_anomaly.log

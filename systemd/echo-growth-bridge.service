@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Growth Bridge
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py growth_bridge
+StandardOutput=append:%h/Echo/logs/growth_bridge.log
+StandardError=append:%h/Echo/logs/growth_bridge.log

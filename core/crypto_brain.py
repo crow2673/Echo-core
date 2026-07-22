@@ -167,7 +167,9 @@ def load_trade_log():
 
 def save_trade_log(trades):
     TRADE_LOG.parent.mkdir(parents=True, exist_ok=True)
-    TRADE_LOG.write_text(json.dumps(trades, indent=2, default=str))
+    tmp = TRADE_LOG.with_suffix(".tmp")
+    tmp.write_text(json.dumps(trades, indent=2, default=str))
+    tmp.rename(TRADE_LOG)
 
 
 def already_holding_crypto(symbol, positions):

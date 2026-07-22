@@ -1,0 +1,10 @@
+[Unit]
+Description=Repair Echo conductor agent panes every minute
+
+[Timer]
+OnBootSec=90
+OnUnitActiveSec=60
+Unit=echo-conductor-agents-repair.service
+
+[Install]
+WantedBy=timers.target

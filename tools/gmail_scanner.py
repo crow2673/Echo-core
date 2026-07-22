@@ -5,6 +5,7 @@ Runs every 30 minutes via echo-gmail-scanner.timer.
 import imaplib
 import email
 import json
+import socket
 from datetime import datetime, date
 from pathlib import Path
 import sys
@@ -58,8 +59,10 @@ def save_state(state):
 
 def scan_gmail(user, password):
     alerts = []
+    old_timeout = socket.getdefaulttimeout()
     try:
-        mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+        socket.setdefaulttimeout(30)
+        mail = imaplib.IMAP4_SSL("imap.gmail.com", 993, timeout=30)
         mail.login(user, password)
         mail.select("INBOX")
 
@@ -100,6 +103,8 @@ def scan_gmail(user, password):
     except Exception as e:
         log(f"IMAP error: {e}")
         return [], 0
+    finally:
+        socket.setdefaulttimeout(old_timeout)
 
 
 def run():

@@ -182,9 +182,27 @@ def run():
 
     log(f"Scout complete — {len(integrated)} new skills integrated: {integrated}")
 
+    # Promote newly discovered tools into persistent goals for Echo to explore
+    try:
+        from core.persistent_goals import add_goal
+        for pkg in top:
+            if pkg["name"] not in integrated:
+                goal_id = f"explore_{pkg['name'].replace('-','_')[:30]}"
+                add_goal(
+                    goal_id=goal_id,
+                    description=(
+                        f"Explore external tool '{pkg['name']}': {pkg['description'][:100]}. "
+                        f"Investigate if it can improve Echo's capabilities or open new income paths. "
+                        f"If useful, integrate it."
+                    ),
+                    source="tech_scout",
+                )
+    except Exception as _e:
+        log(f"Goal promotion failed: {_e}")
+
     if integrated:
         try:
-            from core.notifier import notify_telegram
+            from core.notifier import notify as notify_telegram
             notify_telegram(
                 "Echo Tech Scout",
                 f"Scout run complete.\n\n"

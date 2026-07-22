@@ -1,0 +1,9 @@
+[Unit]
+Description=Echo Life Loop
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Echo
+ExecStart=/usr/bin/python3 %h/Echo/tools/timer_signal.py life_loop
+StandardOutput=append:%h/Echo/logs/life_loop.log
+StandardError=append:%h/Echo/logs/life_loop.log

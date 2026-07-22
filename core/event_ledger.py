@@ -18,9 +18,16 @@ def _conn():
             source TEXT,
             summary TEXT,
             score REAL,
-            data TEXT
+            data TEXT,
+            outcome_score REAL,
+            tags TEXT
         )
     """)
+    existing = {row[1] for row in db.execute("PRAGMA table_info(events)")}
+    if "outcome_score" not in existing:
+        db.execute("ALTER TABLE events ADD COLUMN outcome_score REAL")
+    if "tags" not in existing:
+        db.execute("ALTER TABLE events ADD COLUMN tags TEXT")
     db.commit()
     return db
 

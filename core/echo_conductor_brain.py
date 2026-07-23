@@ -117,27 +117,116 @@ def _self_answer(text: str) -> str:
         return f"(self-answer failed: {e})"
 
 
+def _relay_prompt(job: dict) -> str:
+    """Build the structured instruction pasted into an agent pane."""
+    question = "\n".join(f"> {line}" for line in (job["original_question"] or "").splitlines())
+    return (
+        "[Echo collaboration relay]\n"
+        f"You are handling Echo collaboration job {job['job_id']}.\n"
+        f"Correlation ID: {job['correlation_id']}\n"
+        f"Sender: {job['sender']}\n"
+        f"Recipient: {job['recipient']}\n"
+        f"Source channel: {job['channel']}\n"
+        f"Reply deadline: {job['reply_deadline']}\n\n"
+        "First acknowledge the job with:\n"
+        f"python3 -m collab.bus claim --job-id \"{job['job_id']}\" "
+        f"--correlation-id \"{job['correlation_id']}\" --from-agent \"{job['recipient']}\"\n\n"
+        "Original question:\n"
+        f"{question}\n\n"
+        "After completing the task, write your concise final answer to:\n"
+        f"{job['reply_file']}\n\n"
+        "Then publish it using:\n"
+        f"{job['reply_command']}\n\n"
+        "If you are blocked, publish a failure with:\n"
+        f"python3 -m collab.bus fail --job-id \"{job['job_id']}\" "
+        f"--correlation-id \"{job['correlation_id']}\" --from-agent \"{job['recipient']}\" "
+        "--message \"blocked: concise reason\"\n\n"
+        "Do not answer only in the TUI. Echo will wait only for this matching job and correlation ID."
+    )
+
+
+def _format_relay_result(handle: str, result: dict, timeout: int) -> str:
+    status = result.get("status")
+    if status == "replied":
+        return result.get("message") or "(empty correlated reply)"
+    job = result.get("job") or {}
+    job_id = job.get("job_id", "unknown-job")
+    if status == "failed":
+        return f"[{handle} reported failure for {job_id}: {result.get('message') or 'no details'}]"
+    if status == "blocked_interactive":
+        reason = (job.get("events") or [{}])[-1].get("reason") or "interactive prompt"
+        return f"[{handle} is blocked before delivery for {job_id}: {reason}]"
+    if status == "unavailable":
+        reason = (job.get("events") or [{}])[-1].get("reason") or "unavailable"
+        return f"[{handle} is unavailable for {job_id}: {reason}]"
+    if status == "timed_out":
+        observed = result.get("last_observed_state") or job.get("state") or "unknown"
+        return f"[{handle} did not publish a correlated reply for {job_id} within {timeout}s; last state: {observed}]"
+    return f"[{handle} relay ended in {status or 'unknown'} for {job_id}]"
+
+
+def _prepare_relay_job(handle: str, text: str, timeout: int) -> dict:
+    from core.conductor import load_agents, pane_state, relay
+    from collab import relay_jobs
+
+    agents = load_agents()
+    target = agents.get(handle)
+    job = relay_jobs.create_job(
+        recipient=handle,
+        original_question=text,
+        sender="andrew",
+        channel="telegram",
+        timeout_seconds=timeout,
+    )
+    if not target:
+        relay_jobs.mark_blocked(job["job_id"], "unavailable", reason="recipient is not registered with conductor")
+        return {"status": "unavailable", "job": relay_jobs.get_job(job["job_id"]), "handle": handle}
+
+    state = pane_state(target)
+    if not state.get("ready"):
+        blocked_state = "blocked_interactive" if state.get("state") == "blocked_interactive" else "unavailable"
+        relay_jobs.mark_blocked(
+            job["job_id"],
+            blocked_state,
+            reason=state.get("reason") or state.get("state") or "pane not ready",
+            details={"pane_state": state.get("state"), "target": target},
+        )
+        return {"status": blocked_state, "job": relay_jobs.get_job(job["job_id"]), "handle": handle}
+
+    relay_jobs.mark_ready(job["job_id"], details={"target": target, "pane_state": state.get("state")})
+    if not relay(handle, _relay_prompt(job)):
+        relay_jobs.mark_blocked(job["job_id"], "failed", reason="tmux relay failed", details={"target": target})
+        return {"status": "failed", "job": relay_jobs.get_job(job["job_id"]), "handle": handle}
+    relay_jobs.mark_delivered(job["job_id"], details={"target": target})
+    return {"status": "delivered", "job": relay_jobs.get_job(job["job_id"]), "handle": handle}
+
+
 def _relay_and_wait(handle: str, text: str, timeout: int) -> str:
-    """Type into the agent's tmux pane and wait for their next bus reply."""
-    from core.conductor import relay, load_agents
-    if handle not in load_agents():
-        return (f"[{handle} isn't registered with the conductor yet — its tmux pane "
-                f"needs to be launched + registered. Falling back: not relayed.]")
-    baseline = _read_bus()
-    last_id = baseline[-1]["id"] if baseline else 0
-    # prefix so the woken agent knows it's a relayed request from Andrew via Echo
-    framed = f"[via Echo from Andrew] {text}"
-    if not relay(handle, framed):
-        return f"[failed to type into {handle}'s pane]"
-    # watch the bus for that agent's reply
-    waited = 0
-    while waited < timeout:
-        time.sleep(3)
-        waited += 3
-        for m in _read_bus():
-            if m["id"] > last_id and m["from"] == handle:
-                return m["text"]
-    return f"[{handle} was woken but hasn't replied on the bus within {timeout}s]"
+    """Send a structured tmux relay job and wait for its correlated bus reply."""
+    from collab import relay_jobs
+
+    prepared = _prepare_relay_job(handle, text, timeout)
+    if prepared["status"] != "delivered":
+        return _format_relay_result(handle, prepared, timeout)
+    result = relay_jobs.wait_for_correlated_result(prepared["job"]["job_id"], timeout_seconds=timeout, poll_seconds=3)
+    return _format_relay_result(handle, result, timeout)
+
+
+def _relay_many_and_wait(handles: list[str], text: str, timeout: int) -> dict[str, str]:
+    """Deliver to all ready recipients first, then wait for each matching reply."""
+    from collab import relay_jobs
+
+    prepared = {handle: _prepare_relay_job(handle, text, timeout) for handle in handles}
+    replies: dict[str, str] = {}
+    start = time.monotonic()
+    for handle, item in prepared.items():
+        if item["status"] != "delivered":
+            replies[handle] = _format_relay_result(handle, item, timeout)
+            continue
+        remaining = max(1, int(timeout - (time.monotonic() - start)))
+        result = relay_jobs.wait_for_correlated_result(item["job"]["job_id"], timeout_seconds=remaining, poll_seconds=3)
+        replies[handle] = _format_relay_result(handle, result, timeout)
+    return replies
 
 
 def _broadcast(text: str) -> str:
@@ -159,9 +248,8 @@ def conduct(text: str, timeout: int = 150) -> str:
     if target == "broadcast":
         return _broadcast(text)
     if target == "both":
-        c = _relay_and_wait("claude", text, timeout)
-        x = _relay_and_wait("codex", text, timeout)
-        return f"Claude: {c}\n\nCodex: {x}"
+        replies = _relay_many_and_wait(["claude", "codex"], text, timeout)
+        return f"Claude: {replies.get('claude', '(no Claude result)')}\n\nCodex: {replies.get('codex', '(no Codex result)')}"
     return _relay_and_wait(target, text, timeout)
 
 

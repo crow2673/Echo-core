@@ -938,13 +938,14 @@ def run():
             tg_send(AUTHORIZED_CHAT_ID, "Echo is thinking...")
             reply = None
             try:
-                from core.echo_conductor_brain import route as _route, _relay_and_wait
+                from core.echo_conductor_brain import route as _route, _relay_and_wait, _relay_many_and_wait
                 decision = _route(text)
                 if decision["target"] in ("claude", "codex", "both"):
                     tg_send(AUTHORIZED_CHAT_ID, f"(routing to {decision['target']} — give me a moment...)")
                     if decision["target"] == "both":
-                        reply = ("Claude: " + _relay_and_wait("claude", text, 150)
-                                 + "\n\nCodex: " + _relay_and_wait("codex", text, 150))
+                        relay_replies = _relay_many_and_wait(["claude", "codex"], text, 150)
+                        reply = ("Claude: " + relay_replies.get("claude", "(no Claude result)")
+                                 + "\n\nCodex: " + relay_replies.get("codex", "(no Codex result)"))
                     else:
                         reply = _relay_and_wait(decision["target"], text, 150)
             except Exception as e:

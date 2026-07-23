@@ -53,6 +53,63 @@ def pane_exists(target: str) -> bool:
     return target in r.stdout.split()
 
 
+def capture_pane(target: str, lines: int = 80) -> str:
+    """Return a bounded tmux pane capture for readiness checks."""
+    if not pane_exists(target):
+        return ""
+    start = f"-{max(1, int(lines))}"
+    r = _tmux("capture-pane", "-t", target, "-p", "-S", start)
+    return r.stdout if r.returncode == 0 else ""
+
+
+def pane_state(target: str, lines: int = 80) -> dict:
+    """Classify whether a pane can safely receive a new relayed job.
+
+    This is intentionally conservative. Unknown TUI state is not treated as
+    ready because stacking prompts caused the callback failure this fixes.
+    """
+    if not pane_exists(target):
+        return {"state": "missing", "ready": False, "reason": "tmux pane is not registered or no longer exists"}
+    text = capture_pane(target, lines=lines)
+    lowered = text.lower()
+    approval_markers = (
+        "do you want to proceed",
+        "approve",
+        "approval",
+        "requires approval",
+        "allow this command",
+        "1. yes",
+        "2. no",
+        "esc to cancel",
+    )
+    if any(marker in lowered for marker in approval_markers):
+        return {"state": "blocked_interactive", "ready": False, "reason": "pane appears to be waiting for interactive approval"}
+    auth_markers = (
+        "not authenticated",
+        "please log in",
+        "login required",
+        "sign in",
+        "authentication",
+    )
+    if any(marker in lowered for marker in auth_markers):
+        return {"state": "unavailable", "ready": False, "reason": "pane appears to need authentication"}
+    work_markers = (
+        "running...",
+        "thinking",
+        "working",
+        "executing",
+        "waiting for",
+        "press enter to continue",
+    )
+    if any(marker in lowered for marker in work_markers):
+        return {"state": "active", "ready": False, "reason": "pane appears to be busy or awaiting another interaction"}
+    tail = [line.rstrip() for line in text.splitlines()[-8:] if line.strip()]
+    prompt_markers = ("›", "❯", "$", ">")
+    if tail and any(line.strip().startswith(prompt_markers) for line in tail[-3:]):
+        return {"state": "ready", "ready": True, "reason": "input prompt detected"}
+    return {"state": "unknown", "ready": False, "reason": "pane state could not be proven ready"}
+
+
 def send_to_pane(target: str, message: str) -> bool:
     """Type `message` into the tmux pane, then press Enter — exactly as if a
     human typed it into that agent's CLI.

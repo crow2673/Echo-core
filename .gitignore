@@ -84,6 +84,10 @@ memory/conversation_learning_candidates.jsonl
 memory/conversation_learning_candidate_events.jsonl
 memory/finetune_dataset_reviewed.jsonl
 
+# Collaboration relay callback runtime data
+memory/collab_relay_jobs.jsonl
+memory/collab_relay_events.jsonl
+
 # Junk files
 a.zip
 analyze_content.py

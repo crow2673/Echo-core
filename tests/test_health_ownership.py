@@ -8,6 +8,7 @@ from pathlib import Path
 
 from core import executive_context
 from core.homeostasis import collect_findings, operational_system_health, report_status
+from tools import operational_audit
 from tools.operational_audit import assess
 
 
@@ -98,6 +99,62 @@ class HealthOwnershipTests(unittest.TestCase):
 
         self.assertEqual(context["system_health"], "OK")
         self.assertEqual(context["current_focus"], "test focus")
+
+    def test_local_only_mode_removes_only_conductor_repair_from_critical_units(self) -> None:
+        original = operational_audit.local_only_mode_enabled
+        operational_audit.local_only_mode_enabled = lambda: True
+        try:
+            units = operational_audit.critical_units_for_mode()
+        finally:
+            operational_audit.local_only_mode_enabled = original
+
+        self.assertNotIn("echo-conductor-agents-repair.timer", units)
+        self.assertIn("echo-core.service", units)
+        self.assertIn("echo-telegram-intake.timer", units)
+
+    def test_local_only_mode_disabled_repair_is_maintenance_not_critical(self) -> None:
+        report = _base_report()
+        report["local_only_mode"] = True
+        report["systemd"]["critical_units"].pop("echo-conductor-agents-repair.timer")
+
+        assessment = assess(report)
+
+        self.assertEqual(assessment["status"], "ok")
+        self.assertEqual(assessment["critical"], [])
+        self.assertIn(
+            "local-only mode: Claude/Codex conductor repair intentionally disabled",
+            assessment["maintenance"],
+        )
+
+    def test_disabled_finetune_timer_is_not_a_core_failure(self) -> None:
+        report = _base_report()
+        report["local_only_mode"] = True
+
+        assessment = assess(report)
+
+        self.assertEqual(assessment["status"], "ok")
+        self.assertFalse(any("finetune" in item for item in assessment["critical"]))
+
+    def test_unavailable_claude_codex_agents_are_not_core_failures_in_local_mode(self) -> None:
+        report = _base_report()
+        report["local_only_mode"] = True
+        report["systemd"]["critical_units"].pop("echo-conductor-agents-repair.timer")
+
+        assessment = assess(report)
+
+        self.assertEqual(assessment["status"], "ok")
+        self.assertFalse(any("Claude" in item or "Codex" in item for item in assessment["critical"]))
+
+    def test_local_only_mode_still_reports_unexpected_core_failure(self) -> None:
+        report = _base_report()
+        report["local_only_mode"] = True
+        report["systemd"]["critical_units"].pop("echo-conductor-agents-repair.timer")
+        report["systemd"]["critical_units"]["echo-core.service"] = "inactive"
+
+        assessment = assess(report)
+
+        self.assertEqual(assessment["status"], "critical")
+        self.assertIn("critical unit not active: echo-core.service=inactive", assessment["critical"])
 
 
 if __name__ == "__main__":

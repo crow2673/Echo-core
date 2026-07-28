@@ -17,6 +17,7 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parents[1]
 OUT = BASE / "memory/operational_audit.json"
 LOG = BASE / "logs/operational_audit.log"
+LOCAL_OPERATION_MODE = BASE / "memory/local_operation_mode.json"
 
 CRITICAL_UNITS = {
     "echo-core.service",
@@ -83,6 +84,25 @@ def run_cmd(args: list[str], timeout: int = 10) -> dict:
         return {"ok": False, "error": str(exc), "stdout": "", "stderr": ""}
 
 
+def local_only_mode_enabled() -> bool:
+    if os.environ.get("ECHO_LOCAL_ONLY_MODE", "").strip().lower() in {"1", "true", "yes", "on"}:
+        return True
+    try:
+        if LOCAL_OPERATION_MODE.exists():
+            data = json.loads(LOCAL_OPERATION_MODE.read_text())
+            return bool(data.get("enabled"))
+    except Exception:
+        return False
+    return False
+
+
+def critical_units_for_mode() -> set[str]:
+    units = set(CRITICAL_UNITS)
+    if local_only_mode_enabled():
+        units.discard("echo-conductor-agents-repair.timer")
+    return units
+
+
 def offsite_backup_transport_deferred() -> bool:
     path = BASE / "memory/offsite_backup_status.json"
     try:
@@ -111,7 +131,7 @@ def systemd_snapshot() -> dict:
                 failed_units.append(unit)
 
     active = {}
-    for unit in sorted(CRITICAL_UNITS):
+    for unit in sorted(critical_units_for_mode()):
         result = run_cmd(["systemctl", "--user", "is-active", unit])
         active[unit] = result["stdout"] or result.get("stderr") or "unknown"
 
@@ -290,6 +310,8 @@ def assess(report: dict) -> dict:
         maintenance.append(f"generated app inventory growth: {apps['count']} apps")
     if apps["with_deploy_error"]:
         maintenance.append(f"generated apps with deploy errors: {len(apps['with_deploy_error'])}")
+    if report.get("local_only_mode"):
+        maintenance.append("local-only mode: Claude/Codex conductor repair intentionally disabled")
 
     return {
         "status": "critical" if critical else ("warning" if warnings else "ok"),
@@ -306,6 +328,7 @@ def build_report() -> dict:
             "executable": sys.executable,
             "version": sys.version.split()[0],
         },
+        "local_only_mode": local_only_mode_enabled(),
         "systemd": systemd_snapshot(),
         "echo_state": parse_echo_state(),
         "imports": import_snapshot(),

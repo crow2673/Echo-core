@@ -456,25 +456,75 @@ def _group_anomaly_incidents(actionable: list[dict]) -> list[dict]:
     incidents = []
     for (source, target_key), windows in sorted(grouped.items()):
         template = str(windows[0].get("template") or "")
-        timestamps = sorted(str(item.get("detected_at") or item.get("ts") or "") for item in windows)
+        source_timestamps = sorted(
+            str(item.get("source_ts") or item.get("ts") or item.get("timestamp") or "")
+            for item in windows
+            if item.get("source_ts") or item.get("ts") or item.get("timestamp")
+        )
+        scan_timestamps = sorted(
+            str(item.get("detected_at") or "")
+            for item in windows
+            if item.get("detected_at")
+        )
+        first_source_seen = source_timestamps[0] if source_timestamps else (scan_timestamps[0] if scan_timestamps else "")
+        last_source_seen = source_timestamps[-1] if source_timestamps else (scan_timestamps[-1] if scan_timestamps else "")
         incident = _classify_anomaly_incident(
             source=source,
             target_key=target_key,
             template=template,
             raw_window_count=len(windows),
-            first_seen=timestamps[0] if timestamps else "",
-            last_seen=timestamps[-1] if timestamps else "",
+            first_seen=first_source_seen,
+            last_seen=last_source_seen,
         )
         incident.update({
             "source": source,
             "target_key": target_key,
             "template": template[:300],
             "raw_window_count": len(windows),
-            "first_seen": timestamps[0] if timestamps else "",
-            "last_seen": timestamps[-1] if timestamps else "",
+            "first_seen": first_source_seen,
+            "last_seen": last_source_seen,
+            "source_first_seen": first_source_seen,
+            "source_last_seen": last_source_seen,
+            "scan_first_seen": scan_timestamps[0] if scan_timestamps else "",
+            "scan_last_seen": scan_timestamps[-1] if scan_timestamps else "",
         })
         incidents.append(incident)
+    _record_incident_lifecycle_events(incidents)
     return incidents
+
+
+def _record_incident_lifecycle_events(incidents: list[dict]) -> None:
+    if not incidents:
+        return
+    state = load_json(STATE_PATH, {"last_repair_by_unit": {}})
+    events = list(state.get("incident_lifecycle_events", []))
+    seen = {str(event.get("event_fingerprint")) for event in events if event.get("event_fingerprint")}
+    changed = False
+    for incident in incidents:
+        payload = {
+            "source": incident.get("source"),
+            "target_key": incident.get("target_key"),
+            "classification": incident.get("classification"),
+            "active": bool(incident.get("active")),
+            "lifecycle_state": incident.get("lifecycle_state"),
+            "source_first_seen": incident.get("source_first_seen") or incident.get("first_seen"),
+            "source_last_seen": incident.get("source_last_seen") or incident.get("last_seen"),
+            "scan_first_seen": incident.get("scan_first_seen"),
+            "scan_last_seen": incident.get("scan_last_seen"),
+        }
+        fingerprint = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
+        if fingerprint in seen:
+            continue
+        events.append({
+            "event_fingerprint": fingerprint,
+            "recorded_at": iso_now(),
+            **payload,
+        })
+        seen.add(fingerprint)
+        changed = True
+    if changed:
+        state["incident_lifecycle_events"] = events[-500:]
+        write_json(STATE_PATH, state)
 
 
 def _classify_anomaly_incident(
@@ -613,11 +663,12 @@ def _classify_anomaly_incident(
                     "classification": "capability_blocker",
                     "domain": "communication",
                     "active": True,
-                    "root_cause": "telegram_transient_errors_persistent",
+                    "root_cause": "telegram_recurring_degraded_condition",
                     "message": "Telegram intake transient polling errors have persisted without later successful polling.",
                     "raw_window_count": raw_window_count,
                     "threshold": TELEGRAM_TRANSIENT_ESCALATE_WINDOWS,
                     "success_after_incident": success_after,
+                    "lifecycle_state": "recurring_degraded",
                 }
             return {
                 "classification": "transient",
@@ -631,6 +682,7 @@ def _classify_anomaly_incident(
                 "raw_window_count": raw_window_count,
                 "threshold": TELEGRAM_TRANSIENT_ESCALATE_WINDOWS,
                 "success_after_incident": success_after,
+                "lifecycle_state": "recovered_transient" if success_after else "active_transient",
             }
 
     return {
@@ -678,6 +730,8 @@ def _telegram_transient_error(text: str) -> bool:
         for token in (
             "too many requests",
             "429",
+            "502",
+            "bad gateway",
             "timed out",
             "timeout",
             "connection reset",
@@ -950,6 +1004,9 @@ def run(dry_run: bool = False, notify: bool = True) -> dict:
     state = load_json(STATE_PATH, {"last_repair_by_unit": {}})
     operational = load_operational_audit()
     findings = collect_findings(operational)
+    refreshed_state = load_json(STATE_PATH, {"last_repair_by_unit": {}})
+    if refreshed_state.get("incident_lifecycle_events"):
+        state["incident_lifecycle_events"] = refreshed_state.get("incident_lifecycle_events", [])
     actions = apply_repairs(findings, state, dry_run=dry_run)
     anomaly_signal = load_json(LOG_ANOMALY_SIGNAL_PATH, {})
     capability_blockers = list(anomaly_signal.get("capability_blockers", []))

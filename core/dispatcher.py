@@ -739,7 +739,7 @@ def step4_echo_judgment(worker: str, cfg: dict, state: dict, hist_summary: dict)
 
     try:
         sys.path.insert(0, str(BASE))
-        from core.providers.router import call_ollama
+        from core.providers.router import LOCAL_ONLY_REASONING_MODEL, call_ollama
 
         system_health = state.get("system_health", "unknown")
         system = state.get("system", {})
@@ -770,7 +770,7 @@ def step4_echo_judgment(worker: str, cfg: dict, state: dict, hist_summary: dict)
 
         response = call_ollama(
             prompt=brief,
-            model="llama3.1:latest",
+            model=LOCAL_ONLY_REASONING_MODEL,
             timeout=60.0,
             system_prompt="You are Echo. Give a direct YES or NO decision. Be concise. Do not skip workers just because system load is low.",
         )

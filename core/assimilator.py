@@ -99,7 +99,7 @@ def evaluate_library(package_name: str, pypi_info: dict, gaps: str) -> dict:
         f"}}\n\nJSON only, no other text:"
     )
 
-    response = call_ollama(prompt, model="llama3.1:latest", timeout=90)
+    response = call_ollama(prompt, timeout=90)
 
     try:
         # Extract JSON from response

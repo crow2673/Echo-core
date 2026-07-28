@@ -48,6 +48,7 @@ for line in env_file.read_text().splitlines():
 
 TOKEN = ENV.get("TELEGRAM_BOT_TOKEN", "")
 AUTHORIZED_CHAT_ID = int((Path.home() / ".config/echo/telegram_chat_id").read_text().strip())
+LAST_FREEFORM_MODEL_USED: str | None = None
 
 sys.path.insert(0, str(BASE))
 
@@ -426,7 +427,9 @@ def _build_collab_context() -> str:
 
 
 def ask_ollama(text):
-    """Send freeform message to llama3.1 with grounded Echo context."""
+    """Send freeform message to the policy-selected local model with grounded Echo context."""
+    global LAST_FREEFORM_MODEL_USED
+    LAST_FREEFORM_MODEL_USED = None
     try:
         # Only inject trading/income context when the message is actually about those topics.
         # This prevents Echo from bleeding Alpaca account details into unrelated conversations.
@@ -522,8 +525,15 @@ def ask_ollama(text):
             f"{verification_block}"
             f"{voice_block}"
         )
+        from core.providers.router import LOCAL_ONLY_REASONING_MODEL, select_ollama_model
+        policy = select_ollama_model(LOCAL_ONLY_REASONING_MODEL, purpose="telegram_freeform")
+        if not policy.get("allowed"):
+            log(f"[telegram] model policy blocked freeform response: {policy.get('reason')}")
+            return None
+        selected_model = str(policy["model"])
+        LAST_FREEFORM_MODEL_USED = selected_model
         payload = json.dumps({
-            "model": "qwen2.5:7b",
+            "model": selected_model,
             "system": system_prompt,
             "prompt": f"Human: {text}\nEcho:",
             "stream": False,
@@ -977,7 +987,7 @@ def run():
                             "andrew": andrew_turn.get("ts") if andrew_turn else None,
                             "echo": echo_turn.get("ts") if echo_turn else None,
                         },
-                        model_used="qwen2.5:7b",
+                        model_used=LAST_FREEFORM_MODEL_USED or "unknown",
                         immediate_context_refs=["interaction_ledger:last_15"],
                         evidence_status="unverified",
                     )

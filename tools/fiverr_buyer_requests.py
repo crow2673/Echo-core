@@ -98,7 +98,7 @@ def draft_response(title: str, description: str, budget: str) -> str:
             f"Budget: {budget}\n\n"
             f"Response:"
         )
-        return call_ollama(prompt, model="llama3.1:latest", timeout=60)
+        return call_ollama(prompt, timeout=60)
     except Exception as e:
         return f"[draft failed: {e}]"
 

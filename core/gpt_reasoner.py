@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Fallback reasoner — simple Ollama call when agent_loop is unavailable."""
-from core.providers.router import call_ollama
+from core.providers.router import LOCAL_ONLY_REASONING_MODEL, call_ollama
 
 
 def gpt_reasoner(prompt, core_state: dict = None) -> str:
@@ -11,7 +11,7 @@ def gpt_reasoner(prompt, core_state: dict = None) -> str:
     )
     return call_ollama(
         prompt=str(prompt),
-        model="llama3.1:latest",
+        model=LOCAL_ONLY_REASONING_MODEL,
         timeout=120.0,
         system_prompt=system,
     )

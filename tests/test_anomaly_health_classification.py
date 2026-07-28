@@ -196,6 +196,66 @@ class AnomalyHealthClassificationTests(unittest.TestCase):
         self.assertEqual(incident["classification"], "transient")
         self.assertFalse(incident["active"])
         self.assertTrue(incident["success_after_incident"])
+        self.assertEqual(incident["lifecycle_state"], "recovered_transient")
+
+    def test_one_telegram_502_with_later_success_resolves_transient_incident(self) -> None:
+        original_failed = homeostasis.unit_is_failed
+        original_active = homeostasis.unit_is_active
+        original_success = homeostasis.telegram_success_after
+        homeostasis.unit_is_failed = lambda unit: False
+        homeostasis.unit_is_active = lambda unit: True
+        homeostasis.telegram_success_after = lambda timestamp: True
+        try:
+            incident = homeostasis._classify_anomaly_incident(
+                "file:telegram_intake.log",
+                "tg-502",
+                "[telegram] fetch error: HTTP Error 502: Bad Gateway",
+                raw_window_count=1,
+                last_seen="2026-07-27T20:10:49-05:00",
+            )
+        finally:
+            homeostasis.unit_is_failed = original_failed
+            homeostasis.unit_is_active = original_active
+            homeostasis.telegram_success_after = original_success
+
+        self.assertEqual(incident["classification"], "transient")
+        self.assertFalse(incident["active"])
+        self.assertEqual(incident["lifecycle_state"], "recovered_transient")
+        self.assertTrue(incident["success_after_incident"])
+
+    def test_stale_telegram_log_rescan_preserves_source_timestamp(self) -> None:
+        original_failed = homeostasis.unit_is_failed
+        original_active = homeostasis.unit_is_active
+        original_success = homeostasis.telegram_success_after
+        original_record = homeostasis._record_incident_lifecycle_events
+        homeostasis.unit_is_failed = lambda unit: False
+        homeostasis.unit_is_active = lambda unit: True
+        homeostasis.telegram_success_after = lambda timestamp: timestamp == "2026-07-27T20:10:49-05:00"
+        homeostasis._record_incident_lifecycle_events = lambda incidents: None
+        try:
+            incidents = homeostasis._group_anomaly_incidents([
+                {
+                    "source": "file:telegram_intake.log",
+                    "target_key": "tg-502",
+                    "template": "[telegram] fetch error: HTTP Error 502: Bad Gateway",
+                    "ts": "2026-07-27T20:10:49-05:00",
+                    "detected_at": "2026-07-28T17:46:00+00:00",
+                }
+            ])
+        finally:
+            homeostasis.unit_is_failed = original_failed
+            homeostasis.unit_is_active = original_active
+            homeostasis.telegram_success_after = original_success
+            homeostasis._record_incident_lifecycle_events = original_record
+
+        self.assertEqual(len(incidents), 1)
+        incident = incidents[0]
+        self.assertEqual(incident["first_seen"], "2026-07-27T20:10:49-05:00")
+        self.assertEqual(incident["last_seen"], "2026-07-27T20:10:49-05:00")
+        self.assertEqual(incident["source_last_seen"], "2026-07-27T20:10:49-05:00")
+        self.assertEqual(incident["scan_last_seen"], "2026-07-28T17:46:00+00:00")
+        self.assertEqual(incident["classification"], "transient")
+        self.assertFalse(incident["active"])
 
     def test_briefing_warmup_timeout_with_later_success_is_transient(self) -> None:
         original_failed = homeostasis.unit_is_failed
@@ -237,7 +297,30 @@ class AnomalyHealthClassificationTests(unittest.TestCase):
 
         self.assertEqual(incident["classification"], "capability_blocker")
         self.assertTrue(incident["active"])
-        self.assertEqual(homeostasis.report_status([{"kind": "warning", "severity": "warning", **incident}]), "ok")
+
+    def test_current_telegram_service_failure_remains_core_operational(self) -> None:
+        original_failed = homeostasis.unit_is_failed
+        original_active = homeostasis.unit_is_active
+        original_success = homeostasis.telegram_success_after
+        homeostasis.unit_is_failed = lambda unit: unit == "echo-telegram-intake.service"
+        homeostasis.unit_is_active = lambda unit: True
+        homeostasis.telegram_success_after = lambda timestamp: False
+        try:
+            incident = homeostasis._classify_anomaly_incident(
+                "file:telegram_intake.log",
+                "tg-502",
+                "[telegram] fetch error: HTTP Error 502: Bad Gateway",
+                raw_window_count=1,
+                last_seen="2026-07-28T12:46:00-05:00",
+            )
+        finally:
+            homeostasis.unit_is_failed = original_failed
+            homeostasis.unit_is_active = original_active
+            homeostasis.telegram_success_after = original_success
+
+        self.assertEqual(incident["classification"], "core_operational")
+        self.assertTrue(incident["active"])
+        self.assertEqual(homeostasis.report_status([{"kind": "warning", "severity": "warning", **incident}]), "warning")
 
     def test_briefing_timeout_with_failed_service_is_core_operational(self) -> None:
         original_failed = homeostasis.unit_is_failed
@@ -282,6 +365,8 @@ class AnomalyHealthClassificationTests(unittest.TestCase):
 
         self.assertEqual(incident["classification"], "capability_blocker")
         self.assertTrue(incident["active"])
+        self.assertEqual(incident["root_cause"], "telegram_recurring_degraded_condition")
+        self.assertEqual(incident["lifecycle_state"], "recurring_degraded")
 
     def test_telegram_auth_failure_is_not_harmless_transient_noise(self) -> None:
         incident = homeostasis._classify_anomaly_incident(

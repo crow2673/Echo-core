@@ -184,16 +184,12 @@ def generate_report_with_echo(data):
         f"Content pipeline: {json.dumps(data.get('content', {}))}"
     )
     try:
-        payload = json.dumps({"model": "qwen2.5:32b", "stream": False, "prompt": prompt}).encode()
-        req = urllib.request.Request(
-            "http://localhost:11434/api/generate",
-            data=payload,
-            headers={"Content-Type": "application/json"},
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=120) as r:
-            result = json.loads(r.read())
-            return result.get("response", "").strip()
+        from core.providers.router import call_ollama
+
+        response = call_ollama(prompt, model="qwen2.5:32b", timeout=120)
+        if not response:
+            raise RuntimeError("empty model response")
+        return response
     except Exception as e:
         raise RuntimeError(f"Ollama failed: {e}")
 

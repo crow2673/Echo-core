@@ -89,6 +89,11 @@ HIGH_SIGNAL_ANOMALY_PATTERNS = (
     re.compile(r"\b(error|critical|failed|failure|exception|traceback)\b", re.I),
     re.compile(r"\b(unauthorized|forbidden|denied|missing secret|no matching distribution)\b", re.I),
 )
+HOMEOSTASIS_STATUS_SUMMARY_RE = re.compile(
+    r"^(?:\[<TS>\]\s*)?homeostasis status=(ok|warning|critical) "
+    r"findings=<NUM> actions=<NUM> dry_run=(True|False)$",
+    re.I,
+)
 
 
 def utcnow() -> datetime:
@@ -538,6 +543,21 @@ def _classify_anomaly_incident(
     text = f"{source} {template}"
     lowered = text.lower()
 
+    if _is_homeostasis_status_summary(source, template):
+        return {
+            "classification": "maintenance",
+            "domain": "observability",
+            "active": False,
+            "root_cause": "homeostasis_generated_status_summary",
+            "lifecycle_state": "excluded_self_reference",
+            "producer": "homeostasis",
+            "evidence_role": "generated_status_summary",
+            "message": (
+                "Homeostasis status summary is generated classifier output, "
+                "not independent operational failure evidence."
+            ),
+        }
+
     if source == "file:system_health.log" and "failed to start" in lowered:
         unit = _extract_unit(template)
         active = bool(unit and unit_is_failed(unit))
@@ -843,13 +863,21 @@ def _is_low_signal_anomaly(item: dict) -> bool:
     template = item.get("template", "")
     if source in LOW_SIGNAL_ANOMALY_SOURCES:
         return True
+    if _is_homeostasis_status_summary(source, template):
+        return False
     return any(pattern.search(template) for pattern in LOW_SIGNAL_ANOMALY_PATTERNS)
 
 
 def _is_high_signal_anomaly(item: dict) -> bool:
     template = item.get("template", "")
     source = item.get("source", "")
+    if _is_homeostasis_status_summary(source, template):
+        return True
     return any(pattern.search(template) for pattern in HIGH_SIGNAL_ANOMALY_PATTERNS)
+
+
+def _is_homeostasis_status_summary(source: str, template: str) -> bool:
+    return source == "file:homeostasis.log" and bool(HOMEOSTASIS_STATUS_SUMMARY_RE.match(str(template).strip()))
 
 
 def _dedupe_findings(findings: list[dict]) -> list[dict]:

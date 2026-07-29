@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from core import homeostasis
 from core.life_loop import choose_priority
@@ -125,6 +127,112 @@ class AnomalyHealthClassificationTests(unittest.TestCase):
         self.assertEqual(incident["classification"], "core_operational")
         self.assertTrue(incident["active"])
         self.assertEqual(homeostasis.report_status([finding]), "warning")
+
+    def test_homeostasis_critical_summary_is_excluded_self_reference(self) -> None:
+        incident = homeostasis._classify_anomaly_incident(
+            "file:homeostasis.log",
+            "homeostasis-summary",
+            "homeostasis status=critical findings=<NUM> actions=<NUM> dry_run=False",
+            raw_window_count=1,
+            first_seen="2026-07-28T17:59:09+00:00",
+            last_seen="2026-07-28T17:59:09+00:00",
+        )
+
+        self.assertEqual(incident["classification"], "maintenance")
+        self.assertEqual(incident["root_cause"], "homeostasis_generated_status_summary")
+        self.assertEqual(incident["lifecycle_state"], "excluded_self_reference")
+        self.assertEqual(incident["evidence_role"], "generated_status_summary")
+        self.assertFalse(incident["active"])
+        self.assertEqual(homeostasis.report_status([{"kind": "warning", "severity": "warning", **incident}]), "ok")
+
+    def test_homeostasis_warning_summary_is_auditable_but_non_operational(self) -> None:
+        incident = homeostasis._classify_anomaly_incident(
+            "file:homeostasis.log",
+            "homeostasis-summary",
+            "[<TS>] homeostasis status=warning findings=<NUM> actions=<NUM> dry_run=False",
+        )
+
+        self.assertEqual(incident["classification"], "maintenance")
+        self.assertEqual(incident["lifecycle_state"], "excluded_self_reference")
+        self.assertFalse(incident["active"])
+
+    def test_homeostasis_summary_rescan_preserves_source_and_scan_timestamps(self) -> None:
+        original_record = homeostasis._record_incident_lifecycle_events
+        homeostasis._record_incident_lifecycle_events = lambda incidents: None
+        try:
+            incidents = homeostasis._group_anomaly_incidents([
+                {
+                    "source": "file:homeostasis.log",
+                    "target_key": "summary-key",
+                    "template": "homeostasis status=critical findings=<NUM> actions=<NUM> dry_run=False",
+                    "ts": "2026-07-28T17:59:09+00:00",
+                    "detected_at": "2026-07-28T19:30:00+00:00",
+                }
+            ])
+        finally:
+            homeostasis._record_incident_lifecycle_events = original_record
+
+        self.assertEqual(len(incidents), 1)
+        incident = incidents[0]
+        self.assertEqual(incident["source_first_seen"], "2026-07-28T17:59:09+00:00")
+        self.assertEqual(incident["source_last_seen"], "2026-07-28T17:59:09+00:00")
+        self.assertEqual(incident["scan_first_seen"], "2026-07-28T19:30:00+00:00")
+        self.assertEqual(incident["scan_last_seen"], "2026-07-28T19:30:00+00:00")
+        self.assertEqual(incident["lifecycle_state"], "excluded_self_reference")
+        self.assertFalse(incident["active"])
+
+    def test_homeostasis_traceback_still_creates_core_incident(self) -> None:
+        incident = homeostasis._classify_anomaly_incident(
+            "file:homeostasis.log",
+            "homeostasis-traceback",
+            "Traceback (most recent call last): RuntimeError: database corruption while reading core state",
+        )
+
+        self.assertEqual(incident["classification"], "core_operational")
+        self.assertEqual(incident["root_cause"], "unclassified_high_signal_log_anomaly")
+        self.assertTrue(incident["active"])
+
+    def test_homeostasis_failure_text_still_creates_core_incident(self) -> None:
+        incident = homeostasis._classify_anomaly_incident(
+            "file:homeostasis.log",
+            "homeostasis-failure",
+            "homeostasis failed: unreadable state database",
+        )
+
+        self.assertEqual(incident["classification"], "core_operational")
+        self.assertTrue(incident["active"])
+
+    def test_homeostasis_summary_lifecycle_history_is_append_only(self) -> None:
+        original_state = homeostasis.STATE_PATH
+        with TemporaryDirectory() as tmp:
+            homeostasis.STATE_PATH = Path(tmp) / "state.json"
+            try:
+                homeostasis._group_anomaly_incidents([
+                    {
+                        "source": "file:homeostasis.log",
+                        "target_key": "summary-key",
+                        "template": "homeostasis status=critical findings=<NUM> actions=<NUM> dry_run=False",
+                        "ts": "2026-07-28T17:59:09+00:00",
+                        "detected_at": "2026-07-28T19:30:00+00:00",
+                    }
+                ])
+                homeostasis._group_anomaly_incidents([
+                    {
+                        "source": "file:homeostasis.log",
+                        "target_key": "summary-key",
+                        "template": "homeostasis status=critical findings=<NUM> actions=<NUM> dry_run=False",
+                        "ts": "2026-07-28T17:59:09+00:00",
+                        "detected_at": "2026-07-28T19:30:00+00:00",
+                    }
+                ])
+                state = homeostasis.load_json(homeostasis.STATE_PATH, {})
+            finally:
+                homeostasis.STATE_PATH = original_state
+
+        events = state.get("incident_lifecycle_events", [])
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["classification"], "maintenance")
+        self.assertEqual(events[0]["lifecycle_state"], "excluded_self_reference")
 
     def test_one_telegram_429_remains_transient(self) -> None:
         original_failed = homeostasis.unit_is_failed

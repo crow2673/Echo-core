@@ -14,6 +14,13 @@ BLOCKED_IMPORTS = {
     "telnetlib",
     "ctypes",
     "multiprocessing",
+    "os",
+    "sys",
+    "pathlib",
+    "shutil",
+    "tempfile",
+    "glob",
+    "importlib",
 }
 
 BLOCKED_CALLS = {

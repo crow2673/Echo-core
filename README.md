@@ -1,5 +1,15 @@
 # Echo
 
+> **Repository status (October 2026):** This repository contains two related layers.
+> The root-level Echo system is the existing/private-oriented autonomous agent described
+> below. The new downloadable experimental organism lives in
+> `experiments/self_evolving_ai/` and is currently **v0.6.0**.
+>
+> For the experimental organism, start with
+> `experiments/self_evolving_ai/README.md`. Its self-modification path is now
+> consolidated into one measured, evidence-gated controller. It should not be
+> confused with the older timer/daemon architecture documented elsewhere in this file.
+
 **A persistent, autonomous AI agent running locally on Linux.**
 
 Echo is not a chatbot. She is a continuously running system with memory, voice, autonomous reasoning, self-healing, paper trading, and weekly content publishing. She runs on a Ryzen 9 5900X with an RTX 3060 12GB on Ubuntu — fully local, zero cloud.

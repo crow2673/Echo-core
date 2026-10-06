@@ -1,49 +1,66 @@
-# Self-Evolving AI — v0.1
+# Self-Evolving AI — v0.6
 
-This is an experimental branch for a downloadable AI whose identity is the **whole runtime**, not just the language model.
+This experiment is a downloadable local AI runtime whose identity is the
+**whole organism**, not just the language model.
 
-## Concept
+## What is the organism?
 
-The AI consists of:
+The runtime combines:
 
-- a local language model
+- local language model
 - persistent identity and goals
 - memory
-- tool use
-- an execution environment
+- tools and workspace
 - self-observation
-- experiments
-- controlled self-modification
+- candidate generation
+- static safety inspection
+- deterministic measurement
+- evidence ledger
+- promotion and rollback
+- evolution journal
 
-The model is the cognitive substrate. The runtime is the rest of the artificial organism.
+The model is the reasoning substrate. The organism is the complete system around
+that substrate.
 
-## First principle
+## One canonical evolution path
 
-The AI may propose changes to itself, but v0.1 never replaces the running installation blindly.
+The project now has one authority for self-modification:
 
-A change follows:
+observe limitation -> form hypothesis -> generate candidate -> static safety gate -> benchmark baseline and candidate -> require measurable improvement -> record evidence -> promote -> retain rollback
 
-1. Observe a limitation.
-2. Propose a change.
-3. Create an isolated candidate.
-4. Test the candidate.
-5. Compare results against the current version.
-6. Keep the candidate only when the evaluation passes.
-7. Record what changed and why.
+The language model can propose a change, but it cannot declare its own change successful.
 
-## Model distribution
+## Why the benchmark comes first
 
-The Git repository contains the AI runtime, not multi-gigabyte model weights.
+An experiment must define its cases and expected results before a candidate is
+generated. This prevents the system from changing the test after seeing the
+result.
 
-The installer provisions a local model through Ollama. This makes the finished installation self-contained on the user's machine while keeping source control practical.
+SelfEvolvingAI.evolve(EvolutionSpec(...)) is the public entry point.
 
-Default model: `qwen2.5:7b`.
+## Candidate execution boundary
 
-## Run
+Candidates are executed in a separate Python process with a timeout and isolated
+temporary working directory. This is **not a security sandbox**. Static AST
+inspection is still mandatory, and hostile candidate code must not be treated as
+safe. Stronger OS/container isolation is a future hardening step.
 
-```bash
-./install.sh
-./run.sh
-```
+## Installation
 
-The goal of this project is not to claim human-level intelligence. The goal is to experimentally determine whether a persistent AI can safely acquire and improve its own capabilities.
+The repository contains runtime code, not multi-gigabyte model weights.
+
+The installer expects Ollama to already be installed and pulls the default
+local model qwen2.5:7b.
+
+    ./install.sh
+    ./run.sh
+
+## Important limitation
+
+This version demonstrates a real, measured self-modification mechanism for
+bounded capabilities. It does **not** prove general intelligence, autonomous
+income, or unrestricted self-improvement.
+
+The next major engineering target is expanding the benchmark/experiment
+registry and strengthening candidate isolation without creating a second
+evolution engine.

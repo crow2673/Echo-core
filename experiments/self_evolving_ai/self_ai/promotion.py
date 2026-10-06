@@ -8,11 +8,7 @@ from .evidence import Evidence, EvidenceLedger
 
 
 class PromotionGate:
-    """Promote only candidates with objective evidence of improvement.
-
-    Promotion is a file replacement inside the experiment workspace. The
-    previous version is copied into rollback storage before replacement.
-    """
+    """Promote only candidates with objective evidence of improvement."""
 
     def __init__(self, root: Path):
         self.root = root.resolve()
@@ -20,12 +16,7 @@ class PromotionGate:
         self.rollback_dir.mkdir(parents=True, exist_ok=True)
         self.ledger = EvidenceLedger(self.root)
 
-    def evaluate(
-        self,
-        candidate: Path,
-        baseline: BenchmarkResult,
-        candidate_result: BenchmarkResult,
-    ) -> Evidence:
+    def evaluate(self, candidate: Path, baseline: BenchmarkResult, candidate_result: BenchmarkResult) -> Evidence:
         passed, reason = compare(baseline, candidate_result)
         return Evidence(
             candidate=str(candidate),
@@ -39,8 +30,9 @@ class PromotionGate:
     def promote(self, candidate: Path, target: Path, evidence: Evidence) -> None:
         if not evidence.passed:
             raise ValueError("promotion denied: evidence does not prove improvement")
+        target.parent.mkdir(parents=True, exist_ok=True)
         if target.exists():
-            backup = self.rollback_dir / target.name
+            backup = self.rollback_dir / f"{target.name}.{evidence.candidate_sha256[:12]}.rollback"
             shutil.copy2(target, backup)
         shutil.copy2(candidate, target)
         self.ledger.record(evidence)

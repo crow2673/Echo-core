@@ -1,7 +1,7 @@
 [project]
 name = "self-evolving-ai"
-version = "0.1.0"
-description = "A downloadable local AI runtime with memory, tools, experiments, and controlled self-improvement."
+version = "0.3.0"
+description = "A downloadable local AI runtime with memory, tools, experiments, and controlled, evidence-gated self-improvement."
 requires-python = ">=3.11"
 dependencies = [
   "requests>=2.31"

@@ -30,7 +30,9 @@ class PromotionGate:
     def promote(self, candidate: Path, target: Path, evidence: Evidence) -> None:
         if not evidence.passed:
             raise ValueError("promotion denied: evidence does not prove improvement")
+        target.parent.mkdir(parents=True, exist_ok=True)
         if target.exists():
-            shutil.copy2(target, self.rollback_dir / target.name)
+            backup = self.rollback_dir / f"{target.name}.{evidence.candidate_sha256[:12]}.rollback"
+            shutil.copy2(target, backup)
         shutil.copy2(candidate, target)
         self.ledger.record(evidence)

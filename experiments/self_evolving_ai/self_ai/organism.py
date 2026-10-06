@@ -5,11 +5,13 @@ from pathlib import Path
 
 from .benchmark import Benchmark
 from .evidence import EvidenceLedger
+from .evolution_cycle import EvolutionSpec, SelfEvolutionCycle
 from .memory import Memory
 from .model import OllamaModel
 from .promotion import PromotionGate
 from .tool_builder import ToolBuilder
 from .tools import ToolBox
+
 
 @dataclass(frozen=True)
 class OrganismIdentity:
@@ -17,13 +19,9 @@ class OrganismIdentity:
     version: str
     architecture: str
 
-class SelfEvolvingAI:
-    """The complete AI organism.
 
-    The model is a reasoning substrate inside this object. Identity, memory,
-    tools, workspace, evaluation, evidence, and controlled change are all
-    part of the same persistent runtime.
-    """
+class SelfEvolvingAI:
+    """The complete AI organism."""
 
     def __init__(self, root: Path | None = None, model: OllamaModel | None = None):
         self.root = (root or Path.home() / ".self-evolving-ai").resolve()
@@ -31,8 +29,8 @@ class SelfEvolvingAI:
 
         self.identity = OrganismIdentity(
             name="Self-Evolving AI",
-            version="0.4.0",
-            architecture="model + memory + tools + workspace + evaluation + evolution",
+            version="0.6.0",
+            architecture="model + identity + memory + tools + workspace + measured evolution",
         )
         self.model = model or OllamaModel()
         self.memory = Memory(self.root)
@@ -41,6 +39,7 @@ class SelfEvolvingAI:
         self.tool_builder = ToolBuilder(self.workspace)
         self.evidence = EvidenceLedger(self.root)
         self.promotion = PromotionGate(self.root)
+        self.evolution = SelfEvolutionCycle(self.root, self.model)
 
     def remember(self, kind: str, content: str) -> None:
         self.memory.remember(kind, content)
@@ -60,3 +59,7 @@ class SelfEvolvingAI:
 
     def capability_benchmark(self, name: str, run, minimum: float = 1.0) -> Benchmark:
         return Benchmark(name=name, run=run, minimum=minimum)
+
+    def evolve(self, spec: EvolutionSpec):
+        """Run the one canonical measured self-evolution path."""
+        return self.evolution.run(spec)

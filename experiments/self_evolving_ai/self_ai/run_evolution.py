@@ -1,20 +1,13 @@
 from pathlib import Path
 
-from .evolution_cycle import SelfEvolutionCycle
-from .model import OllamaModel
+from .evolution_cycle import EvolutionSpec
+from .organism import SelfEvolvingAI
 
 
 def main() -> None:
-    root = Path.home() / ".self-evolving-ai"
-    cycle = SelfEvolutionCycle(root, OllamaModel())
-    result = cycle.run()
-
-    print("\n=== SELF-EVOLUTION CYCLE ===")
-    print("OBSERVATION:", result.observation)
-    print("HYPOTHESIS:", result.hypothesis)
-    print("ACTION:", result.action)
-    print("TEST:", result.test_result)
-    print("DECISION:", result.decision)
+    print("Self-evolution requires a concrete benchmark spec.")
+    print("Use SelfEvolvingAI.evolve(EvolutionSpec(...)) so the baseline and")
+    print("success criteria exist before a candidate is generated.")
 
 
 if __name__ == "__main__":

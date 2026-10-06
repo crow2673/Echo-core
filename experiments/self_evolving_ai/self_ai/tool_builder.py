@@ -3,13 +3,11 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
+from .safety import inspect_candidate
+
 
 class ToolBuilder:
-    """Builds candidate Python tools inside the AI workspace.
-
-    The candidate is syntax-checked before it can be considered for use.
-    v0.1 does not grant arbitrary host execution or automatic promotion.
-    """
+    """Build candidate Python tools behind a conservative static safety gate."""
 
     def __init__(self, workspace: Path):
         self.workspace = workspace.resolve()
@@ -21,13 +19,14 @@ class ToolBuilder:
             raise ValueError("Tool name must be a Python identifier.")
 
         tree = ast.parse(source)
-        if not any(isinstance(node, ast.FunctionDef) for node in tree.body):
+        if not any(isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) for node in tree.body):
             raise ValueError("A generated tool must contain at least one function.")
+
+        inspect_candidate(source)
 
         path = self.tools_dir / f"{name}.py"
         path.write_text(source, encoding="utf-8")
 
-        # Compile without executing the generated code.
         compile(source, str(path), "exec")
         return path
 

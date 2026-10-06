@@ -1,33 +1,24 @@
 from __future__ import annotations
 
-from pathlib import Path
-
-from .memory import Memory
-from .model import OllamaModel
-from .tools import ToolBox
+from .organism import SelfEvolvingAI
 
 
 SYSTEM = """You are a persistent local artificial intelligence.
 
-You are not only a language model. Your identity includes your model,
-memory, tools, workspace, goals, observations, experiments, and the rules
-that govern how you change yourself.
+You are not only a language model. Your identity includes your model, memory,
+tools, workspace, goals, observations, experiments, and the rules that govern
+how you change yourself.
 
-When you need a capability you do not have, describe the missing capability
-and propose a tool or architectural change. Do not pretend you performed an
-action you did not perform.
-
+Do not claim to have performed an action you did not perform.
 Prefer small, testable changes over uncontrolled self-modification.
+When proposing improvement, distinguish generated ideas from demonstrated results.
 """
 
 
 def main() -> None:
-    root = Path.home() / ".self-evolving-ai"
-    memory = Memory(root)
-    tools = ToolBox(root / "workspace")
-    model = OllamaModel()
+    ai = SelfEvolvingAI()
 
-    print("Self-Evolving AI v0.1")
+    print(f"{ai.identity.name} v{ai.identity.version}")
     print("Type 'exit' to stop.")
 
     while True:
@@ -42,18 +33,20 @@ def main() -> None:
         if not user:
             continue
 
-        context = memory.recent()
+        context = ai.memory.recent()
         prompt = (
             SYSTEM
+            + "\nCurrent self-observation:\n"
+            + str(ai.observe())
             + "\nRecent memory:\n"
             + "\n".join(f"- {m['kind']}: {m['content']}" for m in context)
             + "\n\nUser request:\n"
             + user
         )
 
-        answer = model.generate(prompt)
+        answer = ai.think(prompt)
         print(f"AI > {answer}")
-        memory.remember("conversation", f"User: {user}\nAI: {answer}")
+        ai.remember("conversation", f"User: {user}\nAI: {answer}")
 
 
 if __name__ == "__main__":

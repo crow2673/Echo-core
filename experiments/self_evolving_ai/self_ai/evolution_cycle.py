@@ -6,6 +6,7 @@ import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
+from .evidence import EvidenceLedger
 from .memory import Memory
 from .model import OllamaModel
 from .tool_builder import ToolBuilder
@@ -18,20 +19,17 @@ class CycleResult:
     action: str
     test_result: str
     decision: str
+    candidate_sha256: str | None = None
 
 
 class SelfEvolutionCycle:
-    """One complete observe -> hypothesize -> build -> test -> decide cycle.
-
-    v0.2 still requires promotion to be explicit. The important experiment is
-    that the AI itself can reason about a missing capability and produce a
-    tested candidate rather than merely answering a request.
-    """
+    """Observe -> hypothesize -> build -> safety-check -> test -> decide -> remember."""
 
     def __init__(self, root: Path, model: OllamaModel):
         self.root = root
         self.memory = Memory(root)
         self.builder = ToolBuilder(root / "workspace")
+        self.evidence = EvidenceLedger(root)
         self.model = model
         self.workspace = (root / "workspace").resolve()
 
@@ -40,18 +38,16 @@ class SelfEvolutionCycle:
 
     def run(self) -> CycleResult:
         observation = self._ask(
-            """Inspect this self-model conceptually. Identify ONE capability
-that is currently missing from this runtime and would most improve its
-ability to operate as a persistent AI. Do not pick a cosmetic feature.
-Return one concise limitation."""
+            """Identify ONE missing capability that would materially improve this
+persistent AI. Do not pick a cosmetic feature. Return one concise limitation."""
         )
 
         hypothesis = self._ask(
-            f"""We observed this limitation in our current AI:
+            f"""Current limitation:
 {observation}
 
-Form one falsifiable hypothesis about a small architectural change that
-could improve this limitation. Prefer something we can test locally."""
+Form one falsifiable hypothesis about a small architectural change that could
+improve it. Prefer something measurable locally."""
         )
 
         action = self._ask(
@@ -61,26 +57,26 @@ could improve this limitation. Prefer something we can test locally."""
 Hypothesis:
 {hypothesis}
 
-Design the smallest candidate change that would test the hypothesis.
-Describe exactly what should be built and what success would mean."""
+Design the smallest candidate change that tests the hypothesis. State exactly
+what should be built and what measurable result would count as success."""
         )
 
-        # The AI must produce a candidate artifact, but we don't blindly
-        # execute arbitrary generated code. The candidate is syntax-checked.
         candidate_source = self._ask(
-            f"""Create a minimal Python candidate tool that tests this idea.
+            f"""Create a minimal Python candidate tool for this experiment.
 
 Limitation: {observation}
 Hypothesis: {hypothesis}
 Proposed change: {action}
 
-Output ONLY Python source. It must define at least one function, have no
-network access, no subprocess calls, no filesystem deletion, and be safe to
-syntax-check without executing it."""
+Output ONLY Python source. It must define at least one function. It must not
+use network access, subprocesses, dynamic execution, filesystem deletion, or
+arbitrary host access. The source must be safe to statically inspect."""
         )
 
+        candidate_sha = None
         try:
             path = self.builder.create_candidate("evolution_candidate", candidate_source)
+            candidate_sha = self.evidence.sha256(path)
             result = subprocess.run(
                 [sys.executable, "-m", "py_compile", str(path)],
                 capture_output=True,
@@ -88,7 +84,7 @@ syntax-check without executing it."""
                 timeout=30,
                 cwd=self.workspace,
             )
-            test_result = (result.stdout + result.stderr).strip() or "syntax check passed"
+            test_result = (result.stdout + result.stderr).strip() or "syntax and safety checks passed"
             passed = result.returncode == 0
         except Exception as exc:
             test_result = f"candidate rejected: {exc}"
@@ -100,16 +96,19 @@ syntax-check without executing it."""
 Limitation: {observation}
 Hypothesis: {hypothesis}
 Action: {action}
-Candidate test result: {test_result}
+Candidate checks: {test_result}
 
-Should this candidate be considered an improvement? Answer with:
+Answer:
 DECISION: KEEP_CANDIDATE or REJECT
 REASON: one sentence
 
-A syntax pass alone does not prove capability improvement."""
+Important: passing syntax/static checks does NOT prove improvement. A real
+promotion requires a measurable benchmark beating the baseline."""
         )
 
         final = "KEEP_CANDIDATE" if passed and "KEEP_CANDIDATE" in decision else "REJECT"
-        cycle = CycleResult(observation, hypothesis, action, test_result, final)
+        cycle = CycleResult(
+            observation, hypothesis, action, test_result, final, candidate_sha
+        )
         self.memory.remember("evolution_cycle", json.dumps(asdict(cycle), indent=2))
         return cycle

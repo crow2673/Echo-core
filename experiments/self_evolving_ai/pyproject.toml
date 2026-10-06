@@ -1,0 +1,11 @@
+[project]
+name = "self-evolving-ai"
+version = "0.1.0"
+description = "A downloadable local AI runtime with memory, tools, experiments, and controlled self-improvement."
+requires-python = ">=3.11"
+dependencies = [
+  "requests>=2.31"
+]
+
+[project.scripts]
+self-ai = "self_ai.main:main"
